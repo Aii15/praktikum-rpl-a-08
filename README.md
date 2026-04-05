@@ -1,6 +1,5 @@
 ### ANGGOTA TIM
 
-|Nama | NIM |
-|-----|-----|
-
-
+| Nama               | NIM      |
+| ------------------ | -------- |
+| JAUHAR MUFID TAMIR | L0124131 |
