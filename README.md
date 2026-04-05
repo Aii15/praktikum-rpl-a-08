@@ -1,5 +1,6 @@
 ### ANGGOTA TIM
 
-| Nama               | NIM      |
-| ------------------ | -------- |
-| JAUHAR MUFID TAMIR | L0124131 |
+| Nama                 | NIM      |
+| -------------------- | -------- |
+| YUSRAN RIZQI LAKSONO | L0124125 |
+| JAUHAR MUFID TAMIR   | L0124131 |
