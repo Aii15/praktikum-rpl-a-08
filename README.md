@@ -1,2 +1,10 @@
 # praktikum-rpl-a-08
-Repository milik kelompok 8 (urutan spreadsheet praktikum) atau kelompok 1 (urutan spreadsheet teori) kelas A
+
+### ANGGOTA TIM
+
+| Nama                     | NIM      |
+| ------------------------ | -------- |
+| YUSRAN RIZQI LAKSONO     | L0124125 |
+| JAUHAR MUFID TAMIR       | L0124131 |
+| MUHAMMAD AKBAR KURNIAWAN | L0124136 |
+| MUHAMMAD AYMAN           | L0124137 |
