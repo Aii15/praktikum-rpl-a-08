@@ -1,6 +1,6 @@
 # **KONTRAK TIM AO3**
 
-### **NAMA ANGGOTA**
+## **NAMA ANGGOTA**
 
 | Nama | NIM |
 |------|-----|
@@ -9,7 +9,7 @@
 | MUHAMMAD AKBAR KURNIAWAN | L0124136 |
 | MUHAMMAD AYMAN | L0124137 |
 
-### **PERAN ANGGOTA**
+## **PERAN ANGGOTA**
 
 | Nama | NIM | Role |
 |------|-----|------|
@@ -18,45 +18,49 @@
 | MUHAMMAD AKBAR KURNIAWAN | L0124136 | QA |
 | MUHAMMAD AYMAN | L0124137 | UI/UX Designer & PM |
 
-### **JADWAL MEETING**
+Ketua tim terpilih adalah Muhammad Ayman
+
+## **JADWAL MEETING**
 Jadwal *meeting* tim bersifat fleksibel dengan ketentuan minimal satu kali *meeting* dalam satu minggu.
 
-### **CHANNEL KOMUNIKASI**
-Channel komunikasi yang kami gunakan selama pengerjaan proyek ini adalah Discord serta WhatsApp dengan lebih menitikberatkan pada penggunaan Discord sebagai channel komunikasi utama. 
+## **CHANNEL KOMUNIKASI**
+Channel komunikasi yang kami gunakan selama pengerjaan proyek ini adalah Discord serta WhatsApp dengan lebih menitikberatkan pada penggunaan Discord sebagai channel komunikasi utama.
 
-### **ATURAN RESPONS**
+## **ATURAN RESPONS**
 Untuk aturan respons dalam tim, batas waktu respon terhadap permintaan ataupun komunikasi lainnya adalah 3 jam di jam aktif (08.00 - 20.00) pada *weekday* dan 5 jam pada *weekend*.
 
-### **STANDAR COMMIT MESSAGE**
+## **STANDAR COMMIT MESSAGE**
 
 | Tindakan | Commit Message |
 |----------|----------------|
 |Menambahkan suatu fitur | Add [Nama Fitur] |
-|Memperbaiki bug | Fixed [Nama Bug (gambaran bugnya)] |
-|Memperbarui fitur | Updated [Bagian yang diperbarui] |
-|Menghapus fitur / kode | Removed [Nama Fitur/Bagian Kode] |
+|Memperbaiki bug | Fix [Nama Bug (gambaran bugnya)] |
+|Memperbarui fitur | Update [Bagian yang diperbarui] |
+|Menghapus fitur / kode | Remove [Nama Fitur/Bagian Kode] |
 |Mengubah struktur kode tanpa mengubah fungsi | Refactor [Bagian yang direfactor] |
 |Merge Pull Request | Merge: [Bagian yang akan dimerge] ke [branch dituju] |
 |Merge Pull Request untuk bugfix | Merge: bugfix [Bagian yang sudah difix] |
 |Revert | Revert: [Bagian yang di revert] |
 
-Beberapa standar commit message yang tidak terdapat di daftar memiliki kemungkinan untuk ditambahkan ke daftar di masa mendatang dengan menyesuaikan kondisi terbaru.
+Bahasa Indonesia dipilih untuk menjadi standar commit message pada bagian penjelasan setelah kata kunci atau *keyword* setiap aksi atau setiap commit.<br>
 
-### **MEKANISME ESKALASI**
+#### **Note: beberapa standar commit message yang tidak terdapat di daftar memiliki kemungkinan untuk ditambahkan ke daftar di masa mendatang dengan menyesuaikan kondisi terbaru.**
+
+## **MEKANISME ESKALASI**
 Beberapa prosedur mekanisme eskalasi tim kami adalah:
 
-##### **Masalah Performa Kerja**
+### **Masalah Performa Kerja**
 Masalah akan diselesaikan secara demokratis dan kekeluargaan melalui diskusi lewat channel komunikasi tim. Jika tidak terdapat keputusan final dalam 1x24 jam maka ketua tim akan mengambil keputusan final.
 
-#### **Masalah Komunikasi**
+### **Masalah Komunikasi**
 Jika tidak ada respons yang melebihi batas waktu yang ditentukan, maka anggota tim akan ditag atau dimention di channel komunikasi tim.
 
-#### **Hambatan Teknis**
+### **Hambatan Teknis**
 Diskusi melalui channel komunikasi tim, jika dalam jangka waktu yang lama dan dirasa cukup sulit diselesaikan dalam kelompok kecil, maka akan diadakan meeting tim baik offline ataupun online untuk menyelesaikan hambatan tersebut.
 
-#### **Kurang Jelasnya Informasi Terkait Penugasan Proyek**
+### **Kurang Jelasnya Informasi Terkait Penugasan Proyek**
 Jika terdapat informasi yang kurang jelas ataupun dirasa masih bingung, maka perwakilan tim akan menghubungi asisten dosen praktikum.
 
-Beberapa mekanisme eskalasi mungkin akan bertambah atau berubah seiring berjalannya waktu dengan menyesuaikan kondisi terbaru.
+#### **Note: beberapa mekanisme eskalasi mungkin akan bertambah atau berubah seiring berjalannya waktu dengan menyesuaikan kondisi terbaru.**
 
-##### **Segala hal yang belum tercantum di kontrak kuliah berkemungkinan akan ditambahkan seiring berjalannya waktu**
+### **Segala hal yang belum tercantum di kontrak tim berkemungkinan akan ditambahkan seiring berjalannya waktu**
