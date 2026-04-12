@@ -1,5 +1,10 @@
 # **Identifikasi Role dan Penulisan User Story**
 
+Terdapat tiga role pada project ini jika developer dihitung, yaitu:
+- User sebagai pihak penyewa seperti bagian dari unsur dunia kreatif seperti produser, location manager, dll
+- Mitra yang menyewakan properti untuk dijadikan tempat syuting
+- Admin
+
 ## 1. Penyewaan Lokasi <br>
    **User Story:** <br>
    As a penyewa, I want mencari lokasi berdasarkan kategori, lokasi, dan harga, so that saya dapat menemukan lokasi yang sesuai dengan cepat. <br>
