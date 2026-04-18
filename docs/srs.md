@@ -77,3 +77,19 @@ Sistem di sini menyediakan berbagai fungsi utama yang mendukung interaksi antara
 * Hanya berfokus pada penyewaan properti, tidak mencakup operasional produksi seperti izin dari pemerintah setempat, kru, dll
 * Jumlah upload media (foto properti) dibatasi untuk menjaga performa sistem
 * Tidak semua wilayah atau lokasi properti mungkin terjangkau oleh layanan platform
+  
+## 3. Kebutuhan Fungsional 
+
+Tabel FR (Functional Requirement)
+| ID | Deskripsi | Prioritas | Referensi US |
+| -- | --------- | --------- | ------------ |
+| FR-01 | Sistem menyediakan fitur pencarian lokasi berdasarkan kategori, lokasi, dan rentang harga serta menampilkan hasil sesuai filter yang dipilih user | High | US-01 |
+| FR-02 | Sistem menampilkan informasi detail lokasi yang meliputi deskripsi, foto, harga, fasilitas, serta jadwal ketersediaan dalam bentuk kalender | High | US-02, US-03|
+| FR-03 | Sistem menampilkan tanggal yang tersedia dan yang sudah dibooking serta memungkinkan user memilih tanggal untuk melakukan booking lokasi | High | US-03, US-04 |
+| FR-04 | Sistem menyimpan data pemesanan (booking) ke dalam database dan mengelola status pemesanan. | High | US-04 |
+| FR-05 | Sistem memungkinkan admin menerima atau menolak pengajuan properti serta mengelola properti yang ditampilkan di platform | High | US-05 |
+| FR-06 | Sistem menampilkan dan mencatat seluruh aktivitas seperti transaksi, booking, dan pengajuan properti kepada admin dalam bentuk log | Medium | US-06 |
+| FR-07 | Sistem menyediakan fitur pembayaran, mengonfirmasi pembayaran, serta mengubah status pemesanan menjadi “paid” | High | US-07 |
+| FR-08 | Sistem mengirim notifikasi kepada user dan mitra saat terjadi perubahan status pemesanan atau booking | Medium | US-08 |
+| FR-09 | Sistem memungkinkan mitra menambahkan properti melalui form input dan menyimpan data properti setelah diverifikasi oleh admin | High | US-09 |
+| FR-10 | Sistem memungkinkan user memberikan rating dan review terhadap properti setelah masa booking dimulai | Medium | US-10 |
