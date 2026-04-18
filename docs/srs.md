@@ -104,3 +104,22 @@ Tabel NFR (Non-Functional Requirements)
 | **NFR-03** | **Usability** | Antarmuka sistem harus bersifat responsif dan dapat ditampilkan dengan sempurna tanpa halaman terpotong pada perangkat *mobile* dengan lebar layar minimal 375px |
 | **NFR-04** | **Reliability** | Sistem SpotRent harus memiliki tingkat ketersediaan (*uptime*) minimal 90% setiap bulannya (maksimal *downtime* ~72 jam/bulan) agar log aktivitas Admin dan proses *booking* User tidak terganggu |
 | **NFR-05** | **Maintainability** | Seluruh perubahan kode harus didokumentasikan di GitHub mengikuti standar *commit message* tim AO3 (misal: `Add [Fitur]`, `Fix [Bug]`) agar mempermudah pelacakan oleh QA. Dokumentasi juga terdapat di inline kode |
+
+## 5. Catatan dan Asumsi
+
+Asumsi
+- Pengguna (user dan mitra) memiliki perangkat yang mendukung akses web/mobile (smartphone, laptop, atau PC) dengan spesifikasi standar
+- Pengguna memiliki koneksi internet yang cukup stabil untuk melakukan pencarian, booking, dan transaksi.
+- Pengguna menggunakan data dan identitas yang valid saat registrasi booking.
+- Proses booking dilakukan sepenuhnya melalui platform.
+- Mitra menginput data properti (foto, deskripsi, harga, ketersediaan) secara akurat.
+
+Depedensi
+- Ketersediaan layanan internet sebagai media utama akses sistem.
+- Sistem bergantung pada database untuk menyimpan data pengguna, properti, transaksi, dan aktivitas system.
+- Sistem bergantung pada layanan payment gateway untuk memproses pembayaran.
+- Sistem bergantung pada layanan notifikasi seperti pop-up notifikasi untuk mengirim informasi terkait booking dan transaksi.
+
+Batasan Teknis
+- Jumlah dan ukuran file (foto properti) dibatasi maksimal 5 foto dan ukuran 5 MB.
+- Sistem tidak dirancang untuk kebutuhan real-time tinggi seperti live streaming atau tracking langsung.
