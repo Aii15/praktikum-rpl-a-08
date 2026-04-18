@@ -80,7 +80,7 @@ Sistem di sini menyediakan berbagai fungsi utama yang mendukung interaksi antara
   
 ## 3. Kebutuhan Fungsional 
 
-Tabel FR (Functional Requirement)
+Tabel FR (Functional Requirements)
 | ID | Deskripsi | Prioritas | Referensi US |
 | -- | --------- | --------- | ------------ |
 | FR-01 | Sistem menyediakan fitur pencarian lokasi berdasarkan kategori, lokasi, dan rentang harga serta menampilkan hasil sesuai filter yang dipilih user | High | US-01 |
@@ -93,3 +93,14 @@ Tabel FR (Functional Requirement)
 | FR-08 | Sistem mengirim notifikasi kepada user dan mitra saat terjadi perubahan status pemesanan atau booking | Medium | US-08 |
 | FR-09 | Sistem memungkinkan mitra menambahkan properti melalui form input dan menyimpan data properti setelah diverifikasi oleh admin | High | US-09 |
 | FR-10 | Sistem memungkinkan user memberikan rating dan review terhadap properti setelah masa booking dimulai | Medium | US-10 |
+
+## 4. Kebutuhan Non-Fungsional
+
+Tabel NFR (Non-Functional Requirements)
+| ID | Kategori | Deskripsi Kebutuhan Non-Fungsional (NFR) |
+| :--- | :--- | :--- |
+| **NFR-01** | **Performance** | Waktu muat (*load time*) halaman "Beranda" dan "Detail Properti" (yang memuat galeri foto/media) harus kurang dari 10 detik saat diakses menggunakan koneksi standar 4G/broadband |
+| **NFR-02** | **Security** | Seluruh data kata sandi (*password*) milik User, Mitra, maupun Admin wajib disimpan ke dalam *database* menggunakan algoritma *hashing* (misal: bcrypt) dan dilarang keras disimpan dalam format *plain text* |
+| **NFR-03** | **Usability** | Antarmuka sistem harus bersifat responsif dan dapat ditampilkan dengan sempurna tanpa halaman terpotong pada perangkat *mobile* dengan lebar layar minimal 375px |
+| **NFR-04** | **Reliability** | Sistem SpotRent harus memiliki tingkat ketersediaan (*uptime*) minimal 90% setiap bulannya (maksimal *downtime* ~72 jam/bulan) agar log aktivitas Admin dan proses *booking* User tidak terganggu |
+| **NFR-05** | **Maintainability** | Seluruh perubahan kode harus didokumentasikan di GitHub mengikuti standar *commit message* tim AO3 (misal: `Add [Fitur]`, `Fix [Bug]`) agar mempermudah pelacakan oleh QA. Dokumentasi juga terdapat di inline kode |
