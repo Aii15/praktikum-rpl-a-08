@@ -22,7 +22,7 @@ Sistem yang dikembangkan adalah platform digital bernama "SpotRent", sebuah plat
 | SRS       |  Software Requirements Specification adalah dokumen spesifikasi kebutuhan perangkat lunak yang menjadi acuan pengembangan.lunak                               |
 | FR        | Functional Requirement adalah deskripsi layanan atau fitur yang harus disediakan oleh sistem (APA yang dilakukan sistem)                                      |
 | NFR       | Non Functional Requirement adalah deskripsi mengenai batasan, kualitas, dan standar performa sistem (BAGAIMANA sistem bekerja)                                |
-| AC | Acceptance Criteria adalah Kriteria yang harus dipenuhi agar sebuah user story dianggap selesai dan diterima                                                         |
+| AC | Acceptance Criteria adalah kriteria yang harus dipenuhi agar sebuah user story dianggap selesai dan diterima                                                         |
 | US| User story adalah penjelasan singkat dan sederhana tentang suatu fitur yang ditulis dari sudut pandang orang yang menginginkan fitur tersebut                         |
 | Mitra        | Pihak atau entitas yang mendaftarkan dan menyewakan properti/lokasi syuting di platform                                                                    |
 | User        | Pihak yang mencari dan melakukan pemesanan (booking) lokasi di platform                                                                                     |  
