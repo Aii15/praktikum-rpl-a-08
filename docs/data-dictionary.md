@@ -7,7 +7,6 @@
 | email       | VARCHAR(100)  | UNIQUE, NOT NUL         | Email login    |
 | no_hp    | VARCHAR(20) | UNIQUE, NOT NULL              | Nomor HP  |
 | password_hash  | VARCHAR(255)     | NOT NULL | Password (hashed)    |
-| alamat | TEXT | NULL  | Alamat |
 | created_at | DATETIME | NOT NULL  | Waktu dibuat |
 | updated_at | DATETIME | NULL  | Waktu update |
 
@@ -21,7 +20,6 @@
 | email       | VARCHAR(100)  | UNIQUE, NOT NULL        | Email |
 | no_hp    | VARCHAR(20) | UNIQUE, NOT NULL               | Nomor HP           |
 |password_hash| VARCHAR(255)     | NOT NULL | Password            |
-| alamat | TEXT | NULL | Alamat |
 | created_at | DATETIME | NOT NULL | Waktu dibuat |
 | updated_at | DATETIME | NULL | Waktu update |
 
@@ -62,7 +60,7 @@
 | id_lokasi | BIGINT | FK, NOT NULL | Lokasi |
 | nama_pengajuan | VARCHAR(150) | NOT NULL | Nama properti |
 | deskripsi | TEXT | NOT NULL | Deskripsi |
-| harga_per_hari | DECIMAL(12,2) | NOT NULL | Harga |
+| harga_per_periode | DECIMAL(12,2) | NOT NULL | Harga |
 | status_pengajuan | VARCHAR(20) | NOT NULL | Status |
 | catatan_admin | TEXT | NULL | Catatan |
 | tanggal_pengajuan | DATETIME | NOT NULL | Waktu |
@@ -78,9 +76,8 @@
 | id_lokasi | BIGINT | FK, NOT NULL | Lokasi |
 | nama_properti | VARCHAR(150) | NOT NULL | Nama |
 | deskripsi | TEXT | NOT NULL | Deskripsi |
-| harga_per_hari | DECIMAL(12,2) | NOT NULL | Harga |
+| harga_per_periode | DECIMAL(12,2) | NOT NULL | Harga |
 | fasilitas | TEXT | NOT NULL | Daftar fasilitas |
-| status_listing | VARCHAR(20) | NOT NULL | aktif/nonaktif |
 | created_at | DATETIME | NOT NULL | Waktu dibuat |
 | updated_at | DATETIME | NULL | Waktu update |
 
@@ -128,7 +125,6 @@
 | nominal_bayar | DECIMAL(12,2) | NOT NULL | Jumlah |
 | status_pembayaran | VARCHAR(20) | NOT NULL | Status |
 | waktu_bayar | DATETIME | NULL | Waktu |
-| referensi_pembayaran | VARCHAR(100) | NULL | Referensi |
 | bukti_bayar | VARCHAR(255) | NULL | Bukti |
 | created_at | DATETIME | NOT NULL | Waktu |
 
@@ -152,7 +148,6 @@
 | judul | VARCHAR(150) | NOT NULL | Judul |
 | isi | TEXT | NOT NULL | Isi |
 | jenis_notifikasi | VARCHAR(30) | NOT NULL | Jenis |
-| status_baca | VARCHAR(20) | NOT NULL | Status |
 | created_at | DATETIME | NOT NULL | Waktu |
 
 ## 14. Aktivitas Log
@@ -174,7 +169,6 @@
 |----------|--------|----------|--------------|------------|
 | Mitra | mengajukan | Pengajuan Properti | 1 : N | Satu mitra banyak pengajuan |
 | Admin | memverifikasi | Pengajuan Properti | 1 : N | Satu admin banyak verifikasi |
-| Pengajuan Properti | menjadi | Properti | 1 : 0..1 | Bisa jadi properti atau ditolak |
 | Mitra | memiliki | Properti | 1 : N | Satu mitra banyak properti |
 | Kategori | mengelompokkan | Properti | 1 : N | Satu kategori banyak properti |
 | Lokasi | memiliki | Properti | 1 : N | Satu lokasi banyak properti |
@@ -182,8 +176,8 @@
 | Properti | memiliki | Jadwal Ketersediaan | 1 : N | Banyak jadwal |
 | Penyewa | membuat | Booking | 1 : N | Banyak booking |
 | Properti | dipesan | Booking | 1 : N | Banyak booking |
-| Booking | memiliki | Pembayaran | 1 : 1 | Satu booking satu pembayaran |
-| Booking | menghasilkan | Review | 1 : 0..1 | Opsional |
+| Booking | memiliki | Pembayaran | 1 : N | Satu booking banyak pembayaran |
+| Booking | menghasilkan | Review | 1 : 1 | Opsional |
 | Booking | memicu | Notifikasi | 1 : N | Banyak notifikasi |
 | Penyewa | menerima | Notifikasi | 1 : N | Banyak notifikasi |
 | Mitra | menerima | Notifikasi | 1 : N | Banyak notifikasi |
