@@ -124,7 +124,6 @@
 | metode_pembayaran | VARCHAR(30) | NOT NULL | Metode |
 | nominal_bayar | DECIMAL(12,2) | NOT NULL | Jumlah |
 | status_pembayaran | VARCHAR(20) | NOT NULL | Status |
-| waktu_bayar | DATETIME | NULL | Waktu |
 | bukti_bayar | VARCHAR(255) | NULL | Bukti |
 | created_at | DATETIME | NOT NULL | Waktu |
 
