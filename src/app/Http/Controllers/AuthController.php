@@ -47,7 +47,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'login_id' => 'Kredensial yang diberikan tidak cocok dengan data kami.',
+            'login_id' => 'Email atau nomor HP tidak valid, atau password salah.',
         ])->onlyInput('login_id');
     }
 
@@ -65,6 +65,19 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'no_hp' => 'required|string|max:20|unique:users',
             'password' => 'required|string|min:8|confirmed',
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
+            'no_hp.unique' => 'Nomor HP sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
         $user = User::create([
@@ -97,6 +110,23 @@ class AuthController extends Controller
             'rekening_bank' => 'required|string|max:50',
             'ktp' => 'required|string|max:50',
             'password' => 'required|string|min:8|confirmed',
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
+            'no_hp.unique' => 'Nomor HP sudah terdaftar.',
+            'rekening_bank.required' => 'Rekening bank wajib diisi.',
+            'rekening_bank.max' => 'Rekening bank maksimal 50 karakter.',
+            'ktp.required' => 'KTP wajib diisi.',
+            'ktp.max' => 'KTP maksimal 50 karakter.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
         $user = User::create([
