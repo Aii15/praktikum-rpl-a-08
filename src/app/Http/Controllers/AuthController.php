@@ -25,7 +25,9 @@ class AuthController extends Controller
         $password = $request->input('password');
 
         // untuk validasi apakah login_id adalah email atau no_hp
-        $fieldType = filter_var($loginId, FILTER_VALIDATE_EMAIL) ? 'email' : 'no_hp';
+        // untuk validasi format email
+        $isEmailStrict = preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $loginId);
+        $fieldType = $isEmailStrict ? 'email' : 'no_hp';
 
         $credentials = [
             $fieldType => $loginId,
@@ -57,12 +59,13 @@ class AuthController extends Controller
         return view('register');
     }
 
-    /*** Proses registrasi.*/
+    /* Proses registrasi*/
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            // validasi apakah ada domain email dengan format yang benar
+            'email' => ['required','string','email','max:255','unique:users','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
             'no_hp' => 'required|string|max:20|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ], [
@@ -70,6 +73,7 @@ class AuthController extends Controller
             'name.max' => 'Nama maksimal 255 karakter.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
+            'email.regex' => 'Format email harus berisi domain dengan titik (contoh: nama@example.com).',
             'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
             'no_hp.required' => 'Nomor HP wajib diisi.',
@@ -100,12 +104,12 @@ class AuthController extends Controller
         return view('register_mitra');
     }
 
-    /*** untuk proses registrasi Mitra.*/
+    /*** untuk proses registrasi Mitra*/
     public function registerMitra(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => ['required','string','email','max:255','unique:users','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
             'no_hp' => 'required|string|max:20|unique:users',
             'rekening_bank' => 'required|string|max:50',
             'ktp' => 'required|string|max:50',
@@ -115,6 +119,7 @@ class AuthController extends Controller
             'name.max' => 'Nama maksimal 255 karakter.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
+            'email.regex' => 'Format email harus berisi domain dengan titik (contoh: nama@example.com).',
             'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
             'no_hp.required' => 'Nomor HP wajib diisi.',
