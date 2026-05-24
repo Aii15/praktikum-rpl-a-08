@@ -9,18 +9,12 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    /**
-     * Tampilkan halaman login.
-     */
+    /*** untuk menampilkan halaman login. */
     public function showLoginForm()
     {
         return view('login');
     }
-
-    /**
-     * Proses login.
-     */
-    public function login(Request $request)
+/* untuk handle proses login*/    public function login(Request $request)
     {
         $request->validate([
             'login_id' => 'required',
@@ -30,7 +24,7 @@ class AuthController extends Controller
         $loginId = $request->input('login_id');
         $password = $request->input('password');
 
-        // Tentukan apakah login_id adalah email atau no_hp
+        // untuk validasi apakah login_id adalah email atau no_hp
         $fieldType = filter_var($loginId, FILTER_VALIDATE_EMAIL) ? 'email' : 'no_hp';
 
         $credentials = [
@@ -57,17 +51,13 @@ class AuthController extends Controller
         ])->onlyInput('login_id');
     }
 
-    /**
-     * Tampilkan halaman registrasi.
-     */
+/* untuk menampilkan page registrasi*/
     public function showRegistrationForm()
     {
         return view('register');
     }
 
-    /**
-     * Proses registrasi.
-     */
+    /*** Proses registrasi.*/
     public function register(Request $request)
     {
         $request->validate([
@@ -91,16 +81,13 @@ class AuthController extends Controller
     }
 
     /**
-     * Tampilkan halaman registrasi Mitra.
-     */
+     * untuk menampilkan halaman registrasi Mitra*/
     public function showMitraRegistrationForm()
     {
         return view('register_mitra');
     }
 
-    /**
-     * Proses registrasi Mitra.
-     */
+    /*** untuk proses registrasi Mitra.*/
     public function registerMitra(Request $request)
     {
         $request->validate([
@@ -127,9 +114,7 @@ class AuthController extends Controller
         return redirect('/dashboard');
     }
 
-    /**
-     * Logout.
-     */
+    /*** untuk fungsi logout.*/
     public function logout(Request $request)
     {
         Auth::logout();
