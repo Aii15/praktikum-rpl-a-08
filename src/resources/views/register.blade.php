@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpotRent Login</title>
+    <title>SpotRent Register</title>
 
     <style>
         * {
@@ -25,6 +25,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            padding: 20px 0;
         }
 
         .background-slider {
@@ -87,7 +88,7 @@
         .login-card {
             position: relative;
             z-index: 10;
-            width: 360px;
+            width: 400px;
             background: white;
             border-radius: 16px;
             padding: 32px;
@@ -148,6 +149,17 @@
         button:hover {
             opacity: 0.9;
         }
+        
+        .login-link {
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        
+        .login-link a {
+            color: #f7c948;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -195,32 +207,47 @@
                 <span>SpotRent</span>
             </div>
 
-            <h1>Login</h1>
+            <h1>Daftar</h1>
 
-            {{-- form input email dan password --}}
-            <form action="{{ route('login') }}" method="POST">
+            <form action="{{ route('register') }}" method="POST">
                 @csrf
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="login_id" placeholder="E-mail atau No. HP" value="{{ old('login_id') }}" required style="width: 100%;">
-                    @error('login_id')
+                    <input type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" required style="width: 100%;">
+                    @error('name')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror
                 </div>
+                
+                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
+                    <input type="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required style="width: 100%;">
+                    @error('email')
+                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    @enderror
+                </div>
+                
+                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
+                    <input type="text" name="no_hp" placeholder="No. HP" value="{{ old('no_hp') }}" required style="width: 100%;">
+                    @error('no_hp')
+                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
                     <input type="password" name="password" placeholder="Password" required style="width: 100%;">
                     @error('password')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit">Masuk</button>
+                
+                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
+                    <input type="password" name="password_confirmation" placeholder="Konfirmasi Password" required style="width: 100%;">
+                </div>
+
+                <button type="submit">Daftar</button>
             </form>
             
-            <div style="margin-top: 16px; font-size: 14px;">
-                Belum punya akun? <a href="{{ route('register') }}" style="color: #f7c948; text-decoration: none; font-weight: bold;">Daftar</a>
-            </div>
-            
-            <div style="margin-top: 8px; font-size: 14px;">
-             <a href="{{ route('register.mitra') }}" style="color: #f7c948; text-decoration: none; font-weight: bold;">Daftar menjadi Mitra</a>
+            <div class="login-link">
+                Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
             </div>
         </div>
 
