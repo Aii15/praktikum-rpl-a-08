@@ -66,7 +66,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             // validasi apakah ada domain email dengan format yang benar
             'email' => ['required','string','email','max:255','unique:users','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-            'no_hp' => 'required|string|max:20|unique:users',
+            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/','unique:users'],
             'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -77,7 +77,7 @@ class AuthController extends Controller
             'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
             'no_hp.required' => 'Nomor HP wajib diisi.',
-            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
+            'no_hp.regex' => 'Nomor HP harus berupa 10-13 digit angka.',
             'no_hp.unique' => 'Nomor HP sudah terdaftar.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',
@@ -110,8 +110,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required','string','email','max:255','unique:users','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-            'no_hp' => 'required|string|max:20|unique:users',
-            'rekening_bank' => 'required|string|max:50',
+            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/','unique:users'],
+            'nama_mitra' => 'required|string|max:255',
             'ktp' => 'required|string|max:50',
             'password' => 'required|string|min:8|confirmed',
         ], [
@@ -123,10 +123,10 @@ class AuthController extends Controller
             'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
             'no_hp.required' => 'Nomor HP wajib diisi.',
-            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
+            'no_hp.regex' => 'Nomor HP harus berupa 10-13 digit angka.',
             'no_hp.unique' => 'Nomor HP sudah terdaftar.',
-            'rekening_bank.required' => 'Rekening bank wajib diisi.',
-            'rekening_bank.max' => 'Rekening bank maksimal 50 karakter.',
+            'nama_mitra.required' => 'Nama Mitra / Perusahaan wajib diisi.',
+            'nama_mitra.max' => 'Nama Mitra maksimal 255 karakter.',
             'ktp.required' => 'KTP wajib diisi.',
             'ktp.max' => 'KTP maksimal 50 karakter.',
             'password.required' => 'Password wajib diisi.',
@@ -138,7 +138,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
-            'rekening_bank' => $request->rekening_bank,
+            'nama_mitra' => $request->nama_mitra,
             'ktp' => $request->ktp,
             'password' => Hash::make($request->password),
             'role' => 'mitra', // Set role mitra

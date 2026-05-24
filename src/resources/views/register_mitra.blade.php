@@ -219,6 +219,13 @@
                 </div>
                 
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
+                    <input type="text" name="nama_mitra" placeholder="Nama Mitra / Perusahaan" value="{{ old('nama_mitra') }}" required style="width: 100%;">
+                    @error('nama_mitra')
+                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    @enderror
+                </div>
+                
+                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
                     <input type="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required style="width: 100%;">
                     @error('email')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
@@ -239,12 +246,6 @@
                     @enderror
                 </div>
                 
-                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="rekening_bank" placeholder="Nomor Rekening Bank" value="{{ old('rekening_bank') }}" required style="width: 100%;">
-                    @error('rekening_bank')
-                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
-                    @enderror
-                </div>
 
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
                     <input type="password" name="password" placeholder="Password" required style="width: 100%;">
