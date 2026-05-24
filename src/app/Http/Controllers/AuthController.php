@@ -111,7 +111,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => ['required','string','email','max:255','unique:users','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
             'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/','unique:users'],
-            'nama_mitra' => 'required|string|max:255',
+            'nama_mitra' => 'required|string|max:100',
             'ktp' => 'required|string|max:50',
             'password' => 'required|string|min:8|confirmed',
         ], [
@@ -126,7 +126,7 @@ class AuthController extends Controller
             'no_hp.regex' => 'Nomor HP harus berupa 10-13 digit angka.',
             'no_hp.unique' => 'Nomor HP sudah terdaftar.',
             'nama_mitra.required' => 'Nama Mitra / Perusahaan wajib diisi.',
-            'nama_mitra.max' => 'Nama Mitra maksimal 255 karakter.',
+            'nama_mitra.max' => 'Nama Mitra maksimal 100 karakter.',
             'ktp.required' => 'KTP wajib diisi.',
             'ktp.max' => 'KTP maksimal 50 karakter.',
             'password.required' => 'Password wajib diisi.',

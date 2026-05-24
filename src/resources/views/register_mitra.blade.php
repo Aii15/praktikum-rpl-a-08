@@ -219,7 +219,7 @@
                 </div>
                 
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="nama_mitra" placeholder="Nama Mitra / Perusahaan" value="{{ old('nama_mitra') }}" required style="width: 100%;">
+                    <input type="text" name="nama_mitra" placeholder="Nama Mitra / Perusahaan" value="{{ old('nama_mitra') }}" required maxlength="100" style="width: 100%;">
                     @error('nama_mitra')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror
