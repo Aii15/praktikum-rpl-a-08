@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+/* untuk handle proses autentikasi: login, register, dan pemilihan role aktif */
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Role;
+use App\Models\MitraProfile;
 
 class AuthController extends Controller
 {
@@ -13,6 +16,86 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         return view('login');
+    }
+
+    /* finalisasi sesi autentikasi dan arahkan pengguna multi-role ke pemilihan role */
+    protected function finishLogin(User $user, Request $request)
+    {
+        $request->session()->regenerate();
+        $request->session()->forget(['active_role', 'pending_role_selection_user_id']);
+
+        $roles = $user->roles()->pluck('name')->values();
+
+        if ($roles->count() > 1) {
+            $request->session()->put('pending_role_selection_user_id', $user->id);
+
+            return redirect()->route('role.choose');
+        }
+
+        $activeRole = $roles->first() ?: ($user->role ?? null);
+
+        if ($activeRole) {
+            $request->session()->put('active_role', $activeRole);
+        }
+
+        return redirect('/dashboard');
+    }
+
+    /* tampilkan form pemilihan role untuk pengguna yang punya lebih dari satu role */
+    public function showRoleSelectionForm(Request $request)
+    {
+        $user = Auth::user();
+
+        if (! $user) {
+            return redirect()->route('login');
+        }
+
+        $roles = $user->roles()->pluck('name')->values();
+
+        if ($roles->count() <= 1) {
+            $activeRole = $roles->first() ?: ($user->role ?? null);
+
+            if ($activeRole) {
+                $request->session()->put('active_role', $activeRole);
+            }
+
+            $request->session()->forget('pending_role_selection_user_id');
+
+            return redirect('/dashboard');
+        }
+
+        return view('choose-role', [
+            'user' => $user,
+            'roles' => $roles,
+        ]);
+    }
+
+    /* simpan role aktif yang dipilih ke sesi */
+    public function setActiveRole(Request $request)
+    {
+        $user = Auth::user();
+
+        if (! $user) {
+            return redirect()->route('login');
+        }
+
+        $request->validate([
+            'role' => 'required|string',
+        ]);
+
+        $selectedRole = $request->input('role');
+        $allowedRoles = $user->roles()->pluck('name')->all();
+
+        if (! in_array($selectedRole, $allowedRoles, true)) {
+            return back()->withErrors([
+                'role' => 'Role yang dipilih tidak tersedia untuk akun ini.',
+            ]);
+        }
+
+        $request->session()->put('active_role', $selectedRole);
+        $request->session()->forget('pending_role_selection_user_id');
+
+        return redirect('/dashboard')->with('success', 'Anda masuk sebagai '.ucfirst($selectedRole).'.');
     }
 /* untuk handle proses login*/    public function login(Request $request)
     {
@@ -35,17 +118,7 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            
-            // Cek role user untuk redirect
-            $role = Auth::user()->role;
-            if ($role === 'admin') {
-                return redirect()->intended('/dashboard');
-            } elseif ($role === 'mitra') {
-                return redirect()->intended('/dashboard');
-            }
-            
-            return redirect()->intended('/dashboard');
+            return $this->finishLogin(Auth::user(), $request);
         }
 
         return back()->withErrors([
@@ -65,8 +138,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             // validasi apakah ada domain email dengan format yang benar
-            'email' => ['required','string','email','max:255','unique:users','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/','unique:users'],
+            'email' => ['required','string','email','max:255','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/'],
             'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -75,78 +148,63 @@ class AuthController extends Controller
             'email.email' => 'Format email tidak valid.',
             'email.regex' => 'Format email harus berisi domain dengan titik (contoh: nama@example.com).',
             'email.max' => 'Email maksimal 255 karakter.',
-            'email.unique' => 'Email sudah terdaftar.',
             'no_hp.required' => 'Nomor HP wajib diisi.',
             'no_hp.regex' => 'Nomor HP harus berupa 10-13 digit angka.',
-            'no_hp.unique' => 'Nomor HP sudah terdaftar.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
+
+        // Jika akun dengan email ini sudah ada, tambahkan role 'penyewa' jika password cocok
+        $existing = User::where('email', $request->email)->first();
+
+        if ($existing) {
+            if (Hash::check($request->password, $existing->password)) {
+                $phoneOwner = User::where('no_hp', $request->no_hp)->first();
+                if ($phoneOwner && $phoneOwner->id !== $existing->id) {
+                    return back()->withErrors(['no_hp' => 'Nomor HP sudah terdaftar pada akun lain. Gunakan nomor lain atau login ke akun yang sesuai.'])->onlyInput('no_hp');
+                }
+
+                $penyewaRole = Role::firstOrCreate(['name' => 'penyewa']);
+                if (! $existing->roles()->where('role_id', $penyewaRole->id)->exists()) {
+                    $existing->roles()->attach($penyewaRole->id);
+                }
+
+                // keep legacy role for compatibility when not set or still default
+                if (empty($existing->role) || $existing->role === 'penyewa') {
+                    $existing->role = 'penyewa';
+                }
+
+                if (empty($existing->no_hp) && ! empty($request->no_hp)) {
+                    $existing->no_hp = $request->no_hp;
+                }
+
+                $existing->save();
+
+                Auth::login($existing);
+
+                return $this->finishLogin($existing, $request)->with('success', 'Akun sudah terdaftar. Anda berhasil masuk sebagai Penyewa menggunakan akun yang sama.');
+            }
+
+            return back()->withErrors(['email' => 'Email sudah terdaftar. Gunakan password akun yang sama untuk masuk, atau login lewat halaman login.'])->with('info', 'Akun ini sudah ada. Silakan login atau isi password yang benar untuk memakai akun yang sama.')->onlyInput('email');
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
             'password' => Hash::make($request->password),
-            'role' => 'penyewa', // Default role untuk pendaftar baru
+            'role' => 'penyewa', // role default untuk pendaftar baru
         ]);
+
+        $penyewaRole = Role::firstOrCreate(['name' => 'penyewa']);
+        if (! $user->roles()->where('role_id', $penyewaRole->id)->exists()) {
+            $user->roles()->attach($penyewaRole->id);
+        }
 
         Auth::login($user);
 
-        return redirect('/dashboard');
-    }
-
-    /**
-     * untuk menampilkan halaman registrasi Mitra*/
-    public function showMitraRegistrationForm()
-    {
-        return view('register_mitra');
-    }
-
-    /*** untuk proses registrasi Mitra*/
-    public function registerMitra(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => ['required','string','email','max:255','unique:users','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/','unique:users'],
-            'nama_mitra' => 'required|string|max:100',
-            'ktp' => 'required|string|max:50',
-            'password' => 'required|string|min:8|confirmed',
-        ], [
-            'name.required' => 'Nama wajib diisi.',
-            'name.max' => 'Nama maksimal 255 karakter.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.regex' => 'Format email harus berisi domain dengan titik (contoh: nama@example.com).',
-            'email.max' => 'Email maksimal 255 karakter.',
-            'email.unique' => 'Email sudah terdaftar.',
-            'no_hp.required' => 'Nomor HP wajib diisi.',
-            'no_hp.regex' => 'Nomor HP harus berupa 10-13 digit angka.',
-            'no_hp.unique' => 'Nomor HP sudah terdaftar.',
-            'nama_mitra.required' => 'Nama Mitra / Perusahaan wajib diisi.',
-            'nama_mitra.max' => 'Nama Mitra maksimal 100 karakter.',
-            'ktp.required' => 'KTP wajib diisi.',
-            'ktp.max' => 'KTP maksimal 50 karakter.',
-            'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'nama_mitra' => $request->nama_mitra,
-            'ktp' => $request->ktp,
-            'password' => Hash::make($request->password),
-            'role' => 'mitra', // Set role mitra
-        ]);
-
-        Auth::login($user);
-
-        return redirect('/dashboard');
+        return $this->finishLogin($user, $request)->with('success', 'Pendaftaran Penyewa berhasil.');
     }
 
     /*** untuk fungsi logout.*/
@@ -156,6 +214,7 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        $request->session()->forget(['active_role', 'pending_role_selection_user_id']);
 
         return redirect('/login');
     }
