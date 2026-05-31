@@ -49,6 +49,7 @@
         p { color: #475569; line-height: 1.6; margin-bottom: 24px; }
         .role-list { display: grid; gap: 12px; margin-bottom: 24px; }
         .role-option {
+            display: block;
             border: 1px solid #dbe4f0;
             border-radius: 16px;
             padding: 14px 16px;
@@ -56,10 +57,28 @@
             cursor: pointer;
             text-align: left;
             font-size: 16px;
+            transition: all 0.2s ease;
         }
-        .role-option:hover { border-color: #f7c948; }
+        .role-option:hover {
+            border-color: #f7c948;
+            transform: translateY(-1px);
+        }
+        .role-option.is-selected {
+            background: #f7c948;
+            border-color: #d4a90f;
+            box-shadow: 0 10px 20px rgba(247, 201, 72, 0.28);
+        }
         .role-name { font-weight: 700; color: #0f172a; }
         .role-desc { margin-top: 4px; font-size: 14px; color: #64748b; }
+        .role-option.is-selected .role-name,
+        .role-option.is-selected .role-desc {
+            color: #1f2937;
+        }
+        .role-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
         .actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
         .back-link { color: #0f2349; text-decoration: none; font-weight: 700; }
         .alert { margin-bottom: 16px; padding: 12px 14px; border-radius: 12px; font-size: 14px; }
@@ -90,8 +109,8 @@
                 @csrf
                 <div class="role-list">
                     @foreach($roles as $role)
-                        <label class="role-option">
-                            <input type="radio" name="role" value="{{ $role }}" style="margin-right: 10px;">
+                        <label class="role-option" data-role-option>
+                            <input class="role-input" type="radio" name="role" value="{{ $role }}">
                             <span class="role-name">{{ ucfirst($role) }}</span>
                             <div class="role-desc">
                                 @if($role === 'penyewa')
@@ -123,5 +142,31 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const roleOptions = document.querySelectorAll('[data-role-option]');
+
+        function syncRoleSelection(selectedInput) {
+            roleOptions.forEach((option) => {
+                const input = option.querySelector('input[type="radio"]');
+                option.classList.toggle('is-selected', input === selectedInput && input.checked);
+            });
+        }
+
+        roleOptions.forEach((option) => {
+            const input = option.querySelector('input[type="radio"]');
+
+            option.addEventListener('click', () => {
+                input.checked = true;
+                syncRoleSelection(input);
+            });
+
+            input.addEventListener('change', () => syncRoleSelection(input));
+
+            if (input.checked) {
+                option.classList.add('is-selected');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -33,9 +33,19 @@
 <body>
     <div class="container">
         @include('partials.flash')
+        @php
+            $user = Auth::user();
+            $isMitra = $user->hasRole('mitra');
+            $mitraName = $isMitra
+                ? ($user->mitraProfile->nama_mitra ?? $user->nama_mitra ?? '—')
+                : null;
+        @endphp
         <h1>Dashboard</h1>
         
         <div class="user-info">
+            @if($isMitra)
+                <p><strong>Nama Mitra / Perusahaan:</strong> {{ $mitraName }}</p>
+            @endif
             <p><strong>Nama:</strong> {{ Auth::user()->name }}</p>
             <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
             <p><strong>Role aktif:</strong> {{ ucfirst(session('active_role', Auth::user()->primary_role ?? '—')) }}</p>

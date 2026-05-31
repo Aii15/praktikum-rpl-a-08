@@ -138,8 +138,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             // validasi apakah ada domain email dengan format yang benar
-            'email' => ['required','string','email','max:255','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/'],
+            'email' => ['required','string','email','max:255','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/','unique:users,email'],
+            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/','unique:users,no_hp'],
             'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -148,46 +148,14 @@ class AuthController extends Controller
             'email.email' => 'Format email tidak valid.',
             'email.regex' => 'Format email harus berisi domain dengan titik (contoh: nama@example.com).',
             'email.max' => 'Email maksimal 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar. Silakan login menggunakan akun yang sudah ada.',
             'no_hp.required' => 'Nomor HP wajib diisi.',
             'no_hp.regex' => 'Nomor HP harus berupa 10-13 digit angka.',
+            'no_hp.unique' => 'Nomor HP sudah terdaftar pada akun lain.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
-
-        // Jika akun dengan email ini sudah ada, tambahkan role 'penyewa' jika password cocok
-        $existing = User::where('email', $request->email)->first();
-
-        if ($existing) {
-            if (Hash::check($request->password, $existing->password)) {
-                $phoneOwner = User::where('no_hp', $request->no_hp)->first();
-                if ($phoneOwner && $phoneOwner->id !== $existing->id) {
-                    return back()->withErrors(['no_hp' => 'Nomor HP sudah terdaftar pada akun lain. Gunakan nomor lain atau login ke akun yang sesuai.'])->onlyInput('no_hp');
-                }
-
-                $penyewaRole = Role::firstOrCreate(['name' => 'penyewa']);
-                if (! $existing->roles()->where('role_id', $penyewaRole->id)->exists()) {
-                    $existing->roles()->attach($penyewaRole->id);
-                }
-
-                // keep legacy role for compatibility when not set or still default
-                if (empty($existing->role) || $existing->role === 'penyewa') {
-                    $existing->role = 'penyewa';
-                }
-
-                if (empty($existing->no_hp) && ! empty($request->no_hp)) {
-                    $existing->no_hp = $request->no_hp;
-                }
-
-                $existing->save();
-
-                Auth::login($existing);
-
-                return $this->finishLogin($existing, $request)->with('success', 'Akun sudah terdaftar. Anda berhasil masuk sebagai Penyewa menggunakan akun yang sama.');
-            }
-
-            return back()->withErrors(['email' => 'Email sudah terdaftar. Gunakan password akun yang sama untuk masuk, atau login lewat halaman login.'])->with('info', 'Akun ini sudah ada. Silakan login atau isi password yang benar untuk memakai akun yang sama.')->onlyInput('email');
-        }
 
         $user = User::create([
             'name' => $request->name,
