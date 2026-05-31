@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpotRent Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -14,9 +17,19 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
+        /* Ensure form controls use Poppins */
+        input, textarea, select, button {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Placeholder font rules for cross-browser support */
+        ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
+        :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::placeholder { font-family: 'Poppins', sans-serif; }
         .login-page {
             min-height: 100vh;
             background: #07142d;
@@ -214,13 +227,11 @@
                 </div>
                 <button type="submit">Masuk</button>
             </form>
+
+
             
             <div style="margin-top: 16px; font-size: 14px;">
                 Belum punya akun? <a href="{{ route('register') }}" style="color: #f7c948; text-decoration: none; font-weight: bold;">Daftar</a>
-            </div>
-            
-            <div style="margin-top: 8px; font-size: 14px;">
-             <a href="{{ route('register.mitra') }}" style="color: #f7c948; text-decoration: none; font-weight: bold;">Daftar menjadi Mitra</a>
             </div>
         </div>
 

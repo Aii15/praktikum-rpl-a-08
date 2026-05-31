@@ -1,3 +1,4 @@
+{{-- untuk tampilan halaman registrasi pengguna --}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpotRent Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -14,8 +18,19 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
+
+        /* Ensure form controls use Poppins */
+        input, textarea, select, button {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Placeholder font rules for cross-browser support */
+        ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
+        :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::placeholder { font-family: 'Poppins', sans-serif; }
 
         .login-page {
             min-height: 100vh;
@@ -208,6 +223,18 @@
             </div>
 
             <h1>Daftar</h1>
+
+            @if(session('success'))
+                <div style="background: #d1fae5; color: #065f46; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div style="background: #eff6ff; color: #1e3a8a; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('info') }}
+                </div>
+            @endif
 
             <form action="{{ route('register') }}" method="POST">
                 @csrf
