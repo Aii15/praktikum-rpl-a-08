@@ -35,7 +35,8 @@
         @include('partials.flash')
         @php
             $user = Auth::user();
-            $isMitra = $user->hasRole('mitra');
+            $activeRole = session('active_role', $user->primary_role ?? null);
+            $isMitra = $activeRole === 'mitra';
             $mitraName = $isMitra
                 ? ($user->mitraProfile->nama_mitra ?? $user->nama_mitra ?? '—')
                 : null;
@@ -48,7 +49,7 @@
             @endif
             <p><strong>Nama:</strong> {{ Auth::user()->name }}</p>
             <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
-            <p><strong>Role aktif:</strong> {{ ucfirst(session('active_role', Auth::user()->primary_role ?? '—')) }}</p>
+            <p><strong>Role aktif:</strong> {{ ucfirst($activeRole ?? '—') }}</p>
             <p><strong>Semua role:</strong> {{ Auth::user()->roles->isNotEmpty() ? Auth::user()->roles->pluck('name')->map(fn ($role) => ucfirst($role))->join(', ') : '—' }}</p>
         </div>
 
