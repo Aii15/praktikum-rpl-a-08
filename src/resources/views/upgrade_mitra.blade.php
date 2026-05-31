@@ -1,10 +1,13 @@
+{{-- untuk tampilan halaman upgrade akun menjadi mitra --}}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpotRent Daftar Mitra</title>
+    <title>Upgrade to Mitra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -14,8 +17,19 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
+
+        /* Ensure form controls use Poppins */
+        input, textarea, select, button {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Placeholder font rules for cross-browser support */
+        ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
+        :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::placeholder { font-family: 'Poppins', sans-serif; }
 
         .login-page {
             min-height: 100vh;
@@ -113,9 +127,32 @@
         }
 
         h1 {
-            margin-bottom: 28px;
-            font-size: 36px;
+            margin-bottom: 12px;
+            font-size: 32px;
             font-weight: 700;
+        }
+
+        .subtitle {
+            margin-bottom: 22px;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .account-info {
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            text-align: left;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .account-info strong {
+            color: #111827;
         }
 
         form {
@@ -149,13 +186,21 @@
         button:hover {
             opacity: 0.9;
         }
-        
-        .login-link {
+
+        .helper {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .link-row {
             margin-top: 16px;
             font-size: 14px;
         }
-        
-        .login-link a {
+
+        .link-row a {
             color: #f7c948;
             text-decoration: none;
             font-weight: bold;
@@ -168,12 +213,11 @@
     <div class="login-page">
 
         <div class="background-slider">
-
             <div class="slider-row move-right">
                 <div class="slider-track">
                     @for ($i = 0; $i < 3; $i++)
                         @foreach ([1, 5, 3, 8, 2, 11, 6, 4, 10, 7, 12, 9] as $img)
-                            <img src="/images/login/{{ $img }}.png">
+                            <img src="/images/login/{{ $img }}.png" alt="SpotRent background">
                         @endforeach
                     @endfor
                 </div>
@@ -183,7 +227,7 @@
                 <div class="slider-track">
                     @for ($i = 0; $i < 3; $i++)
                         @foreach ([9, 2, 12, 4, 7, 1, 10, 5, 3, 11, 6, 8] as $img)
-                            <img src="/images/login/{{ $img }}.png">
+                            <img src="/images/login/{{ $img }}.png" alt="SpotRent background">
                         @endforeach
                     @endfor
                 </div>
@@ -193,12 +237,11 @@
                 <div class="slider-track">
                     @for ($i = 0; $i < 3; $i++)
                         @foreach ([6, 10, 1, 9, 3, 12, 5, 8, 2, 11, 4, 7] as $img)
-                            <img src="/images/login/{{ $img }}.png">
+                            <img src="/images/login/{{ $img }}.png" alt="SpotRent background">
                         @endforeach
                     @endfor
                 </div>
             </div>
-
         </div>
 
         <div class="login-card">
@@ -207,67 +250,76 @@
                 <span>SpotRent</span>
             </div>
 
-            <h1>Daftar</h1>
+            <h1>Upgrade ke Mitra</h1>
 
-            <form action="{{ url('/register/mitra') }}" method="POST">
+            @if(session('success'))
+                <div style="background: #d1fae5; color: #065f46; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div style="background: #eff6ff; color: #1e3a8a; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('info') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div style="background: #fef2f2; color: #991b1b; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    <ul style="margin-left: 18px;">
+                        @foreach($errors->all() as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <div class="subtitle">
+                Form ini untuk akun yang sudah login. Data akun dasar seperti email, nomor HP, dan password tidak perlu diulang.
+                Yang dibutuhkan hanya data profil mitra.
+            </div>
+
+            @auth
+                <div class="account-info">
+                    <strong>Akun aktif:</strong><br>
+                    {{ Auth::user()->name }}<br>
+                    {{ Auth::user()->email }}
+                </div>
+            @endauth
+
+            <form action="{{ url('/upgrade-mitra') }}" method="POST">
                 @csrf
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" required style="width: 100%;">
-                    @error('name')
-                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
-                    @enderror
-                </div>
-                
-                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="nama_mitra" placeholder="Nama Mitra / Perusahaan" value="{{ old('nama_mitra') }}" required maxlength="100" style="width: 100%;">
+                    <input type="text" name="nama_mitra" placeholder="Nama Mitra / Perusahaan" value="{{ old('nama_mitra') }}" required style="width: 100%;">
                     @error('nama_mitra')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror
                 </div>
-                
-                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required style="width: 100%;">
-                    @error('email')
-                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
-                    @enderror
-                </div>
-                
-                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="no_hp" placeholder="No. HP" value="{{ old('no_hp') }}" required style="width: 100%;">
-                    @error('no_hp')
-                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
-                    @enderror
-                </div>
-
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
                     <input type="text" name="ktp" placeholder="Nomor KTP" value="{{ old('ktp') }}" required style="width: 100%;">
                     @error('ktp')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror
                 </div>
-                
-
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="password" name="password" placeholder="Password" required style="width: 100%;">
-                    @error('password')
+                    <input type="text" name="rekening_bank" placeholder="Rekening Bank (opsional)" value="{{ old('rekening_bank') }}" style="width: 100%;">
+                    @error('rekening_bank')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror
                 </div>
-                
-                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="password" name="password_confirmation" placeholder="Konfirmasi Password" required style="width: 100%;">
-                </div>
-
-                <button type="submit">Daftar Mitra</button>
+                <button type="submit">Upgrade ke Mitra</button>
             </form>
-            
-            <div class="login-link">
-                Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
+
+            <div class="helper">
+                Setelah upgrade, akun yang sama tetap bisa dipakai sebagai penyewa atau mitra. Saat login, sistem akan meminta pilihan role aktif jika akun Anda punya lebih dari satu role.
+            </div>
+
+            <div class="link-row">
+                <a href="/dashboard">Kembali ke dashboard</a>
             </div>
         </div>
 
     </div>
 
 </body>
-
 </html>
