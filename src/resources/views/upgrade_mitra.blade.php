@@ -20,12 +20,10 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Ensure form controls use Poppins */
         input, textarea, select, button {
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Placeholder font rules for cross-browser support */
         ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
         :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
         ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
@@ -275,8 +273,7 @@
             @endif
 
             <div class="subtitle">
-                Form ini untuk akun yang sudah login. Data akun dasar seperti email, nomor HP, dan password tidak perlu diulang.
-                Yang dibutuhkan hanya data profil mitra.
+                Upgrade akun menjadi Mitra untuk bisa listing properti! 
             </div>
 
             @auth

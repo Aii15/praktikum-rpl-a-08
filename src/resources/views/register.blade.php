@@ -21,12 +21,10 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Ensure form controls use Poppins */
         input, textarea, select, button {
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Placeholder font rules for cross-browser support */
         ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
         :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
         ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
