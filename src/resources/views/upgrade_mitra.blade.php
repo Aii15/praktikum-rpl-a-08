@@ -115,7 +115,7 @@
             gap: 8px;
             margin-bottom: 16px;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 25px;
         }
 
         .brand img {
@@ -126,7 +126,7 @@
 
         h1 {
             margin-bottom: 12px;
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 700;
         }
 

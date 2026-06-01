@@ -42,7 +42,7 @@
             gap: 10px;
             margin-bottom: 16px;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 25px;
         }
         .brand img { width: 44px; height: 44px; object-fit: contain; }
         h1 { font-size: 32px; margin-bottom: 8px; }

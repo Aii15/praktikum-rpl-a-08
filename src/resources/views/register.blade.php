@@ -116,7 +116,7 @@
             gap: 8px;
             margin-bottom: 16px;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 25px;
         }
 
         .brand img {
