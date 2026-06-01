@@ -161,6 +161,42 @@
         button:hover {
             opacity: 0.9;
         }
+
+        .auth-switch {
+            margin-top: 16px;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 999px;
+            background: #f8fafc;
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .auth-switch a {
+            display: inline;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: #9a7500;
+            text-decoration: none;
+            text-decoration-line: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+            font-weight: 700;
+            box-shadow: none;
+            transition: color 0.18s ease, text-decoration-color 0.18s ease;
+        }
+
+        .auth-switch a:hover {
+            color: #7a5d00;
+            text-decoration-color: #7a5d00;
+        }
     </style>
 </head>
 
@@ -230,8 +266,8 @@
 
 
             
-            <div style="margin-top: 16px; font-size: 14px;">
-                Belum punya akun? <a href="{{ route('register') }}" style="color: #f7c948; text-decoration: none; font-weight: bold;">Daftar</a>
+            <div class="auth-switch">
+                Belum punya akun? <a href="{{ route('register') }}" class="nav-link-outline">Daftar</a>
             </div>
         </div>
 
