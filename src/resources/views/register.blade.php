@@ -270,7 +270,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('register') }}" method="POST">
+            <form action="{{ route('register') }}" method="POST" novalidate>
                 @csrf
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
                     <input type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" required style="width: 100%;">
@@ -287,7 +287,7 @@
                 </div>
                 
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="no_hp" placeholder="No. HP" value="{{ old('no_hp') }}" required style="width: 100%;">
+                    <input type="text" name="no_hp" placeholder="No. HP" value="{{ old('no_hp') }}" required pattern="08[0-9]{8,11}" title="Nomor HP harus diawali 08 dan 10-13 digit." minlength="10" maxlength="13" inputmode="numeric" style="width: 100%;">
                     @error('no_hp')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror

@@ -139,7 +139,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             // validasi apakah ada domain email dengan format yang benar
             'email' => ['required','string','email','max:255','regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/','unique:users,email'],
-            'no_hp' => ['required','string','regex:/^[0-9]{10,13}$/','unique:users,no_hp'],
+            'no_hp' => ['required','string','regex:/^08[0-9]{8,11}$/','unique:users,no_hp'],
             'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -150,7 +150,7 @@ class AuthController extends Controller
             'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar. Silakan login menggunakan akun yang sudah ada.',
             'no_hp.required' => 'Nomor HP wajib diisi.',
-            'no_hp.regex' => 'Nomor HP harus berupa 10-13 digit angka.',
+            'no_hp.regex' => 'Nomor HP harus diawali 08 dan terdiri dari 10 sampai 13 digit angka.',
             'no_hp.unique' => 'Nomor HP sudah terdaftar pada akun lain.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',

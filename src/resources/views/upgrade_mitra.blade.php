@@ -262,16 +262,6 @@
                 </div>
             @endif
 
-            @if($errors->any())
-                <div style="background: #fef2f2; color: #991b1b; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
-                    <ul style="margin-left: 18px;">
-                        @foreach($errors->all() as $err)
-                            <li>{{ $err }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <div class="subtitle">
                 Upgrade akun menjadi Mitra untuk bisa listing properti! 
             </div>
@@ -284,7 +274,7 @@
                 </div>
             @endauth
 
-            <form action="{{ url('/upgrade-mitra') }}" method="POST">
+            <form action="{{ url('/upgrade-mitra') }}" method="POST" novalidate>
                 @csrf
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
                     <input type="text" name="nama_mitra" placeholder="Nama Mitra / Perusahaan" value="{{ old('nama_mitra') }}" required style="width: 100%;">
@@ -293,13 +283,13 @@
                     @enderror
                 </div>
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="ktp" placeholder="Nomor KTP" value="{{ old('ktp') }}" required style="width: 100%;">
+                    <input type="text" name="ktp" placeholder="Nomor KTP" value="{{ old('ktp') }}" required maxlength="16" inputmode="numeric" title="Nomor KTP harus 16 digit angka." style="width: 100%;">
                     @error('ktp')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror
                 </div>
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
-                    <input type="text" name="rekening_bank" placeholder="Rekening Bank (opsional)" value="{{ old('rekening_bank') }}" style="width: 100%;">
+                    <input type="text" name="rekening_bank" placeholder="Rekening Bank (opsional)" value="{{ old('rekening_bank') }}" maxlength="20" pattern="[0-9]{1,20}" inputmode="numeric" title="Rekening bank hanya boleh angka dan maksimal 20 digit." style="width: 100%;">
                     @error('rekening_bank')
                         <span style="color: red; font-size: 12px;">{{ $message }}</span>
                     @enderror

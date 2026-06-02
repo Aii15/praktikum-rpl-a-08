@@ -28,13 +28,21 @@ class UpgradeController extends Controller
 
         $request->validate([
             'nama_mitra' => 'required|string|max:100',
-            'ktp' => 'required|string|max:50',
-            'rekening_bank' => 'nullable|string|max:255',
+            'ktp' => ['required', 'string', 'regex:/^[0-9]{16}$/'],
+            'rekening_bank' => ['nullable', 'string', 'regex:/^[0-9]{1,20}$/'],
+        ], [
+            'nama_mitra.required' => 'Nama Mitra wajib diisi.',
+            'nama_mitra.max' => 'Nama Mitra maksimal 100 karakter.',
+            'ktp.required' => 'Nomor KTP wajib diisi.',
+            'ktp.regex' => 'Nomor KTP harus terdiri dari tepat 16 digit angka.',
+            'rekening_bank.regex' => 'Format rekening bank tidak valid.',
         ]);
 
-        // tambahkan role mitra dan buat profil mitra
+        // tambahkan role mitra, sinkronkan data mitra ke tabel users, dan buat profil mitra
         $user->assignRole('mitra');
         $user->role = 'mitra';
+        $user->ktp = $request->ktp;
+        $user->rekening_bank = $request->rekening_bank;
         $user->save();
 
         MitraProfile::create([
