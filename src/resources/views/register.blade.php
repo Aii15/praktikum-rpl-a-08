@@ -1,3 +1,4 @@
+{{-- untuk tampilan halaman registrasi pengguna --}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpotRent Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -14,8 +18,17 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
+
+        input, textarea, select, button {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
+        :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::placeholder { font-family: 'Poppins', sans-serif; }
 
         .login-page {
             min-height: 100vh;
@@ -103,7 +116,7 @@
             gap: 8px;
             margin-bottom: 16px;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 25px;
         }
 
         .brand img {
@@ -160,6 +173,42 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        .auth-switch {
+            margin-top: 16px;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 999px;
+            background: #f8fafc;
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .auth-switch a {
+            display: inline;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: #9a7500;
+            text-decoration: none;
+            text-decoration-line: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+            font-weight: 700;
+            box-shadow: none;
+            transition: color 0.18s ease, text-decoration-color 0.18s ease;
+        }
+
+        .auth-switch a:hover {
+            color: #7a5d00;
+            text-decoration-color: #7a5d00;
+        }
     </style>
 </head>
 
@@ -209,6 +258,18 @@
 
             <h1>Daftar</h1>
 
+            @if(session('success'))
+                <div style="background: #d1fae5; color: #065f46; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div style="background: #eff6ff; color: #1e3a8a; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('info') }}
+                </div>
+            @endif
+
             <form action="{{ route('register') }}" method="POST">
                 @csrf
                 <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
@@ -246,8 +307,8 @@
                 <button type="submit">Daftar</button>
             </form>
             
-            <div class="login-link">
-                Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
+            <div class="auth-switch">
+                Sudah punya akun? <a href="{{ route('login') }}" class="nav-link-outline">Masuk</a>
             </div>
         </div>
 
