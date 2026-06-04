@@ -1,15 +1,15 @@
 <?php
-/* untuk roting */
+/* untuk routing */
 /* berisi definisi route web aplikasi */
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UpgradeController;
+use App\Http\Controllers\LandingController;
 
-Route::get('/', function () {
-    return view('welcome'); // Usually '/' points to welcome or home
-});
+// Mengubah dari '/landing' menjadi '/' agar menjadi halaman utama web
+Route::get('/', [LandingController::class, 'index']);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
