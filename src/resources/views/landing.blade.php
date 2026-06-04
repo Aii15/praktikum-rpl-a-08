@@ -635,7 +635,7 @@
                     originalCards = Array.from(propertySection.querySelectorAll('.card'));
                 }
                 
-                // If there are initial query parameters from a shared link, apply them client-side
+               
                 applyFiltersClientSide(false);
             });
 
@@ -660,17 +660,14 @@
                 const isShowing = dropdown.classList.contains('show');
                 const clickedButton = event ? event.currentTarget : null;
 
-                // Close all dropdowns
                 document.querySelectorAll('.dropdown').forEach(d => {
                     d.classList.remove('show');
                 });
 
-                // Remove active classes
                 document.querySelectorAll('.search-item').forEach(item => {
                     item.classList.remove('active');
                 });
 
-                // Reset location search input when opening/closing
                 const searchInput = document.getElementById('locationSearchInput');
                 if (searchInput) {
                     searchInput.value = '';
@@ -690,17 +687,14 @@
                 targetEl.textContent = value;
                 selectedFilters[targetId] = value;
 
-                // Close all dropdowns
                 document.querySelectorAll('.dropdown').forEach(dropdown => {
                     dropdown.classList.remove('show');
                 });
 
-                // Remove active styling from buttons
                 document.querySelectorAll('.search-item').forEach(item => {
                     item.classList.remove('active');
                 });
 
-                // Reset location search input
                 const searchInput = document.getElementById('locationSearchInput');
                 if (searchInput) {
                     searchInput.value = '';
@@ -708,7 +702,6 @@
                 }
             }
 
-            // Click outside to close dropdowns
             document.addEventListener('click', function(event) {
                 const searchWrapper = document.querySelector('.search-wrapper');
                 if (searchWrapper && !searchWrapper.contains(event.target)) {
@@ -719,7 +712,7 @@
                         item.classList.remove('active');
                     });
 
-                    // Reset location search input
+                    
                     const searchInput = document.getElementById('locationSearchInput');
                     if (searchInput) {
                         searchInput.value = '';
@@ -735,7 +728,7 @@
                 const typeFilter = selectedFilters.typeValue;
                 const priceFilter = selectedFilters.priceValue;
 
-                // 1. Filter original cards
+                //  Filter cards
                 const filteredCards = originalCards.filter(card => {
                     const cardLoc = card.getAttribute('data-location');
                     const cardCat = card.getAttribute('data-category');
@@ -746,7 +739,7 @@
                     return matchesLoc && matchesType;
                 });
 
-                // 2. Sort filtered cards
+                // Sort card
                 if (priceFilter === 'Harga Terendah') {
                     filteredCards.sort((a, b) => {
                         return parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price'));
@@ -757,14 +750,12 @@
                     });
                 }
 
-                // 3. Clear existing cards from DOM
                 propertySection.querySelectorAll('.card').forEach(card => card.remove());
 
-                // 4. Append filtered cards to DOM
                 if (filteredCards.length > 0) {
                     filteredCards.forEach((card, index) => {
                         card.style.animation = 'none';
-                        card.offsetHeight; // trigger reflow to reset animation
+                        card.offsetHeight;
                         card.style.animation = 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
                         card.style.animationDelay = `${index * 0.05}s`;
                         propertySection.appendChild(card);
@@ -779,7 +770,6 @@
                     }
                 }
 
-                // 5. Update browser URL history without reloading
                 if (pushState) {
                     const params = new URLSearchParams();
                     if (locFilter && locFilter !== 'All') params.set('location', locFilter);
@@ -796,7 +786,6 @@
                 applyFiltersClientSide(true);
             }
 
-            // Sync with browser back/forward buttons
             window.addEventListener('popstate', (event) => {
                 if (event.state && event.state.filters) {
                     Object.assign(selectedFilters, event.state.filters);
@@ -805,7 +794,7 @@
                     document.getElementById('priceValue').textContent = selectedFilters.priceValue;
                     applyFiltersClientSide(false);
                 } else {
-                    // Reset to initial URL state
+                    // Reset ke initial URL state
                     const params = new URLSearchParams(window.location.search);
                     selectedFilters.locationValue = params.get('location') || 'All';
                     selectedFilters.typeValue = params.get('category') || 'All';

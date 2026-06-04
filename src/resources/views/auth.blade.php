@@ -1,8 +1,6 @@
 @php
-    // Tentukan mode awal (login atau register) berdasarkan rute saat ini atau error
     $initialMode = request()->routeIs('register') ? 'register' : 'login';
     
-    // Jika ada error validasi khusus register, paksa ke mode register
     if ($errors->hasAny(['name', 'email', 'no_hp', 'password_confirmation']) || old('name') || old('email') || old('no_hp')) {
         $initialMode = 'register';
     }
@@ -130,7 +128,7 @@
             color: #0f172a;
         }
 
-        /* Tab Switcher styles */
+        /* Style buat switcher tab */
         .auth-tabs {
             display: flex;
             position: relative;
@@ -286,14 +284,14 @@
                 </div>
             @endif
 
-            <!-- Segmented Tab Switcher -->
+            <!-- Pilihan tab (Masuk / Daftar) -->
             <div class="auth-tabs">
                 <div class="tab-indicator" id="tab-indicator"></div>
                 <button type="button" class="tab-btn" id="btn-tab-login" onclick="setMode('login')">Masuk</button>
                 <button type="button" class="tab-btn" id="btn-tab-register" onclick="setMode('register')">Daftar</button>
             </div>
 
-            <!-- Login Form Section -->
+            <!-- Form Login -->
             <div id="section-login" class="auth-form-section">
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
@@ -315,7 +313,7 @@
                 </form>
             </div>
 
-            <!-- Register Form Section -->
+            <!-- Form Register -->
             <div id="section-register" class="auth-form-section">
                 <form action="{{ route('register') }}" method="POST" novalidate>
                     @csrf
@@ -355,7 +353,7 @@
                 </form>
             </div>
 
-            <!-- Back to Home Link -->
+            <!-- Tombol balik ke Home -->
             <div style="margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
                 <a href="/" style="font-size: 14px; color: #64748b; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -367,15 +365,15 @@
     </div>
 
     <script>
-        // Track the current active mode
+        // Pantau mode aktif sekarang (login / register)
         let currentMode = '{{ $initialMode }}';
 
-        // Set mode on page load
+        // Pasang mode awal pas halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
             setMode(currentMode, false);
         });
 
-        // Main mode switching function
+        // Fungsi buat ganti-ganti mode login & register
         function setMode(mode, updateHistory = true) {
             currentMode = mode;
 
@@ -387,54 +385,54 @@
             const authTitle = document.getElementById('auth-title');
 
             if (mode === 'login') {
-                // Update forms visibility
+                // Atur visibilitas form
                 sectionLogin.classList.add('active');
                 sectionRegister.classList.remove('active');
 
-                // Update active tab buttons
+                // Atur tombol tab aktif
                 btnTabLogin.classList.add('active');
                 btnTabRegister.classList.remove('active');
 
-                // Slide tab indicator to left
+                // Geser penanda tab ke kiri
                 tabIndicator.style.transform = 'translateX(0)';
 
-                // Update Title
+                // Ganti title halaman
                 authTitle.textContent = 'Login';
                 document.title = 'SpotRent Login';
 
-                // Update URL in browser history
+                // Update URL di riwayat browser
                 if (updateHistory) {
                     history.pushState({ mode: 'login' }, '', '{{ route("login") }}');
                 }
             } else {
-                // Update forms visibility
+                // Atur visibilitas form
                 sectionRegister.classList.add('active');
                 sectionLogin.classList.remove('active');
 
-                // Update active tab buttons
+                // Atur tombol tab aktif
                 btnTabRegister.classList.add('active');
                 btnTabLogin.classList.remove('active');
 
-                // Slide tab indicator to right
+                // Geser penanda tab ke kanan
                 tabIndicator.style.transform = 'translateX(100%)';
 
-                // Update Title
+                // Ganti title halaman
                 authTitle.textContent = 'Daftar';
                 document.title = 'SpotRent Register';
 
-                // Update URL in browser history
+                // Update URL di riwayat browser
                 if (updateHistory) {
                     history.pushState({ mode: 'register' }, '', '{{ route("register") }}');
                 }
             }
         }
 
-        // Listen for back/forward browser navigation
+        // Pantau navigasi back / forward browser
         window.addEventListener('popstate', (event) => {
             if (event.state && event.state.mode) {
                 setMode(event.state.mode, false);
             } else {
-                // Fallback to route detection from path
+                // Cadangan: deteksi mode dari path URL
                 const path = window.location.pathname;
                 const mode = path.includes('register') ? 'register' : 'login';
                 setMode(mode, false);
