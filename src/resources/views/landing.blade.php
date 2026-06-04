@@ -444,69 +444,71 @@
                 <div class="search-box">
                     <button class="search-item" onclick="toggleDropdown('locationDropdown')">
                         <span>Lokasi</span>
-                        <strong id="locationValue">All</strong>
+                        <strong id="locationValue">{{ $selectedLocation ?? 'All' }}</strong>
                     </button>
 
                     <button class="search-item" onclick="toggleDropdown('typeDropdown')">
                         <span>Tipe Properti</span>
-                        <strong id="typeValue">All</strong>
+                        <strong id="typeValue">{{ $selectedCategory ?? 'All' }}</strong>
                     </button>
 
                     <button class="search-item" onclick="toggleDropdown('priceDropdown')">
                         <span>Harga</span>
-                        <strong id="priceValue">All</strong>
+                        <strong id="priceValue">{{ $selectedPrice ?? 'All' }}</strong>
                     </button>
 
-                    <button class="search-button">›</button>
+                    <button class="search-button" onclick="searchProperties()">›</button>
                 </div>
 
                 <div class="dropdown location-dropdown" id="locationDropdown">
-                    @foreach (['Bali', 'Jakarta', 'Magelang', 'Semarang', 'Bandung', 'Jepara', 'Pacitan', 'Solo', 'Banyuwangi', 'Labuan Bajo', 'Padang', 'Tangerang', 'Bukittinggi', 'Lombok', 'Sukabumi', 'Tasikmalaya', 'Bogor', 'Malang', 'Surabaya', 'Yogyakarta'] as $city)
-                        <button
-                            onclick="selectValue('locationValue', '{{ $city }}')">{{ $city }}</button>
+                    <button data-value="All" onclick="selectValue('locationValue', this.dataset.value)">All</button>
+                    @foreach ($locations as $location)
+                        <button data-value="{{ e($location->kota) }}" onclick="selectValue('locationValue', this.dataset.value)">{{ $location->kota }}</button>
                     @endforeach
                 </div>
 
                 <div class="dropdown type-dropdown" id="typeDropdown">
-                    <button onclick="selectValue('typeValue', 'Hunian')"><img src="/images/landing/icons/hunian.png">
+                    <button data-value="All" onclick="selectValue('typeValue', this.dataset.value)">All</button>
+                    <button data-value="Hunian" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/hunian.png">
                         Hunian</button>
-                    <button onclick="selectValue('typeValue', 'Heritage')"><img
+                    <button data-value="Heritage" onclick="selectValue('typeValue', this.dataset.value)"><img
                             src="/images/landing/icons/heritage.png">
                         Heritage</button>
-                    <button onclick="selectValue('typeValue', 'Lanskap')"><img src="/images/landing/icons/lanskap.png">
+                    <button data-value="Lanskap" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/lanskap.png">
                         Lanskap</button>
-                    <button onclick="selectValue('typeValue', 'Fasilitas Publik')"><img
+                    <button data-value="Fasilitas Publik" onclick="selectValue('typeValue', this.dataset.value)"><img
                             src="/images/landing/icons/fasilitas.png">
                         Fasilitas Publik</button>
-                    <button onclick="selectValue('typeValue', 'Komersial')"><img
+                    <button data-value="Komersial" onclick="selectValue('typeValue', this.dataset.value)"><img
                             src="/images/landing/icons/komersial.png">
                         Komersial</button>
-                    <button onclick="selectValue('typeValue', 'Studio')"><img src="/images/landing/icons/studio.png">
+                    <button data-value="Studio" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/studio.png">
                         Studio</button>
-                    <button onclick="selectValue('typeValue', 'Industrial')"><img
+                    <button data-value="Industrial" onclick="selectValue('typeValue', this.dataset.value)"><img
                             src="/images/landing/icons/industrial.png">
                         Industrial</button>
                 </div>
 
                 <div class="dropdown price-dropdown" id="priceDropdown">
-                    <button onclick="selectValue('priceValue', 'Harga Terendah')">Rp. Harga Terendah</button>
-                    <button onclick="selectValue('priceValue', 'Harga Tertinggi')">Rp. Harga Tertinggi</button>
+                    <button data-value="All" onclick="selectValue('priceValue', this.dataset.value)">All</button>
+                    <button data-value="Harga Terendah" onclick="selectValue('priceValue', this.dataset.value)">Rp. Harga Terendah</button>
+                    <button data-value="Harga Tertinggi" onclick="selectValue('priceValue', this.dataset.value)">Rp. Harga Tertinggi</button>
                 </div>
             </div>
         </section>
 
         <section class="property-section">
-            @for ($i = 0; $i < 15; $i++)
+            @forelse ($properties as $property)
                 <div class="card">
-                    <img src="/images/landing/property.png" alt="Property">
+                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}">
 
                     <div class="card-content">
 
                         <div class="card-row top-row">
-                            <span class="category">Komersial</span>
+                            <span class="category">{{ $property->category->nama_kategori ?? 'Kategori Lain' }}</span>
 
                             <div class="price-box">
-                                <span class="price">IDR 15.000.000</span>
+                                <span class="price">IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</span>
                                 <small>Untuk 7 Hari</small>
                             </div>
                         </div>
@@ -516,20 +518,24 @@
                         <div class="card-row middle-row">
                             <div class="location">
                                 <img src="/images/landing/icons/location.png" alt="Location">
-                                <span>Jakarta Barat</span>
+                                <span>{{ $property->location->kota ?? 'Lokasi Tidak Diketahui' }}</span>
                             </div>
 
                             <div class="rating">
                                 <img src="/images/landing/icons/star.png" alt="Star">
-                                <span>4.9 (70)</span>
+                                <span>{{ number_format($property->reviews->avg('rating') ?? 0, 1) }} ({{ $property->reviews->count() }})</span>
                             </div>
                         </div>
 
-                        <h3 class="card-title">Kota Tua Jakarta</h3>
+                        <h3 class="card-title">{{ $property->nama_properti }}</h3>
 
                     </div>
                 </div>
-            @endfor
+            @empty
+                <div style="grid-column: span 3; text-align: center; padding: 40px 0; color: #555; font-size: 18px;">
+                    Tidak ada properti yang sesuai dengan filter.
+                </div>
+            @endforelse
         </section>
 
         <footer class="footer">
@@ -568,8 +574,14 @@
         </footer>
 
         <script>
+            const selectedFilters = {
+                locationValue: "{{ $selectedLocation ?? 'All' }}",
+                typeValue: "{{ $selectedCategory ?? 'All' }}",
+                priceValue: "{{ $selectedPrice ?? 'All' }}",
+            };
+
             function toggleDropdown(id) {
-                const clickedButton = event.currentTarget;
+                const clickedButton = event?.currentTarget || null;
 
                 document.querySelectorAll('.dropdown').forEach(dropdown => {
                     if (dropdown.id !== id) {
@@ -581,13 +593,16 @@
                     item.classList.remove('active');
                 });
 
-                clickedButton.classList.add('active');
+                if (clickedButton) {
+                    clickedButton.classList.add('active');
+                }
 
                 document.getElementById(id).classList.toggle('show');
             }
 
             function selectValue(targetId, value) {
                 document.getElementById(targetId).textContent = value;
+                selectedFilters[targetId] = value;
 
                 document.querySelectorAll('.dropdown').forEach(dropdown => {
                     dropdown.classList.remove('show');
@@ -597,7 +612,25 @@
                     item.classList.remove('active');
                 });
             }
-        </script>
+
+            function searchProperties() {
+                const params = new URLSearchParams();
+
+                if (selectedFilters.locationValue && selectedFilters.locationValue !== 'All') {
+                    params.set('location', selectedFilters.locationValue);
+                }
+
+                if (selectedFilters.typeValue && selectedFilters.typeValue !== 'All') {
+                    params.set('category', selectedFilters.typeValue);
+                }
+
+                if (selectedFilters.priceValue && selectedFilters.priceValue !== 'All') {
+                    params.set('price', selectedFilters.priceValue);
+                }
+
+                const queryString = params.toString();
+                window.location.href = queryString ? `/?${queryString}` : '/';
+            }
         </script>
     </body>
 
