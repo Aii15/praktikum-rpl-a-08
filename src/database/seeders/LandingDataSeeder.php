@@ -78,7 +78,7 @@ class LandingDataSeeder extends Seeder
                 'id_lokasi' => $locations->firstWhere('kota', 'Jakarta')->id_lokasi,
             ],
             [
-                'nama_properti' => 'Villa Santai Ubud',
+                'nama_properti' => 'Villa Ubud',
                 'deskripsi' => 'Villa mewah di Bali dengan area outdoor hijau dan pemandangan alam, cocok untuk video lifestyle dan promo.',
                 'harga_per_periode' => 10000000.00,
                 'fasilitas' => 'Kolam Renang, Dapur Lengkap, AC, Parkir, Taman',
@@ -86,7 +86,7 @@ class LandingDataSeeder extends Seeder
                 'id_lokasi' => $locations->firstWhere('kota', 'Gianyar')->id_lokasi,
             ],
             [
-                'nama_properti' => 'Studio Foto Kreatif',
+                'nama_properti' => 'Studio',
                 'deskripsi' => 'Studio modern lengkap dengan lighting, properti, dan ruang ganti untuk sesi foto dan shooting komersial.',
                 'harga_per_periode' => 8000000.00,
                 'fasilitas' => 'Lighting, Backdrop, Parkir, Listrik, Toilet',
@@ -115,25 +115,25 @@ class LandingDataSeeder extends Seeder
                 'is_cover' => false,
             ],
             [
-                'property_name' => 'Villa Santai Ubud',
-                'url_foto' => '/images/landing/villa-ubud.png',
+                'property_name' => 'Villa Ubud',
+                'url_foto' => '/images/landing/villa_ubud.png',
                 'urutan' => 1,
                 'is_cover' => true,
             ],
             [
-                'property_name' => 'Villa Santai Ubud',
-                'url_foto' => '/images/landing/villa-ubud-2.png',
+                'property_name' => 'Villa Ubud',
+                'url_foto' => '/images/landing/villa_ubud.png',
                 'urutan' => 2,
                 'is_cover' => false,
             ],
             [
-                'property_name' => 'Studio Foto Kreatif',
+                'property_name' => 'Studio',
                 'url_foto' => '/images/landing/studio.png',
                 'urutan' => 1,
                 'is_cover' => true,
             ],
             [
-                'property_name' => 'Studio Foto Kreatif',
+                'property_name' => 'Studio',
                 'url_foto' => '/images/landing/studio-2.png',
                 'urutan' => 2,
                 'is_cover' => false,
@@ -145,7 +145,7 @@ class LandingDataSeeder extends Seeder
             if ($property) {
                 PropertyPhoto::updateOrCreate([
                     'id_properti' => $property->id_properti,
-                    'url_foto' => $photo['url_foto'],
+                    'urutan' => $photo['urutan'],
                 ], [
                     'id_properti' => $property->id_properti,
                     'url_foto' => $photo['url_foto'],

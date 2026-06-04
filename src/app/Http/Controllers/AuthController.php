@@ -15,7 +15,7 @@ class AuthController extends Controller
     /*** untuk menampilkan halaman login. */
     public function showLoginForm()
     {
-        return view('login');
+        return view('auth');
     }
 
     /* finalisasi sesi autentikasi dan arahkan pengguna multi-role ke pemilihan role */
@@ -129,7 +129,7 @@ class AuthController extends Controller
 /* untuk menampilkan page registrasi*/
     public function showRegistrationForm()
     {
-        return view('register');
+        return view('auth');
     }
 
     /* Proses registrasi*/
