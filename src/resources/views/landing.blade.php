@@ -105,7 +105,7 @@
 
                             <div class="price-box">
                                 <span class="price">IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</span>
-                                <small>Untuk 7 Hari</small>
+                                <small>Per Hari</small>
                             </div>
                         </div>
 

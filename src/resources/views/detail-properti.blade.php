@@ -158,35 +158,32 @@
 
                     <div class="spec-grid">
                         @php
-                            $facs = array_map('trim', explode(',', $property->fasilitas));
-                            $iconMap = [
-                                'sanitasi' => 'sanitasi.svg',
-                                'listrik' => 'listrik.svg',
-                                'penerangan' => 'listrik.svg',
-                                'cctv' => 'cctv.svg',
-                                'parkir' => 'parkir.svg',
-                                'sprinkler' => 'sprinkler.svg',
-                                'permit' => 'permit.svg',
-                                'perizinan' => 'permit.svg',
-                                'apar' => 'apar.svg',
-                                'outdoor' => 'outdoor.svg',
+                            $facs = array_map('strtolower', array_map('trim', explode(',', $property->fasilitas)));
+                            $fixedSpecs = [
+                                'Sanitasi' => ['icon' => 'sanitasi.svg', 'keys' => ['sanitasi']],
+                                'Listrik dan Penerangan' => ['icon' => 'listrik.svg', 'keys' => ['listrik dan penerangan', 'listrik', 'penerangan']],
+                                'CCTV' => ['icon' => 'cctv.svg', 'keys' => ['cctv']],
+                                'Parkir Mobil' => ['icon' => 'parkir.svg', 'keys' => ['parkir mobil', 'parkir']],
+                                'Sprinkler Water' => ['icon' => 'sprinkler.svg', 'keys' => ['sprinkler water', 'sprinkler']],
+                                'Permit Included' => ['icon' => 'permit.svg', 'keys' => ['permit included', 'permit', 'perizinan']],
+                                'APAR' => ['icon' => 'apar.svg', 'keys' => ['apar']],
+                                'Outdoor' => ['icon' => 'outdoor.svg', 'keys' => ['outdoor']],
                             ];
                         @endphp
-                        @foreach ($facs as $fac)
-                            @if (!empty($fac))
-                                @php
-                                    $foundIcon = 'permit.svg';
-                                    $facLower = strtolower($fac);
-                                    foreach ($iconMap as $key => $icon) {
-                                        if (str_contains($facLower, $key)) {
-                                            $foundIcon = $icon;
-                                            break;
-                                        }
+                        @foreach ($fixedSpecs as $name => $spec)
+                            @php
+                                $hasSpec = false;
+                                foreach ($spec['keys'] as $key) {
+                                    if (in_array($key, $facs)) {
+                                        $hasSpec = true;
+                                        break;
                                     }
-                                @endphp
+                                }
+                            @endphp
+                            @if ($hasSpec)
                                 <div class="spec-item">
-                                    <img src="/images/informasi/icons/{{ $foundIcon }}" alt="">
-                                    <span>{{ $fac }}</span>
+                                    <img src="/images/informasi/icons/{{ $spec['icon'] }}" alt="">
+                                    <span>{{ $name }}</span>
                                 </div>
                             @endif
                         @endforeach
@@ -195,7 +192,7 @@
                     <hr>
 
                     <div class="calendar-section">
-                        <h2>IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</h2>
+                        <h2>IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
                         <p id="calendarDaysText">Pilih rentang tanggal di kalender</p>
 
                         <input type="text" id="dateRange">
@@ -204,10 +201,10 @@
                 </div>
 
                 <aside class="booking-card">
-                    <h2>IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</h2>
+                    <h2 id="totalPriceText">IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
                     <p id="bookingDaysText">Pilih tanggal</p>
 
-                    <div class="date-box">
+                    <div class="date-box" onclick="toggleBookingCardCalendar(event)" style="cursor: pointer; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #222; border-radius: 6px; overflow: hidden; margin-bottom: 15px;">
                         <div class="date-item">
                             <b>Check-in</b>
                             <span id="checkInText">--/--/----</span>
@@ -217,6 +214,11 @@
                             <b>Check-out</b>
                             <span id="checkOutText">--/--/----</span>
                         </div>
+                    </div>
+
+                    <!-- Inline calendar container inside the booking card -->
+                    <div id="bookingCardCalendarWrapper" style="display: none; margin-top: 15px; margin-bottom: 15px; width: 100%; border: 1px solid #eaeaea; border-radius: 12px; padding: 10px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <div id="bookingCardCalendarInline"></div>
                     </div>
 
                     <button type="submit">Pesan</button>
@@ -317,6 +319,7 @@
 
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
     <script>
         // Initialize Flatpickr with seeded disabled dates
@@ -328,7 +331,41 @@
             };
         });
 
-        flatpickr("#dateRange", {
+        function handleDateSelection(selectedDates, dateStr, instance) {
+            if (selectedDates.length >= 1) {
+                document.getElementById("checkInText").textContent =
+                    instance.formatDate(selectedDates[0], "d/m/Y");
+            }
+
+            if (selectedDates.length === 2) {
+                document.getElementById("checkOutText").textContent =
+                    instance.formatDate(selectedDates[1], "d/m/Y");
+
+                const timeDiff = Math.abs(selectedDates[1].getTime() - selectedDates[0].getTime());
+                const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+
+                const basePrice = {{ $property->harga_per_periode }};
+                const totalPrice = diffDays * basePrice;
+                const formattedPrice = 'IDR ' + new Intl.NumberFormat('id-ID').format(totalPrice);
+
+                document.getElementById("totalPriceText").innerHTML = formattedPrice;
+                document.getElementById("hiddenDateRange").value = dateStr;
+                document.getElementById("bookingDaysText").textContent = `Untuk ${diffDays} Hari`;
+                document.getElementById("calendarDaysText").textContent = `Untuk ${diffDays} Hari (${instance.formatDate(selectedDates[0], "d/m/Y")} - ${instance.formatDate(selectedDates[1], "d/m/Y")})`;
+            } else {
+                document.getElementById("hiddenDateRange").value = "";
+                document.getElementById("totalPriceText").innerHTML = `IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span>`;
+                document.getElementById("bookingDaysText").textContent = "Pilih tanggal";
+                document.getElementById("calendarDaysText").textContent = "Pilih rentang tanggal di kalender";
+                document.getElementById("checkOutText").textContent = "--/--/----";
+                if (selectedDates.length === 0) {
+                    document.getElementById("checkInText").textContent = "--/--/----";
+                }
+            }
+        }
+
+        const inlineFp = flatpickr("#dateRange", {
+            locale: "id",
             mode: "range",
             inline: true,
             minDate: "today",
@@ -336,26 +373,38 @@
             showMonths: 2,
             disable: parsedDisable,
             onChange: function(selectedDates, dateStr, instance) {
-                if (selectedDates.length >= 1) {
-                    document.getElementById("checkInText").textContent =
-                        instance.formatDate(selectedDates[0], "d/m/Y");
-                }
-
-                if (selectedDates.length === 2) {
-                    document.getElementById("checkOutText").textContent =
-                        instance.formatDate(selectedDates[1], "d/m/Y");
-
-                    const timeDiff = Math.abs(selectedDates[1].getTime() - selectedDates[0].getTime());
-                    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-
-                    document.getElementById("hiddenDateRange").value = dateStr;
-                    document.getElementById("bookingDaysText").textContent = `Untuk ${diffDays} Hari`;
-                    document.getElementById("calendarDaysText").textContent = `Untuk ${diffDays} Hari (${instance.formatDate(selectedDates[0], "d/m/Y")} - ${instance.formatDate(selectedDates[1], "d/m/Y")})`;
-                } else {
-                    document.getElementById("hiddenDateRange").value = "";
+                handleDateSelection(selectedDates, dateStr, instance);
+                if (window.popupFp) {
+                    window.popupFp.setDate(selectedDates, false);
                 }
             }
         });
+
+        window.popupFp = flatpickr("#bookingCardCalendarInline", {
+            locale: "id",
+            mode: "range",
+            inline: true,
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            showMonths: 1,
+            disable: parsedDisable,
+            onChange: function(selectedDates, dateStr, instance) {
+                handleDateSelection(selectedDates, dateStr, instance);
+                if (inlineFp) {
+                    inlineFp.setDate(selectedDates, false);
+                }
+            }
+        });
+
+        function toggleBookingCardCalendar(event) {
+            event.stopPropagation();
+            const wrapper = document.getElementById("bookingCardCalendarWrapper");
+            if (wrapper.style.display === "none") {
+                wrapper.style.display = "block";
+            } else {
+                wrapper.style.display = "none";
+            }
+        }
 
         // Save Wishlist AJAX Handler
         function toggleSave(id) {

@@ -24,12 +24,17 @@ body {
     background-size: 115%;
     background-repeat: no-repeat;
     background-position: center 65%;
+    opacity: 0;
+    animation: heroFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    z-index: 10;
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    opacity: 0;
+    animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 }
 
 .logo {
@@ -76,6 +81,8 @@ body {
     font-size: 53px;
     line-height: 1.2;
     font-weight: 800;
+    opacity: 0;
+    animation: fadeInUpHero 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
 .search-wrapper {
@@ -85,6 +92,8 @@ body {
     transform: translateX(-50%);
     width: 58%;
     z-index: 999;
+    opacity: 0;
+    animation: fadeInUpSearch 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
 .search-box {
@@ -458,5 +467,47 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes heroFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUpHero {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUpSearch {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
     }
 }

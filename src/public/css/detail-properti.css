@@ -402,6 +402,8 @@ hr {
     border-radius: 6px;
     overflow: hidden;
     margin-bottom: 26px;
+    position: relative;
+    cursor: pointer;
 }
 
 .date-item {
@@ -798,4 +800,105 @@ hr {
 .rating-section {
     animation-name: fadeInUp;
     animation-delay: 0.85s;
+}
+
+/* Custom Premium Flatpickr Styling */
+.flatpickr-calendar {
+    font-family: 'Poppins', sans-serif !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+}
+
+.flatpickr-day.selected, 
+.flatpickr-day.startRange, 
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange, 
+.flatpickr-day.startRange.inRange, 
+.flatpickr-day.endRange.inRange, 
+.flatpickr-day.selected:focus, 
+.flatpickr-day.startRange:focus, 
+.flatpickr-day.endRange:focus, 
+.flatpickr-day.selected:hover, 
+.flatpickr-day.startRange:hover, 
+.flatpickr-day.endRange:hover, 
+.flatpickr-day.selected.prevMonthDay, 
+.flatpickr-day.startRange.prevMonthDay, 
+.flatpickr-day.endRange.prevMonthDay, 
+.flatpickr-day.selected.nextMonthDay, 
+.flatpickr-day.startRange.nextMonthDay, 
+.flatpickr-day.endRange.nextMonthDay {
+    background: #f7c948 !important;
+    border-color: #f7c948 !important;
+    color: #111 !important;
+    font-weight: 600 !important;
+}
+
+.flatpickr-day.inRange {
+    background: rgba(247, 201, 72, 0.15) !important;
+    border-color: transparent !important;
+    box-shadow: -5px 0 0 rgba(247, 201, 72, 0.15), 5px 0 0 rgba(247, 201, 72, 0.15) !important;
+    color: #111 !important;
+}
+
+.flatpickr-day.disabled, 
+.flatpickr-day.disabled:hover {
+    color: #cbd5e1 !important;
+    background: transparent !important;
+    text-decoration: line-through !important;
+}
+
+.flatpickr-months .flatpickr-month {
+    background: transparent !important;
+    color: #020f3a !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-weight: 700 !important;
+    color: #020f3a !important;
+}
+
+.flatpickr-weekdays {
+    background: transparent !important;
+}
+
+span.flatpickr-weekday {
+    color: #64748b !important;
+    font-weight: 600 !important;
+}
+
+.flatpickr-day {
+    color: #334155 !important;
+    border-radius: 8px !important;
+}
+
+.flatpickr-day.prevMonthDay, 
+.flatpickr-day.nextMonthDay {
+    color: #cbd5e1 !important;
+    background: transparent !important;
+}
+
+.flatpickr-day.prevMonthDay:hover, 
+.flatpickr-day.nextMonthDay:hover {
+    background: #f1f5f9 !important;
+    color: #cbd5e1 !important;
+}
+
+.flatpickr-day:hover {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+}
+
+/* Center and clean the booking card inline calendar */
+#bookingCardCalendarWrapper .flatpickr-calendar.inline {
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+#bookingCardCalendarWrapper .flatpickr-months {
+    margin-bottom: 8px !important;
 }
