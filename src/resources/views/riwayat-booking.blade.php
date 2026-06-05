@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile User</title>
+    <title>Riwayat Booking</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -51,6 +51,7 @@
         .logo img {
             width: 48px;
             height: 48px;
+            object-fit: contain;
         }
 
         .logo span {
@@ -79,6 +80,10 @@
             font-weight: 500;
             color: #222;
             text-decoration: none;
+        }
+
+        .menu-item.active {
+            font-weight: 600;
         }
 
         .menu-icon {
@@ -118,53 +123,88 @@
 
         .content {
             padding-top: 55px;
-            max-width: 780px;
+            max-width: 850px;
         }
 
         .content h1 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 28px;
-            letter-spacing: 1px;
         }
 
-        .form-list {
+        .search-box {
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 50px;
+            border: none;
+            background: #f2f2f2;
+            border-radius: 10px;
+            padding: 0 18px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .booking-list {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 20px;
         }
 
-        .field-card {
-            height: 58px;
-            background: #e7e7e7;
-            border-radius: 8px;
-            padding: 9px 16px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.16);
+        .booking-card {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 18px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
         }
 
-        .field-text small {
-            display: block;
-            font-size: 10px;
+        .booking-card img {
+            width: 130px;
+            height: 90px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .booking-info {
+            flex: 1;
+        }
+
+        .booking-info h3 {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .booking-info p {
             color: #666;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
-        .field-text span {
-            display: block;
+        .booking-info strong {
             font-size: 14px;
-            font-weight: 500;
-            color: #222;
+            font-weight: 400;
+            color: #444;
         }
 
-        .edit-icon {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-            opacity: 0.8;
-            cursor: pointer;
+        .status {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .process {
+            background: #fef3c7;
+            color: #b45309;
         }
     </style>
 </head>
@@ -182,67 +222,57 @@
                 <h2 class="side-title">Profil Saya</h2>
 
                 <nav class="menu">
-                    <a href="{{ url('/profile-user') }}" class="menu-item">
+                    <a href="/profile-user" class="menu-item">
                         <span class="active-dot">P</span>
                         <span>Tentang Saya</span>
                     </a>
 
-                    <a href="#" class="menu-item">
+                    <a href="/riwayat-booking" class="menu-item active">
                         <img src="/images/profile/history.png" class="menu-icon" alt="">
                         <span>Riwayat Booking</span>
                     </a>
                 </nav>
             </div>
 
-            <a href="{{ url('/') }}" class="home-link">
+            <a href="/" class="home-link">
                 <img src="/images/profile/home.png" alt="">
                 <span>Ke Beranda</span>
             </a>
         </aside>
 
         <section class="content">
-            <h1>Tentang Saya</h1>
+            <h1>Riwayat Booking</h1>
 
-            <div class="form-list">
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>Nama Lengkap</small>
-                        <span>Nama Lengkap</span>
+            <div class="search-box">
+                <input type="text" placeholder="Cari booking...">
+            </div>
+
+            <div class="booking-list">
+
+                <div class="booking-card">
+                    <img src="/images/landing/property.png" alt="Property">
+
+                    <div class="booking-info">
+                        <h3>Lawang Sewu</h3>
+                        <p>Semarang</p>
+                        <strong>IDR 150.000.000</strong>
                     </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+
+                    <div class="status success">Selesai</div>
                 </div>
 
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>E-Mail</small>
-                        <span>E-Mail</span>
+                <div class="booking-card">
+                    <img src="/images/landing/property.png" alt="Property">
+
+                    <div class="booking-info">
+                        <h3>Villa Ubud</h3>
+                        <p>Bali</p>
+                        <strong>IDR 3.500.000</strong>
                     </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+
+                    <div class="status process">Berlangsung</div>
                 </div>
 
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>No Telepon</small>
-                        <span>No Telepon</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
-                </div>
-
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>Alamat</small>
-                        <span>Alamat</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
-                </div>
-
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>Password</small>
-                        <span>Password</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
-                </div>
             </div>
         </section>
 

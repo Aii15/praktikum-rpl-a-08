@@ -20,6 +20,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/choose-role', [AuthController::class, 'showRoleSelectionForm'])->middleware('auth')->name('role.choose');
 Route::post('/choose-role', [AuthController::class, 'setActiveRole'])->middleware('auth')->name('role.set');
 
+Route::view('/profile-user', 'profile-user');
+Route::view('/riwayat-booking', 'riwayat-booking');
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', function (Request $request) {

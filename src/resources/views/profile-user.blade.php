@@ -51,6 +51,7 @@
         .logo img {
             width: 48px;
             height: 48px;
+            object-fit: contain;
         }
 
         .logo span {
@@ -79,6 +80,10 @@
             font-weight: 500;
             color: #222;
             text-decoration: none;
+        }
+
+        .menu-item.active {
+            font-weight: 600;
         }
 
         .menu-icon {
@@ -163,8 +168,6 @@
             width: 20px;
             height: 20px;
             object-fit: contain;
-            opacity: 0.8;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -182,19 +185,19 @@
                 <h2 class="side-title">Profil Saya</h2>
 
                 <nav class="menu">
-                    <a href="{{ url('/profile-user') }}" class="menu-item">
+                    <a href="/profile-user" class="menu-item active">
                         <span class="active-dot">P</span>
                         <span>Tentang Saya</span>
                     </a>
 
-                    <a href="#" class="menu-item">
+                    <a href="/riwayat-booking" class="menu-item">
                         <img src="/images/profile/history.png" class="menu-icon" alt="">
                         <span>Riwayat Booking</span>
                     </a>
                 </nav>
             </div>
 
-            <a href="{{ url('/') }}" class="home-link">
+            <a href="/" class="home-link">
                 <img src="/images/profile/home.png" alt="">
                 <span>Ke Beranda</span>
             </a>
