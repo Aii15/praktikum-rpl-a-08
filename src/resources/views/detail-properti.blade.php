@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Properti</title>
+    <title>{{ $property->nama_properti }} - Detail Properti</title>
 
     <!-- Google Fonts Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,18 +20,41 @@
 <body>
 
     <nav class="navbar">
-        <div class="logo">
+        <div class="logo" onclick="window.location.href='/'" style="cursor: pointer;">
             <img src="/images/logo.png" alt="Logo">
             <span>SpotRent</span>
         </div>
 
         <div class="nav-buttons">
-            <a href="#">Daftarkan Properti</a>
-            <a href="/login">Daftar / Masuk</a>
+            @auth
+                <a href="{{ route('dashboard') }}" style="background: #f7c948; color: #111; text-decoration: none; padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-left: 10px; display: inline-block;">Dashboard</a>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline-block; margin-left: 10px;">
+                    @csrf
+                    <button type="submit" style="background: #dc3545; color: white; border: none; border-radius: 10px; padding: 10px 18px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif;">Logout</button>
+                </form>
+            @else
+                <a href="/login" style="background: #f7c948; color: #111; text-decoration: none; padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-left: 10px; display: inline-block;">Daftar / Masuk</a>
+            @endauth
         </div>
     </nav>
 
     <div class="detail-page">
+
+        @if(session('success'))
+            <div style="background: #d1fae5; color: #065f46; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 500; font-family: 'Poppins', sans-serif;">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 500; font-family: 'Poppins', sans-serif;">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if(session('info'))
+            <div style="background: #eff6ff; color: #1e3a8a; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 500; font-family: 'Poppins', sans-serif;">
+                {{ session('info') }}
+            </div>
+        @endif
 
         <div class="top-header-actions">
             <a href="/" class="back-link">
@@ -40,179 +63,180 @@
             </a>
 
             <div class="top-actions">
-                <button class="save-btn">
+                <button class="save-btn {{ $isSaved ? 'saved' : '' }}" onclick="toggleSave({{ $property->id_properti }})">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="save-icon">
                         <path d="M0 0h48v48H0z" fill="none" />
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8" />
                     </svg>
-                    <span>Save</span>
+                    <span>{{ $isSaved ? 'Saved' : 'Save' }}</span>
                 </button>
             </div>
         </div>
 
         <section class="gallery">
+            @php
+                $cover = $property->coverPhoto ?? $property->photos->first();
+                $otherPhotos = $property->photos->where('id_foto', '!=', $cover->id_foto ?? null)->take(4);
+            @endphp
             <div class="gallery-item main-gallery-item">
-                <img class="main-img" src="/images/informasi/prop1.png" alt="Lawang Sewu">
+                <img class="main-img" src="{{ $cover->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}">
             </div>
 
             <div class="side-gallery">
-                <div class="gallery-item">
-                    <img src="/images/informasi/prop2.png" alt="">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/informasi/prop3.png" alt="">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/informasi/prop4.png" alt="">
-                </div>
-                <div class="gallery-item">
-                    <img src="/images/informasi/prop5.png" alt="">
-                </div>
+                @foreach ($otherPhotos as $photo)
+                    <div class="gallery-item">
+                        <img src="{{ $photo->url_foto }}" alt="">
+                    </div>
+                @endforeach
+                @for ($i = count($otherPhotos); $i < 4; $i++)
+                    <div class="gallery-item">
+                        <img src="/images/landing/property.png" alt="">
+                    </div>
+                @endfor
             </div>
         </section>
 
-        <section class="content-wrapper">
+        <form action="{{ route('detail-properti.book', $property->id_properti) }}" method="POST" style="display: contents;">
+            @csrf
+            <input type="hidden" name="date_range" id="hiddenDateRange">
 
-            <div class="left-content">
-                <h1 class="property-title">Lawang Sewu</h1>
-                <p class="property-subtitle">
-                    Bangunan Bersejarah Terkenal Di Kota Semarang, Jawa Tengah.
-                </p>
+            <section class="content-wrapper">
 
-                <div class="info-box">
-                    <div class="info-item">
-                        <img src="/images/informasi/icons/location.svg" alt="" class="info-img">
-                        <div class="info-title">Semarang</div>
-                    </div>
+                <div class="left-content">
+                    <h1 class="property-title">{{ $property->nama_properti }}</h1>
+                    <p class="property-subtitle">
+                        {{ $property->location->alamat_detail }}, {{ $property->location->kota }}, {{ $property->location->provinsi }}.
+                    </p>
 
-                    <div class="info-item">
-                        <div class="info-title">Tipe Properti</div>
-                        <div class="info-desc">Heritage</div>
-                    </div>
+                    <div class="info-box">
+                        <div class="info-item">
+                            <img src="/images/informasi/icons/location.svg" alt="" class="info-img">
+                            <div class="info-title">{{ $property->location->kota }}</div>
+                        </div>
 
-                    <div class="info-item">
-                        <div class="info-title">4.9</div>
-                        <div class="star-icons">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
+                        <div class="info-item">
+                            <div class="info-title">Tipe Properti</div>
+                            <div class="info-desc">{{ $property->category->nama_kategori }}</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-title">{{ number_format($avgRating, 1) }}</div>
+                            <div class="star-icons">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= round($avgRating))
+                                        <img src="/images/informasi/icons/star.png" alt="Star">
+                                    @else
+                                        <img src="/images/informasi/icons/star.png" alt="Star" style="opacity: 0.3;">
+                                    @endif
+                                @endfor
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-title">{{ $property->reviews->count() }}</div>
+                            <div class="info-desc">Reviews</div>
                         </div>
                     </div>
 
-                    <div class="info-item">
-                        <div class="info-title">70</div>
-                        <div class="info-desc">Reviews</div>
+                    <div class="owner">
+                        <div class="avatar">{{ strtoupper(substr($property->mitra->name ?? 'M', 0, 1)) }}</div>
+                        <div>
+                            <b>{{ $property->mitra->name ?? 'Mitra SpotRent' }}</b>
+                            <p>Pengelola Operasional</p>
+                        </div>
                     </div>
+
+                    <hr>
+
+                    <p class="description">
+                        {{ $property->deskripsi }}
+                    </p>
+
+                    <hr>
+
+                    <h3 class="section-title">Spesifikasi Properti</h3>
+
+                    <div class="spec-grid">
+                        @php
+                            $facs = array_map('trim', explode(',', $property->fasilitas));
+                            $iconMap = [
+                                'sanitasi' => 'sanitasi.svg',
+                                'listrik' => 'listrik.svg',
+                                'penerangan' => 'listrik.svg',
+                                'cctv' => 'cctv.svg',
+                                'parkir' => 'parkir.svg',
+                                'sprinkler' => 'sprinkler.svg',
+                                'permit' => 'permit.svg',
+                                'perizinan' => 'permit.svg',
+                                'apar' => 'apar.svg',
+                                'outdoor' => 'outdoor.svg',
+                            ];
+                        @endphp
+                        @foreach ($facs as $fac)
+                            @if (!empty($fac))
+                                @php
+                                    $foundIcon = 'permit.svg';
+                                    $facLower = strtolower($fac);
+                                    foreach ($iconMap as $key => $icon) {
+                                        if (str_contains($facLower, $key)) {
+                                            $foundIcon = $icon;
+                                            break;
+                                        }
+                                    }
+                                @endphp
+                                <div class="spec-item">
+                                    <img src="/images/informasi/icons/{{ $foundIcon }}" alt="">
+                                    <span>{{ $fac }}</span>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+
+                    <hr>
+
+                    <div class="calendar-section">
+                        <h2>IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</h2>
+                        <p id="calendarDaysText">Pilih rentang tanggal di kalender</p>
+
+                        <input type="text" id="dateRange">
+                    </div>
+
                 </div>
 
-                <div class="owner">
-                    <div class="avatar">KAI</div>
-                    <div>
-                        <b>PT. Kereta Api Wisata</b>
-                        <p>Pengelola Operasional</p>
-                    </div>
-                </div>
+                <aside class="booking-card">
+                    <h2>IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</h2>
+                    <p id="bookingDaysText">Pilih tanggal</p>
 
-                <hr>
+                    <div class="date-box">
+                        <div class="date-item">
+                            <b>Check-in</b>
+                            <span id="checkInText">--/--/----</span>
+                        </div>
 
-                <p class="description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Integer at erat fringilla, ullamcorper tortor at, fermentum ex.
-                    Duis ac elit egestas metus tempor tempor.
-                    Quisque turpis sapien, facilisis sit amet est at,
-                    interdum eleifend est.
-                </p>
-
-                <hr>
-
-                <h3 class="section-title">Spesifikasi Properti</h3>
-
-                <div class="spec-grid">
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/sanitasi.svg" alt="">
-                        <span>Sanitasi</span>
+                        <div class="date-item">
+                            <b>Check-out</b>
+                            <span id="checkOutText">--/--/----</span>
+                        </div>
                     </div>
 
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/listrik.svg" alt="">
-                        <span>Listrik dan Penerangan</span>
-                    </div>
+                    <button type="submit">Pesan</button>
+                </aside>
 
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/cctv.svg" alt="">
-                        <span>CCTV</span>
-                    </div>
-
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/parkir.svg" alt="">
-                        <span>Parkir Mobil</span>
-                    </div>
-
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/sprinkler.svg" alt="">
-                        <span>Sprinkler Water</span>
-                    </div>
-
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/permit.svg" alt="">
-                        <span>Permit Included</span>
-                    </div>
-
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/apar.svg" alt="">
-                        <span>APAR</span>
-                    </div>
-
-                    <div class="spec-item">
-                        <img src="/images/informasi/icons/outdoor.svg" alt="">
-                        <span>Outdoor</span>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="calendar-section">
-                    <h2>IDR 150.000.000</h2>
-                    <p>Untuk 3 Hari (DD-MM-YY - DD-MM-YY)</p>
-
-                    <input type="text" id="dateRange">
-                </div>
-
-            </div>
-
-            <aside class="booking-card">
-                <h2>IDR 150.000.000</h2>
-                <p>Untuk 3 Hari</p>
-
-                <div class="date-box">
-                    <div class="date-item">
-                        <b>Check-in</b>
-                        <span id="checkInText">12/05/2026</span>
-                    </div>
-
-                    <div class="date-item">
-                        <b>Check-out</b>
-                        <span id="checkOutText">12/05/2026</span>
-                    </div>
-                </div>
-
-                <button>Pesan</button>
-            </aside>
-
-        </section>
+            </section>
+        </form>
 
         <section class="rating-section">
             <div class="rating-summary">
                 <div class="rating-score">
-                    <h2>4.9</h2>
+                    <h2>{{ number_format($avgRating, 1) }}</h2>
                     <div class="big-stars">
-                        <img src="/images/informasi/icons/star.png" alt="">
-                        <img src="/images/informasi/icons/star.png" alt="">
-                        <img src="/images/informasi/icons/star.png" alt="">
-                        <img src="/images/informasi/icons/star.png" alt="">
-                        <img src="/images/informasi/icons/star.png" alt="">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= round($avgRating))
+                                <img src="/images/informasi/icons/star.png" alt="Star">
+                            @else
+                                <img src="/images/informasi/icons/star.png" alt="Star" style="opacity: 0.3;">
+                            @endif
+                        @endfor
                     </div>
                 </div>
 
@@ -220,49 +244,63 @@
                     <p>Overall Rating</p>
 
                     <div class="rating-lines">
-                        <div class="bar-row"><span>5</span>
-                            <div></div>
-                        </div>
-                        <div class="bar-row"><span>4</span>
-                            <div></div>
-                        </div>
-                        <div class="bar-row"><span>3</span>
-                            <div></div>
-                        </div>
-                        <div class="bar-row"><span>2</span>
-                            <div></div>
-                        </div>
-                        <div class="bar-row"><span>1</span>
-                            <div></div>
-                        </div>
+                        @php
+                            $totalReviews = $property->reviews->count();
+                            $starCounts = [
+                                5 => $property->reviews->where('rating', 5)->count(),
+                                4 => $property->reviews->where('rating', 4)->count(),
+                                3 => $property->reviews->where('rating', 3)->count(),
+                                2 => $property->reviews->where('rating', 2)->count(),
+                                1 => $property->reviews->where('rating', 1)->count(),
+                            ];
+                        @endphp
+                        @foreach([5, 4, 3, 2, 1] as $star)
+                            @php
+                                $percent = $totalReviews > 0 ? ($starCounts[$star] / $totalReviews) * 100 : 0;
+                            @endphp
+                            <div class="bar-row">
+                                <span>{{ $star }}</span>
+                                <div style="position: relative; background: #e0e0e0; border-radius: 4px; height: 8px; width: 100%; overflow: hidden;">
+                                    <div style="background: #f7c948; width: {{ $percent }}%; height: 100%;"></div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
+            
             <div class="review-grid">
-                @for ($i = 0; $i < 6; $i++)
+                @forelse ($property->reviews as $review)
                     <div class="review-card">
                         <div class="review-head">
-                            <div class="review-avatar">P</div>
+                            <div class="review-avatar">
+                                {{ strtoupper(substr($review->booking->user->name ?? 'P', 0, 1)) }}
+                            </div>
                             <div>
-                                <b>Name</b>
-                                <p>DD-MM-YY</p>
+                                <b>{{ $review->booking->user->name ?? 'Penyewa' }}</b>
+                                <p>{{ \Carbon\Carbon::parse($review->tanggal_review)->format('d/m/Y') }}</p>
                             </div>
                         </div>
 
                         <div class="review-stars">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
-                            <img src="/images/informasi/icons/star.png" alt="">
+                            @for ($j = 1; $j <= 5; $j++)
+                                @if ($j <= $review->rating)
+                                    <img src="/images/informasi/icons/star.png" alt="">
+                                @else
+                                    <img src="/images/informasi/icons/star.png" alt="" style="opacity: 0.3;">
+                                @endif
+                            @endfor
                         </div>
 
                         <p class="review-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Integer at erat fringilla, ullamcorper tortor at.
+                            {{ $review->komentar }}
                         </p>
                     </div>
-                @endfor
+                @empty
+                    <div style="grid-column: span 2; text-align: center; color: #777; padding: 40px 0; font-size: 16px;">
+                        Belum ada ulasan untuk properti ini.
+                    </div>
+                @endforelse
             </div>
         </section>
     </div>
@@ -281,13 +319,22 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-        // Initialize Flatpickr
+        // Initialize Flatpickr with seeded disabled dates
+        const disabledDates = @json($disabledDates);
+        const parsedDisable = disabledDates.map(range => {
+            return {
+                from: new Date(range.from),
+                to: new Date(range.to)
+            };
+        });
+
         flatpickr("#dateRange", {
             mode: "range",
             inline: true,
             minDate: "today",
-            dateFormat: "d/m/Y",
+            dateFormat: "Y-m-d",
             showMonths: 2,
+            disable: parsedDisable,
             onChange: function(selectedDates, dateStr, instance) {
                 if (selectedDates.length >= 1) {
                     document.getElementById("checkInText").textContent =
@@ -297,20 +344,49 @@
                 if (selectedDates.length === 2) {
                     document.getElementById("checkOutText").textContent =
                         instance.formatDate(selectedDates[1], "d/m/Y");
+
+                    const timeDiff = Math.abs(selectedDates[1].getTime() - selectedDates[0].getTime());
+                    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+
+                    document.getElementById("hiddenDateRange").value = dateStr;
+                    document.getElementById("bookingDaysText").textContent = `Untuk ${diffDays} Hari`;
+                    document.getElementById("calendarDaysText").textContent = `Untuk ${diffDays} Hari (${instance.formatDate(selectedDates[0], "d/m/Y")} - ${instance.formatDate(selectedDates[1], "d/m/Y")})`;
+                } else {
+                    document.getElementById("hiddenDateRange").value = "";
                 }
             }
         });
 
-        // Save Button Toggle State
-        const saveBtn = document.querySelector('.save-btn');
-        if (saveBtn) {
-            saveBtn.addEventListener('click', () => {
-                saveBtn.classList.toggle('saved');
-                const span = saveBtn.querySelector('span');
-                if (span) {
-                    span.textContent = saveBtn.classList.contains('saved') ? 'Saved' : 'Save';
+        // Save Wishlist AJAX Handler
+        function toggleSave(id) {
+            fetch(`/detail-properti/${id}/save`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 }
-            });
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    window.location.href = '{{ route("login") }}';
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data) {
+                    const saveBtn = document.querySelector('.save-btn');
+                    if (data.saved) {
+                        saveBtn.classList.add('saved');
+                        saveBtn.querySelector('span').textContent = 'Saved';
+                    } else {
+                        saveBtn.classList.remove('saved');
+                        saveBtn.querySelector('span').textContent = 'Save';
+                    }
+                }
+            })
+            .catch(err => console.error(err));
         }
 
         // Custom Lightbox Gallery

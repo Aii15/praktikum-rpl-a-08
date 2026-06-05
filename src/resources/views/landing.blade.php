@@ -92,7 +92,7 @@
 
         <section class="property-section" id="propertySection">
             @forelse ($properties as $property)
-                <div class="card" 
+                <a href="{{ route('detail-properti', $property->id_properti) }}" class="card" 
                      data-location="{{ $property->location->kota ?? '' }}" 
                      data-category="{{ $property->category->nama_kategori ?? '' }}" 
                      data-price="{{ $property->harga_per_periode }}">
@@ -126,7 +126,7 @@
                         <h3 class="card-title">{{ $property->nama_properti }}</h3>
 
                     </div>
-                </div>
+                </a>
             @empty
                 <div style="grid-column: span 3; text-align: center; padding: 40px 0; color: #555; font-size: 18px;">
                     Tidak ada properti yang sesuai dengan filter.

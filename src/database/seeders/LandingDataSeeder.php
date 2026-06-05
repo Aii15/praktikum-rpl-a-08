@@ -66,6 +66,7 @@ class LandingDataSeeder extends Seeder
             ['nama_lokasi' => 'Ubud, Bali', 'alamat_detail' => 'Jl. Raya Ubud No. 21, Ubud', 'kota' => 'Gianyar', 'provinsi' => 'Bali', 'kode_pos' => '80571'],
             ['nama_lokasi' => 'Bandung', 'alamat_detail' => 'Jl. Dago No. 12, Bandung', 'kota' => 'Bandung', 'provinsi' => 'Jawa Barat', 'kode_pos' => '40135'],
             ['nama_lokasi' => 'Yogyakarta', 'alamat_detail' => 'Jl. Malioboro No. 10, Yogyakarta', 'kota' => 'Yogyakarta', 'provinsi' => 'DI Yogyakarta', 'kode_pos' => '55271'],
+            ['nama_lokasi' => 'Semarang Tengah', 'alamat_detail' => 'Jl. Pemuda, Sekayu, Kec. Semarang Tengah', 'kota' => 'Semarang', 'provinsi' => 'Jawa Tengah', 'kode_pos' => '50132'],
         ])->map(fn ($data) => Location::firstOrCreate($data));
 
         $properties = collect([
@@ -92,6 +93,14 @@ class LandingDataSeeder extends Seeder
                 'fasilitas' => 'Lighting, Backdrop, Parkir, Listrik, Toilet',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Studio')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Bandung')->id_lokasi,
+            ],
+            [
+                'nama_properti' => 'Lawang Sewu',
+                'deskripsi' => 'Bangunan bersejarah terkenal di Kota Semarang, Jawa Tengah. Terkenal dengan arsitektur pintu yang megah dan sangat ikonik untuk produksi video, film, atau sesi foto pre-wedding bernuansa klasik.',
+                'harga_per_periode' => 150000000.00,
+                'fasilitas' => 'Sanitasi, Listrik dan Penerangan, CCTV, Parkir Mobil, Sprinkler Water, Permit Included, APAR, Outdoor',
+                'id_kategori' => $categories->firstWhere('nama_kategori', 'Heritage')->id_kategori,
+                'id_lokasi' => $locations->firstWhere('kota', 'Semarang')->id_lokasi,
             ],
         ])->map(function ($data) use ($mitra) {
             return Property::updateOrCreate([
@@ -138,6 +147,36 @@ class LandingDataSeeder extends Seeder
                 'urutan' => 2,
                 'is_cover' => false,
             ],
+            [
+                'property_name' => 'Lawang Sewu',
+                'url_foto' => '/images/informasi/prop1.png',
+                'urutan' => 1,
+                'is_cover' => true,
+            ],
+            [
+                'property_name' => 'Lawang Sewu',
+                'url_foto' => '/images/informasi/prop2.png',
+                'urutan' => 2,
+                'is_cover' => false,
+            ],
+            [
+                'property_name' => 'Lawang Sewu',
+                'url_foto' => '/images/informasi/prop3.png',
+                'urutan' => 3,
+                'is_cover' => false,
+            ],
+            [
+                'property_name' => 'Lawang Sewu',
+                'url_foto' => '/images/informasi/prop4.png',
+                'urutan' => 4,
+                'is_cover' => false,
+            ],
+            [
+                'property_name' => 'Lawang Sewu',
+                'url_foto' => '/images/informasi/prop5.png',
+                'urutan' => 5,
+                'is_cover' => false,
+            ],
         ];
 
         foreach ($photos as $photo) {
@@ -170,6 +209,40 @@ class LandingDataSeeder extends Seeder
             'rating' => 5,
             'komentar' => 'Tempat syutingnya sangat strategis dan fasilitasnya lengkap. Sangat puas!',
             'tanggal_review' => now(),
+        ]);
+
+        $bookingLS = Booking::updateOrCreate([
+            'id_properti' => $properties->firstWhere('nama_properti', 'Lawang Sewu')->id_properti,
+            'id_user' => $penyewa->id,
+            'tanggal_mulai' => '2026-06-10',
+            'tanggal_selesai' => '2026-06-12',
+        ], [
+            'status_booking' => 'confirmed',
+        ]);
+
+        Review::updateOrCreate([
+            'id_booking' => $bookingLS->id_booking,
+        ], [
+            'rating' => 5,
+            'komentar' => 'Sangat bersejarah dan eksotis, pencahayaan alami di sore hari sangat bagus untuk syuting film indie kami.',
+            'tanggal_review' => now()->subDays(5),
+        ]);
+
+        $bookingLS2 = Booking::updateOrCreate([
+            'id_properti' => $properties->firstWhere('nama_properti', 'Lawang Sewu')->id_properti,
+            'id_user' => $mitra->id,
+            'tanggal_mulai' => '2026-06-20',
+            'tanggal_selesai' => '2026-06-25',
+        ], [
+            'status_booking' => 'confirmed',
+        ]);
+
+        Review::updateOrCreate([
+            'id_booking' => $bookingLS2->id_booking,
+        ], [
+            'rating' => 4,
+            'komentar' => 'Sangat luas dan arsitekturnya indah sekali. Pengurusan perizinannya juga cukup cepat.',
+            'tanggal_review' => now()->subDays(2),
         ]);
     }
 }
