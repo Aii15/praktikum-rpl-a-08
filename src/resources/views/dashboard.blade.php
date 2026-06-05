@@ -8,27 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f4f4f9; margin: 0; padding: 2rem; }
-
-        /* Ensure form controls and buttons use Poppins */
-        input, textarea, select, button {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* Placeholder font rules for cross-browser support */
-        ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
-        :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
-        ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
-        ::placeholder { font-family: 'Poppins', sans-serif; }
-        .container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; }
-        h1 { margin-top: 0; }
-        .user-info { margin-bottom: 2rem; padding: 1rem; background-color: #e9ecef; border-radius: 4px; }
-        .role-actions { margin: 1rem 0; }
-        .logout-form { display: inline; }
-        button { padding: 0.5rem 1rem; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        button:hover { background-color: #c82333; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 </head>
 <body>
     <div class="container">

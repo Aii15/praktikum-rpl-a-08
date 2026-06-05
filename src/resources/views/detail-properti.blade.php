@@ -6,566 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Properti</title>
 
+    <!-- Google Fonts Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: #f7f7f7;
-            color: #222;
-        }
-
-        .detail-page {
-            width: 100%;
-            min-height: 100vh;
-            background: white;
-            padding: 34px 60px 60px;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 60px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .logo img {
-            width: 52px;
-            height: 52px;
-            object-fit: contain;
-        }
-
-        .nav-buttons a {
-            background: #f7c948;
-            color: #111;
-            text-decoration: none;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-left: 12px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 28px;
-            text-decoration: none;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .top-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
-        .top-actions button {
-            border: none;
-            border-radius: 8px;
-            padding: 9px 15px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .share-btn {
-            background: #111b3d;
-            color: white;
-        }
-
-        .save-btn {
-            background: #e7192f;
-            color: white;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: 1.35fr 1fr;
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .main-img,
-        .side-gallery img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .main-img {
-            height: 360px;
-        }
-
-        .side-gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-        }
-
-        .side-gallery img {
-            height: 173px;
-        }
-
-        .content-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 70px;
-            align-items: start;
-        }
-
-        .property-title {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .property-subtitle {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 28px;
-        }
-
-        .info-box {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            border: 1px solid #d8d8d8;
-            border-radius: 12px;
-            padding: 18px 10px;
-            margin-bottom: 36px;
-        }
-
-        .info-item {
-            min-height: 76px;
-            text-align: center;
-            border-right: 1px solid #bdbdbd;
-            font-size: 13px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .info-item:last-child {
-            border-right: none;
-        }
-
-        .info-img {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-            margin-bottom: 3px;
-        }
-
-        .info-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-            line-height: 1.2;
-        }
-
-        .info-desc {
-            color: #555;
-            font-size: 13px;
-            line-height: 1.2;
-        }
-
-        .star-icons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3px;
-            margin-top: 5px;
-        }
-
-        .star-icons img {
-            width: 13px;
-            height: 13px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .owner {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .avatar {
-            width: 50px;
-            height: 50px;
-            background: #33aa4a;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-        }
-
-        .owner b {
-            font-size: 15px;
-        }
-
-        .owner p {
-            font-size: 13px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid #aaa;
-            margin: 26px 0;
-        }
-
-        .description {
-            font-size: 13px;
-            line-height: 1.7;
-            color: #555;
-            text-align: justify;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 22px;
-        }
-
-        .spec-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 22px 70px;
-        }
-
-        .spec-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .spec-item img {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-        }
-
-        .booking-card {
-            background: white;
-            border-radius: 14px;
-            padding: 24px;
-            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
-            margin-top: 80px;
-
-            position: sticky;
-            top: 100px;
-            align-self: start;
-        }
-
-        .booking-card h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .booking-card p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 26px;
-        }
-
-        .date-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border: 1px solid #222;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 26px;
-        }
-
-        .date-item {
-            padding: 10px 8px;
-            border-right: 1px solid #222;
-        }
-
-        .date-item:last-child {
-            border-right: none;
-        }
-
-        .date-item b {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .date-item span {
-            font-size: 13px;
-            color: #222;
-        }
-
-        .booking-card button {
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 10px;
-            background: #f7c948;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .booking-card button:hover {
-            opacity: 0.9;
-        }
-
-        .calendar-section {
-            margin-top: 36px;
-            max-width: 760px;
-        }
-
-        .calendar-section h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .calendar-section p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 24px;
-        }
-
-        .calendar-section #dateRange {
-            display: none;
-        }
-
-        .rating-section {
-            margin-top: 80px;
-            width: 100%;
-            max-width: none;
-        }
-
-        .rating-summary {
-            display: flex;
-            align-items: center;
-            gap: 90px;
-            width: 100%;
-            margin-bottom: 50px;
-        }
-
-        .rating-score {
-            width: 140px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .rating-score h2 {
-            font-size: 48px;
-            font-weight: 500;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-
-        .big-stars {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .big-stars img {
-            width: 23px;
-            height: 23px;
-            object-fit: contain;
-        }
-
-        .rating-bars {
-            flex: 1;
-            width: 100%;
-            max-width: none;
-        }
-
-        .rating-bars p {
-            text-align: center;
-            font-size: 11px;
-            font-weight: 500;
-            margin-bottom: 22px;
-        }
-
-        .rating-lines {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 40px;
-            width: 100%;
-        }
-
-        .bar-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-        }
-
-        .bar-row span {
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .bar-row div {
-            flex: 1;
-            height: 4px;
-            background: #999;
-            border-radius: 999px;
-        }
-
-        .review-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 28px 70px;
-        }
-
-        .review-card {
-            border: 1px solid #cfcfcf;
-            border-radius: 12px;
-            padding: 14px;
-        }
-
-        .review-head {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .review-avatar {
-            width: 30px;
-            height: 30px;
-            background: #2fa84f;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .review-head b {
-            font-size: 13px;
-        }
-
-        .review-head p {
-            font-size: 10px;
-            color: #777;
-        }
-
-        .review-stars {
-            display: flex;
-            gap: 3px;
-            margin: 12px 0;
-        }
-
-        .review-stars img {
-            width: 12px;
-            height: 12px;
-        }
-
-        .review-text {
-            font-size: 11px;
-            line-height: 1.5;
-            color: #444;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 14px;
-        }
-
-        .action-buttons button {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 20px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            color: white;
-        }
-
-        .action-buttons img {
-            width: 15px;
-            height: 15px;
-            object-fit: contain;
-        }
-
-        .share-btn {
-            background: #0b1d57;
-        }
-
-        .save-btn {
-            background: #ef233c;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/detail-properti.css') }}">
 </head>
 
-
 <body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/images/logo.png" alt="Logo">
+            <span>SpotRent</span>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="#">Daftarkan Properti</a>
+            <a href="/login">Daftar / Masuk</a>
+        </div>
+    </nav>
+
     <div class="detail-page">
 
-        <nav class="navbar">
-            <div class="logo">
-                <img src="/images/logo.png" alt="Logo">
-                <span>SpotRent</span>
+        <div class="top-header-actions">
+            <a href="/" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Kembali Ke Daftar Properti
+            </a>
+
+            <div class="top-actions">
+                <button class="save-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="save-icon">
+                        <path d="M0 0h48v48H0z" fill="none" />
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8" />
+                    </svg>
+                    <span>Save</span>
+                </button>
             </div>
-
-            <div class="nav-buttons">
-                <a href="#">Daftarkan Properti</a>
-                <a href="/login">Daftar / Masuk</a>
-            </div>
-        </nav>
-
-        <a href="/" class="back-link">← Kembali Ke Daftar Properti</a>
-
-        <div class="top-actions">
-            <button class="share-btn">
-                <img src="/images/informasi/icons/share.png" alt="Share">
-                <span>Share</span>
-            </button>
-
-            <button class="save-btn">
-                <img src="/images/informasi/icons/like.png" alt="Save">
-                <span>Save</span>
-            </button>
         </div>
 
         <section class="gallery">
-            <img class="main-img" src="/images/informasi/prop1.png" alt="Lawang Sewu">
+            <div class="gallery-item main-gallery-item">
+                <img class="main-img" src="/images/informasi/prop1.png" alt="Lawang Sewu">
+            </div>
 
             <div class="side-gallery">
-                <img src="/images/informasi/prop2.png" alt="">
-                <img src="/images/informasi/prop3.png" alt="">
-                <img src="/images/informasi/prop4.png" alt="">
-                <img src="/images/informasi/prop5.png" alt="">
+                <div class="gallery-item">
+                    <img src="/images/informasi/prop2.png" alt="">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/informasi/prop3.png" alt="">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/informasi/prop4.png" alt="">
+                </div>
+                <div class="gallery-item">
+                    <img src="/images/informasi/prop5.png" alt="">
+                </div>
             </div>
         </section>
 
@@ -579,7 +81,7 @@
 
                 <div class="info-box">
                     <div class="info-item">
-                        <img src="/images/informasi/icons/location.png" alt="" class="info-img">
+                        <img src="/images/informasi/icons/location.svg" alt="" class="info-img">
                         <div class="info-title">Semarang</div>
                     </div>
 
@@ -629,38 +131,43 @@
 
                 <div class="spec-grid">
                     <div class="spec-item">
-                        <img src="/images/informasi/icons/sanitasi.png" alt="">
+                        <img src="/images/informasi/icons/sanitasi.svg" alt="">
                         <span>Sanitasi</span>
                     </div>
 
                     <div class="spec-item">
-                        <img src="/images/informasi/icons/listrik.png" alt="">
+                        <img src="/images/informasi/icons/listrik.svg" alt="">
                         <span>Listrik dan Penerangan</span>
                     </div>
 
                     <div class="spec-item">
-                        <img src="/images/informasi/icons/cctv.png" alt="">
+                        <img src="/images/informasi/icons/cctv.svg" alt="">
                         <span>CCTV</span>
                     </div>
 
                     <div class="spec-item">
-                        <img src="/images/informasi/icons/parkir.png" alt="">
+                        <img src="/images/informasi/icons/parkir.svg" alt="">
                         <span>Parkir Mobil</span>
                     </div>
 
                     <div class="spec-item">
-                        <img src="/images/informasi/icons/sprinkler.png" alt="">
+                        <img src="/images/informasi/icons/sprinkler.svg" alt="">
                         <span>Sprinkler Water</span>
                     </div>
 
                     <div class="spec-item">
-                        <img src="/images/informasi/icons/permit.png" alt="">
+                        <img src="/images/informasi/icons/permit.svg" alt="">
                         <span>Permit Included</span>
                     </div>
 
                     <div class="spec-item">
-                        <img src="/images/informasi/icons/apar.png" alt="">
+                        <img src="/images/informasi/icons/apar.svg" alt="">
                         <span>APAR</span>
+                    </div>
+
+                    <div class="spec-item">
+                        <img src="/images/informasi/icons/outdoor.svg" alt="">
+                        <span>Outdoor</span>
                     </div>
                 </div>
 
@@ -760,9 +267,21 @@
         </section>
     </div>
 
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <button class="lightbox-prev">&#10094;</button>
+        <button class="lightbox-next">&#10095;</button>
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="View Property Image">
+        </div>
+    </div>
+
+    <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
+        // Initialize Flatpickr
         flatpickr("#dateRange", {
             mode: "range",
             inline: true,
@@ -781,8 +300,91 @@
                 }
             }
         });
-    </script>
 
+        // Save Button Toggle State
+        const saveBtn = document.querySelector('.save-btn');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                saveBtn.classList.toggle('saved');
+                const span = saveBtn.querySelector('span');
+                if (span) {
+                    span.textContent = saveBtn.classList.contains('saved') ? 'Saved' : 'Save';
+                }
+            });
+        }
+
+        // Custom Lightbox Gallery
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        const lightbox = document.getElementById('lightboxModal');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeBtn = document.querySelector('.lightbox-close');
+        const prevBtn = document.querySelector('.lightbox-prev');
+        const nextBtn = document.querySelector('.lightbox-next');
+
+        let currentIndex = 0;
+        const imagesList = Array.from(galleryItems).map(img => img.src);
+
+        function openLightbox(index) {
+            currentIndex = index;
+            lightboxImg.src = imagesList[currentIndex];
+            lightbox.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % imagesList.length;
+            lightboxImg.style.opacity = '0';
+            lightboxImg.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+                lightboxImg.src = imagesList[currentIndex];
+                lightboxImg.style.opacity = '1';
+                lightboxImg.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + imagesList.length) % imagesList.length;
+            lightboxImg.style.opacity = '0';
+            lightboxImg.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+                lightboxImg.src = imagesList[currentIndex];
+                lightboxImg.style.opacity = '1';
+                lightboxImg.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                openLightbox(index);
+            });
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+        if (nextBtn) nextBtn.addEventListener('click', showNext);
+        if (prevBtn) prevBtn.addEventListener('click', showPrev);
+
+        // Close when clicking outside the image
+        if (lightbox) {
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        }
+
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox || !lightbox.classList.contains('show')) return;
+            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') showPrev();
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
 </body>
 
 </html>
