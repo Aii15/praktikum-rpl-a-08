@@ -38,6 +38,10 @@ Route::get('/dashboard', function (Request $request) {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
+Route::get('/detail-properti/{id}', function ($id) {
+    return view('detail-properti');
+})->name('detail-properti');
+
 // Upgrade to mitra (for logged-in users)
 Route::get('/upgrade-mitra', [UpgradeController::class, 'showForm'])->middleware('auth')->name('upgrade.mitra');
 Route::post('/upgrade-mitra', [UpgradeController::class, 'upgrade'])->middleware('auth');
