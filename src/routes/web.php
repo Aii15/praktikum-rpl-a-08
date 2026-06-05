@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UpgradeController;
+use App\Http\Controllers\LandingController;
 
 // Mengubah dari '/landing' menjadi '/' agar menjadi halaman utama web
-Route::get('/', function () {
-    return view('landing');
-});
+Route::get('/', [LandingController::class, 'index']);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
