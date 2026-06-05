@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UpgradeController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\MitraController;
 
 // Mengubah dari '/landing' menjadi '/' agar menjadi halaman utama web
 Route::get('/', [LandingController::class, 'index']);
@@ -43,3 +44,16 @@ Route::get('/dashboard', function (Request $request) {
 // Upgrade to mitra (for logged-in users)
 Route::get('/upgrade-mitra', [UpgradeController::class, 'showForm'])->middleware('auth')->name('upgrade.mitra');
 Route::post('/upgrade-mitra', [UpgradeController::class, 'upgrade'])->middleware('auth');
+
+// Mitra profile and property management
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mitra/profil', [MitraController::class, 'profile'])->name('mitra.profile');
+    Route::post('/mitra/profil', [MitraController::class, 'updateProfile'])->name('mitra.profile.update');
+
+    Route::get('/mitra/riwayat-penyewaan', [MitraController::class, 'bookingHistory'])->name('mitra.bookings');
+    Route::get('/mitra/properti-saya', [MitraController::class, 'properties'])->name('mitra.properties');
+    Route::get('/mitra/tambah-properti', [MitraController::class, 'createProperty'])->name('mitra.property.create');
+    Route::post('/mitra/tambah-properti', [MitraController::class, 'storeProperty'])->name('mitra.property.store');
+    Route::post('/mitra/properti/{id}/hapus', [MitraController::class, 'deleteProperty'])->name('mitra.property.delete');
+    Route::get('/mitra/status-pengajuan', [MitraController::class, 'applicationStatus'])->name('mitra.status');
+});
