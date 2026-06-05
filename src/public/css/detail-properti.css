@@ -707,3 +707,95 @@ hr {
 .lightbox-next {
     right: 40px;
 }
+
+/* Page Entry Loading Transition Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Base state for animated sections */
+.navbar,
+.gallery,
+.left-content > *,
+.booking-card,
+.rating-section {
+    opacity: 0;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: forwards;
+}
+
+/* Navbar slide down */
+.navbar {
+    animation-name: fadeInDown;
+    animation-delay: 0.05s;
+}
+
+/* Gallery slide up */
+.gallery {
+    animation-name: fadeInUp;
+    animation-delay: 0.15s;
+}
+
+/* Left content items slide up sequentially */
+.left-content > .property-title,
+.left-content > .property-subtitle {
+    animation-name: fadeInUp;
+    animation-delay: 0.25s;
+}
+
+.left-content > .info-box {
+    animation-name: fadeInUp;
+    animation-delay: 0.35s;
+}
+
+.left-content > .owner {
+    animation-name: fadeInUp;
+    animation-delay: 0.45s;
+}
+
+.left-content > .description {
+    animation-name: fadeInUp;
+    animation-delay: 0.55s;
+}
+
+.left-content > .section-title,
+.left-content > .spec-grid {
+    animation-name: fadeInUp;
+    animation-delay: 0.65s;
+}
+
+.left-content > .calendar-section {
+    animation-name: fadeInUp;
+    animation-delay: 0.75s;
+}
+
+/* Booking card slides up */
+.booking-card {
+    animation-name: fadeInUp;
+    animation-delay: 0.45s;
+}
+
+/* Reviews section slides up */
+.rating-section {
+    animation-name: fadeInUp;
+    animation-delay: 0.85s;
+}
