@@ -1,42 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $property->nama_properti }} - Detail Properti</title>
+@section('title', $property->nama_properti . ' - Detail Properti')
 
-    <!-- Google Fonts Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+@section('styles')
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
     <link rel="stylesheet" href="{{ asset('css/detail-properti.css') }}">
-</head>
+@endsection
 
-<body>
-
-    <nav class="navbar">
-        <div class="logo" onclick="window.location.href='/'" style="cursor: pointer;">
-            <img src="/images/logo.png" alt="Logo">
-            <span>SpotRent</span>
-        </div>
-
-        <div class="nav-buttons">
-            @auth
-                <a href="{{ route('dashboard') }}" style="background: #f7c948; color: #111; text-decoration: none; padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-left: 10px; display: inline-block;">Dashboard</a>
-                <form action="{{ route('logout') }}" method="POST" style="display: inline-block; margin-left: 10px;">
-                    @csrf
-                    <button type="submit" style="background: #dc3545; color: white; border: none; border-radius: 10px; padding: 10px 18px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif;">Logout</button>
-                </form>
-            @else
-                <a href="/login" style="background: #f7c948; color: #111; text-decoration: none; padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-left: 10px; display: inline-block;">Daftar / Masuk</a>
-            @endauth
-        </div>
-    </nav>
+@section('content')
+    @include('partials.navbar')
 
     <div class="detail-page">
 
@@ -317,6 +290,11 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    @include('partials.footer')
+@endsection
+
+@section('scripts')
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
@@ -510,6 +488,4 @@
             if (e.key === 'Escape') closeLightbox();
         });
     </script>
-</body>
-
-</html>
+@endsection

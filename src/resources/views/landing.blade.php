@@ -1,29 +1,14 @@
-    <!DOCTYPE html>
-    <html lang="en">
+@extends('layouts.app')
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SpotRent</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+@section('title', 'SpotRent')
 
-        <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
-    </head>
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+@endsection
 
-    <body>
-        <section class="hero">
-            <div class="navbar">
-                <div class="logo">
-                    <img src="/images/logo.png" alt="Logo">
-                    <span>SpotRent</span>
-                </div>
-
-                <div class="nav-buttons">
-                    <a href="/login">Daftar / Masuk</a>
-                </div>
-            </div>
+@section('content')
+    <section class="hero">
+        @include('partials.navbar', ['class' => 'landing-navbar'])
 
             <h1 class="hero-title">
                 Temukan Lokasi Syuting Terbaik <br>
@@ -137,18 +122,10 @@
             </div>
         </section>
 
-          <footer class="footer" style="padding: 40px 20px 30px;">
-            <div class="footer-container" style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 15px;">
-                <div class="footer-brand" style="display: flex; align-items: center; gap: 14px;">
-                    <img src="/images/logo.png" alt="SpotRent Logo" style="width: 50px; height: 50px;">
-                    <h2 style="font-size: 32px;">SpotRent</h2>
-                </div>
-            </div>
-            <div class="footer-bottom" style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                ©Copyright SpotRent 2026. All Rights Reserved.
-            </div>
-        </footer>
+        @include('partials.footer')
+    @endsection
 
+    @section('scripts')
         <script>
             const selectedFilters = {
                 locationValue: "{{ $selectedLocation ?? 'All' }}",
@@ -338,6 +315,4 @@
                 }
             });
         </script>
-    </body>
-
-    </html>
+    @endsection

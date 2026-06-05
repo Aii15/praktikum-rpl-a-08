@@ -1,0 +1,169 @@
+/* SpotRent Global Stylesheet */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f7f7f7;
+    color: #222;
+}
+
+/* Default Header Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 20px 60px;
+    width: 100%;
+    border-bottom: 1px solid #ebebeb;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #222222;
+}
+
+.logo img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+/* Default Buttons */
+.nav-buttons a {
+    background: #f7c948;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 12px;
+    display: inline-block;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-buttons a:hover {
+    background: #e2b434;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(247, 201, 72, 0.35);
+}
+
+.nav-buttons a:active {
+    transform: scale(0.95);
+}
+
+.btn-dashboard {
+    background: #f7c948;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 10px;
+    display: inline-block;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-dashboard:hover {
+    background: #e2b434;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(247, 201, 72, 0.35);
+}
+.btn-dashboard:active {
+    transform: scale(0.95);
+}
+
+.btn-login {
+    background: #f7c948;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 10px;
+    display: inline-block;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-login:hover {
+    background: #e2b434;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(247, 201, 72, 0.35);
+}
+.btn-login:active {
+    transform: scale(0.95);
+}
+
+.btn-logout {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.btn-logout:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+.btn-logout:active {
+    transform: scale(0.95);
+}
+
+/* Common Footer styles */
+.footer {
+    background: #020f3a;
+    color: white;
+    padding: 40px 20px 30px;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.footer-brand img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.footer-brand h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+    font-size: 16px;
+    font-weight: 400;
+}
