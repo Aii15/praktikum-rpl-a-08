@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Penyewaan</title>
+    <title>Detail Booking - SpotRent</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -34,13 +34,11 @@
         }
 
         .sidebar {
-            border-right: 2px solid #777;
+            border-right: 4px solid #e5e7eb;
             padding-right: 45px;
-
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-
             position: sticky;
             top: 70px;
             height: calc(100vh - 140px);
@@ -51,6 +49,7 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 65px;
+            cursor: pointer;
         }
 
         .logo img {
@@ -74,7 +73,7 @@
         .menu {
             display: flex;
             flex-direction: column;
-            gap: 26px;
+            gap: 16px;
         }
 
         .menu-item {
@@ -83,60 +82,92 @@
             gap: 14px;
             font-size: 15px;
             font-weight: 500;
-            color: #222;
+            color: #4b5563;
             text-decoration: none;
-            transition: .2s;
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .menu-item:hover {
-            opacity: .75;
+            background: #f3f4f6;
+            color: #111827;
+            transform: translateX(6px);
         }
 
         .menu-item.active {
-            font-weight: 500;
+            background: #fef9c3;
+            color: #a16207;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.15);
+        }
+
+        .menu-item.active .menu-icon {
+            filter: sepia(100%) saturate(300%) hue-rotate(5deg);
+        }
+
+        .menu-item .active-dot {
+            width: 24px;
+            height: 24px;
+            background: #9ca3af;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.25s ease;
         }
 
         .menu-icon {
             width: 24px;
             height: 24px;
             object-fit: contain;
+            transition: transform 0.25s ease;
         }
 
-        .active-dot {
-            width: 24px;
-            height: 24px;
-            background: #25943a;
-            color: white;
-            border-radius: 50%;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            font-size: 13px;
-            font-weight: 700;
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .home-link {
             display: flex;
             align-items: center;
             gap: 14px;
-
             font-size: 15px;
-            font-weight: 500;
-
+            font-weight: 600;
             text-decoration: none;
-            color: #222;
+            color: #374151;
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .home-link img {
             width: 28px;
             height: 28px;
             object-fit: contain;
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .home-link:hover {
+            background: transparent;
+            color: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .home-link:hover img {
+            transform: scale(1.1) rotate(-5deg);
+            filter: sepia(100%) saturate(300%) hue-rotate(5deg);
+        }
+
+        .home-link:active {
+            transform: translateY(0) scale(0.97);
         }
 
         .content {
-            padding-top: 0px;
+            padding-top: 55px;
             max-width: 900px;
         }
 
@@ -147,161 +178,39 @@
             letter-spacing: .5px;
         }
 
-        .rental-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .rental-card {
-            background: #e7e7e7;
-            border-radius: 8px;
-            padding: 12px 16px;
-
-            display: flex;
-            align-items: center;
-            gap: 14px;
-
-            box-shadow: 0 6px 14px rgba(0, 0, 0, .12);
-        }
-
-        .rental-card img {
-            width: 70px;
-            height: 70px;
-            border-radius: 6px;
-            object-fit: cover;
-        }
-
-        .rental-info {
-            flex: 1;
-        }
-
-        .rental-info h3 {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .rental-info p {
-            font-size: 12px;
-            color: #555;
-        }
-
-        .rental-date {
-            text-align: right;
-        }
-
-        .rental-date small {
-            display: block;
-            font-size: 10px;
-            color: #666;
-            margin-bottom: 4px;
-        }
-
-        .rental-date span {
-            font-size: 11px;
-            color: #444;
-        }
-
-        .form-list {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .field-card {
-            height: 68px;
-
-            background: #e7e7e7;
-            border-radius: 8px;
-
-            padding: 10px 18px;
-
-            box-shadow: 0 6px 14px rgba(0, 0, 0, .12);
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .field-text small {
-            display: block;
-            font-size: 11px;
-            color: #666;
-            margin-bottom: 3px;
-        }
-
-        .field-text span {
-            display: block;
-            font-size: 15px;
-            font-weight: 500;
-            color: #222;
-        }
-
-        .edit-icon {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-            cursor: pointer;
-        }
-
-        .save-btn {
-            float: right;
-
-            margin-top: 25px;
-
-            padding: 10px 18px;
-
-            border: none;
-            border-radius: 8px;
-
-            background: #22a63a;
-            color: white;
-
-            font-size: 13px;
-            font-weight: 600;
-
-            cursor: pointer;
-        }
-
-        .save-btn:hover {
-            opacity: .9;
-        }
-
-        .menu-item.active span {
-            font-weight: 700;
-        }
-
         .detail-card {
-            width: 620px;
-            background: #e7e7e7;
-            border-radius: 10px;
+            width: 100%;
+            max-width: 650px;
+            background: #f9fafb;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+            border: 1px solid #e5e7eb;
         }
 
         .detail-banner {
             width: 100%;
-            height: 170px;
+            height: 260px;
             object-fit: cover;
             object-position: center;
             display: block;
         }
 
         .detail-info {
-            padding: 22px 26px 28px;
+            padding: 30px;
         }
 
         .detail-info h2 {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            color: #111827;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px 28px;
+            gap: 20px 30px;
         }
 
         .info-group {
@@ -310,55 +219,65 @@
 
         .info-group strong {
             display: block;
-            font-size: 14px;
-            margin-bottom: 4px;
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .info-group p {
-            font-size: 14px;
-            color: #444;
+            font-size: 15px;
+            font-weight: 600;
+            color: #374151;
             margin: 0;
             line-height: 1.5;
         }
 
         .booking-status {
             display: inline-block;
-            margin-top: 22px;
-            padding: 8px 18px;
-            border-radius: 20px;
-            background: #d8f3dc;
-            color: #15803d;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .detail-info p {
-            font-size: 15px;
-            line-height: 1.8;
-            margin-bottom: 16px;
-            color: #222;
-        }
-
-        .status-box {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 18px;
+            margin-top: 25px;
+            padding: 8px 20px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 600;
         }
 
-        .approved {
+        .booking-status.approved {
             background: #dcfce7;
             color: #15803d;
         }
 
+        .booking-status.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
         .back-btn {
             display: inline-block;
-            margin-top: 16px;
-            color: #555;
+            margin-top: 25px;
+            color: #4b5563;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+            color: #111827;
+            transform: translateX(-4px);
+        }
+
+        .back-btn:active {
+            transform: translateX(0);
+        }
+
+        .menu-item img[src*="upgrade.svg"] {
+            filter: none !important;
         }
     </style>
 </head>
@@ -368,7 +287,7 @@
 
         <aside class="sidebar">
             <div>
-                <div class="logo">
+                <div class="logo" onclick="window.location.href='/'">
                     <img src="/images/logo.png" alt="SpotRent Logo">
                     <span>SpotRent</span>
                 </div>
@@ -376,75 +295,73 @@
                 <h2 class="side-title">Profil Saya</h2>
 
                 <nav class="menu">
-                    <a href="/profile-mitra" class="menu-item">
-                        <span class="active-dot">P</span>
+                    <a href="/profile-user" class="menu-item">
+                        <img src="/icons/tentang_saya.svg" class="menu-icon" alt="Profil Icon">
                         <span>Tentang Saya</span>
                     </a>
 
-                    <a href="/riwayat-penyewaan" class="menu-item active">
-                        <img src="/images/profile/history.png" class="menu-icon">
-                        <span>Riwayat Penyewaan</span>
+                    <a href="/riwayat-booking" class="menu-item active">
+                        <img src="/images/profile/history.png" class="menu-icon" alt="Riwayat Booking Icon">
+                        <span>Riwayat Booking</span>
                     </a>
 
-                    <a href="/properti-saya" class="menu-item">
-                        <img src="/images/profile/property.png" class="menu-icon">
-                        <span>Properti Saya</span>
-                    </a>
-
-                    <a href="/tambah-properti" class="menu-item">
-                        <img src="/images/profile/add.png" class="menu-icon">
-                        <span>Tambah Properti</span>
-                    </a>
-
-                    <a href="/status-pengajuan" class="menu-item">
-                        <img src="/images/profile/status.png" class="menu-icon">
-                        <span>Status Pengajuan</span>
+                    <a href="/upgrade-mitra" class="menu-item">
+                        <img src="/icons/upgrade.svg" class="menu-icon" alt="Upgrade Icon">
+                        <span>Upgrade ke Mitra</span>
                     </a>
                 </nav>
             </div>
 
             <a href="/" class="home-link">
-                <img src="/images/profile/home.png" alt="">
+                <img src="/images/profile/home.png" alt="Beranda Icon">
                 <span>Ke Beranda</span>
             </a>
         </aside>
 
         <section class="content">
-            <h1>Riwayat Booking</h1>
+            <h1>Detail Booking</h1>
 
             <div class="detail-card">
-                <img src="/images/profile/villa_ubud.png" class="detail-banner" alt="">
+                <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/profile/villa_ubud.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti ?? 'Property Image' }}">
 
                 <div class="detail-info">
-                    <h2>Villa Ubud</h2>
+                    <h2>{{ $booking->property->nama_properti ?? 'Detail Booking' }}</h2>
 
                     <div class="info-grid">
                         <div class="info-group">
                             <strong>Status Booking</strong>
-                            <p>Selesai</p>
+                            <p>{{ ucfirst($booking->status_booking) }}</p>
                         </div>
 
                         <div class="info-group">
                             <strong>Status Pembayaran</strong>
-                            <p>Lunas</p>
+                            <p>{{ in_array($booking->status_booking, ['confirmed', 'completed']) ? 'Lunas' : 'Menunggu Konfirmasi' }}</p>
                         </div>
 
                         <div class="info-group">
                             <strong>Total Harga</strong>
-                            <p>Rp 3.500.000</p>
+                            <p>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</p>
                         </div>
 
                         <div class="info-group">
                             <strong>Rentang Hari</strong>
-                            <p>20 Mei 2026 - 23 Mei 2026</p>
+                            <p>{{ $booking->rentang_hari }}</p>
                         </div>
                     </div>
 
-                    <span class="booking-status">Booking Selesai</span>
+                    @if($booking->status_booking === 'pending')
+                        <span class="booking-status process">Booking Pending</span>
+                    @elseif($booking->status_booking === 'confirmed')
+                        <span class="booking-status approved">Booking Disetujui</span>
+                    @elseif($booking->status_booking === 'completed')
+                        <span class="booking-status approved">Booking Selesai</span>
+                    @else
+                        <span class="booking-status" style="background:#fee2e2;color:#991b1b;">Booking {{ ucfirst($booking->status_booking) }}</span>
+                    @endif
                 </div>
             </div>
 
-            <a href="/riwayat-booking" class="back-btn">← Kembali</a>
+            <a href="/riwayat-booking" class="back-btn">← Kembali ke Riwayat</a>
         </section>
 
     </main>

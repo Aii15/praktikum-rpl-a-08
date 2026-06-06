@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Booking</title>
+    <title>Profile User - SpotRent</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -34,11 +34,14 @@
         }
 
         .sidebar {
-            border-right: 2px solid #777;
+            border-right: 4px solid #e5e7eb;
             padding-right: 45px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 140px);
         }
 
         .logo {
@@ -46,6 +49,7 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 65px;
+            cursor: pointer;
         }
 
         .logo img {
@@ -69,7 +73,7 @@
         .menu {
             display: flex;
             flex-direction: column;
-            gap: 26px;
+            gap: 16px;
         }
 
         .menu-item {
@@ -78,31 +82,40 @@
             gap: 14px;
             font-size: 15px;
             font-weight: 500;
-            color: #222;
+            color: #4b5563;
             text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: #f3f4f6;
+            color: #111827;
+            transform: translateX(6px);
         }
 
         .menu-item.active {
+            background: #fef9c3;
+            color: #a16207;
             font-weight: 600;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.15);
+        }
+
+        .menu-item.active .menu-icon {
+            filter: sepia(100%) saturate(300%) hue-rotate(5deg);
         }
 
         .menu-icon {
             width: 24px;
             height: 24px;
             object-fit: contain;
+            transition: transform 0.25s ease, filter 0.25s ease;
         }
 
-        .active-dot {
-            width: 24px;
-            height: 24px;
-            background: #25943a;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 700;
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .home-link {
@@ -112,26 +125,162 @@
             font-size: 15px;
             font-weight: 600;
             text-decoration: none;
-            color: #222;
+            color: #374151;
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .home-link img {
             width: 28px;
             height: 28px;
             object-fit: contain;
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .home-link:hover {
+            background: transparent;
+            color: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .home-link:hover img {
+            transform: scale(1.1) rotate(-5deg);
+            filter: sepia(100%) saturate(300%) hue-rotate(5deg);
+        }
+
+        .home-link:active {
+            transform: translateY(0) scale(0.97);
         }
 
         .content {
             padding-top: 55px;
-            max-width: 850px;
+            max-width: 900px;
         }
 
-        .content h1 {
+        /* SPA Section Display and Fade Transitions */
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-section h1 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 28px;
+            letter-spacing: 1px;
         }
 
+        /* Tentang Saya Section Input Card Styles */
+        .form-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .field-card {
+            height: 64px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            padding: 10px 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .field-card:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        .field-card:focus-within {
+            background: #ffffff;
+            border-color: #f7c948;
+            box-shadow: 0 8px 20px rgba(247, 201, 72, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .field-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-text small {
+            display: block;
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .profile-input {
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            font-weight: 500;
+            color: #222;
+            width: 100%;
+            outline: none;
+            padding: 0;
+            margin-top: 2px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .edit-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .field-card:hover .edit-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .save-btn {
+            background: #25943a;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px rgba(37, 148, 58, 0.3);
+            display: inline-block;
+            margin-top: 25px;
+            float: right;
+            outline: none;
+        }
+
+        .save-btn:hover {
+            background: #1e7e30;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 22px rgba(37, 148, 58, 0.4);
+        }
+
+        .save-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 12px rgba(37, 148, 58, 0.2);
+        }
+
+        /* Riwayat Booking Section Styles */
         .search-box {
             margin-bottom: 25px;
         }
@@ -139,12 +288,20 @@
         .search-box input {
             width: 100%;
             height: 50px;
-            border: none;
-            background: #f2f2f2;
-            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+            border-radius: 12px;
             padding: 0 18px;
             font-size: 14px;
             outline: none;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            background: #fff;
+            border-color: #f7c948;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.15);
         }
 
         .booking-list {
@@ -154,13 +311,29 @@
         }
 
         .booking-card {
-            background: #f8f8f8;
-            border-radius: 12px;
+            background: #f9fafb;
+            border-radius: 14px;
             padding: 18px;
             display: flex;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .04);
+            text-decoration: none;
+            color: #222;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+            border-color: #f7c948;
+            background: #ffffff;
+        }
+
+        .booking-card:active {
+            transform: translateY(-1px) scale(0.99);
         }
 
         .booking-card img {
@@ -177,17 +350,19 @@
         .booking-info h3 {
             font-size: 18px;
             margin-bottom: 6px;
+            font-weight: 600;
         }
 
         .booking-info p {
             color: #666;
             margin-bottom: 6px;
+            font-size: 14px;
         }
 
         .booking-info strong {
-            font-size: 14px;
-            font-weight: 400;
-            color: #444;
+            font-size: 15px;
+            font-weight: 600;
+            color: #d97706;
         }
 
         .status {
@@ -195,6 +370,7 @@
             border-radius: 30px;
             font-size: 13px;
             font-weight: 600;
+            text-align: center;
         }
 
         .success {
@@ -207,29 +383,8 @@
             color: #b45309;
         }
 
-        .booking-status {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .booking-card {
-            text-decoration: none;
-            color: #222;
-            cursor: pointer;
-        }
-
-        .booking-card * {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .booking-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, .12);
+        .menu-item img[src*="upgrade.svg"] {
+            filter: none !important;
         }
     </style>
 </head>
@@ -239,7 +394,7 @@
 
         <aside class="sidebar">
             <div>
-                <div class="logo">
+                <div class="logo" onclick="window.location.href='/'">
                     <img src="/images/logo.png" alt="SpotRent Logo">
                     <span>SpotRent</span>
                 </div>
@@ -247,61 +402,211 @@
                 <h2 class="side-title">Profil Saya</h2>
 
                 <nav class="menu">
-                    <a href="/profile-user" class="menu-item">
-                        <span class="active-dot">P</span>
+                    <a href="/profile-user" id="menu-tentang-saya" class="menu-item">
+                        <img src="/icons/tentang_saya.svg" class="menu-icon" alt="Profil Icon">
                         <span>Tentang Saya</span>
                     </a>
 
-                    <a href="/riwayat-booking" class="menu-item active">
-                        <img src="/images/profile/history.png" class="menu-icon" alt="">
+                    <a href="/riwayat-booking" id="menu-riwayat-booking" class="menu-item">
+                        <img src="/images/profile/history.png" class="menu-icon" alt="Riwayat Booking Icon">
                         <span>Riwayat Booking</span>
+                    </a>
+
+                    <a href="/upgrade-mitra" class="menu-item">
+                        <img src="/icons/upgrade.svg" class="menu-icon" alt="Upgrade Icon">
+                        <span>Upgrade ke Mitra</span>
                     </a>
                 </nav>
             </div>
 
             <a href="/" class="home-link">
-                <img src="/images/profile/home.png" alt="">
+                <img src="/images/profile/home.png" alt="Beranda Icon">
                 <span>Ke Beranda</span>
             </a>
         </aside>
 
         <section class="content">
-            <h1>Riwayat Booking</h1>
-
-            <div class="search-box">
-                <input type="text" placeholder="Cari booking...">
+            <div id="flash-message-container">
+                @include('partials.flash')
             </div>
 
-            <div class="booking-list">
+            <!-- SECTION 1: TENTANG SAYA -->
+            <div id="section-tentang-saya" class="content-section">
+                <h1>Tentang Saya</h1>
 
-                <a href="/detail-riwayat-booking" class="booking-card">
-                    <img src="/images/landing/property.png" alt="Property">
+                <form action="{{ route('user.profile.update') }}" method="POST">
+                    @csrf
+                    <div class="form-list">
+                        <div class="field-card" onclick="this.querySelector('input').focus();">
+                            <div class="field-text">
+                                <small>Nama Lengkap</small>
+                                <input type="text" name="name" class="profile-input" value="{{ old('name', $user->name) }}" required>
+                            </div>
+                            <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                        </div>
 
-                    <div class="booking-info">
-                        <h3>Lawang Sewu</h3>
-                        <p>Semarang</p>
-                        <strong>IDR 150.000.000</strong>
+                        <div class="field-card" onclick="this.querySelector('input').focus();">
+                            <div class="field-text">
+                                <small>E-Mail</small>
+                                <input type="email" name="email" class="profile-input" value="{{ old('email', $user->email) }}" required>
+                            </div>
+                            <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                        </div>
+
+                        <div class="field-card" onclick="this.querySelector('input').focus();">
+                            <div class="field-text">
+                                <small>No Telepon</small>
+                                <input type="text" name="no_hp" class="profile-input" value="{{ old('no_hp', $user->no_hp) }}" required>
+                            </div>
+                            <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                        </div>
+
+                        <div class="field-card" onclick="this.querySelector('input').focus();">
+                            <div class="field-text">
+                                <small>Alamat</small>
+                                <input type="text" name="alamat" class="profile-input" value="{{ old('alamat', $user->alamat) }}" placeholder="Belum mengatur alamat">
+                            </div>
+                            <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                        </div>
+
+                        <div class="field-card" onclick="this.querySelector('input').focus();">
+                            <div class="field-text">
+                                <small>Password</small>
+                                <input type="password" name="password" class="profile-input" placeholder="Kosongkan jika tidak ingin mengubah password">
+                            </div>
+                            <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                        </div>
                     </div>
 
-                    <div class="status success">Selesai</div>
-                </a>
+                    <button type="submit" class="save-btn">Simpan Perubahan</button>
+                </form>
+            </div>
 
-                <a href="/detail-riwayat-booking" class="booking-card">
-                    <img src="/images/landing/property.png" alt="Property">
+            <!-- SECTION 2: RIWAYAT BOOKING -->
+            <div id="section-riwayat-booking" class="content-section">
+                <h1>Riwayat Booking</h1>
 
-                    <div class="booking-info">
-                        <h3>Villa Ubud</h3>
-                        <p>Bali</p>
-                        <strong>IDR 3.500.000</strong>
-                    </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Cari booking..." onkeyup="searchBookings()">
+                </div>
 
-                    <div class="status process">Berlangsung</div>
-                </a>
+                <div class="booking-list">
+                    @forelse($bookings as $booking)
+                        <a href="{{ route('user.booking.detail', $booking->id_booking) }}" class="booking-card">
+                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
 
+                            <div class="booking-info">
+                                <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
+                                <p>{{ $booking->property->location->kota ?? 'Lokasi Tidak Diketahui' }}</p>
+                                <strong>IDR {{ number_format($booking->total_price, 0, ',', '.') }}</strong>
+                            </div>
+
+                            @if($booking->status_booking === 'pending')
+                                <div class="status process">Pending</div>
+                            @elseif($booking->status_booking === 'confirmed')
+                                <div class="status success">Disetujui</div>
+                            @elseif($booking->status_booking === 'completed')
+                                <div class="status success">Selesai</div>
+                            @else
+                                <div class="status" style="background:#fee2e2;color:#991b1b;">{{ ucfirst($booking->status_booking) }}</div>
+                            @endif
+                        </a>
+                    @empty
+                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
+                            Anda belum memiliki riwayat booking.
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </section>
 
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Flash message logic
+            const flashContainer = document.getElementById('flash-message-container');
+            if (flashContainer && flashContainer.innerText.trim() !== '') {
+                setTimeout(() => {
+                    flashContainer.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    flashContainer.style.opacity = '0';
+                    flashContainer.style.transform = 'translateY(-10px)';
+                    setTimeout(() => {
+                        flashContainer.style.display = 'none';
+                    }, 500);
+                }, 4000); // fades out after 4 seconds
+            }
+
+            // SPA Routing logic
+            const menuTentangSaya = document.getElementById('menu-tentang-saya');
+            const menuRiwayatBooking = document.getElementById('menu-riwayat-booking');
+
+            function navigateTo(path, pushState = true) {
+                if (path === '/riwayat-booking') {
+                    showSection('section-riwayat-booking');
+                    menuTentangSaya.classList.remove('active');
+                    menuRiwayatBooking.classList.add('active');
+                    document.title = "Riwayat Booking - SpotRent";
+                    if (pushState) history.pushState({ path: '/riwayat-booking' }, '', '/riwayat-booking');
+                } else {
+                    showSection('section-tentang-saya');
+                    menuTentangSaya.classList.add('active');
+                    menuRiwayatBooking.classList.remove('active');
+                    document.title = "Profile User - SpotRent";
+                    if (pushState) history.pushState({ path: '/profile-user' }, '', '/profile-user');
+                }
+            }
+
+            function showSection(sectionId) {
+                const sections = document.querySelectorAll('.content-section');
+                sections.forEach(sec => {
+                    sec.classList.remove('active');
+                    sec.style.display = 'none';
+                });
+
+                const activeSection = document.getElementById(sectionId);
+                if (activeSection) {
+                    activeSection.style.display = 'block';
+                    activeSection.offsetHeight; // force reflow
+                    activeSection.classList.add('active');
+                }
+            }
+
+            menuTentangSaya.addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateTo('/profile-user');
+            });
+
+            menuRiwayatBooking.addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateTo('/riwayat-booking');
+            });
+
+            // Initial load check
+            const currentPath = window.location.pathname;
+            navigateTo(currentPath, false);
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', function(e) {
+                const path = (e.state && e.state.path) ? e.state.path : window.location.pathname;
+                navigateTo(path, false);
+            });
+        });
+
+        function searchBookings() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.booking-card');
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const city = card.querySelector('p').textContent.toLowerCase();
+                if (title.includes(query) || city.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

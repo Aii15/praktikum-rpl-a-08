@@ -9,6 +9,7 @@ use App\Http\Controllers\UpgradeController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\UserController;
 
 // Mengubah dari '/landing' menjadi '/' agar menjadi halaman utama web
 Route::get('/', [LandingController::class, 'index']);
@@ -22,9 +23,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/choose-role', [AuthController::class, 'showRoleSelectionForm'])->middleware('auth')->name('role.choose');
 Route::post('/choose-role', [AuthController::class, 'setActiveRole'])->middleware('auth')->name('role.set');
 
-Route::view('/profile-user', 'profile-user');
-Route::view('/riwayat-booking', 'riwayat-booking');
-Route::view('/detail-riwayat-booking', 'detail-riwayat-booking');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile-user', [UserController::class, 'profile'])->name('user.profile');
+    Route::post('/profile-user', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::get('/riwayat-booking', [UserController::class, 'bookingHistory'])->name('user.booking.history');
+    Route::get('/detail-riwayat-booking/{id}', [UserController::class, 'bookingDetail'])->name('user.booking.detail');
+});
 
 Route::view('/profile-mitra', 'profile-mitra');
 Route::view('/riwayat-penyewaan', 'riwayat-penyewaan');
@@ -55,6 +59,13 @@ Route::get('/dashboard', function (Request $request) {
 
     if ($user && ! $request->session()->has('active_role')) {
         $request->session()->put('active_role', $user->primary_role ?? $roles->first());
+    }
+
+    $activeRole = session('active_role');
+    if ($activeRole === 'penyewa') {
+        return redirect('/profile-user');
+    } elseif ($activeRole === 'mitra') {
+        return redirect()->route('mitra.profile');
     }
 
     return view('dashboard');

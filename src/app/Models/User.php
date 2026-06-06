@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Role;
 
-#[Fillable(['name', 'email', 'no_hp', 'role', 'rekening_bank', 'ktp', 'nama_mitra', 'password'])]
+#[Fillable(['name', 'email', 'no_hp', 'role', 'rekening_bank', 'ktp', 'nama_mitra', 'password', 'alamat'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {

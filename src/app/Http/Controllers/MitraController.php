@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Storage;
 
 class MitraController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     protected function ensureMitra()
     {
