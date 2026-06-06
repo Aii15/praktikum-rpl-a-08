@@ -41,7 +41,7 @@
     height: 42px;
 }
 
-.navbar.landing-navbar .nav-buttons a,
+.navbar.landing-navbar .nav-buttons > a,
 .navbar.landing-navbar .nav-buttons .btn-dashboard,
 .navbar.landing-navbar .nav-buttons .btn-login,
 .navbar.landing-navbar .nav-buttons .btn-logout {
