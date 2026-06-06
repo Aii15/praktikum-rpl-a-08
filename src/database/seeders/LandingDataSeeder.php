@@ -113,13 +113,13 @@ class LandingDataSeeder extends Seeder
         $photos = [
             [
                 'property_name' => 'Kota Tua Jakarta',
-                'url_foto' => '/images/landing/property.png',
+                'url_foto' => '/images/informasi/tua2.png',
                 'urutan' => 1,
                 'is_cover' => true,
             ],
             [
                 'property_name' => 'Kota Tua Jakarta',
-                'url_foto' => '/images/informasi/prop1.png',
+                'url_foto' => '/images/landing/property.png',
                 'urutan' => 2,
                 'is_cover' => false,
             ],
@@ -131,13 +131,13 @@ class LandingDataSeeder extends Seeder
             ],
             [
                 'property_name' => 'Villa Ubud',
-                'url_foto' => '/images/informasi/prop2.png',
+                'url_foto' => '/images/informasi/ubud2.png',
                 'urutan' => 2,
                 'is_cover' => false,
             ],
             [
                 'property_name' => 'Villa Ubud',
-                'url_foto' => '/images/informasi/prop3.png',
+                'url_foto' => '/images/informasi/ubud3.png',
                 'urutan' => 3,
                 'is_cover' => false,
             ],
@@ -149,19 +149,19 @@ class LandingDataSeeder extends Seeder
             ],
             [
                 'property_name' => 'Studio',
-                'url_foto' => '/images/informasi/prop4.png',
+                'url_foto' => '/images/informasi/studio2.png',
                 'urutan' => 2,
                 'is_cover' => false,
             ],
             [
                 'property_name' => 'Studio',
-                'url_foto' => '/images/informasi/prop5.png',
+                'url_foto' => '/images/informasi/studio3.png',
                 'urutan' => 3,
                 'is_cover' => false,
             ],
             [
                 'property_name' => 'Studio',
-                'url_foto' => '/images/landing/property.png',
+                'url_foto' => '/images/informasi/studio4.png',
                 'urutan' => 4,
                 'is_cover' => false,
             ],
