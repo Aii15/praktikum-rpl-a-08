@@ -1,11 +1,12 @@
+{{-- untuk tampilan halaman upgrade akun menjadi mitra --}}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile User</title>
-
+    <title>Upgrade to Mitra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -13,240 +14,299 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        body {
             font-family: 'Poppins', sans-serif;
         }
 
-        html,
-        body {
-            width: 100%;
+        input, textarea, select, button {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        ::-webkit-input-placeholder { font-family: 'Poppins', sans-serif; }
+        :-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::-ms-input-placeholder { font-family: 'Poppins', sans-serif; }
+        ::placeholder { font-family: 'Poppins', sans-serif; }
+
+        .login-page {
             min-height: 100vh;
-            background: #fff;
-        }
-
-        .profile-page {
-            width: 100%;
-            min-height: 100vh;
-            background: #fff;
-            padding: 70px 90px;
-            display: grid;
-            grid-template-columns: 330px 1fr;
-            gap: 90px;
-        }
-
-        .sidebar {
-            border-right: 2px solid #777;
-            padding-right: 45px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .logo {
+            background: #07142d;
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 65px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px 0;
         }
 
-        .logo img {
-            width: 48px;
-            height: 48px;
-        }
-
-        .logo span {
-            font-size: 22px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .side-title {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
-        .menu {
+        .background-slider {
+            position: absolute;
+            inset: -40px 0;
             display: flex;
             flex-direction: column;
-            gap: 26px;
+            justify-content: center;
+            gap: 30px;
+            overflow: hidden;
         }
 
-        .menu-item {
+        .slider-row {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .slider-track {
             display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #222;
-            text-decoration: none;
+            gap: 50px;
+            width: max-content;
         }
 
-        .menu-icon {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
+        .slider-track img {
+            width: 200px;
+            height: 200px;
+            border-radius: 18px;
+            object-fit: cover;
+            flex-shrink: 0;
         }
 
-        .active-dot {
-            width: 24px;
-            height: 24px;
-            background: #25943a;
-            color: #fff;
-            border-radius: 50%;
+        .move-left .slider-track {
+            animation: slideLeft 95s linear infinite;
+        }
+
+        .move-right .slider-track {
+            animation: slideRight 95s linear infinite;
+        }
+
+        @keyframes slideLeft {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes slideRight {
+            from {
+                transform: translateX(-50%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 10;
+            width: 400px;
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .brand {
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 13px;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            font-size: 25px;
+        }
+
+        .brand img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        h1 {
+            margin-bottom: 12px;
+            font-size: 30px;
             font-weight: 700;
         }
 
-        .home-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            color: #222;
+        .subtitle {
+            margin-bottom: 22px;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.5;
+            text-align: left;
         }
 
-        .home-link img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
+        .account-info {
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            text-align: left;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.6;
         }
 
-        .content {
-            padding-top: 55px;
-            max-width: 780px;
+        .account-info strong {
+            color: #111827;
         }
 
-        .content h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 28px;
-            letter-spacing: 1px;
-        }
-
-        .form-list {
+        form {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 14px;
         }
 
-        .field-card {
-            height: 58px;
-            background: #e7e7e7;
+        input {
+            padding: 12px 14px;
+            border: 1px solid #ccc;
             border-radius: 8px;
-            padding: 9px 16px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.16);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .field-text small {
-            display: block;
-            font-size: 10px;
-            color: #666;
-            margin-bottom: 4px;
-        }
-
-        .field-text span {
-            display: block;
             font-size: 14px;
-            font-weight: 500;
-            color: #222;
+            outline: none;
         }
 
-        .edit-icon {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-            opacity: 0.8;
+        input:focus {
+            border-color: #f7c948;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #f7c948;
             cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .helper {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .link-row {
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .link-row a {
+            color: #f7c948;
+            text-decoration: none;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
-    <main class="profile-page">
 
-        <aside class="sidebar">
-            <div>
-                <div class="logo">
-                    <img src="/images/logo.png" alt="SpotRent Logo">
-                    <span>SpotRent</span>
-                </div>
+    <div class="login-page">
 
-                <h2 class="side-title">Profil Saya</h2>
-
-                <nav class="menu">
-                    <a href="{{ url('/profile-user') }}" class="menu-item">
-                        <span class="active-dot">P</span>
-                        <span>Tentang Saya</span>
-                    </a>
-
-                    <a href="#" class="menu-item">
-                        <img src="/images/profile/history.png" class="menu-icon" alt="">
-                        <span>Riwayat Booking</span>
-                    </a>
-                </nav>
-            </div>
-
-            <a href="{{ url('/') }}" class="home-link">
-                <img src="/images/profile/home.png" alt="">
-                <span>Ke Beranda</span>
-            </a>
-        </aside>
-
-        <section class="content">
-            <h1>Tentang Saya</h1>
-
-            <div class="form-list">
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>Nama Lengkap</small>
-                        <span>Nama Lengkap</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
-                </div>
-
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>E-Mail</small>
-                        <span>E-Mail</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
-                </div>
-
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>No Telepon</small>
-                        <span>No Telepon</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
-                </div>
-
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>Alamat</small>
-                        <span>Alamat</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
-                </div>
-
-                <div class="field-card">
-                    <div class="field-text">
-                        <small>Password</small>
-                        <span>Password</span>
-                    </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+        <div class="background-slider">
+            <div class="slider-row move-right">
+                <div class="slider-track">
+                    @for ($i = 0; $i < 3; $i++)
+                        @foreach ([1, 5, 3, 8, 2, 11, 6, 4, 10, 7, 12, 9] as $img)
+                            <img src="/images/login/{{ $img }}.png" alt="SpotRent background">
+                        @endforeach
+                    @endfor
                 </div>
             </div>
-        </section>
 
-    </main>
+            <div class="slider-row move-left">
+                <div class="slider-track">
+                    @for ($i = 0; $i < 3; $i++)
+                        @foreach ([9, 2, 12, 4, 7, 1, 10, 5, 3, 11, 6, 8] as $img)
+                            <img src="/images/login/{{ $img }}.png" alt="SpotRent background">
+                        @endforeach
+                    @endfor
+                </div>
+            </div>
+
+            <div class="slider-row move-right">
+                <div class="slider-track">
+                    @for ($i = 0; $i < 3; $i++)
+                        @foreach ([6, 10, 1, 9, 3, 12, 5, 8, 2, 11, 4, 7] as $img)
+                            <img src="/images/login/{{ $img }}.png" alt="SpotRent background">
+                        @endforeach
+                    @endfor
+                </div>
+            </div>
+        </div>
+
+        <div class="login-card">
+            <div class="brand">
+                <img src="/images/logo.png" alt="Logo">
+                <span>SpotRent</span>
+            </div>
+
+            <h1>Upgrade ke Mitra</h1>
+
+            @if(session('success'))
+                <div style="background: #d1fae5; color: #065f46; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div style="background: #eff6ff; color: #1e3a8a; padding: 10px; border-radius:8px; margin-bottom:12px; text-align:left;">
+                    {{ session('info') }}
+                </div>
+            @endif
+
+            <div class="subtitle">
+                Upgrade akun menjadi Mitra untuk bisa listing properti! 
+            </div>
+
+            @auth
+                <div class="account-info">
+                    <strong>Akun aktif:</strong><br>
+                    {{ Auth::user()->name }}<br>
+                    {{ Auth::user()->email }}
+                </div>
+            @endauth
+
+            <form action="{{ url('/upgrade-mitra') }}" method="POST" novalidate>
+                @csrf
+                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
+                    <input type="text" name="nama_mitra" placeholder="Nama Mitra / Perusahaan" value="{{ old('nama_mitra') }}" required style="width: 100%;">
+                    @error('nama_mitra')
+                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
+                    <input type="text" name="ktp" placeholder="Nomor KTP" value="{{ old('ktp') }}" required maxlength="16" inputmode="numeric" title="Nomor KTP harus 16 digit angka." style="width: 100%;">
+                    @error('ktp')
+                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
+                    <input type="text" name="rekening_bank" placeholder="Rekening Bank (opsional)" value="{{ old('rekening_bank') }}" maxlength="20" pattern="[0-9]{1,20}" inputmode="numeric" title="Rekening bank hanya boleh angka dan maksimal 20 digit." style="width: 100%;">
+                    @error('rekening_bank')
+                        <span style="color: red; font-size: 12px;">{{ $message }}</span>
+                    @enderror
+                </div>
+                <button type="submit">Upgrade ke Mitra</button>
+            </form>
+
+            <div class="helper">
+                Setelah upgrade, akun yang sama tetap bisa dipakai sebagai penyewa atau mitra. Saat login, sistem akan meminta pilihan role aktif jika akun Anda punya lebih dari satu role.
+            </div>
+
+            <div class="link-row">
+                <a href="/dashboard">Kembali ke dashboard</a>
+            </div>
+        </div>
+
+    </div>
+
 </body>
-
 </html>

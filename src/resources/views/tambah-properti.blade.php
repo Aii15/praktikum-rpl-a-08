@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile User</title>
+    <title>Tambah Properti
+    </title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -36,9 +37,14 @@
         .sidebar {
             border-right: 2px solid #777;
             padding-right: 45px;
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 140px);
         }
 
         .logo {
@@ -80,10 +86,15 @@
             font-weight: 500;
             color: #222;
             text-decoration: none;
+            transition: .2s;
         }
 
-        .menu-item.active span {
-            font-weight: 700;
+        .menu-item:hover {
+            opacity: .75;
+        }
+
+        .menu-item.active {
+            font-weight: 500;
         }
 
         .menu-icon {
@@ -96,11 +107,13 @@
             width: 24px;
             height: 24px;
             background: #25943a;
-            color: #fff;
+            color: white;
             border-radius: 50%;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             font-size: 13px;
             font-weight: 700;
         }
@@ -109,8 +122,10 @@
             display: flex;
             align-items: center;
             gap: 14px;
+
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 500;
+
             text-decoration: none;
             color: #222;
         }
@@ -122,7 +137,7 @@
         }
 
         .content {
-            padding-top: 55px;
+            padding-top: 0px;
             max-width: 900px;
         }
 
@@ -130,7 +145,7 @@
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 28px;
-            letter-spacing: 1px;
+            letter-spacing: .5px;
         }
 
         .form-list {
@@ -140,11 +155,15 @@
         }
 
         .field-card {
-            height: 58px;
+            height: 68px;
+
             background: #e7e7e7;
             border-radius: 8px;
-            padding: 9px 16px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.16);
+
+            padding: 10px 18px;
+
+            box-shadow: 0 6px 14px rgba(0, 0, 0, .12);
+
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -152,22 +171,70 @@
 
         .field-text small {
             display: block;
-            font-size: 10px;
+            font-size: 11px;
             color: #666;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .field-text span {
             display: block;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             color: #222;
         }
 
         .edit-icon {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             object-fit: contain;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            float: right;
+
+            margin-top: 25px;
+
+            padding: 10px 18px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #22a63a;
+            color: white;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            opacity: .9;
+        }
+
+        .menu-item.active span {
+            font-weight: 700;
+        }
+
+        .next-btn {
+            float: right;
+            margin-top: 25px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            text-decoration: none;
+            color: #555;
+
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .next-btn img {
+            width: 16px;
+            height: 16px;
         }
     </style>
 </head>
@@ -185,14 +252,29 @@
                 <h2 class="side-title">Profil Saya</h2>
 
                 <nav class="menu">
-                    <a href="/profile-user" class="menu-item active">
+                    <a href="/profile-mitra" class="menu-item">
                         <span class="active-dot">P</span>
                         <span>Tentang Saya</span>
                     </a>
 
-                    <a href="/riwayat-booking" class="menu-item">
-                        <img src="/images/profile/history.png" class="menu-icon" alt="">
-                        <span>Riwayat Booking</span>
+                    <a href="/riwayat-penyewaan" class="menu-item">
+                        <img src="/images/profile/history.png" class="menu-icon">
+                        <span>Riwayat Penyewaan</span>
+                    </a>
+
+                    <a href="/properti-saya" class="menu-item">
+                        <img src="/images/profile/property.png" class="menu-icon">
+                        <span>Properti Saya</span>
+                    </a>
+
+                    <a href="/tambah-properti" class="menu-item active">
+                        <img src="/images/profile/add.png" class="menu-icon">
+                        <span>Tambah Properti</span>
+                    </a>
+
+                    <a href="/status-pengajuan" class="menu-item">
+                        <img src="/images/profile/status.png" class="menu-icon">
+                        <span>Status Pengajuan</span>
                     </a>
                 </nav>
             </div>
@@ -204,49 +286,64 @@
         </aside>
 
         <section class="content">
-            <h1>Tentang Saya</h1>
+            <h1>Tambah Properti</h1>
 
             <div class="form-list">
+
                 <div class="field-card">
                     <div class="field-text">
-                        <small>Nama Lengkap</small>
-                        <span>Nama Lengkap</span>
+                        <small>Nama Properti</small>
+                        <span>Nama Properti</span>
                     </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+                    <img src="/images/profile/edit.png" class="edit-icon">
                 </div>
 
                 <div class="field-card">
                     <div class="field-text">
-                        <small>E-Mail</small>
-                        <span>E-Mail</span>
+                        <small>Alamat Properti</small>
+                        <span>Alamat Properti</span>
                     </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+                    <img src="/images/profile/edit.png" class="edit-icon">
                 </div>
 
                 <div class="field-card">
                     <div class="field-text">
-                        <small>No Telepon</small>
-                        <span>No Telepon</span>
+                        <small>Kategori Properti</small>
+                        <span>Kategori Properti</span>
                     </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+                    <img src="/images/profile/edit.png" class="edit-icon">
                 </div>
 
                 <div class="field-card">
                     <div class="field-text">
-                        <small>Alamat</small>
-                        <span>Alamat</span>
+                        <small>Fasilitas</small>
+                        <span>WiFi, AC, Kolam Renang</span>
                     </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+                    <img src="/images/profile/edit.png" class="edit-icon">
                 </div>
 
                 <div class="field-card">
                     <div class="field-text">
-                        <small>Password</small>
-                        <span>Password</span>
+                        <small>Harga</small>
+                        <span>Rp 500.000 / malam</span>
                     </div>
-                    <img src="/images/profile/edit.png" class="edit-icon" alt="">
+                    <img src="/images/profile/edit.png" class="edit-icon">
                 </div>
+
+                <div class="field-card">
+                    <div class="field-text">
+                        <small>Deskripsi</small>
+                        <span>Deskripsi Properti</span>
+                    </div>
+                    <img src="/images/profile/edit.png" class="edit-icon">
+                </div>
+
             </div>
+
+            <a href="/tambah-foto-properti" class="next-btn">
+                Next
+                <img src="/images/profile/next.png" alt="">
+            </a>
         </section>
 
     </main>

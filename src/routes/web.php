@@ -23,6 +23,17 @@ Route::post('/choose-role', [AuthController::class, 'setActiveRole'])->middlewar
 
 Route::view('/profile-user', 'profile-user');
 Route::view('/riwayat-booking', 'riwayat-booking');
+Route::view('/detail-riwayat-booking', 'detail-riwayat-booking');
+
+Route::view('/profile-mitra', 'profile-mitra');
+Route::view('/riwayat-penyewaan', 'riwayat-penyewaan');
+Route::view('/detail-riwayat-penyewaan', 'detail-riwayat-penyewaan');
+Route::view('/properti-saya', 'properti-saya');
+Route::view('/tambah-properti', 'tambah-properti');
+Route::view('/tambah-foto-properti', 'tambah-foto-properti');
+Route::view('/status-pengajuan', 'status-pengajuan'); 
+Route::view('/detail-status-pengajuan', 'detail-status-pengajuan'); 
+
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

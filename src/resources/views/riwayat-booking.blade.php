@@ -206,6 +206,31 @@
             background: #fef3c7;
             color: #b45309;
         }
+
+        .booking-status {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .booking-card {
+            text-decoration: none;
+            color: #222;
+            cursor: pointer;
+        }
+
+        .booking-card * {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .12);
+        }
     </style>
 </head>
 
@@ -249,7 +274,7 @@
 
             <div class="booking-list">
 
-                <div class="booking-card">
+                <a href="/detail-riwayat-booking" class="booking-card">
                     <img src="/images/landing/property.png" alt="Property">
 
                     <div class="booking-info">
@@ -259,9 +284,9 @@
                     </div>
 
                     <div class="status success">Selesai</div>
-                </div>
+                </a>
 
-                <div class="booking-card">
+                <a href="/detail-riwayat-booking" class="booking-card">
                     <img src="/images/landing/property.png" alt="Property">
 
                     <div class="booking-info">
@@ -271,7 +296,7 @@
                     </div>
 
                     <div class="status process">Berlangsung</div>
-                </div>
+                </a>
 
             </div>
         </section>
