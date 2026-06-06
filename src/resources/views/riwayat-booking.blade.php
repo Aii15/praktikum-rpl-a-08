@@ -412,10 +412,12 @@
                         <span>Riwayat Booking</span>
                     </a>
 
+                    @if(!Auth::user()->isMitra())
                     <a href="/upgrade-mitra" class="menu-item">
                         <img src="/icons/upgrade.svg" class="menu-icon" alt="Upgrade Icon">
                         <span>Upgrade ke Mitra</span>
                     </a>
+                    @endif
                 </nav>
             </div>
 

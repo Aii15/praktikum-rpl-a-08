@@ -11,6 +11,10 @@ class UpgradeController extends Controller
 {
     public function showForm()
     {
+        $user = Auth::user();
+        if ($user && $user->hasRole('mitra')) {
+            return redirect()->route('mitra.profile')->with('info', 'Akun Anda sudah terdaftar sebagai Mitra.');
+        }
         return view('upgrade_mitra');
     }
 
