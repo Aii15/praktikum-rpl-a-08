@@ -33,12 +33,12 @@
 
 .navbar.landing-navbar .logo {
     color: white;
-    gap: 10px;
+    gap: 12px;
 }
 
 .navbar.landing-navbar .logo img {
-    width: 42px;
-    height: 42px;
+    width: 52px;
+    height: 52px;
 }
 
 .navbar.landing-navbar .nav-buttons > a,
