@@ -30,11 +30,18 @@ Route::view('/profile-mitra', 'profile-mitra');
 Route::view('/riwayat-penyewaan', 'riwayat-penyewaan');
 Route::view('/detail-riwayat-penyewaan', 'detail-riwayat-penyewaan');
 Route::view('/properti-saya', 'properti-saya');
+Route::view('/detail-properti-saya', 'detail-properti-saya');
 Route::view('/tambah-properti', 'tambah-properti');
 Route::view('/tambah-foto-properti', 'tambah-foto-properti');
 Route::view('/status-pengajuan', 'status-pengajuan'); 
 Route::view('/detail-status-pengajuan', 'detail-status-pengajuan'); 
 
+Route::view('/profile-admin', 'profile-admin');
+Route::view('/pengajuan-properti', 'pengajuan-properti');
+Route::view('/riwayat-pemesanan', 'riwayat-pemesanan');
+Route::view('/detail-riwayat-pemesanan', 'detail-riwayat-pemesanan');
+Route::view('/list-properti', 'list-properti');
+Route::view('/detail-list-properti', 'detail-list-properti');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

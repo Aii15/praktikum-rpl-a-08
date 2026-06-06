@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Properti Saya</title>
+    <title>Profile Admin
+
+
+    </title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -147,62 +150,6 @@
             letter-spacing: .5px;
         }
 
-        .rental-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .rental-card {
-            background: #e7e7e7;
-            border-radius: 8px;
-            padding: 12px 16px;
-
-            display: flex;
-            align-items: center;
-            gap: 14px;
-
-            box-shadow: 0 6px 14px rgba(0, 0, 0, .12);
-        }
-
-        .rental-card img {
-            width: 70px;
-            height: 70px;
-            border-radius: 6px;
-            object-fit: cover;
-        }
-
-        .rental-info {
-            flex: 1;
-        }
-
-        .rental-info h3 {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .rental-info p {
-            font-size: 12px;
-            color: #555;
-        }
-
-        .rental-date {
-            text-align: right;
-        }
-
-        .rental-date small {
-            display: block;
-            font-size: 10px;
-            color: #666;
-            margin-bottom: 4px;
-        }
-
-        .rental-date span {
-            font-size: 11px;
-            color: #444;
-        }
-
         .form-list {
             display: flex;
             flex-direction: column;
@@ -272,73 +219,157 @@
             font-weight: 700;
         }
 
-        .property-list {
+        .admin-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
+            margin-top: 70px;
+            width: 100%;
         }
 
-        .property-card {
-            display: grid;
-            grid-template-columns: 70px 1fr 130px 90px;
-            align-items: center;
-            gap: 14px;
+        .admin-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .admin-card {
+            width: 100%;
+            height: 68px;
 
             background: #e7e7e7;
             border-radius: 8px;
-            padding: 12px 16px;
+            padding: 0 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            text-decoration: none;
+            color: #222;
 
             box-shadow: 0 6px 14px rgba(0, 0, 0, .12);
         }
 
-        .property-card img {
+        .admin-card span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .admin-card img {
+            width: 22px;
+            height: 22px;
+        }
+
+        .pengajuan-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pengajuan-card {
+            background: #e7e7e7;
+            border-radius: 8px;
+            padding: 14px;
+
+            box-shadow: 0 6px 14px rgba(0, 0, 0, .12);
+        }
+
+        .property-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            margin-bottom: 14px;
+        }
+
+        .property-header img {
             width: 70px;
             height: 70px;
             border-radius: 6px;
             object-fit: cover;
         }
 
+        .property-info {
+            flex: 1;
+        }
+
         .property-info h3 {
             font-size: 14px;
-            font-weight: 500;
             margin-bottom: 4px;
         }
 
         .property-info p {
             font-size: 12px;
+            color: #666;
+        }
+
+        .property-status {
+            font-size: 13px;
+            font-weight: 600;
             color: #555;
         }
 
-        .info-link {
-            font-size: 11px;
-            color: #444;
-            text-decoration: none;
-            text-align: right;
+        .review-box {
+            background: #f4f4f4;
+            border-radius: 8px;
+            padding: 14px;
         }
 
-        .info-link:hover {
-            text-decoration: underline;
-        }
-
-        .delete-btn {
-            border: none;
-            background: transparent;
-            color: #e11d48;
-            font-size: 12px;
-            font-weight: 500;
-
+        .review-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: flex-end;
-            gap: 6px;
 
+            margin-bottom: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .accept-btn {
+            border: none;
+            background: none;
+            color: #16a34a;
+            font-weight: 600;
             cursor: pointer;
         }
 
-        .delete-btn img {
-            width: 16px;
-            height: 16px;
-            object-fit: contain;
+        .reject-btn {
+            border: none;
+            background: none;
+            color: #dc2626;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .review-box textarea {
+            width: 100%;
+            height: 110px;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 12px;
+            resize: none;
+
+            font-size: 13px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 210px;
+
+            text-decoration: none;
+            color: #555;
+
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: #000;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -356,29 +387,14 @@
                 <h2 class="side-title">Profil Saya</h2>
 
                 <nav class="menu">
-                    <a href="/profile-mitra" class="menu-item">
+                    <a href="/profile-admin" class="menu-item active">
                         <span class="active-dot">P</span>
-                        <span>Tentang Saya</span>
+                        <span>Log Aktivitas</span>
                     </a>
 
-                    <a href="/riwayat-penyewaan" class="menu-item">
-                        <img src="/images/profile/history.png" class="menu-icon">
-                        <span>Riwayat Penyewaan</span>
-                    </a>
-
-                    <a href="/properti-saya" class="menu-item active">
+                    <a href="/list-properti" class="menu-item">
                         <img src="/images/profile/property.png" class="menu-icon">
-                        <span>Properti Saya</span>
-                    </a>
-
-                    <a href="/tambah-properti" class="menu-item">
-                        <img src="/images/profile/add.png" class="menu-icon">
-                        <span>Tambah Properti</span>
-                    </a>
-
-                    <a href="/status-pengajuan" class="menu-item">
-                        <img src="/images/profile/status.png" class="menu-icon">
-                        <span>Status Pengajuan</span>
+                        <span>List Properti</span>
                     </a>
                 </nav>
             </div>
@@ -390,103 +406,47 @@
         </aside>
 
         <section class="content">
-            <h1>Properti Saya</h1>
+            <h1>Pengajuan Properti</h1>
 
-            <div class="property-list">
+            <div class="pengajuan-list">
 
-                <div class="property-card">
-                    <img src="/images/property/property1.png" alt="">
+                <div class="pengajuan-card">
 
-                    <div class="property-info">
-                        <h3>Nama Properti</h3>
-                        <p>Lokasi</p>
+                    <div class="property-header">
+                        <img src="/images/property/property1.png" alt="">
+
+                        <div class="property-info">
+                            <h3>Villa Ubud</h3>
+                            <p>Bali</p>
+                        </div>
+
+                        <div class="property-status">
+                            Menunggu
+                        </div>
                     </div>
 
-                    <a href="/detail-properti-saya" class="info-link">
-                        Lihat Info Properti
-                    </a>
+                    <div class="review-box">
 
-                    <button class="delete-btn">
-                        <img src="/images/profile/trash.png" alt="">
-                        <span>Hapus</span>
-                    </button>
-                </div>
+                        <div class="review-header">
+                            <span>Catatan</span>
 
-                <div class="property-card">
-                    <img src="/images/property/property1.png" alt="">
+                            <div class="action-buttons">
+                                <button class="accept-btn">✓ Terima</button>
+                                <button class="reject-btn">✕ Tolak</button>
+                            </div>
+                        </div>
 
-                    <div class="property-info">
-                        <h3>Nama Properti</h3>
-                        <p>Lokasi</p>
+                        <textarea placeholder="Tulis catatan di sini"></textarea>
+
                     </div>
 
-                    <a href="/detail-properti-saya" class="info-link">
-                        Lihat Info Properti
-                    </a>
-
-                    <button class="delete-btn">
-                        <img src="/images/profile/trash.png" alt="">
-                        <span>Hapus</span>
-                    </button>
                 </div>
-
-                <div class="property-card">
-                    <img src="/images/property/property1.png" alt="">
-
-                    <div class="property-info">
-                        <h3>Nama Properti</h3>
-                        <p>Lokasi</p>
-                    </div>
-
-                    <a href="/detail-properti-saya" class="info-link">
-                        Lihat Info Properti
-                    </a>
-
-                    <button class="delete-btn">
-                        <img src="/images/profile/trash.png" alt="">
-                        <span>Hapus</span>
-                    </button>
-                </div>
-
-                <div class="property-card">
-                    <img src="/images/property/property1.png" alt="">
-
-                    <div class="property-info">
-                        <h3>Nama Properti</h3>
-                        <p>Lokasi</p>
-                    </div>
-
-                    <a href="/detail-properti-saya" class="info-link">
-                        Lihat Info Properti
-                    </a>
-
-                    <button class="delete-btn">
-                        <img src="/images/profile/trash.png" alt="">
-                        <span>Hapus</span>
-                    </button>
-                </div>
-
-                <div class="property-card">
-                    <img src="/images/property/property1.png" alt="">
-
-                    <div class="property-info">
-                        <h3>Nama Properti</h3>
-                        <p>Lokasi</p>
-                    </div>
-
-                    <a href="/detail-properti-saya" class="info-link">
-                        Lihat Info Properti
-                    </a>
-
-                    <button class="delete-btn">
-                        <img src="/images/profile/trash.png" alt="">
-                        <span>Hapus</span>
-                    </button>
-                </div>
-
-
 
             </div>
+
+            <a href="/profile-admin" class="back-btn">
+                ← Kembali
+            </a>
         </section>
 
     </main>
