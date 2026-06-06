@@ -38,6 +38,10 @@ class AuthController extends Controller
             $request->session()->put('active_role', $activeRole);
         }
 
+        if ($activeRole === 'penyewa') {
+            return redirect('/');
+        }
+
         return redirect('/dashboard');
     }
 
@@ -60,6 +64,10 @@ class AuthController extends Controller
             }
 
             $request->session()->forget('pending_role_selection_user_id');
+
+            if ($activeRole === 'penyewa') {
+                return redirect('/');
+            }
 
             return redirect('/dashboard');
         }
@@ -94,6 +102,10 @@ class AuthController extends Controller
 
         $request->session()->put('active_role', $selectedRole);
         $request->session()->forget('pending_role_selection_user_id');
+
+        if ($selectedRole === 'penyewa') {
+            return redirect('/')->with('success', 'Anda masuk sebagai '.ucfirst($selectedRole).'.');
+        }
 
         return redirect('/dashboard')->with('success', 'Anda masuk sebagai '.ucfirst($selectedRole).'.');
     }
@@ -184,6 +196,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         $request->session()->forget(['active_role', 'pending_role_selection_user_id']);
 
-        return redirect('/login');
+        return redirect('/');
     }
 }

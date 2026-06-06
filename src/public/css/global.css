@@ -1,0 +1,342 @@
+/* SpotRent Global Stylesheet */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f7f7f7;
+    color: #222;
+}
+
+/* Default Header Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 20px 60px;
+    width: 100%;
+    border-bottom: 1px solid #ebebeb;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    position: relative;
+    z-index: 1005;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #222222;
+}
+
+.logo img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+/* Default Buttons */
+.nav-buttons > a {
+    background: #f7c948;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 12px;
+    display: inline-block;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-buttons > a:hover {
+    background: #e2b434;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(247, 201, 72, 0.35);
+}
+
+.nav-buttons > a:active {
+    transform: scale(0.95);
+}
+
+.btn-dashboard {
+    background: #f7c948;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 10px;
+    display: inline-block;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-dashboard:hover {
+    background: #e2b434;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(247, 201, 72, 0.35);
+}
+.btn-dashboard:active {
+    transform: scale(0.95);
+}
+
+.btn-login {
+    background: #f7c948;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 10px;
+    display: inline-block;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-login:hover {
+    background: #e2b434;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(247, 201, 72, 0.35);
+}
+.btn-login:active {
+    transform: scale(0.95);
+}
+
+.btn-logout {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.btn-logout:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+.btn-logout:active {
+    transform: scale(0.95);
+}
+
+/* Common Footer styles */
+.footer {
+    background: #020f3a;
+    color: white;
+    padding: 40px 20px 30px;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.footer-brand img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.footer-brand h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+}
+
+.footer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-repo-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-repo-link:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.footer-divider {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.footer-by {
+    font-weight: 500;
+    color: #f7c948; /* Accent yellow color for the team name */
+}
+
+/* Profile Dropdown Styles for SpotRent Theme */
+.profile-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-btn {
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    outline: none;
+    padding: 0;
+}
+
+/* Gold border and micro-zoom + shadow on hover */
+.profile-btn:hover {
+    border-color: #f7c948;
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(247, 201, 72, 0.45);
+}
+
+.profile-btn:active {
+    transform: scale(0.95);
+}
+
+.profile-icon {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    display: block;
+}
+
+.profile-dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 62px;
+    background: #ffffff;
+    border: 1px solid #ebebeb;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: 230px;
+    padding: 16px 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1100;
+    transform: translateY(-15px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transform-origin: top right;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+}
+
+.profile-dropdown-menu.show {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dropdown-header {
+    padding: 6px 20px 10px;
+}
+
+.user-fullname {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+    line-height: 1.3;
+}
+
+.user-role-label {
+    display: block;
+    font-size: 11px;
+    color: #888888;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 8px 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    color: #444444;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dropdown-item:hover {
+    background-color: #f7f7f7;
+    color: #000000;
+    padding-left: 28px;
+}
+
+.dropdown-item.profile-link:hover {
+    background-color: #fffaf0;
+    color: #d9a01c;
+}
+
+.dropdown-item.logout-btn-item {
+    color: #dc3545;
+}
+
+.dropdown-item.logout-btn-item:hover {
+    background-color: #fff5f5;
+    color: #c22525;
+}
+
+.logout-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.dropdown-item.logout-btn-item:hover .logout-icon {
+    transform: translateX(-3px);
+}

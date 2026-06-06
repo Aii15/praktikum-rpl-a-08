@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UpgradeController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MitraController;
+use App\Http\Controllers\PropertyController;
 
 // Mengubah dari '/landing' menjadi '/' agar menjadi halaman utama web
 Route::get('/', [LandingController::class, 'index']);
@@ -51,6 +52,10 @@ Route::get('/dashboard', function (Request $request) {
 
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
+
+Route::get('/detail-properti/{id}', [PropertyController::class, 'show'])->name('detail-properti');
+Route::post('/detail-properti/{id}/book', [PropertyController::class, 'book'])->middleware('auth')->name('detail-properti.book');
+Route::post('/detail-properti/{id}/save', [PropertyController::class, 'save'])->middleware('auth')->name('detail-properti.save');
 
 // Upgrade to mitra (for logged-in users)
 Route::get('/upgrade-mitra', [UpgradeController::class, 'showForm'])->middleware('auth')->name('upgrade.mitra');
