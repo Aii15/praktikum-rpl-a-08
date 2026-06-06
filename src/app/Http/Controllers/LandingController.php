@@ -32,10 +32,10 @@ class LandingController extends Controller
                 });
             })
             ->when($selectedPrice === 'Harga Terendah', function ($query) {
-                $query->orderBy('harga_per_periode', 'asc');
+                $query->orderBy('harga_per_hari', 'asc');
             })
             ->when($selectedPrice === 'Harga Tertinggi', function ($query) {
-                $query->orderBy('harga_per_periode', 'desc');
+                $query->orderBy('harga_per_hari', 'desc');
             })
             ->get();
 

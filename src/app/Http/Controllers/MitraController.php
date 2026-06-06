@@ -138,7 +138,7 @@ class MitraController extends Controller
             'nama_properti' => 'required|string|max:150',
             'id_kategori' => 'required|exists:property_categories,id_kategori',
             'id_lokasi' => 'required|exists:lokasi,id_lokasi',
-            'harga_per_periode' => 'required|numeric|min:0',
+            'harga_per_hari' => 'required|numeric|min:0',
             'fasilitas' => 'nullable|string|max:1000',
             'deskripsi' => 'required|string',
             'images' => 'nullable|array|max:5',
@@ -147,7 +147,7 @@ class MitraController extends Controller
             'nama_properti.required' => 'Nama properti wajib diisi.',
             'id_kategori.required' => 'Kategori properti wajib dipilih.',
             'id_lokasi.required' => 'Lokasi properti wajib dipilih.',
-            'harga_per_periode.required' => 'Harga per periode wajib diisi.',
+            'harga_per_hari.required' => 'Harga per hari wajib diisi.',
             'deskripsi.required' => 'Deskripsi properti wajib diisi.',
             'images.max' => 'Maksimal 5 foto dapat diunggah.',
             'images.*.image' => 'File harus berupa gambar.',
@@ -161,7 +161,7 @@ class MitraController extends Controller
             'id_lokasi' => $request->input('id_lokasi'),
             'nama_properti' => $request->input('nama_properti'),
             'deskripsi' => $request->input('deskripsi'),
-            'harga_per_periode' => $request->input('harga_per_periode'),
+            'harga_per_hari' => $request->input('harga_per_hari'),
             'fasilitas' => $request->input('fasilitas'),
             'status_pengajuan' => 'pending',
         ]);
@@ -202,6 +202,47 @@ class MitraController extends Controller
 
         return view('mitra.status_pengajuan', [
             'properties' => $properties,
+        ]);
+    }
+
+    public function bookingDetail($id)
+    {
+        $user = $this->ensureMitra();
+
+        $booking = Booking::with(['property.coverPhoto', 'property.location', 'user'])
+            ->whereHas('property', function ($query) use ($user) {
+                $query->where('id_mitra', $user->id);
+            })
+            ->findOrFail($id);
+
+        return view('mitra.booking_detail', [
+            'booking' => $booking,
+        ]);
+    }
+
+    public function propertyDetail($id)
+    {
+        $user = $this->ensureMitra();
+
+        $property = Property::with(['category', 'location', 'photos'])
+            ->where('id_mitra', $user->id)
+            ->findOrFail($id);
+
+        return view('mitra.property_detail', [
+            'property' => $property,
+        ]);
+    }
+
+    public function applicationStatusDetail($id)
+    {
+        $user = $this->ensureMitra();
+
+        $property = Property::with(['category', 'location', 'photos'])
+            ->where('id_mitra', $user->id)
+            ->findOrFail($id);
+
+        return view('mitra.status_detail', [
+            'property' => $property,
         ]);
     }
 }

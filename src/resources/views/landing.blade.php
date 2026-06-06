@@ -80,7 +80,7 @@
                 <a href="{{ route('detail-properti', $property->id_properti) }}" class="card" 
                      data-location="{{ $property->location->kota ?? '' }}" 
                      data-category="{{ $property->category->nama_kategori ?? '' }}" 
-                     data-price="{{ $property->harga_per_periode }}">
+                     data-price="{{ $property->harga_per_hari }}">
                     <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}">
 
                     <div class="card-content">
@@ -89,7 +89,7 @@
                             <span class="category">{{ $property->category->nama_kategori ?? 'Kategori Lain' }}</span>
 
                             <div class="price-box">
-                                <span class="price">IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</span>
+                                <span class="price">IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}</span>
                                 <small>Per Hari</small>
                             </div>
                         </div>

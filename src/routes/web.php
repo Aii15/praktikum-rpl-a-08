@@ -30,15 +30,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/detail-riwayat-booking/{id}', [UserController::class, 'bookingDetail'])->name('user.booking.detail');
 });
 
-Route::view('/profile-mitra', 'profile-mitra');
-Route::view('/riwayat-penyewaan', 'riwayat-penyewaan');
-Route::view('/detail-riwayat-penyewaan', 'detail-riwayat-penyewaan');
-Route::view('/properti-saya', 'properti-saya');
-Route::view('/detail-properti-saya', 'detail-properti-saya');
-Route::view('/tambah-properti', 'tambah-properti');
-Route::view('/tambah-foto-properti', 'tambah-foto-properti');
-Route::view('/status-pengajuan', 'status-pengajuan'); 
-Route::view('/detail-status-pengajuan', 'detail-status-pengajuan'); 
+// Route::view('/profile-mitra', 'profile-mitra');
+// Route::view('/riwayat-penyewaan', 'riwayat-penyewaan');
+// Route::view('/detail-riwayat-penyewaan', 'detail-riwayat-penyewaan');
+// Route::view('/properti-saya', 'properti-saya');
+// Route::view('/detail-properti-saya', 'detail-properti-saya');
+// Route::view('/tambah-properti', 'tambah-properti');
+// Route::view('/tambah-foto-properti', 'tambah-foto-properti');
+// Route::view('/status-pengajuan', 'status-pengajuan'); 
+// Route::view('/detail-status-pengajuan', 'detail-status-pengajuan');  
 
 Route::view('/profile-admin', 'profile-admin');
 Route::view('/pengajuan-properti', 'pengajuan-properti');
@@ -81,13 +81,19 @@ Route::post('/upgrade-mitra', [UpgradeController::class, 'upgrade'])->middleware
 
 // Mitra profile and property management
 Route::middleware(['auth'])->group(function () {
-    Route::get('/mitra/profil', [MitraController::class, 'profile'])->name('mitra.profile');
-    Route::post('/mitra/profil', [MitraController::class, 'updateProfile'])->name('mitra.profile.update');
+    Route::get('/profile-mitra', [MitraController::class, 'profile'])->name('mitra.profile');
+    Route::post('/profile-mitra', [MitraController::class, 'updateProfile'])->name('mitra.profile.update');
 
-    Route::get('/mitra/riwayat-penyewaan', [MitraController::class, 'bookingHistory'])->name('mitra.bookings');
-    Route::get('/mitra/properti-saya', [MitraController::class, 'properties'])->name('mitra.properties');
-    Route::get('/mitra/tambah-properti', [MitraController::class, 'createProperty'])->name('mitra.property.create');
-    Route::post('/mitra/tambah-properti', [MitraController::class, 'storeProperty'])->name('mitra.property.store');
-    Route::post('/mitra/properti/{id}/hapus', [MitraController::class, 'deleteProperty'])->name('mitra.property.delete');
-    Route::get('/mitra/status-pengajuan', [MitraController::class, 'applicationStatus'])->name('mitra.status');
+    Route::get('/riwayat-penyewaan', [MitraController::class, 'bookingHistory'])->name('mitra.bookings');
+    Route::get('/detail-riwayat-penyewaan/{id}', [MitraController::class, 'bookingDetail'])->name('mitra.booking.detail');
+
+    Route::get('/properti-saya', [MitraController::class, 'properties'])->name('mitra.properties');
+    Route::get('/detail-properti-saya/{id}', [MitraController::class, 'propertyDetail'])->name('mitra.property.detail');
+
+    Route::get('/tambah-properti', [MitraController::class, 'createProperty'])->name('mitra.property.create');
+    Route::post('/tambah-properti', [MitraController::class, 'storeProperty'])->name('mitra.property.store');
+    Route::post('/properti/{id}/hapus', [MitraController::class, 'deleteProperty'])->name('mitra.property.delete');
+
+    Route::get('/status-pengajuan', [MitraController::class, 'applicationStatus'])->name('mitra.status');
+    Route::get('/detail-status-pengajuan/{id}', [MitraController::class, 'applicationStatusDetail'])->name('mitra.status.detail');
 });

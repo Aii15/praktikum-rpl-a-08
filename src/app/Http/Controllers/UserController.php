@@ -27,7 +27,7 @@ class UserController extends Controller
             $start = Carbon::parse($booking->tanggal_mulai);
             $end = Carbon::parse($booking->tanggal_selesai);
             $days = max(1, $start->diffInDays($end) + 1);
-            $booking->total_price = $booking->property ? ($booking->property->harga_per_periode * $days) : 0;
+            $booking->total_price = $booking->property ? ($booking->property->harga_per_hari * $days) : 0;
             return $booking;
         });
 
@@ -92,7 +92,7 @@ class UserController extends Controller
         $start = Carbon::parse($booking->tanggal_mulai);
         $end = Carbon::parse($booking->tanggal_selesai);
         $days = max(1, $start->diffInDays($end) + 1);
-        $booking->total_price = $booking->property ? ($booking->property->harga_per_periode * $days) : 0;
+        $booking->total_price = $booking->property ? ($booking->property->harga_per_hari * $days) : 0;
         $booking->rentang_hari = $start->translatedFormat('d M Y') . ' - ' . $end->translatedFormat('d M Y');
 
         return view('detail-riwayat-booking', compact('booking'));

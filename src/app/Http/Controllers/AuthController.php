@@ -40,6 +40,8 @@ class AuthController extends Controller
 
         if ($activeRole === 'penyewa') {
             return redirect('/');
+        } elseif ($activeRole === 'mitra') {
+            return redirect()->route('mitra.profile');
         }
 
         return redirect('/dashboard');
@@ -105,6 +107,8 @@ class AuthController extends Controller
 
         if ($selectedRole === 'penyewa') {
             return redirect('/')->with('success', 'Anda masuk sebagai '.ucfirst($selectedRole).'.');
+        } elseif ($selectedRole === 'mitra') {
+            return redirect()->route('mitra.profile')->with('success', 'Anda masuk sebagai '.ucfirst($selectedRole).'.');
         }
 
         return redirect('/dashboard')->with('success', 'Anda masuk sebagai '.ucfirst($selectedRole).'.');

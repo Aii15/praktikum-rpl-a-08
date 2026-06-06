@@ -1,70 +1,251 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpotRent Mitra</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: #f4f4f9; color: #111827; }
-        a { color: inherit; text-decoration: none; }
-        .page { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
-        .sidebar { background: #ffffff; border-right: 1px solid #e5e7eb; padding: 2rem 1.5rem; }
-        .sidebar h2 { margin: 0 0 1.5rem; font-size: 1.3rem; letter-spacing: 0.02em; }
-        .sidebar nav a { display: block; margin-bottom: 1rem; padding: 0.9rem 1rem; border-radius: 12px; transition: background 0.15s ease; }
-        .sidebar nav a.active, .sidebar nav a:hover { background: #f3f4f6; }
-        .sidebar .home-link { margin-top: 2rem; font-weight: 600; color: #047857; }
-        .content { padding: 2rem; }
-        .panel { background: #ffffff; border-radius: 24px; padding: 2rem; box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06); }
-        .page-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .page-title h1 { margin: 0; font-size: 1.8rem; }
-        .button-primary { background: #047857; color: white; border: none; border-radius: 999px; padding: 0.85rem 1.4rem; cursor: pointer; }
-        .button-primary:hover { opacity: 0.95; }
-        .form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-        .form-row-full { grid-column: 1 / -1; }
-        .form-field { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
-        .form-field label { font-weight: 600; font-size: 0.95rem; }
-        .form-field input, .form-field textarea, .form-field select { width: 100%; border: 1px solid #d1d5db; border-radius: 14px; padding: 0.9rem 1rem; font-size: 0.95rem; }
-        textarea { min-height: 150px; resize: vertical; }
-        .property-card, .booking-card, .status-card { background: #f8fafc; border-radius: 18px; padding: 1.4rem; margin-bottom: 1rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; }
-        .property-card img { width: 100px; height: 100px; object-fit: cover; border-radius: 16px; background: #e5e7eb; }
-        .property-card .info { display: grid; gap: 0.25rem; }
-        .badge { display: inline-flex; align-items: center; padding: 0.5rem 0.85rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
-        .badge.pending { background: #fef3c7; color: #b45309; }
-        .badge.approved { background: #d1fae5; color: #065f46; }
-        .badge.rejected { background: #fee2e2; color: #991b1b; }
-        .flash-wrapper { margin-bottom: 1rem; }
-        .table { width: 100%; border-collapse: collapse; }
-        .table th, .table td { padding: 0.9rem 0.8rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
-        .table th { background: #f8fafc; font-weight: 700; }
-        .actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
-        .secondary-button { padding: 0.75rem 1rem; border: 1px solid #d1d5db; background: white; border-radius: 999px; cursor: pointer; }
-        .secondary-button:hover { background: #f8fafc; }
-        .danger-button { background: #e11d48; color: white; border: none; }
-        .danger-button:hover { opacity: 0.95; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #fff;
+        }
+
+        .profile-page {
+            width: 100%;
+            min-height: 100vh;
+            background: #fff;
+            padding: 70px 90px;
+            display: grid;
+            grid-template-columns: 330px 1fr;
+            gap: 90px;
+        }
+
+        .sidebar {
+            border-right: 4px solid #e5e7eb;
+            padding-right: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 140px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 65px;
+            cursor: pointer;
+        }
+
+        .logo img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .logo span {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .side-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #4b5563;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: #f3f4f6;
+            color: #111827;
+            transform: translateX(6px);
+        }
+
+        .menu-item.active {
+            background: #fef9c3;
+            color: #a16207;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.15);
+        }
+
+        .menu-item.active .menu-icon {
+            filter: sepia(100%) saturate(300%) hue-rotate(5deg);
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .home-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #374151;
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .home-link img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .home-link:hover {
+            background: transparent;
+            color: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .home-link:hover img {
+            transform: scale(1.1) rotate(-5deg);
+            filter: sepia(100%) saturate(300%) hue-rotate(5deg);
+        }
+
+        .home-link:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .content {
+            padding-top: 0px;
+            max-width: 900px;
+        }
+
+        .content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 28px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Flash wrapper styles */
+        #flash-message-container {
+            margin-bottom: 20px;
+        }
     </style>
+    @yield('styles')
 </head>
+
 <body>
-    <div class="page">
+    <main class="profile-page">
+
         <aside class="sidebar">
-            <h2>SpotRent Mitra</h2>
-            <nav>
-                <a href="{{ route('mitra.profile') }}" class="{{ request()->routeIs('mitra.profile') ? 'active' : '' }}">Tentang Saya</a>
-                <a href="{{ route('mitra.bookings') }}" class="{{ request()->routeIs('mitra.bookings') ? 'active' : '' }}">Riwayat Penyewaan</a>
-                <a href="{{ route('mitra.properties') }}" class="{{ request()->routeIs('mitra.properties') ? 'active' : '' }}">Properti Saya</a>
-                <a href="{{ route('mitra.property.create') }}" class="{{ request()->routeIs('mitra.property.create') ? 'active' : '' }}">Tambah Properti</a>
-                <a href="{{ route('mitra.status') }}" class="{{ request()->routeIs('mitra.status') ? 'active' : '' }}">Status Pengajuan</a>
-            </nav>
-            <a class="home-link" href="{{ route('dashboard') }}">Ke Beranda</a>
-        </aside>
-        <main class="content">
-            <div class="panel">
-                @include('partials.flash')
-                @yield('content')
+            <div>
+                <div class="logo" onclick="window.location.href='/'">
+                    <img src="/images/logo.png" alt="SpotRent Logo">
+                    <span>SpotRent</span>
+                </div>
+
+                <h2 class="side-title">Profil Saya</h2>
+
+                <nav class="menu">
+                    <a href="{{ route('mitra.profile') }}" class="menu-item {{ request()->routeIs('mitra.profile') ? 'active' : '' }}">
+                        <img src="/icons/tentang_saya.svg" class="menu-icon" alt="Profil Icon">
+                        <span>Tentang Saya</span>
+                    </a>
+
+                    <a href="{{ route('mitra.bookings') }}" class="menu-item {{ request()->routeIs('mitra.bookings') || request()->routeIs('mitra.booking.detail') ? 'active' : '' }}">
+                        <img src="/images/profile/history.png" class="menu-icon" alt="Riwayat Penyewaan Icon">
+                        <span>Riwayat Penyewaan</span>
+                    </a>
+
+                    <a href="{{ route('mitra.properties') }}" class="menu-item {{ request()->routeIs('mitra.properties') || request()->routeIs('mitra.property.detail') ? 'active' : '' }}">
+                        <img src="/images/profile/property.png" class="menu-icon" alt="Properti Saya Icon">
+                        <span>Properti Saya</span>
+                    </a>
+
+                    <a href="{{ route('mitra.property.create') }}" class="menu-item {{ request()->routeIs('mitra.property.create') ? 'active' : '' }}">
+                        <img src="/images/profile/add.png" class="menu-icon" alt="Tambah Properti Icon">
+                        <span>Tambah Properti</span>
+                    </a>
+
+                    <a href="{{ route('mitra.status') }}" class="menu-item {{ request()->routeIs('mitra.status') || request()->routeIs('mitra.status.detail') ? 'active' : '' }}">
+                        <img src="/images/profile/status.png" class="menu-icon" alt="Status Pengajuan Icon">
+                        <span>Status Pengajuan</span>
+                    </a>
+                </nav>
             </div>
-        </main>
-    </div>
+
+            <a href="/" class="home-link">
+                <img src="/images/profile/home.png" alt="Beranda Icon">
+                <span>Ke Beranda</span>
+            </a>
+        </aside>
+
+        <section class="content">
+            <div id="flash-message-container">
+                @include('partials.flash')
+            </div>
+
+            @yield('content')
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Flash message logic
+            const flashContainer = document.getElementById('flash-message-container');
+            if (flashContainer && flashContainer.innerText.trim() !== '') {
+                setTimeout(() => {
+                    flashContainer.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    flashContainer.style.opacity = '0';
+                    flashContainer.style.transform = 'translateY(-10px)';
+                    setTimeout(() => {
+                        flashContainer.style.display = 'none';
+                    }, 500);
+                }, 4000); // fades out after 4 seconds
+            }
+        });
+    </script>
+    @yield('scripts')
 </body>
+
 </html>
