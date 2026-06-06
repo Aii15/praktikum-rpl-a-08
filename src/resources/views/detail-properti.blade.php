@@ -46,27 +46,30 @@
             </div>
         </div>
 
-        <section class="gallery">
-            @php
-                $cover = $property->coverPhoto ?? $property->photos->first();
-                $otherPhotos = $property->photos->where('id_foto', '!=', $cover->id_foto ?? null)->take(4);
-            @endphp
+        @php
+            $photos = $property->photos->sortBy('urutan');
+            $photoCount = count($photos);
+            $photoCountClamped = max(2, min(5, $photoCount));
+            $cover = $photos->firstWhere('is_cover', true) ?? $photos->first();
+            $otherPhotos = $photos->filter(function($p) use ($cover) {
+                return $p->id_foto !== ($cover->id_foto ?? null);
+            })->take($photoCountClamped - 1);
+        @endphp
+
+        <section class="gallery gallery-{{ $photoCountClamped }}">
             <div class="gallery-item main-gallery-item">
                 <img class="main-img" src="{{ $cover->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}">
             </div>
 
-            <div class="side-gallery">
-                @foreach ($otherPhotos as $photo)
-                    <div class="gallery-item">
-                        <img src="{{ $photo->url_foto }}" alt="">
-                    </div>
-                @endforeach
-                @for ($i = count($otherPhotos); $i < 4; $i++)
-                    <div class="gallery-item">
-                        <img src="/images/landing/property.png" alt="">
-                    </div>
-                @endfor
-            </div>
+            @if($photoCountClamped > 1)
+                <div class="side-gallery">
+                    @foreach ($otherPhotos as $photo)
+                        <div class="gallery-item">
+                            <img src="{{ $photo->url_foto }}" alt="">
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </section>
 
         <form action="{{ route('detail-properti.book', $property->id_properti) }}" method="POST" style="display: contents;">
@@ -303,10 +306,60 @@
         // Initialize Flatpickr with seeded disabled dates
         const disabledDates = @json($disabledDates);
         const parsedDisable = disabledDates.map(range => {
+            const partsFrom = range.from.split('-');
+            const partsTo = range.to.split('-');
             return {
-                from: new Date(range.from),
-                to: new Date(range.to)
+                from: new Date(partsFrom[0], partsFrom[1] - 1, partsFrom[2]),
+                to: new Date(partsTo[0], partsTo[1] - 1, partsTo[2])
             };
+        });
+
+        // Helper to format Date to YYYY-MM-DD
+        function formatDateYmd(date) {
+            const d = new Date(date);
+            let month = '' + (d.getMonth() + 1);
+            let day = '' + d.getDate();
+            const year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        // Create custom tooltip element for booked dates
+        const tooltip = document.createElement("div");
+        tooltip.className = "booking-tooltip";
+        tooltip.innerHTML = `
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; flex-shrink: 0; color: #ef4444;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>Tanggal ini sudah dipesan</span>
+        `;
+        document.body.appendChild(tooltip);
+
+        document.addEventListener("mouseover", function(e) {
+            const dayElem = e.target.closest(".booked-day");
+            if (dayElem) {
+                const tooltipText = dayElem.getAttribute("data-booked-tooltip") || "Tanggal ini sudah dipesan";
+                tooltip.querySelector("span").textContent = tooltipText;
+                tooltip.classList.add("show");
+                
+                const rect = dayElem.getBoundingClientRect();
+                const tooltipRect = tooltip.getBoundingClientRect();
+                
+                // Position the tooltip centered above the day element
+                const top = rect.top + window.scrollY - tooltipRect.height - 8;
+                const left = rect.left + window.scrollX + (rect.width / 2) - (tooltipRect.width / 2);
+                
+                tooltip.style.top = `${top}px`;
+                tooltip.style.left = `${left}px`;
+            }
+        });
+
+        document.addEventListener("mouseout", function(e) {
+            const dayElem = e.target.closest(".booked-day");
+            if (dayElem) {
+                tooltip.classList.remove("show");
+            }
         });
 
         function handleDateSelection(selectedDates, dateStr, instance) {
@@ -355,6 +408,17 @@
                 if (window.popupFp) {
                     window.popupFp.setDate(selectedDates, false);
                 }
+            },
+            onDayCreate: function(dObj, dStr, fp, dayElem) {
+                if (!dayElem.dateObj) return;
+                const dateStrYmd = formatDateYmd(dayElem.dateObj);
+                const isBooked = disabledDates.some(range => {
+                    return dateStrYmd >= range.from && dateStrYmd <= range.to;
+                });
+                if (isBooked) {
+                    dayElem.classList.add("booked-day");
+                    dayElem.setAttribute("data-booked-tooltip", "Tanggal ini sudah dipesan");
+                }
             }
         });
 
@@ -370,6 +434,17 @@
                 handleDateSelection(selectedDates, dateStr, instance);
                 if (inlineFp) {
                     inlineFp.setDate(selectedDates, false);
+                }
+            },
+            onDayCreate: function(dObj, dStr, fp, dayElem) {
+                if (!dayElem.dateObj) return;
+                const dateStrYmd = formatDateYmd(dayElem.dateObj);
+                const isBooked = disabledDates.some(range => {
+                    return dateStrYmd >= range.from && dateStrYmd <= range.to;
+                });
+                if (isBooked) {
+                    dayElem.classList.add("booked-day");
+                    dayElem.setAttribute("data-booked-tooltip", "Tanggal ini sudah dipesan");
                 }
             }
         });

@@ -119,7 +119,7 @@ class LandingDataSeeder extends Seeder
             ],
             [
                 'property_name' => 'Kota Tua Jakarta',
-                'url_foto' => '/images/landing/property-2.png',
+                'url_foto' => '/images/informasi/prop1.png',
                 'urutan' => 2,
                 'is_cover' => false,
             ],
@@ -131,8 +131,14 @@ class LandingDataSeeder extends Seeder
             ],
             [
                 'property_name' => 'Villa Ubud',
-                'url_foto' => '/images/landing/villa_ubud.png',
+                'url_foto' => '/images/informasi/prop2.png',
                 'urutan' => 2,
+                'is_cover' => false,
+            ],
+            [
+                'property_name' => 'Villa Ubud',
+                'url_foto' => '/images/informasi/prop3.png',
+                'urutan' => 3,
                 'is_cover' => false,
             ],
             [
@@ -143,8 +149,20 @@ class LandingDataSeeder extends Seeder
             ],
             [
                 'property_name' => 'Studio',
-                'url_foto' => '/images/landing/studio-2.png',
+                'url_foto' => '/images/informasi/prop4.png',
                 'urutan' => 2,
+                'is_cover' => false,
+            ],
+            [
+                'property_name' => 'Studio',
+                'url_foto' => '/images/informasi/prop5.png',
+                'urutan' => 3,
+                'is_cover' => false,
+            ],
+            [
+                'property_name' => 'Studio',
+                'url_foto' => '/images/landing/property.png',
+                'urutan' => 4,
                 'is_cover' => false,
             ],
             [
