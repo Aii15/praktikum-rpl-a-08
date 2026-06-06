@@ -36,6 +36,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Wishlists relation
+     */
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class, 'id_user');
+    }
+
+    /**
      * Check whether user has mitra role
      */
     public function isMitra(): bool
