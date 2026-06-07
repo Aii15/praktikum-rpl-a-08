@@ -623,6 +623,140 @@
             background: #fee2e2;
             color: #991b1b;
         }
+
+        /* Detail Penyewaan Styles */
+        .detail-card {
+            width: 100%;
+            max-width: 650px;
+            background: #f9fafb;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+            margin-bottom: 12px;
+        }
+
+        .detail-banner {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .detail-info {
+            padding: 22px;
+        }
+
+        .detail-info h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 30px;
+        }
+
+        .info-group {
+            margin: 0;
+        }
+
+        .info-group strong {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-group p {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .booking-status {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .booking-status.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .booking-status.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .booking-status.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 8px;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+            color: #111827;
+            transform: translateX(-4px);
+        }
+
+        .back-btn:active {
+            transform: translateX(0);
+        }
+
+        /* Loader inside section */
+        .modal-loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            gap: 12px;
+        }
+
+        .modal-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(0, 0, 0, 0.08);
+            border-top-color: #f7c948;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .modal-loader-container p {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 @endsection
 
@@ -713,7 +847,7 @@
 
         <div class="booking-list">
             @forelse($bookings as $booking)
-                <a href="{{ route('mitra.booking.detail', $booking->id_booking) }}" class="booking-card">
+                <a href="{{ route('mitra.booking.detail', $booking->id_booking) }}" onclick="showRentalDetail(event, {{ $booking->id_booking }})" class="booking-card">
                     <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
 
                     <div class="booking-info">
@@ -738,6 +872,59 @@
                     Belum ada riwayat penyewaan untuk properti Anda.
                 </div>
             @endforelse
+        </div>
+    </div>
+
+    <!-- SECTION 6: DETAIL PENYEWAAN -->
+    <div id="section-detail-penyewaan" class="content-section">
+        <h1>Detail Penyewaan</h1>
+
+        <div id="detailLoading" class="modal-loader-container">
+            <div class="modal-spinner"></div>
+            <p>Memuat detail penyewaan...</p>
+        </div>
+
+        <div id="detailBody" style="display: none;">
+            <div class="detail-card">
+                <img id="detailBanner" src="" class="detail-banner" alt="Property Banner">
+
+                <div class="detail-info">
+                    <h2 id="detailPropertyName"></h2>
+
+                    <div class="info-grid">
+                        <div class="info-group">
+                            <strong>Penyewa</strong>
+                            <p id="detailPenyewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>Alamat E-mail Penyewa</strong>
+                            <p id="detailEmailPenyewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>No Telepon Penyewa</strong>
+                            <p id="detailNoHpPenyewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>Rentang Sewa</strong>
+                            <p id="detailRentangSewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>Total Harga</strong>
+                            <p id="detailTotalPrice"></p>
+                        </div>
+                    </div>
+
+                    <span id="detailStatusBadge" class="booking-status"></span>
+                </div>
+            </div>
+
+            <a href="/riwayat-penyewaan" onclick="event.preventDefault(); navigateTo('/riwayat-penyewaan');" class="back-btn" style="margin-top: 15px;">
+                ← Kembali ke Riwayat Penyewaan
+            </a>
         </div>
     </div>
 
@@ -972,7 +1159,10 @@
 
 @section('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Global booking ID passed from server for direct loads
+        window.activeBookingId = @json($activeBookingId ?? null);
+
+        function navigateTo(path, pushState = true) {
             const menuTentangSaya = document.getElementById('menu-tentang-saya');
             const menuRiwayatPenyewaan = document.getElementById('menu-riwayat-penyewaan');
             const menuPropertiSaya = document.getElementById('menu-properti-saya');
@@ -980,24 +1170,28 @@
             const menuStatusPengajuan = document.getElementById('menu-status-pengajuan');
 
             const menuItems = [
-                { el: menuTentangSaya, path: '/profile-mitra', sectionId: 'section-tentang-saya', title: 'Profile Mitra - SpotRent' },
-                { el: menuRiwayatPenyewaan, path: '/riwayat-penyewaan', sectionId: 'section-riwayat-penyewaan', title: 'Riwayat Penyewaan - SpotRent' },
-                { el: menuPropertiSaya, path: '/properti-saya', sectionId: 'section-properti-saya', title: 'Properti Saya - SpotRent' },
-                { el: menuTambahProperti, path: '/tambah-properti', sectionId: 'section-tambah-properti', title: 'Tambah Properti - SpotRent' },
-                { el: menuStatusPengajuan, path: '/status-pengajuan', sectionId: 'section-status-pengajuan', title: 'Status Pengajuan - SpotRent' }
+                { path: '/profile-mitra', sectionId: 'section-tentang-saya', title: 'Profile Mitra - SpotRent', el: menuTentangSaya },
+                { path: '/riwayat-penyewaan', sectionId: 'section-riwayat-penyewaan', title: 'Riwayat Penyewaan - SpotRent', el: menuRiwayatPenyewaan },
+                { path: '/properti-saya', sectionId: 'section-properti-saya', title: 'Properti Saya - SpotRent', el: menuPropertiSaya },
+                { path: '/tambah-properti', sectionId: 'section-tambah-properti', title: 'Tambah Properti - SpotRent', el: menuTambahProperti },
+                { path: '/status-pengajuan', sectionId: 'section-status-pengajuan', title: 'Status Pengajuan - SpotRent', el: menuStatusPengajuan },
+                { path: '/detail-riwayat-penyewaan', sectionId: 'section-detail-penyewaan', title: 'Detail Penyewaan - SpotRent', el: menuRiwayatPenyewaan }
             ];
 
-            function navigateTo(path, pushState = true) {
-                // Find matching route
-                let matched = menuItems.find(item => item.path === path);
-                if (!matched) {
-                    // fallback to profile
-                    matched = menuItems[0];
-                }
+            let isDetail = path.match(/^\/detail-riwayat-penyewaan\/(\d+)$/);
+            let matchedPath = isDetail ? '/detail-riwayat-penyewaan' : path;
 
-                // Show matched section, hide others
-                menuItems.forEach(item => {
-                    const sec = document.getElementById(item.sectionId);
+            // Find matching route
+            let matched = menuItems.find(item => item.path === matchedPath);
+            if (!matched) {
+                // fallback to profile
+                matched = menuItems[0];
+            }
+
+            // Show matched section, hide others
+            menuItems.forEach(item => {
+                const sec = document.getElementById(item.sectionId);
+                if (sec) {
                     if (item === matched) {
                         sec.style.display = 'block';
                         sec.offsetHeight; // force reflow
@@ -1006,16 +1200,97 @@
                     } else {
                         sec.classList.remove('active');
                         sec.style.display = 'none';
-                        if (item.el) item.el.classList.remove('active');
+                        if (item.el && item.el !== matched.el) {
+                            item.el.classList.remove('active');
+                        }
                     }
-                });
-
-                document.title = matched.title;
-
-                if (pushState) {
-                    history.pushState({ path: matched.path }, '', matched.path);
                 }
+            });
+
+            document.title = matched.title;
+
+            if (pushState) {
+                history.pushState({ path: path }, '', path);
             }
+
+            if (isDetail) {
+                const id = isDetail[1];
+                showRentalDetail(null, id, false);
+            }
+        }
+        window.navigateTo = navigateTo;
+
+        function showRentalDetail(event, id, shouldPushState = true) {
+            if (event) event.preventDefault();
+            
+            const loader = document.getElementById('detailLoading');
+            const body = document.getElementById('detailBody');
+            
+            if (loader) loader.style.display = 'flex';
+            if (body) body.style.display = 'none';
+
+            if (shouldPushState) {
+                navigateTo(`/detail-riwayat-penyewaan/${id}`);
+                return;
+            }
+            
+            fetch(`/detail-riwayat-penyewaan/${id}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && body && loader) {
+                    const booking = data.booking;
+                    
+                    document.getElementById('detailBanner').src = booking.cover_photo;
+                    document.getElementById('detailPropertyName').textContent = booking.nama_properti;
+                    
+                    document.getElementById('detailPenyewa').textContent = booking.penyewa;
+                    document.getElementById('detailEmailPenyewa').textContent = booking.email_penyewa;
+                    document.getElementById('detailNoHpPenyewa').textContent = booking.no_hp_penyewa;
+                    document.getElementById('detailRentangSewa').textContent = booking.rentang_sewa;
+                    document.getElementById('detailTotalPrice').textContent = booking.total_price_formatted;
+
+                    const statusBadge = document.getElementById('detailStatusBadge');
+                    statusBadge.textContent = booking.status_text;
+                    if (booking.status_booking === 'pending') {
+                        statusBadge.className = 'booking-status process';
+                    } else if (booking.status_booking === 'confirmed' || booking.status_booking === 'completed') {
+                        statusBadge.className = 'booking-status success';
+                    } else {
+                        statusBadge.className = 'booking-status danger';
+                    }
+                    
+                    loader.style.display = 'none';
+                    body.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching rental details:', error);
+                if (loader) {
+                    loader.innerHTML = '<p style="color: #dc3545; font-size: 14px; font-weight: 500;">Gagal memuat detail penyewaan. Silakan coba lagi.</p>';
+                }
+            });
+        }
+        window.showRentalDetail = showRentalDetail;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuTentangSaya = document.getElementById('menu-tentang-saya');
+            const menuRiwayatPenyewaan = document.getElementById('menu-riwayat-penyewaan');
+            const menuPropertiSaya = document.getElementById('menu-properti-saya');
+            const menuTambahProperti = document.getElementById('menu-tambah-properti');
+            const menuStatusPengajuan = document.getElementById('menu-status-pengajuan');
+
+            const menuItems = [
+                { el: menuTentangSaya, path: '/profile-mitra' },
+                { el: menuRiwayatPenyewaan, path: '/riwayat-penyewaan' },
+                { el: menuPropertiSaya, path: '/properti-saya' },
+                { el: menuTambahProperti, path: '/tambah-properti' },
+                { el: menuStatusPengajuan, path: '/status-pengajuan' }
+            ];
 
             // Bind click events
             menuItems.forEach(item => {
@@ -1029,7 +1304,11 @@
 
             // Initial load check
             const currentPath = window.location.pathname;
-            navigateTo(currentPath, false);
+            if (window.activeBookingId) {
+                navigateTo(`/detail-riwayat-penyewaan/${window.activeBookingId}`, false);
+            } else {
+                navigateTo(currentPath, false);
+            }
 
             // Handle browser back/forward buttons
             window.addEventListener('popstate', function(e) {

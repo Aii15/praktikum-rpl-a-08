@@ -197,7 +197,7 @@ class MitraController extends Controller
         return $this->profile();
     }
 
-    public function bookingDetail($id)
+    public function bookingDetail(Request $request, $id)
     {
         $user = $this->ensureMitra();
 
@@ -207,9 +207,47 @@ class MitraController extends Controller
             })
             ->findOrFail($id);
 
-        return view('mitra.booking_detail', [
-            'booking' => $booking,
-        ]);
+        $start = \Carbon\Carbon::parse($booking->tanggal_mulai);
+        $end = \Carbon\Carbon::parse($booking->tanggal_selesai);
+        $days = max(1, $start->diffInDays($end) + 1);
+        $booking->total_price = $booking->property ? ($booking->property->harga_per_hari * $days) : 0;
+        
+        $rentang_sewa = $start->translatedFormat('d F Y') . ' - ' . $end->translatedFormat('d F Y');
+
+        if ($request->wantsJson() || $request->ajax()) {
+            $status_text = '';
+            if ($booking->status_booking === 'pending') {
+                $status_text = 'Menunggu Konfirmasi';
+            } elseif ($booking->status_booking === 'confirmed') {
+                $status_text = 'Disetujui / Aktif';
+            } elseif ($booking->status_booking === 'completed') {
+                $status_text = 'Transaksi Selesai';
+            } else {
+                $status_text = ucfirst($booking->status_booking);
+            }
+
+            return response()->json([
+                'success' => true,
+                'booking' => [
+                    'id_booking' => $booking->id_booking,
+                    'status_booking' => $booking->status_booking,
+                    'status_text' => $status_text,
+                    'total_price_formatted' => 'Rp ' . number_format($booking->total_price, 0, ',', '.'),
+                    'rentang_sewa' => $rentang_sewa,
+                    'nama_properti' => $booking->property->nama_properti ?? '',
+                    'cover_photo' => $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png',
+                    'penyewa' => $booking->user->name ?? 'Penyewa Tidak Diketahui',
+                    'email_penyewa' => $booking->user->email ?? '-',
+                    'no_hp_penyewa' => $booking->user->no_hp ?? '-',
+                ]
+            ]);
+        }
+
+        // For direct loads, retrieve all unified data and set activeBookingId
+        $unifiedData = $this->getUnifiedData();
+        $unifiedData['activeBookingId'] = $id;
+
+        return view('mitra.profile', $unifiedData);
     }
 
     public function propertyDetail($id)
