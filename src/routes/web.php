@@ -27,7 +27,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/choose-role', [AuthController::class, 'showRoleSelectionForm'])->middleware('auth')->name('role.choose');
 Route::post('/choose-role', [AuthController::class, 'setActiveRole'])->middleware('auth')->name('role.set');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':penyewa'])->group(function () {
     Route::get('/profile-user', [UserController::class, 'profile'])->name('user.profile');
     Route::post('/profile-user', [UserController::class, 'updateProfile'])->name('user.profile.update');
     Route::get('/riwayat-booking', [UserController::class, 'bookingHistory'])->name('user.booking.history');
@@ -92,7 +92,7 @@ Route::get('/upgrade-mitra', [UpgradeController::class, 'showForm'])->middleware
 Route::post('/upgrade-mitra', [UpgradeController::class, 'upgrade'])->middleware('auth');
 
 // Mitra profile and property management
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':mitra'])->group(function () {
     Route::get('/profile-mitra', [MitraController::class, 'profile'])->name('mitra.profile');
     Route::post('/profile-mitra', [MitraController::class, 'updateProfile'])->name('mitra.profile.update');
 

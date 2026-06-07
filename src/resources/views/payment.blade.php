@@ -219,7 +219,17 @@
                         <img class="checkmark-inner-icon" src="{{ asset('icons/centang.svg') }}" alt="Success Checkmark">
                     </div>
                     <h2 class="success-title">Pembayaran Berhasil!</h2>
-                    <p class="success-description">Pemesanan Anda telah disimpan dengan status pending. Anda akan dialihkan ke riwayat booking.</p>
+                    @php
+                        $activeRole = session('active_role');
+                        if ($activeRole === 'mitra') {
+                            $successDescription = 'Pemesanan Anda telah disimpan dengan status pending. Anda akan dialihkan ke profil mitra.';
+                        } elseif ($activeRole === 'admin') {
+                            $successDescription = 'Pemesanan Anda telah disimpan dengan status pending. Anda akan dialihkan ke dashboard admin.';
+                        } else {
+                            $successDescription = 'Pemesanan Anda telah disimpan dengan status pending. Anda akan dialihkan ke riwayat booking.';
+                        }
+                    @endphp
+                    <p class="success-description">{{ $successDescription }}</p>
                     
                     <div class="countdown-bar-container">
                         <div class="countdown-bar-fill"></div>
@@ -245,7 +255,17 @@
         const csrfToken = "{{ csrf_token() }}";
         const bookingStart = "{{ $start }}";
         const bookingEnd = "{{ $end }}";
-        const redirectUrl = "{{ route('user.booking.history') }}";
+        @php
+            $activeRole = session('active_role');
+            if ($activeRole === 'mitra') {
+                $redirectUrl = route('mitra.profile');
+            } elseif ($activeRole === 'admin') {
+                $redirectUrl = route('admin.dashboard');
+            } else {
+                $redirectUrl = route('user.booking.history');
+            }
+        @endphp
+        const redirectUrl = "{{ $redirectUrl }}";
 
         function generateRandomCardNumber(brand) {
             let prefix = brand === 'visa' ? '4' : '5';
