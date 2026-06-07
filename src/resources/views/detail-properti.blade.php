@@ -72,6 +72,10 @@
             @endif
         </section>
 
+        @php
+            $activeRole = session('active_role');
+            $canBook = !Auth::check() || $activeRole === 'penyewa';
+        @endphp
         <form action="{{ route('detail-properti.book', $property->id_properti) }}" method="POST" style="display: contents;">
             @csrf
             <input type="hidden" name="date_range" id="hiddenDateRange">
@@ -183,12 +187,21 @@
 
                     <hr>
 
-                    <div class="calendar-section">
-                        <h2>IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
-                        <p id="calendarDaysText">Pilih rentang tanggal di kalender</p>
+                    @if ($canBook)
+                        <div class="calendar-section">
+                            <h2>IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
+                            <p id="calendarDaysText">Pilih rentang tanggal di kalender</p>
 
-                        <input type="text" id="dateRange">
-                    </div>
+                            <input type="text" id="dateRange">
+                        </div>
+                    @else
+                        <div class="calendar-section" style="text-align: center; padding: 30px; border: 1px dashed #fca5a5; border-radius: 12px; background-color: #fff5f5; margin-bottom: 20px;">
+                            <h3 style="color: #991b1b; font-family: 'Poppins', sans-serif; font-weight: 600; margin-bottom: 8px;">Pemesanan Dinonaktifkan</h3>
+                            <p style="color: #b91c1c; font-family: 'Poppins', sans-serif; font-size: 14px; margin: 0;">
+                                Sebagai {{ ucfirst($activeRole) }}, Anda tidak dapat melakukan pemesanan properti. Silakan masuk dengan akun Penyewa untuk memesan properti.
+                            </p>
+                        </div>
+                    @endif
 
                 </div>
 
@@ -196,24 +209,31 @@
                     <h2 id="totalPriceText">IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
                     <p id="bookingDaysText">Pilih tanggal</p>
 
-                    <div class="date-box" onclick="toggleBookingCardCalendar(event)" style="cursor: pointer; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #222; border-radius: 6px; overflow: hidden; margin-bottom: 15px;">
-                        <div class="date-item">
-                            <b>Check-in</b>
-                            <span id="checkInText">--/--/----</span>
+                    @if ($canBook)
+                        <div class="date-box" onclick="toggleBookingCardCalendar(event)" style="cursor: pointer; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #222; border-radius: 6px; overflow: hidden; margin-bottom: 15px;">
+                            <div class="date-item">
+                                <b>Check-in</b>
+                                <span id="checkInText">--/--/----</span>
+                            </div>
+
+                            <div class="date-item">
+                                <b>Check-out</b>
+                                <span id="checkOutText">--/--/----</span>
+                            </div>
                         </div>
 
-                        <div class="date-item">
-                            <b>Check-out</b>
-                            <span id="checkOutText">--/--/----</span>
+                        <!-- Inline calendar container inside the booking card -->
+                        <div id="bookingCardCalendarWrapper" style="display: none; margin-top: 15px; margin-bottom: 15px; width: 100%; border: 1px solid #eaeaea; border-radius: 12px; padding: 10px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                            <div id="bookingCardCalendarInline"></div>
                         </div>
-                    </div>
 
-                    <!-- Inline calendar container inside the booking card -->
-                    <div id="bookingCardCalendarWrapper" style="display: none; margin-top: 15px; margin-bottom: 15px; width: 100%; border: 1px solid #eaeaea; border-radius: 12px; padding: 10px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                        <div id="bookingCardCalendarInline"></div>
-                    </div>
-
-                    <button type="submit">Pesan</button>
+                        <button type="submit">Pesan</button>
+                    @else
+                        <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif; text-align: center; border: 1px solid #fca5a5; mt-15px; margin-bottom: 15px;">
+                            Akun Anda terdaftar sebagai {{ ucfirst($activeRole) }}. Hanya akun Penyewa yang dapat melakukan pemesanan.
+                        </div>
+                        <button type="button" style="background: #ccc; cursor: not-allowed; color: #666; width: 100%; padding: 15px; border-radius: 12px; font-weight: 600; font-family: 'Poppins', sans-serif; border: none;" disabled>Pesan</button>
+                    @endif
                 </aside>
 
             </section>
@@ -319,6 +339,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
     <script>
+        const canBook = {{ $canBook ? 'true' : 'false' }};
         // Initialize Flatpickr with seeded disabled dates
         const disabledDates = @json($disabledDates);
         const parsedDisable = disabledDates.map(range => {
@@ -413,59 +434,62 @@
             }
         }
 
-        const inlineFp = flatpickr("#dateRange", {
-            locale: "id",
-            mode: "range",
-            inline: true,
-            minDate: "today",
-            dateFormat: "Y-m-d",
-            showMonths: 2,
-            disable: parsedDisable,
-            onChange: function(selectedDates, dateStr, instance) {
-                handleDateSelection(selectedDates, dateStr, instance);
-                if (window.popupFp) {
-                    window.popupFp.setDate(selectedDates, false);
+        let inlineFp = null;
+        if (canBook) {
+            inlineFp = flatpickr("#dateRange", {
+                locale: "id",
+                mode: "range",
+                inline: true,
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                showMonths: 2,
+                disable: parsedDisable,
+                onChange: function(selectedDates, dateStr, instance) {
+                    handleDateSelection(selectedDates, dateStr, instance);
+                    if (window.popupFp) {
+                        window.popupFp.setDate(selectedDates, false);
+                    }
+                },
+                onDayCreate: function(dObj, dStr, fp, dayElem) {
+                    if (!dayElem.dateObj) return;
+                    const dateStrYmd = formatDateYmd(dayElem.dateObj);
+                    const isBooked = disabledDates.some(range => {
+                        return dateStrYmd >= range.from && dateStrYmd <= range.to;
+                    });
+                    if (isBooked) {
+                        dayElem.classList.add("booked-day");
+                        dayElem.setAttribute("data-booked-tooltip", "Tanggal ini sudah dipesan");
+                    }
                 }
-            },
-            onDayCreate: function(dObj, dStr, fp, dayElem) {
-                if (!dayElem.dateObj) return;
-                const dateStrYmd = formatDateYmd(dayElem.dateObj);
-                const isBooked = disabledDates.some(range => {
-                    return dateStrYmd >= range.from && dateStrYmd <= range.to;
-                });
-                if (isBooked) {
-                    dayElem.classList.add("booked-day");
-                    dayElem.setAttribute("data-booked-tooltip", "Tanggal ini sudah dipesan");
-                }
-            }
-        });
+            });
 
-        window.popupFp = flatpickr("#bookingCardCalendarInline", {
-            locale: "id",
-            mode: "range",
-            inline: true,
-            minDate: "today",
-            dateFormat: "Y-m-d",
-            showMonths: 1,
-            disable: parsedDisable,
-            onChange: function(selectedDates, dateStr, instance) {
-                handleDateSelection(selectedDates, dateStr, instance);
-                if (inlineFp) {
-                    inlineFp.setDate(selectedDates, false);
+            window.popupFp = flatpickr("#bookingCardCalendarInline", {
+                locale: "id",
+                mode: "range",
+                inline: true,
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                showMonths: 1,
+                disable: parsedDisable,
+                onChange: function(selectedDates, dateStr, instance) {
+                    handleDateSelection(selectedDates, dateStr, instance);
+                    if (inlineFp) {
+                        inlineFp.setDate(selectedDates, false);
+                    }
+                },
+                onDayCreate: function(dObj, dStr, fp, dayElem) {
+                    if (!dayElem.dateObj) return;
+                    const dateStrYmd = formatDateYmd(dayElem.dateObj);
+                    const isBooked = disabledDates.some(range => {
+                        return dateStrYmd >= range.from && dateStrYmd <= range.to;
+                    });
+                    if (isBooked) {
+                        dayElem.classList.add("booked-day");
+                        dayElem.setAttribute("data-booked-tooltip", "Tanggal ini sudah dipesan");
+                    }
                 }
-            },
-            onDayCreate: function(dObj, dStr, fp, dayElem) {
-                if (!dayElem.dateObj) return;
-                const dateStrYmd = formatDateYmd(dayElem.dateObj);
-                const isBooked = disabledDates.some(range => {
-                    return dateStrYmd >= range.from && dateStrYmd <= range.to;
-                });
-                if (isBooked) {
-                    dayElem.classList.add("booked-day");
-                    dayElem.setAttribute("data-booked-tooltip", "Tanggal ini sudah dipesan");
-                }
-            }
-        });
+            });
+        }
 
         function toggleBookingCardCalendar(event) {
             event.stopPropagation();
