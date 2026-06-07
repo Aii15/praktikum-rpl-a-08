@@ -84,6 +84,9 @@ Route::get('/detail-properti/{id}', [PropertyController::class, 'show'])->name('
 Route::post('/detail-properti/{id}/book', [PropertyController::class, 'book'])->middleware('auth')->name('detail-properti.book');
 Route::post('/detail-properti/{id}/save', [PropertyController::class, 'save'])->middleware('auth')->name('detail-properti.save');
 
+Route::get('/payment/{id}', [PropertyController::class, 'showPaymentPage'])->middleware('auth')->name('property.payment');
+Route::post('/payment/{id}/store', [PropertyController::class, 'storeBooking'])->middleware('auth')->name('property.payment.store');
+
 // Upgrade to mitra (for logged-in users)
 Route::get('/upgrade-mitra', [UpgradeController::class, 'showForm'])->middleware('auth')->name('upgrade.mitra');
 Route::post('/upgrade-mitra', [UpgradeController::class, 'upgrade'])->middleware('auth');

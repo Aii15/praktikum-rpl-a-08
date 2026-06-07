@@ -396,7 +396,9 @@
                 const formattedPrice = 'IDR ' + new Intl.NumberFormat('id-ID').format(totalPrice);
 
                 document.getElementById("totalPriceText").innerHTML = formattedPrice;
-                document.getElementById("hiddenDateRange").value = dateStr;
+                const startStr = formatDateYmd(selectedDates[0]);
+                const endStr = formatDateYmd(selectedDates[1]);
+                document.getElementById("hiddenDateRange").value = startStr + ' to ' + endStr;
                 document.getElementById("bookingDaysText").textContent = `Untuk ${diffDays} Hari`;
                 document.getElementById("calendarDaysText").textContent = `Untuk ${diffDays} Hari (${instance.formatDate(selectedDates[0], "d/m/Y")} - ${instance.formatDate(selectedDates[1], "d/m/Y")})`;
             } else {
