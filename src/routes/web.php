@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile-user', [UserController::class, 'profile'])->name('user.profile');
     Route::post('/profile-user', [UserController::class, 'updateProfile'])->name('user.profile.update');
     Route::get('/riwayat-booking', [UserController::class, 'bookingHistory'])->name('user.booking.history');
+    Route::get('/saved-properti', [UserController::class, 'profile'])->name('user.saved');
     Route::get('/detail-riwayat-booking/{id}', [UserController::class, 'bookingDetail'])->name('user.booking.detail');
 });
 

@@ -312,23 +312,23 @@
         }
 
         .booking-card {
-            background: #f9fafb;
+            background: #f3f4f6bf;
             border-radius: 14px;
             padding: 18px;
             display: flex;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .04);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
             text-decoration: none;
             color: #222;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
+            border: 1px solid #07070764;
         }
 
         .booking-card:hover {
             transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .1);
             border-color: #f7c948;
             background: #ffffff;
         }
@@ -411,6 +411,11 @@
                     <a href="/riwayat-booking" id="menu-riwayat-booking" class="menu-item">
                         <img src="/images/profile/history.png" class="menu-icon" alt="Riwayat Booking Icon">
                         <span>Riwayat Booking</span>
+                    </a>
+
+                    <a href="/saved-properti" id="menu-saved-properti" class="menu-item">
+                        <img src="/icons/love.svg" class="menu-icon" alt="Saved Properti Icon">
+                        <span>Saved Properti</span>
                     </a>
 
                     @if(!Auth::user()->isMitra())
@@ -521,6 +526,37 @@
                     @endforelse
                 </div>
             </div>
+
+            <!-- SECTION 3: SAVED PROPERTIES -->
+            <div id="section-saved-properti" class="content-section">
+                <h1>Saved Properti</h1>
+
+                <div class="booking-list">
+                    @forelse($wishlists as $wishlist)
+                        @if($wishlist->property)
+                            <a href="{{ route('detail-properti', $wishlist->property->id_properti) }}" class="booking-card">
+                                <img src="{{ $wishlist->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $wishlist->property->nama_properti }}">
+
+                                <div class="booking-info">
+                                    <h3>{{ $wishlist->property->nama_properti }}</h3>
+                                    <p>{{ $wishlist->property->location->kota ?? 'Lokasi Tidak Diketahui' }}</p>
+                                    <strong>Rp {{ number_format($wishlist->property->harga_per_hari, 0, ',', '.') }} / hari</strong>
+                                </div>
+
+                                <div style="display: flex; align-items: center; justify-content: flex-end; padding-right: 15px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="width: 28px; height: 28px; color: #ef4444; fill: #ef4444;">
+                                        <path d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8" />
+                                    </svg>
+                                </div>
+                            </a>
+                        @endif
+                    @empty
+                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
+                            Anda belum menyimpan properti apa pun.
+                        </div>
+                    @endforelse
+                </div>
+            </div>
         </section>
 
     </main>
@@ -543,47 +579,61 @@
             // SPA Routing logic
             const menuTentangSaya = document.getElementById('menu-tentang-saya');
             const menuRiwayatBooking = document.getElementById('menu-riwayat-booking');
+            const menuSavedProperti = document.getElementById('menu-saved-properti');
+
+            const menuItems = [
+                { path: '/profile-user', sectionId: 'section-tentang-saya', title: 'Profile User - SpotRent', menuEl: menuTentangSaya },
+                { path: '/riwayat-booking', sectionId: 'section-riwayat-booking', title: 'Riwayat Booking - SpotRent', menuEl: menuRiwayatBooking },
+                { path: '/saved-properti', sectionId: 'section-saved-properti', title: 'Saved Properti - SpotRent', menuEl: menuSavedProperti }
+            ];
 
             function navigateTo(path, pushState = true) {
-                if (path === '/riwayat-booking') {
-                    showSection('section-riwayat-booking');
-                    menuTentangSaya.classList.remove('active');
-                    menuRiwayatBooking.classList.add('active');
-                    document.title = "Riwayat Booking - SpotRent";
-                    if (pushState) history.pushState({ path: '/riwayat-booking' }, '', '/riwayat-booking');
-                } else {
-                    showSection('section-tentang-saya');
-                    menuTentangSaya.classList.add('active');
-                    menuRiwayatBooking.classList.remove('active');
-                    document.title = "Profile User - SpotRent";
-                    if (pushState) history.pushState({ path: '/profile-user' }, '', '/profile-user');
+                let matched = menuItems.find(item => item.path === path);
+                if (!matched) {
+                    matched = menuItems[0];
                 }
-            }
 
-            function showSection(sectionId) {
-                const sections = document.querySelectorAll('.content-section');
-                sections.forEach(sec => {
-                    sec.classList.remove('active');
-                    sec.style.display = 'none';
+                menuItems.forEach(item => {
+                    const sec = document.getElementById(item.sectionId);
+                    if (item === matched) {
+                        sec.style.display = 'block';
+                        sec.offsetHeight; // force reflow
+                        sec.classList.add('active');
+                        if (item.menuEl) item.menuEl.classList.add('active');
+                    } else {
+                        sec.classList.remove('active');
+                        sec.style.display = 'none';
+                        if (item.menuEl) item.menuEl.classList.remove('active');
+                    }
                 });
 
-                const activeSection = document.getElementById(sectionId);
-                if (activeSection) {
-                    activeSection.style.display = 'block';
-                    activeSection.offsetHeight; // force reflow
-                    activeSection.classList.add('active');
+                document.title = matched.title;
+
+                if (pushState) {
+                    history.pushState({ path: matched.path }, '', matched.path);
                 }
             }
 
-            menuTentangSaya.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigateTo('/profile-user');
-            });
+            if (menuTentangSaya) {
+                menuTentangSaya.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/profile-user');
+                });
+            }
 
-            menuRiwayatBooking.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigateTo('/riwayat-booking');
-            });
+            if (menuRiwayatBooking) {
+                menuRiwayatBooking.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/riwayat-booking');
+                });
+            }
+
+            if (menuSavedProperti) {
+                menuSavedProperti.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/saved-properti');
+                });
+            }
 
             // Initial load check
             const currentPath = window.location.pathname;

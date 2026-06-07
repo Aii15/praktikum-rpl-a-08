@@ -31,7 +31,12 @@ class UserController extends Controller
             return $booking;
         });
 
-        return view('profile-user', compact('user', 'bookings'));
+        $wishlists = \App\Models\Wishlist::with(['property.coverPhoto', 'property.location'])
+            ->where('id_user', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('profile-user', compact('user', 'bookings', 'wishlists'));
     }
 
     /**
