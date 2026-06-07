@@ -86,7 +86,7 @@ class UserController extends Controller
     /**
      * Show detail for a specific booking.
      */
-    public function bookingDetail($id)
+    public function bookingDetail(Request $request, $id)
     {
         $user = Auth::user();
 
@@ -100,6 +100,42 @@ class UserController extends Controller
         $booking->total_price = $booking->property ? ($booking->property->harga_per_hari * $days) : 0;
         $booking->rentang_hari = $start->translatedFormat('d M Y') . ' - ' . $end->translatedFormat('d M Y');
 
-        return view('detail-riwayat-booking', compact('booking'));
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'booking' => [
+                    'id_booking' => $booking->id_booking,
+                    'status_booking' => $booking->status_booking,
+                    'status_pembayaran' => in_array($booking->status_booking, ['confirmed', 'completed']) ? 'Lunas' : 'Menunggu Konfirmasi',
+                    'total_price_formatted' => 'Rp ' . number_format($booking->total_price, 0, ',', '.'),
+                    'rentang_hari' => $booking->rentang_hari,
+                    'nama_properti' => $booking->property->nama_properti ?? '',
+                    'cover_photo' => $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png',
+                    'pemilik' => $booking->property->mitra->name ?? 'Tidak Diketahui',
+                ]
+            ]);
+        }
+
+        $bookings = Booking::with(['property.coverPhoto', 'property.location'])
+            ->where('id_user', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $bookings = $bookings->map(function ($b) {
+            $start = Carbon::parse($b->tanggal_mulai);
+            $end = Carbon::parse($b->tanggal_selesai);
+            $days = max(1, $start->diffInDays($end) + 1);
+            $b->total_price = $b->property ? ($b->property->harga_per_hari * $days) : 0;
+            return $b;
+        });
+
+        $wishlists = \App\Models\Wishlist::with(['property.coverPhoto', 'property.location'])
+            ->where('id_user', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $activeBookingId = $id;
+
+        return view('profile-user', compact('user', 'bookings', 'wishlists', 'activeBookingId'));
     }
 }

@@ -387,6 +387,162 @@
         .menu-item img[src*="upgrade.svg"] {
             filter: none !important;
         }
+
+        /* Detail Booking Modal Styles */
+        .booking-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: fadeInModal 0.25s ease forwards;
+        }
+
+        .booking-modal-content {
+            background: #ffffff;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 580px;
+            padding: 28px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            animation: popInModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            border: 1px solid #e5e7eb;
+        }
+
+        .booking-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+            line-height: 1;
+        }
+
+        .booking-modal-close:hover {
+            color: #111827;
+            transform: scale(1.1);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .modal-loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            gap: 12px;
+        }
+
+        .modal-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(0, 0, 0, 0.08);
+            border-top-color: #f7c948;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .modal-loader-container p {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .modal-banner-container {
+            width: 100%;
+            height: 180px;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .modal-banner-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-info-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 16px;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 24px;
+        }
+
+        .modal-info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .modal-info-group span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .modal-info-group strong {
+            font-size: 14px;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        /* Modal status styling */
+        .modal-status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        .modal-status-badge.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .modal-status-badge.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes popInModal {
+            from { transform: scale(0.9) translateY(10px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -500,7 +656,7 @@
 
                 <div class="booking-list">
                     @forelse($bookings as $booking)
-                        <a href="{{ route('user.booking.detail', $booking->id_booking) }}" class="booking-card">
+                        <a href="{{ route('user.booking.detail', $booking->id_booking) }}" onclick="showBookingDetail(event, {{ $booking->id_booking }})" class="booking-card">
                             <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
 
                             <div class="booking-info">
@@ -561,7 +717,56 @@
 
     </main>
 
+    <!-- Detail Booking Modal -->
+    <div id="bookingDetailModal" class="booking-modal-overlay">
+        <div class="booking-modal-content">
+            <span class="booking-modal-close" onclick="closeBookingDetail()">&times;</span>
+            <h2 class="modal-title">Detail Booking</h2>
+            
+            <div id="modalLoading" class="modal-loader-container">
+                <div class="modal-spinner"></div>
+                <p>Memuat detail booking...</p>
+            </div>
+            
+            <div id="modalBody" style="display: none;">
+                <div class="modal-banner-container">
+                    <img id="modalBanner" src="" alt="Property Banner">
+                </div>
+                
+                <div class="modal-info-section">
+                    <h3 id="modalPropertyName"></h3>
+                    
+                    <div class="modal-grid">
+                       <div class="modal-info-group">
+                           <span>Status Booking</span>
+                           <strong id="modalStatusBooking"></strong>
+                       </div>
+                       <div class="modal-info-group">
+                           <span>Status Pembayaran</span>
+                           <strong id="modalStatusPembayaran"></strong>
+                       </div>
+                       <div class="modal-info-group">
+                           <span>Total Harga</span>
+                           <strong id="modalTotalPrice"></strong>
+                       </div>
+                       <div class="modal-info-group">
+                           <span>Rentang Hari</span>
+                           <strong id="modalRentangHari"></strong>
+                       </div>
+                       <div class="modal-info-group">
+                           <span>Pemilik Properti</span>
+                           <strong id="modalPemilik"></strong>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Global booking ID passed from server for direct loads
+        window.activeBookingId = @json($activeBookingId ?? null);
+
         document.addEventListener('DOMContentLoaded', function() {
             // Flash message logic
             const flashContainer = document.getElementById('flash-message-container');
@@ -588,29 +793,41 @@
             ];
 
             function navigateTo(path, pushState = true) {
-                let matched = menuItems.find(item => item.path === path);
+                let isDetail = path.match(/^\/detail-riwayat-booking\/(\d+)$/);
+                let matchedPath = isDetail ? '/riwayat-booking' : path;
+
+                let matched = menuItems.find(item => item.path === matchedPath);
                 if (!matched) {
                     matched = menuItems[0];
                 }
 
                 menuItems.forEach(item => {
                     const sec = document.getElementById(item.sectionId);
-                    if (item === matched) {
-                        sec.style.display = 'block';
-                        sec.offsetHeight; // force reflow
-                        sec.classList.add('active');
-                        if (item.menuEl) item.menuEl.classList.add('active');
-                    } else {
-                        sec.classList.remove('active');
-                        sec.style.display = 'none';
-                        if (item.menuEl) item.menuEl.classList.remove('active');
+                    if (sec) {
+                        if (item === matched) {
+                            sec.style.display = 'block';
+                            sec.offsetHeight; // force reflow
+                            sec.classList.add('active');
+                            if (item.menuEl) item.menuEl.classList.add('active');
+                        } else {
+                            sec.classList.remove('active');
+                            sec.style.display = 'none';
+                            if (item.menuEl) item.menuEl.classList.remove('active');
+                        }
                     }
                 });
 
-                document.title = matched.title;
+                document.title = isDetail ? 'Detail Booking - SpotRent' : matched.title;
 
                 if (pushState) {
-                    history.pushState({ path: matched.path }, '', matched.path);
+                    history.pushState({ path: path }, '', path);
+                }
+
+                if (isDetail) {
+                    const id = isDetail[1];
+                    showBookingDetail(null, id, false);
+                } else {
+                    closeBookingDetail(false);
                 }
             }
 
@@ -635,9 +852,13 @@
                 });
             }
 
-            // Initial load check
+            // Initial load check (could be loaded with activeBookingId from server)
             const currentPath = window.location.pathname;
-            navigateTo(currentPath, false);
+            if (window.activeBookingId) {
+                navigateTo(`/detail-riwayat-booking/${window.activeBookingId}`, false);
+            } else {
+                navigateTo(currentPath, false);
+            }
 
             // Handle browser back/forward buttons
             window.addEventListener('popstate', function(e) {
@@ -659,6 +880,71 @@
                 }
             });
         }
+
+        window.showBookingDetail = function(event, id, shouldPushState = true) {
+            if (event) event.preventDefault();
+            
+            const modal = document.getElementById('bookingDetailModal');
+            const loader = document.getElementById('modalLoading');
+            const body = document.getElementById('modalBody');
+            
+            modal.style.display = 'flex';
+            loader.style.display = 'flex';
+            body.style.display = 'none';
+
+            if (shouldPushState) {
+                history.pushState({ path: `/detail-riwayat-booking/${id}` }, '', `/detail-riwayat-booking/${id}`);
+                document.title = 'Detail Booking - SpotRent';
+            }
+            
+            fetch(`/detail-riwayat-booking/${id}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const booking = data.booking;
+                    
+                    document.getElementById('modalBanner').src = booking.cover_photo;
+                    document.getElementById('modalPropertyName').textContent = booking.nama_properti;
+                    
+                    const statusText = booking.status_booking.charAt(0).toUpperCase() + booking.status_booking.slice(1);
+                    const statusEl = document.getElementById('modalStatusBooking');
+                    statusEl.textContent = statusText;
+                    statusEl.className = 'modal-status-badge ' + (booking.status_booking === 'pending' ? 'process' : 'success');
+                    
+                    document.getElementById('modalStatusPembayaran').textContent = booking.status_pembayaran;
+                    document.getElementById('modalTotalPrice').textContent = booking.total_price_formatted;
+                    document.getElementById('modalRentangHari').textContent = booking.rentang_hari;
+                    document.getElementById('modalPemilik').textContent = booking.pemilik;
+                    
+                    loader.style.display = 'none';
+                    body.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching booking details:', error);
+                loader.innerHTML = '<p style="color: #dc3545; font-size: 14px; font-weight: 500;">Gagal memuat detail booking. Silakan coba lagi.</p>';
+            });
+        };
+
+        window.closeBookingDetail = function(shouldPushState = true) {
+            document.getElementById('bookingDetailModal').style.display = 'none';
+            if (shouldPushState) {
+                history.pushState({ path: '/riwayat-booking' }, '', '/riwayat-booking');
+                document.title = 'Riwayat Booking - SpotRent';
+            }
+        };
+
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('bookingDetailModal');
+            if (event.target === modal) {
+                closeBookingDetail();
+            }
+        });
     </script>
 </body>
 

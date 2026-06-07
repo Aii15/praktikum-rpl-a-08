@@ -305,6 +305,11 @@
                         <span>Riwayat Booking</span>
                     </a>
 
+                    <a href="/saved-properti" class="menu-item">
+                        <img src="/icons/love.svg" class="menu-icon" alt="Saved Properti Icon">
+                        <span>Saved Properti</span>
+                    </a>
+
                     @if(!Auth::user()->isMitra())
                     <a href="/upgrade-mitra" class="menu-item">
                         <img src="/icons/upgrade.svg" class="menu-icon" alt="Upgrade Icon">
