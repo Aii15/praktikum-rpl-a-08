@@ -757,6 +757,155 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Statistics Cards Styles */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            border-radius: 14px;
+            padding: 22px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            border-left: 6px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card.blue {
+            background: #f0f5ff;
+            border-left-color: #2563eb;
+        }
+
+        .stat-card.green {
+            background: #f0fdf4;
+            border-left-color: #16a34a;
+        }
+
+        .stat-card.orange {
+            background: #fffbeb;
+            border-left-color: #d97706;
+        }
+
+        .stat-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card.blue .stat-title {
+            color: #4b6b94;
+        }
+
+        .stat-card.green .stat-title {
+            color: #4b8c62;
+        }
+
+        .stat-card.orange .stat-title {
+            color: #8c6a38;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .stat-card.blue .stat-value {
+            color: #1e40af;
+        }
+
+        .stat-card.green .stat-value {
+            color: #15803d;
+        }
+
+        .stat-card.orange .stat-value {
+            color: #78350f;
+        }
+
+        /* Filter Controls styles */
+        .filter-controls-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 20;
+        }
+
+        @media (max-width: 768px) {
+            .filter-controls-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-card {
+            min-height: 64px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            padding: 10px 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .filter-card:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        .filter-card:focus-within {
+            background: #ffffff;
+            border-color: #f7c948;
+            box-shadow: 0 8px 20px rgba(247, 201, 72, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .selected-display {
+            font-size: 15px;
+            font-weight: 500;
+            color: #222;
+            margin-top: 2px;
+        }
+
+        .status-badge-inline {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-badge-inline.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-badge-inline.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .status-badge-inline.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
     </style>
 @endsection
 
@@ -841,13 +990,82 @@
     <div id="section-riwayat-penyewaan" class="content-section">
         <h1>Riwayat Penyewaan</h1>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Cari penyewaan..." onkeyup="searchBookings()">
+
+        <!-- Filter and Sort Controls -->
+        <div class="filter-controls-container">
+            <!-- Search Card -->
+            <div class="field-card filter-card search-card">
+                <div class="field-text">
+                    <small>Cari Properti / Penyewa</small>
+                    <input type="text" id="filter-search-input" class="profile-input" placeholder="Tulis nama properti atau penyewa..." onkeyup="applyAllFilters()">
+                </div>
+                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+            </div>
+
+            <!-- Status Dropdown Card -->
+            <div class="field-card filter-card dropdown-card" id="status-dropdown-container" style="position: relative; z-index: 15;">
+                <div class="field-text" onclick="toggleFilterDropdown('status-dropdown', event)">
+                    <small>Status Penyewaan</small>
+                    <div id="status-display" class="selected-display">Semua Status</div>
+                    <input type="hidden" id="filter-status-value" value="all">
+                </div>
+                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleFilterDropdown('status-dropdown', event)">
+                
+                <div id="status-dropdown" class="dropdown-menu-list">
+                    <div class="dropdown-item-row status-item-row" data-val="all" onclick="selectFilterStatus('all', 'Semua Status', event)">
+                        <span>Semua Status</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="pending" onclick="selectFilterStatus('pending', 'Pending', event)">
+                        <span class="status-badge-inline process">Pending</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="confirmed" onclick="selectFilterStatus('confirmed', 'Disetujui', event)">
+                        <span class="status-badge-inline success">Disetujui</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="completed" onclick="selectFilterStatus('completed', 'Selesai', event)">
+                        <span class="status-badge-inline success">Selesai</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="rejected" onclick="selectFilterStatus('rejected', 'Ditolak', event)">
+                        <span class="status-badge-inline danger">Ditolak</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sort Dropdown Card -->
+            <div class="field-card filter-card dropdown-card" id="sort-dropdown-container" style="position: relative; z-index: 10;">
+                <div class="field-text" onclick="toggleFilterDropdown('sort-dropdown', event)">
+                    <small>Urutkan Berdasarkan</small>
+                    <div id="sort-display" class="selected-display">Tanggal Terbaru</div>
+                    <input type="hidden" id="filter-sort-value" value="date_desc">
+                </div>
+                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleFilterDropdown('sort-dropdown', event)">
+                
+                <div id="sort-dropdown" class="dropdown-menu-list">
+                    <div class="dropdown-item-row sort-item-row" data-val="date_desc" onclick="selectFilterSort('date_desc', 'Tanggal Terbaru', event)">
+                        <span>Tanggal Terbaru</span>
+                    </div>
+                    <div class="dropdown-item-row sort-item-row" data-val="date_asc" onclick="selectFilterSort('date_asc', 'Tanggal Terlama', event)">
+                        <span>Tanggal Terlama</span>
+                    </div>
+                    <div class="dropdown-item-row sort-item-row" data-val="price_desc" onclick="selectFilterSort('price_desc', 'Harga Tertinggi', event)">
+                        <span>Harga Tertinggi</span>
+                    </div>
+                    <div class="dropdown-item-row sort-item-row" data-val="price_asc" onclick="selectFilterSort('price_asc', 'Harga Terendah', event)">
+                        <span>Harga Terendah</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="booking-list">
             @forelse($bookings as $booking)
-                <a href="{{ route('mitra.booking.detail', $booking->id_booking) }}" onclick="showRentalDetail(event, {{ $booking->id_booking }})" class="booking-card">
+                <a href="{{ route('mitra.booking.detail', $booking->id_booking) }}" 
+                   onclick="showRentalDetail(event, {{ $booking->id_booking }})" 
+                   class="booking-card"
+                   data-status="{{ $booking->status_booking }}"
+                   data-property-name="{{ strtolower($booking->property->nama_properti ?? '') }}"
+                   data-tenant-name="{{ strtolower($booking->user->name ?? '') }}"
+                   data-price="{{ $booking->total_price ?? 0 }}"
+                   data-timestamp="{{ \Carbon\Carbon::parse($booking->tanggal_mulai)->timestamp }}">
                     <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
 
                     <div class="booking-info">
@@ -868,7 +1086,7 @@
                     @endif
                 </a>
             @empty
-                <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
+                <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px; width: 100%;">
                     Belum ada riwayat penyewaan untuk properti Anda.
                 </div>
             @endforelse
@@ -1329,21 +1547,162 @@
                     selectKategori(oldKategoriVal, name, iconUrl);
                 }
             }
+
+            // Apply rental history filters and sort on load
+            applyAllFilters();
         });
 
-        // Search bookings logic
-        function searchBookings() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.booking-card');
+        // Apply all filters and sorting on Mitra Rental History
+        function applyAllFilters() {
+            const searchInputEl = document.getElementById('filter-search-input');
+            const searchQuery = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
+            
+            const statusInputEl = document.getElementById('filter-status-value');
+            const statusFilter = statusInputEl ? statusInputEl.value : 'all';
+            
+            const sortInputEl = document.getElementById('filter-sort-value');
+            const sortBy = sortInputEl ? sortInputEl.value : 'date_desc';
+            
+            const bookingListContainer = document.querySelector('.booking-list');
+            if (!bookingListContainer) return;
+            
+            const cards = Array.from(bookingListContainer.querySelectorAll('.booking-card'));
+            let visibleCount = 0;
+            
             cards.forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                const text = card.querySelector('.booking-info').textContent.toLowerCase();
-                if (title.includes(query) || text.includes(query)) {
+                const propName = card.getAttribute('data-property-name') || '';
+                const tenantName = card.getAttribute('data-tenant-name') || '';
+                const status = card.getAttribute('data-status') || '';
+                
+                // 1. Check Search Query
+                const matchesSearch = searchQuery === '' || 
+                                      propName.includes(searchQuery) || 
+                                      tenantName.includes(searchQuery);
+                                      
+                // 2. Check Status Filter
+                let matchesStatus = false;
+                if (statusFilter === 'all') {
+                    matchesStatus = true;
+                } else if (statusFilter === 'pending') {
+                    matchesStatus = (status === 'pending');
+                } else if (statusFilter === 'confirmed') {
+                    matchesStatus = (status === 'confirmed');
+                } else if (statusFilter === 'completed') {
+                    matchesStatus = (status === 'completed');
+                } else if (statusFilter === 'rejected') {
+                    matchesStatus = (status !== 'pending' && status !== 'confirmed' && status !== 'completed');
+                }
+                
+                if (matchesSearch && matchesStatus) {
                     card.style.display = 'flex';
+                    visibleCount++;
                 } else {
                     card.style.display = 'none';
                 }
             });
+            
+            // Handle Empty State
+            let emptyMessage = document.getElementById('empty-bookings-message');
+            if (visibleCount === 0) {
+                if (!emptyMessage) {
+                    emptyMessage = document.createElement('div');
+                    emptyMessage.id = 'empty-bookings-message';
+                    emptyMessage.style.cssText = "text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px; width: 100%;";
+                    emptyMessage.textContent = "Tidak ada riwayat penyewaan yang cocok dengan filter.";
+                    bookingListContainer.appendChild(emptyMessage);
+                } else {
+                    emptyMessage.style.display = 'block';
+                }
+            } else {
+                if (emptyMessage) {
+                    emptyMessage.style.display = 'none';
+                }
+            }
+            
+            // 3. Sort Cards
+            if (visibleCount > 1) {
+                cards.sort((a, b) => {
+                    if (sortBy === 'date_desc') {
+                        const valA = parseInt(a.getAttribute('data-timestamp')) || 0;
+                        const valB = parseInt(b.getAttribute('data-timestamp')) || 0;
+                        return valB - valA;
+                    } else if (sortBy === 'date_asc') {
+                        const valA = parseInt(a.getAttribute('data-timestamp')) || 0;
+                        const valB = parseInt(b.getAttribute('data-timestamp')) || 0;
+                        return valA - valB;
+                    } else if (sortBy === 'price_desc') {
+                        const valA = parseFloat(a.getAttribute('data-price')) || 0;
+                        const valB = parseFloat(b.getAttribute('data-price')) || 0;
+                        return valB - valA;
+                    } else if (sortBy === 'price_asc') {
+                        const valA = parseFloat(a.getAttribute('data-price')) || 0;
+                        const valB = parseFloat(b.getAttribute('data-price')) || 0;
+                        return valA - valB;
+                    }
+                    return 0;
+                });
+                
+                // Re-append sorted cards in order
+                cards.forEach(card => {
+                    bookingListContainer.appendChild(card);
+                });
+            }
+        }
+
+        // Toggle Filter and Sort custom dropdowns
+        function toggleFilterDropdown(id, e) {
+            if (e) e.stopPropagation();
+            
+            // Close other dropdowns first
+            ['status-dropdown', 'sort-dropdown', 'kategori-dropdown', 'fasilitas-dropdown'].forEach(dropId => {
+                if (dropId !== id) {
+                    const drop = document.getElementById(dropId);
+                    if (drop) drop.style.display = 'none';
+                }
+            });
+            
+            const dropdown = document.getElementById(id);
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        // Select Status Filter
+        function selectFilterStatus(val, label, e) {
+            if (e) e.stopPropagation();
+            const valInput = document.getElementById('filter-status-value');
+            if (valInput) valInput.value = val;
+            
+            const display = document.getElementById('status-display');
+            if (display) {
+                if (val === 'all') {
+                    display.innerHTML = 'Semua Status';
+                } else {
+                    let badgeClass = 'process';
+                    if (val === 'confirmed' || val === 'completed') badgeClass = 'success';
+                    if (val === 'rejected') badgeClass = 'danger';
+                    
+                    display.innerHTML = `<span class="status-badge-inline ${badgeClass}">${label}</span>`;
+                }
+            }
+            
+            const dropdown = document.getElementById('status-dropdown');
+            if (dropdown) dropdown.style.display = 'none';
+            applyAllFilters();
+        }
+
+        // Select Sort Filter
+        function selectFilterSort(val, label, e) {
+            if (e) e.stopPropagation();
+            const valInput = document.getElementById('filter-sort-value');
+            if (valInput) valInput.value = val;
+            
+            const display = document.getElementById('sort-display');
+            if (display) display.textContent = label;
+            
+            const dropdown = document.getElementById('sort-dropdown');
+            if (dropdown) dropdown.style.display = 'none';
+            applyAllFilters();
         }
 
         // Toggle category list
@@ -1435,6 +1794,18 @@
             const catDropdown = document.getElementById('kategori-dropdown');
             if (catContainer && !catContainer.contains(e.target)) {
                 if (catDropdown) catDropdown.style.display = 'none';
+            }
+
+            const statusContainer = document.getElementById('status-dropdown-container');
+            const statusDropdown = document.getElementById('status-dropdown');
+            if (statusContainer && !statusContainer.contains(e.target)) {
+                if (statusDropdown) statusDropdown.style.display = 'none';
+            }
+
+            const sortContainer = document.getElementById('sort-dropdown-container');
+            const sortDropdown = document.getElementById('sort-dropdown');
+            if (sortContainer && !sortContainer.contains(e.target)) {
+                if (sortDropdown) sortDropdown.style.display = 'none';
             }
         });
 
