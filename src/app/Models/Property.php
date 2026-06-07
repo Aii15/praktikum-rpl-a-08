@@ -22,6 +22,7 @@ class Property extends Model
         'harga_per_hari',
         'fasilitas',
         'status_pengajuan',
+        'catatan',
     ];
 
     public function mitra()

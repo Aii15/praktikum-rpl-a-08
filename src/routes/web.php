@@ -10,12 +10,16 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 
 // Mengubah dari '/landing' menjadi '/' agar menjadi halaman utama web
 Route::get('/', [LandingController::class, 'index']);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/admin/login', [AuthController::class, 'showAdminLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('admin.login.submit');
 
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -40,12 +44,14 @@ Route::middleware(['auth'])->group(function () {
 // Route::view('/status-pengajuan', 'status-pengajuan'); 
 // Route::view('/detail-status-pengajuan', 'detail-status-pengajuan');  
 
-Route::view('/profile-admin', 'profile-admin');
-Route::view('/pengajuan-properti', 'pengajuan-properti');
-Route::view('/riwayat-pemesanan', 'riwayat-pemesanan');
-Route::view('/detail-riwayat-pemesanan', 'detail-riwayat-pemesanan');
-Route::view('/list-properti', 'list-properti');
-Route::view('/detail-list-properti', 'detail-list-properti');
+Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':admin'])->group(function () {
+    Route::get('/profile-admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/pengajuan-properti', [AdminController::class, 'dashboard'])->name('admin.pengajuan');
+    Route::get('/admin/riwayat-pemesanan', [AdminController::class, 'dashboard'])->name('admin.riwayat');
+    Route::get('/admin/list-properti', [AdminController::class, 'dashboard'])->name('admin.properties');
+
+    Route::post('/admin/pengajuan-properti/{id}/review', [AdminController::class, 'reviewProperty'])->name('admin.property.review');
+});
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -66,6 +72,8 @@ Route::get('/dashboard', function (Request $request) {
         return redirect('/profile-user');
     } elseif ($activeRole === 'mitra') {
         return redirect()->route('mitra.profile');
+    } elseif ($activeRole === 'admin') {
+        return redirect()->route('admin.dashboard');
     }
 
     return view('dashboard');

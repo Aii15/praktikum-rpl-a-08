@@ -40,8 +40,19 @@ class LandingDataSeeder extends Seeder
             ]
         );
 
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin SpotRent',
+                'no_hp' => '081200000000',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+            ]
+        );
+
         $mitraRole = Role::firstOrCreate(['name' => 'mitra']);
         $penyewaRole = Role::firstOrCreate(['name' => 'penyewa']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
         if (! $mitra->roles()->where('role_id', $mitraRole->id)->exists()) {
             $mitra->roles()->attach($mitraRole->id);
@@ -49,6 +60,10 @@ class LandingDataSeeder extends Seeder
 
         if (! $penyewa->roles()->where('role_id', $penyewaRole->id)->exists()) {
             $penyewa->roles()->attach($penyewaRole->id);
+        }
+
+        if (! $admin->roles()->where('role_id', $adminRole->id)->exists()) {
+            $admin->roles()->attach($adminRole->id);
         }
 
         $categories = collect([
