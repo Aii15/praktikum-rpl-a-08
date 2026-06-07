@@ -106,7 +106,9 @@ class UserController extends Controller
                 'booking' => [
                     'id_booking' => $booking->id_booking,
                     'status_booking' => $booking->status_booking,
-                    'status_pembayaran' => in_array($booking->status_booking, ['confirmed', 'completed']) ? 'Lunas' : 'Menunggu Konfirmasi',
+                    'status_pembayaran' => in_array($booking->status_booking, ['confirmed', 'completed']) 
+                        ? 'Lunas' 
+                        : ($booking->status_booking === 'pending' ? 'Menunggu Konfirmasi' : 'Booking Ditolak'),
                     'total_price_formatted' => 'Rp ' . number_format($booking->total_price, 0, ',', '.'),
                     'rentang_hari' => $booking->rentang_hari,
                     'nama_properti' => $booking->property->nama_properti ?? '',

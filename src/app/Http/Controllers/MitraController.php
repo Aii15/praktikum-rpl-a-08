@@ -223,7 +223,7 @@ class MitraController extends Controller
             } elseif ($booking->status_booking === 'completed') {
                 $status_text = 'Transaksi Selesai';
             } else {
-                $status_text = ucfirst($booking->status_booking);
+                $status_text = 'Ditolak';
             }
 
             return response()->json([
@@ -273,6 +273,47 @@ class MitraController extends Controller
 
         return view('mitra.status_detail', [
             'property' => $property,
+        ]);
+    }
+
+    public function updateBookingStatus(Request $request, $id)
+    {
+        $user = $this->ensureMitra();
+
+        $request->validate([
+            'status' => 'required|string|in:confirmed,rejected',
+        ]);
+
+        $booking = Booking::whereHas('property', function ($query) use ($user) {
+                $query->where('id_mitra', $user->id);
+            })
+            ->findOrFail($id);
+
+        if ($booking->status_booking !== 'pending') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Status booking ini tidak bisa diubah karena sudah diproses.'
+            ], 400);
+        }
+
+        $booking->status_booking = $request->input('status');
+        $booking->save();
+
+        $status_text = '';
+        if ($booking->status_booking === 'confirmed') {
+            $status_text = 'Disetujui / Aktif';
+        } else {
+            $status_text = 'Ditolak';
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status booking berhasil diperbarui.',
+            'booking' => [
+                'id_booking' => $booking->id_booking,
+                'status_booking' => $booking->status_booking,
+                'status_text' => $status_text,
+            ]
         ]);
     }
 }

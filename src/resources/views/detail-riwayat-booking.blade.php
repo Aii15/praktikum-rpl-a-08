@@ -337,12 +337,30 @@
                     <div class="info-grid">
                         <div class="info-group">
                             <strong>Status Booking</strong>
-                            <p>{{ ucfirst($booking->status_booking) }}</p>
+                            <p>
+                                @if($booking->status_booking === 'pending')
+                                    Pending
+                                @elseif($booking->status_booking === 'confirmed')
+                                    Disetujui
+                                @elseif($booking->status_booking === 'completed')
+                                    Selesai
+                                @else
+                                    Ditolak
+                                @endif
+                            </p>
                         </div>
 
                         <div class="info-group">
                             <strong>Status Pembayaran</strong>
-                            <p>{{ in_array($booking->status_booking, ['confirmed', 'completed']) ? 'Lunas' : 'Menunggu Konfirmasi' }}</p>
+                            <p>
+                                @if(in_array($booking->status_booking, ['confirmed', 'completed']))
+                                    Lunas
+                                @elseif($booking->status_booking === 'pending')
+                                    Menunggu Konfirmasi
+                                @else
+                                    Booking Ditolak
+                                @endif
+                            </p>
                         </div>
 
                         <div class="info-group">
@@ -368,7 +386,7 @@
                     @elseif($booking->status_booking === 'completed')
                         <span class="booking-status approved">Booking Selesai</span>
                     @else
-                        <span class="booking-status" style="background:#fee2e2;color:#991b1b;">Booking {{ ucfirst($booking->status_booking) }}</span>
+                        <span class="booking-status" style="background:#fee2e2;color:#991b1b;">Booking Ditolak</span>
                     @endif
                 </div>
             </div>

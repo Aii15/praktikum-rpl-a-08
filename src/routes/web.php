@@ -98,6 +98,7 @@ Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':mitra'])->g
 
     Route::get('/riwayat-penyewaan', [MitraController::class, 'bookingHistory'])->name('mitra.bookings');
     Route::get('/detail-riwayat-penyewaan/{id}', [MitraController::class, 'bookingDetail'])->name('mitra.booking.detail');
+    Route::post('/detail-riwayat-penyewaan/{id}/status', [MitraController::class, 'updateBookingStatus'])->name('mitra.booking.updateStatus');
 
     Route::get('/properti-saya', [MitraController::class, 'properties'])->name('mitra.properties');
     Route::get('/detail-properti-saya/{id}', [MitraController::class, 'propertyDetail'])->name('mitra.property.detail');

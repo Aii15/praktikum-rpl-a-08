@@ -379,6 +379,11 @@
             color: #15803d;
         }
 
+        .completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
         .process {
             background: #fef3c7;
             color: #b45309;
@@ -458,6 +463,11 @@
         .booking-status.success {
             background: #dcfce7;
             color: #15803d;
+        }
+
+        .booking-status.completed {
+            background: #e0f2fe;
+            color: #0369a1;
         }
 
         .booking-status.process {
@@ -648,9 +658,9 @@
                             @elseif($booking->status_booking === 'confirmed')
                                 <div class="status success">Disetujui</div>
                             @elseif($booking->status_booking === 'completed')
-                                <div class="status success">Selesai</div>
+                                <div class="status completed">Selesai</div>
                             @else
-                                <div class="status" style="background:#fee2e2;color:#991b1b;">{{ ucfirst($booking->status_booking) }}</div>
+                                <div class="status" style="background:#fee2e2;color:#991b1b;">Ditolak</div>
                             @endif
                         </a>
                     @empty
@@ -831,18 +841,25 @@
                     document.getElementById('detailBanner').src = booking.cover_photo;
                     document.getElementById('detailPropertyName').textContent = booking.nama_properti;
                     
-                    document.getElementById('detailStatusBooking').textContent = booking.status_booking.charAt(0).toUpperCase() + booking.status_booking.slice(1);
+                    let statusLabel = 'Ditolak';
+                    if (booking.status_booking === 'pending') statusLabel = 'Pending';
+                    else if (booking.status_booking === 'confirmed') statusLabel = 'Disetujui';
+                    else if (booking.status_booking === 'completed') statusLabel = 'Selesai';
+                    
+                    document.getElementById('detailStatusBooking').textContent = statusLabel;
                     document.getElementById('detailStatusPembayaran').textContent = booking.status_pembayaran;
                     document.getElementById('detailTotalPrice').textContent = booking.total_price_formatted;
                     document.getElementById('detailRentangHari').textContent = booking.rentang_hari;
                     document.getElementById('detailPemilik').textContent = booking.pemilik;
 
                     const statusBadge = document.getElementById('detailStatusBadge');
-                    statusBadge.textContent = 'Booking ' + (booking.status_booking.charAt(0).toUpperCase() + booking.status_booking.slice(1));
+                    statusBadge.textContent = 'Booking ' + statusLabel;
                     if (booking.status_booking === 'pending') {
                         statusBadge.className = 'booking-status process';
-                    } else if (booking.status_booking === 'confirmed' || booking.status_booking === 'completed') {
+                    } else if (booking.status_booking === 'confirmed') {
                         statusBadge.className = 'booking-status success';
+                    } else if (booking.status_booking === 'completed') {
+                        statusBadge.className = 'booking-status completed';
                     } else {
                         statusBadge.className = 'booking-status danger';
                     }

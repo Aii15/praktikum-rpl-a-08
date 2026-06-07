@@ -220,6 +220,11 @@
             color: #15803d;
         }
 
+        .completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
         .process {
             background: #fef3c7;
             color: #b45309;
@@ -696,6 +701,11 @@
             color: #15803d;
         }
 
+        .booking-status.completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
         .booking-status.process {
             background: #fef3c7;
             color: #b45309;
@@ -897,6 +907,11 @@
             color: #15803d;
         }
 
+        .status-badge-inline.completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
         .status-badge-inline.process {
             background: #fef3c7;
             color: #b45309;
@@ -905,6 +920,190 @@
         .status-badge-inline.danger {
             background: #fee2e2;
             color: #991b1b;
+        }
+
+        /* Detail Action Buttons */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .approve-btn {
+            background: #25943a;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 148, 58, 0.2);
+        }
+
+        .approve-btn:hover {
+            background: #1e7e30;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 148, 58, 0.3);
+        }
+
+        .approve-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .reject-btn {
+            background: #e11d48;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
+        }
+
+        .reject-btn:hover {
+            background: #be123c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(225, 29, 72, 0.3);
+        }
+
+        .reject-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Custom Confirmation Modal Styles */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-modal-overlay.active {
+            opacity: 1;
+        }
+
+        .custom-modal-box {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            padding: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .custom-modal-overlay.active .custom-modal-box {
+            transform: scale(1);
+        }
+
+        .custom-modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 auto 18px;
+        }
+
+        .custom-modal-icon.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .custom-modal-icon.danger {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .custom-modal-icon.info {
+            background: #fef9c3;
+            color: #d97706;
+        }
+
+        .custom-modal-box h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .custom-modal-box p {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .custom-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .custom-modal-btn {
+            flex: 1;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .custom-modal-btn.cancel-btn {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .custom-modal-btn.cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .confirm-btn-success {
+            background: #25943a;
+            color: #ffffff;
+        }
+
+        .confirm-btn-success:hover {
+            background: #1e7e30;
+        }
+
+        .confirm-btn-danger {
+            background: #e11d48;
+            color: #ffffff;
+        }
+
+        .confirm-btn-danger:hover {
+            background: #be123c;
+        }
+
+        .custom-modal-btn.ok-btn {
+            background: #f7c948;
+            color: #111111;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.2);
+        }
+
+        .custom-modal-btn.ok-btn:hover {
+            background: #f5b91b;
+            box-shadow: 0 6px 16px rgba(247, 201, 72, 0.3);
         }
     </style>
 @endsection
@@ -1022,7 +1221,7 @@
                         <span class="status-badge-inline success">Disetujui</span>
                     </div>
                     <div class="dropdown-item-row status-item-row" data-val="completed" onclick="selectFilterStatus('completed', 'Selesai', event)">
-                        <span class="status-badge-inline success">Selesai</span>
+                        <span class="status-badge-inline completed">Selesai</span>
                     </div>
                     <div class="dropdown-item-row status-item-row" data-val="rejected" onclick="selectFilterStatus('rejected', 'Ditolak', event)">
                         <span class="status-badge-inline danger">Ditolak</span>
@@ -1080,9 +1279,9 @@
                     @elseif($booking->status_booking === 'confirmed')
                         <div class="status success">Disetujui</div>
                     @elseif($booking->status_booking === 'completed')
-                        <div class="status success">Selesai</div>
+                        <div class="status completed">Selesai</div>
                     @else
-                        <div class="status danger">{{ ucfirst($booking->status_booking) }}</div>
+                        <div class="status danger">Ditolak</div>
                     @endif
                 </a>
             @empty
@@ -1137,6 +1336,16 @@
                     </div>
 
                     <span id="detailStatusBadge" class="booking-status"></span>
+
+                    <!-- Action Buttons for Pending Booking -->
+                    <div id="bookingActionButtons" style="display: none; gap: 12px; margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 18px;">
+                        <button onclick="updateBookingStatus('confirmed')" class="action-btn approve-btn">
+                            Setujui Penyewaan
+                        </button>
+                        <button onclick="updateBookingStatus('rejected')" class="action-btn reject-btn">
+                            Tolak Penyewaan
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -1476,10 +1685,22 @@
                     statusBadge.textContent = booking.status_text;
                     if (booking.status_booking === 'pending') {
                         statusBadge.className = 'booking-status process';
-                    } else if (booking.status_booking === 'confirmed' || booking.status_booking === 'completed') {
+                    } else if (booking.status_booking === 'confirmed') {
                         statusBadge.className = 'booking-status success';
+                    } else if (booking.status_booking === 'completed') {
+                        statusBadge.className = 'booking-status completed';
                     } else {
                         statusBadge.className = 'booking-status danger';
+                    }
+                    
+                    window.currentViewingBookingId = booking.id_booking;
+                    const actionButtons = document.getElementById('bookingActionButtons');
+                    if (actionButtons) {
+                        if (booking.status_booking === 'pending') {
+                            actionButtons.style.display = 'flex';
+                        } else {
+                            actionButtons.style.display = 'none';
+                        }
                     }
                     
                     loader.style.display = 'none';
@@ -1494,6 +1715,183 @@
             });
         }
         window.showRentalDetail = showRentalDetail;
+
+        // Custom confirmation and alert modals
+        function showCustomConfirm(message, actionType = 'confirm') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                let btnClass = 'confirm-btn-primary';
+                if (actionType === 'success') btnClass = 'confirm-btn-success';
+                if (actionType === 'danger') btnClass = 'confirm-btn-danger';
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${actionType}">
+                            ${actionType === 'danger' ? '!' : '?'}
+                        </div>
+                        <h3>Konfirmasi</h3>
+                        <p>${message}</p>
+                        <div class="custom-modal-actions">
+                            <button class="custom-modal-btn cancel-btn">Batal</button>
+                            <button class="custom-modal-btn ${btnClass}">Ya, Lanjutkan</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const cancelBtn = overlay.querySelector('.cancel-btn');
+                const confirmBtn = overlay.querySelector(`.${btnClass}`);
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                cancelBtn.onclick = () => {
+                    close();
+                    resolve(false);
+                };
+                
+                confirmBtn.onclick = () => {
+                    close();
+                    resolve(true);
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve(false);
+                    }
+                };
+            });
+        }
+
+        function showCustomAlert(message, alertType = 'success') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${alertType}">
+                            ${alertType === 'success' ? '✓' : '!'}
+                        </div>
+                        <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
+                        <p>${message}</p>
+                        <div class="custom-modal-actions" style="justify-content: center;">
+                            <button class="custom-modal-btn ok-btn">OK</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const okBtn = overlay.querySelector('.ok-btn');
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                okBtn.onclick = () => {
+                    close();
+                    resolve();
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve();
+                    }
+                };
+            });
+        }
+
+        async function updateBookingStatus(status) {
+            const bookingId = window.currentViewingBookingId;
+            if (!bookingId) return;
+
+            const confirmMsg = status === 'confirmed' 
+                ? 'Apakah Anda yakin ingin menyetujui penyewaan ini?' 
+                : 'Apakah Anda yakin ingin menolak penyewaan ini?';
+
+            const actionType = status === 'confirmed' ? 'success' : 'danger';
+            const confirmed = await showCustomConfirm(confirmMsg, actionType);
+            if (!confirmed) return;
+
+            const actionButtons = document.getElementById('bookingActionButtons');
+            const statusBadge = document.getElementById('detailStatusBadge');
+            
+            if (actionButtons) actionButtons.style.opacity = '0.5';
+
+            fetch(`/detail-riwayat-penyewaan/${bookingId}/status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(response => response.json())
+            .then(async data => {
+                if (actionButtons) actionButtons.style.opacity = '1';
+                
+                if (data.success) {
+                    if (actionButtons) actionButtons.style.display = 'none';
+                    
+                    if (statusBadge) {
+                        statusBadge.textContent = data.booking.status_text;
+                        if (status === 'confirmed') {
+                            statusBadge.className = 'booking-status success';
+                        } else {
+                            statusBadge.className = 'booking-status danger';
+                        }
+                    }
+                    
+                    const card = document.querySelector(`.booking-card[href*="/detail-riwayat-penyewaan/${bookingId}"]`);
+                    if (card) {
+                        card.setAttribute('data-status', status);
+                        const cardStatusDiv = card.querySelector('.status');
+                        if (cardStatusDiv) {
+                            if (status === 'confirmed') {
+                                cardStatusDiv.className = 'status success';
+                                cardStatusDiv.textContent = 'Disetujui';
+                            } else {
+                                cardStatusDiv.className = 'status danger';
+                                cardStatusDiv.textContent = 'Ditolak';
+                            }
+                        }
+                    }
+                    
+                    await showCustomAlert(data.message, 'success');
+                } else {
+                    await showCustomAlert(data.message || 'Gagal memperbarui status.', 'info');
+                }
+            })
+            .catch(async error => {
+                if (actionButtons) actionButtons.style.opacity = '1';
+                console.error('Error updating booking status:', error);
+                await showCustomAlert('Terjadi kesalahan saat memproses permintaan.', 'info');
+            });
+        }
+        window.updateBookingStatus = updateBookingStatus;
 
         document.addEventListener('DOMContentLoaded', function() {
             const menuTentangSaya = document.getElementById('menu-tentang-saya');
@@ -1679,7 +2077,8 @@
                     display.innerHTML = 'Semua Status';
                 } else {
                     let badgeClass = 'process';
-                    if (val === 'confirmed' || val === 'completed') badgeClass = 'success';
+                    if (val === 'confirmed') badgeClass = 'success';
+                    if (val === 'completed') badgeClass = 'completed';
                     if (val === 'rejected') badgeClass = 'danger';
                     
                     display.innerHTML = `<span class="status-badge-inline ${badgeClass}">${label}</span>`;
