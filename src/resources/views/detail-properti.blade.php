@@ -58,14 +58,14 @@
 
         <section class="gallery gallery-{{ $photoCountClamped }}">
             <div class="gallery-item main-gallery-item">
-                <img class="main-img" src="{{ $cover->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}">
+                <img class="main-img" src="{{ $cover->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}" style="object-position: center {{ $cover->object_position ?? '50' }}%;">
             </div>
 
             @if($photoCountClamped > 1)
                 <div class="side-gallery">
                     @foreach ($otherPhotos as $photo)
                         <div class="gallery-item">
-                            <img src="{{ $photo->url_foto }}" alt="">
+                            <img src="{{ $photo->url_foto }}" alt="" style="object-position: center {{ $photo->object_position ?? '50' }}%;">
                         </div>
                     @endforeach
                 </div>

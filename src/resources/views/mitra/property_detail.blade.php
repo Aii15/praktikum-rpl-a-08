@@ -108,7 +108,7 @@
     <h1>Detail Properti Saya</h1>
 
     <div class="detail-card">
-        <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $property->nama_properti }}">
+        <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
 
         <div class="detail-info">
             <h2>{{ $property->nama_properti }}</h2>

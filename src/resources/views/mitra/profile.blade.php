@@ -1105,6 +1105,193 @@
             background: #f5b91b;
             box-shadow: 0 6px 16px rgba(247, 201, 72, 0.3);
         }
+
+        /* --- Interactive Photo Upload Adjuster --- */
+        .photo-control-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .photo-control-card {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px;
+            gap: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .photo-control-thumb {
+            width: 90px;
+            height: 90px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            border: 1px solid #d1d5db;
+        }
+        .photo-control-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .photo-control-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .photo-control-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge-cover {
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #fcd34d;
+        }
+        .badge-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+        }
+        .crop-adjuster {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #4b5563;
+        }
+        .crop-slider {
+            flex: 1;
+            accent-color: #f59e0b;
+            height: 5px;
+            border-radius: 3px;
+            background: #e5e7eb;
+        }
+        .photo-control-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-end;
+        }
+        .btn-action {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: #374151;
+        }
+        .btn-action:hover {
+            background: #e5e7eb;
+        }
+        .btn-delete {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #dc2626 !important;
+        }
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+        
+        /* Mock Gallery Layout Preview */
+        .preview-gallery-container {
+            margin-top: 30px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+            width: 100%;
+        }
+        .preview-gallery-container h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #374151;
+        }
+        .mock-gallery {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .mock-gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+        }
+        .mock-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .mock-main-item {
+            height: 220px;
+        }
+        .mock-side-gallery {
+            display: grid;
+            gap: 10px;
+        }
+        .mock-gallery-2 .mock-side-gallery .mock-gallery-item {
+            height: 220px;
+        }
+        .mock-gallery-3 .mock-side-gallery {
+            grid-template-columns: 1fr;
+        }
+        .mock-gallery-3 .mock-side-gallery .mock-gallery-item {
+            height: 105px;
+        }
+        .mock-gallery-4 .mock-side-gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .mock-gallery-4 .mock-side-gallery .mock-gallery-item {
+            height: 105px;
+        }
+        .mock-gallery-4 .mock-side-gallery .mock-gallery-item:first-child {
+            grid-column: span 2;
+        }
+        .mock-gallery-5 .mock-side-gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .mock-gallery-5 .mock-side-gallery .mock-gallery-item {
+            height: 105px;
+        }
+        .slot-label {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            background: rgba(0, 0, 0, 0.65);
+            color: white;
+            padding: 2px 6px;
+            font-size: 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            pointer-events: none;
+        }
     </style>
 @endsection
 
@@ -1265,7 +1452,7 @@
                    data-tenant-name="{{ strtolower($booking->user->name ?? '') }}"
                    data-price="{{ $booking->total_price ?? 0 }}"
                    data-timestamp="{{ \Carbon\Carbon::parse($booking->tanggal_mulai)->timestamp }}">
-                    <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
+                    <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
 
                     <div class="booking-info">
                         <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
@@ -1362,7 +1549,7 @@
         <div class="property-list">
             @forelse($properties as $property)
                 <div class="property-card">
-                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}">
+                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
 
                     <div class="property-info">
                         <h3>{{ $property->nama_properti }}</h3>
@@ -1445,16 +1632,36 @@
                         </div>
                     </div>
 
-                    <div class="field-card" onclick="this.querySelector('select').focus();">
+                    <div class="field-card" onclick="this.querySelector('input').focus();">
                         <div class="field-text">
-                            <small>Lokasi Properti</small>
-                            <select name="id_lokasi" class="profile-select" required>
-                                <option value="">Pilih Lokasi</option>
-                                @foreach($locations as $location)
-                                    <option value="{{ $location->id_lokasi }}" {{ old('id_lokasi') == $location->id_lokasi ? 'selected' : '' }}>{{ $location->kota }} - {{ $location->alamat_detail }}</option>
-                                @endforeach
-                            </select>
+                            <small>Provinsi</small>
+                            <input type="text" name="provinsi" class="profile-input" value="{{ old('provinsi') }}" placeholder="Contoh: Jawa Barat" required>
                         </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                    </div>
+
+                    <div class="field-card" onclick="this.querySelector('input').focus();">
+                        <div class="field-text">
+                            <small>Kota / Kabupaten</small>
+                            <input type="text" name="kota" class="profile-input" value="{{ old('kota') }}" placeholder="Contoh: Bandung" required>
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                    </div>
+
+                    <div class="field-card" onclick="this.querySelector('textarea').focus();" style="height: auto; min-height: 85px;">
+                        <div class="field-text">
+                            <small>Alamat Lengkap / Detail</small>
+                            <textarea name="alamat_detail" class="profile-textarea" placeholder="Tulis nama jalan, nomor, RT/RW, kecamatan" style="min-height: 45px;" required>{{ old('alamat_detail') }}</textarea>
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                    </div>
+
+                    <div class="field-card" onclick="this.querySelector('input').focus();">
+                        <div class="field-text">
+                            <small>Kode Pos</small>
+                            <input type="text" name="kode_pos" class="profile-input" value="{{ old('kode_pos') }}" placeholder="Contoh: 40135">
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
                     </div>
 
                     <div class="field-card" onclick="document.getElementById('harga_display').focus();">
@@ -1538,7 +1745,13 @@
                         <input type="file" id="property-images" name="images[]" accept="image/*" multiple style="display: none;" onchange="handleFileSelect(event)">
                     </div>
 
-                    <div class="preview-grid" id="previewGrid"></div>
+                    <div id="hidden-positions-container"></div>
+                    <div class="photo-control-list" id="photoControlList"></div>
+
+                    <div class="preview-gallery-container" id="previewGalleryContainer" style="display: none;">
+                        <h3>Live Layout Preview</h3>
+                        <div id="liveLayoutGallery"></div>
+                    </div>
 
                 </div>
 
@@ -1558,7 +1771,7 @@
         <div class="status-list">
             @forelse($properties as $property)
                 <a href="{{ route('mitra.status.detail', $property->id_properti) }}" class="status-card">
-                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}">
+                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
 
                     <div class="status-info">
                         <h3>{{ $property->nama_properti }}</h3>
@@ -1673,6 +1886,7 @@
                     const booking = data.booking;
                     
                     document.getElementById('detailBanner').src = booking.cover_photo;
+                    document.getElementById('detailBanner').style.objectPosition = `center ${booking.cover_photo_position || '50'}%`;
                     document.getElementById('detailPropertyName').textContent = booking.nama_properti;
                     
                     document.getElementById('detailPenyewa').textContent = booking.penyewa;
@@ -2020,6 +2234,15 @@
             // 3. Sort Cards
             if (visibleCount > 1) {
                 cards.sort((a, b) => {
+                    const statusA = a.getAttribute('data-status') || '';
+                    const statusB = b.getAttribute('data-status') || '';
+
+                    // If status filter is "all", prioritize pending at the very top
+                    if (statusFilter === 'all') {
+                        if (statusA === 'pending' && statusB !== 'pending') return -1;
+                        if (statusA !== 'pending' && statusB === 'pending') return 1;
+                    }
+
                     if (sortBy === 'date_desc') {
                         const valA = parseInt(a.getAttribute('data-timestamp')) || 0;
                         const valB = parseInt(b.getAttribute('data-timestamp')) || 0;
@@ -2266,9 +2489,12 @@
         // PHOTO UPLOAD DRAG & DROP
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('property-images');
-        const previewGrid = document.getElementById('previewGrid');
         const countLabel = document.getElementById('photo-count-label');
-        let selectedFiles = [];
+        const photoControlList = document.getElementById('photoControlList');
+        const previewGalleryContainer = document.getElementById('previewGalleryContainer');
+        const liveLayoutGallery = document.getElementById('liveLayoutGallery');
+        const hiddenPositionsContainer = document.getElementById('hidden-positions-container');
+        let selectedFiles = []; // Array of { file: File, positionY: number, previewUrl: string }
 
         if (dropzone) {
             dropzone.addEventListener('dragover', (e) => {
@@ -2284,7 +2510,6 @@
                 e.preventDefault();
                 dropzone.classList.remove('dragover');
                 if (e.dataTransfer.files.length > 0) {
-                    fileInput.files = e.dataTransfer.files;
                     handleFiles(e.dataTransfer.files);
                 }
             });
@@ -2295,57 +2520,246 @@
         }
 
         function handleFiles(files) {
-            if (!fileInput || !previewGrid || !countLabel) return;
-            selectedFiles = Array.from(files).slice(0, 5); // Max 5 photos
+            if (!fileInput) return;
+            const newFiles = Array.from(files);
             
-            // Re-assign selected files to input files
+            for (let file of newFiles) {
+                if (selectedFiles.length >= 5) break;
+                if (!file.type.startsWith('image/')) continue;
+                selectedFiles.push({
+                    file: file,
+                    positionY: 50,
+                    previewUrl: URL.createObjectURL(file)
+                });
+            }
+            
+            updateFormInputsAndPreviews();
+        }
+
+        function updateFormInputsAndPreviews() {
+            if (!fileInput || !countLabel || !photoControlList || !previewGalleryContainer || !liveLayoutGallery || !hiddenPositionsContainer) return;
+            
+            // Sync files list to input field
             const dt = new DataTransfer();
-            selectedFiles.forEach(file => dt.items.add(file));
+            selectedFiles.forEach(item => dt.items.add(item.file));
             fileInput.files = dt.files;
 
-            previewGrid.innerHTML = '';
-            
+            // Sync hidden inputs for positions
+            hiddenPositionsContainer.innerHTML = '';
+            selectedFiles.forEach(item => {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'positions[]';
+                hiddenInput.value = item.positionY;
+                hiddenPositionsContainer.appendChild(hiddenInput);
+            });
+
+            // Update photo count text
             if (selectedFiles.length > 0) {
-                countLabel.textContent = `${selectedFiles.length} foto terpilih`;
-                
-                selectedFiles.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const item = document.createElement('div');
-                        item.className = 'preview-item';
-                        
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        
-                        const removeBtn = document.createElement('button');
-                        removeBtn.className = 'remove-btn';
-                        removeBtn.innerHTML = '×';
-                        removeBtn.type = 'button';
-                        removeBtn.onclick = (event) => {
-                            event.stopPropagation();
-                            removeFile(index);
-                        };
-                        
-                        item.appendChild(img);
-                        item.appendChild(removeBtn);
-                        previewGrid.appendChild(item);
-                    };
-                    reader.readAsDataURL(file);
-                });
+                countLabel.textContent = `${selectedFiles.length} foto terpilih (Minimal 2, Maksimal 5)`;
             } else {
-                countLabel.textContent = 'Belum ada foto terpilih';
+                countLabel.textContent = 'Belum ada foto terpilih (Minimal 2, Maksimal 5)';
+            }
+
+            // Render photo control list
+            photoControlList.innerHTML = '';
+            selectedFiles.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'photo-control-card';
+
+                // Thumb preview
+                const thumb = document.createElement('div');
+                thumb.className = 'photo-control-thumb';
+                const img = document.createElement('img');
+                img.src = item.previewUrl;
+                img.style.objectPosition = `center ${item.positionY}%`;
+                img.id = `preview-thumb-img-${index}`;
+                thumb.appendChild(img);
+                card.appendChild(thumb);
+
+                // Information & Crop Adjuster
+                const info = document.createElement('div');
+                info.className = 'photo-control-info';
+
+                const title = document.createElement('div');
+                title.className = 'photo-control-title';
+                const badge = document.createElement('span');
+                if (index === 0) {
+                    badge.className = 'badge-cover';
+                    badge.textContent = 'Foto Utama (Cover)';
+                } else {
+                    badge.className = 'badge-secondary';
+                    badge.textContent = `Foto Detail #${index + 1}`;
+                }
+                title.textContent = item.file.name;
+                title.appendChild(badge);
+                info.appendChild(title);
+
+                // Vertical slider
+                const adjuster = document.createElement('div');
+                adjuster.className = 'crop-adjuster';
+                const label = document.createElement('span');
+                label.textContent = 'Crop Vertikal:';
+                const slider = document.createElement('input');
+                slider.type = 'range';
+                slider.className = 'crop-slider';
+                slider.min = '0';
+                slider.max = '100';
+                slider.value = item.positionY;
+                
+                const valDisplay = document.createElement('span');
+                valDisplay.style.width = '35px';
+                valDisplay.style.textAlign = 'right';
+                valDisplay.textContent = `${item.positionY}%`;
+
+                slider.oninput = function() {
+                    item.positionY = slider.value;
+                    valDisplay.textContent = `${slider.value}%`;
+                    
+                    // Update preview thumbnail live
+                    img.style.objectPosition = `center ${slider.value}%`;
+                    
+                    // Update layout preview live if it is rendering
+                    const galleryImg = document.getElementById(`gallery-img-${index}`);
+                    if (galleryImg) {
+                        galleryImg.style.objectPosition = `center ${slider.value}%`;
+                    }
+
+                    // Update corresponding hidden input value
+                    hiddenPositionsContainer.children[index].value = slider.value;
+                };
+
+                adjuster.appendChild(label);
+                adjuster.appendChild(slider);
+                adjuster.appendChild(valDisplay);
+                info.appendChild(adjuster);
+                card.appendChild(info);
+
+                // Action buttons (Up, Down, Delete)
+                const actions = document.createElement('div');
+                actions.className = 'photo-control-actions';
+
+                if (index > 0) {
+                    const btnUp = document.createElement('button');
+                    btnUp.type = 'button';
+                    btnUp.className = 'btn-action';
+                    btnUp.textContent = '▲';
+                    btnUp.title = 'Pindahkan ke Atas';
+                    btnUp.onclick = () => swapFiles(index, index - 1);
+                    actions.appendChild(btnUp);
+                }
+
+                if (index < selectedFiles.length - 1) {
+                    const btnDown = document.createElement('button');
+                    btnDown.type = 'button';
+                    btnDown.className = 'btn-action';
+                    btnDown.textContent = '▼';
+                    btnDown.title = 'Pindahkan ke Bawah';
+                    btnDown.onclick = () => swapFiles(index, index + 1);
+                    actions.appendChild(btnDown);
+                }
+
+                const btnDel = document.createElement('button');
+                btnDel.type = 'button';
+                btnDel.className = 'btn-action btn-delete';
+                btnDel.textContent = 'Hapus';
+                btnDel.onclick = () => removeFile(index);
+                actions.appendChild(btnDel);
+
+                card.appendChild(actions);
+                photoControlList.appendChild(card);
+            });
+
+            // Render Live Layout Preview (Only if there are at least 2 images)
+            if (selectedFiles.length >= 2) {
+                previewGalleryContainer.style.display = 'block';
+                renderLiveLayoutPreview();
+            } else {
+                previewGalleryContainer.style.display = 'none';
+                liveLayoutGallery.innerHTML = '';
             }
         }
 
+        function swapFiles(idx1, idx2) {
+            const temp = selectedFiles[idx1];
+            selectedFiles[idx1] = selectedFiles[idx2];
+            selectedFiles[idx2] = temp;
+            updateFormInputsAndPreviews();
+        }
+
         function removeFile(index) {
-            if (!fileInput) return;
-            selectedFiles.splice(index, 1);
+            if (selectedFiles[index]) {
+                URL.revokeObjectURL(selectedFiles[index].previewUrl);
+                selectedFiles.splice(index, 1);
+            }
+            updateFormInputsAndPreviews();
+        }
+
+        function renderLiveLayoutPreview() {
+            if (!liveLayoutGallery) return;
+            liveLayoutGallery.innerHTML = '';
+
+            const n = selectedFiles.length; // Range [2, 5]
+            const galleryDiv = document.createElement('div');
+            galleryDiv.className = `mock-gallery mock-gallery-${n}`;
+
+            // Main / Cover slot (Slot 1)
+            const mainItem = document.createElement('div');
+            mainItem.className = 'mock-gallery-item mock-main-item';
             
-            const dt = new DataTransfer();
-            selectedFiles.forEach(file => dt.items.add(file));
-            fileInput.files = dt.files;
-            
-            handleFiles(fileInput.files);
+            const mainImg = document.createElement('img');
+            mainImg.src = selectedFiles[0].previewUrl;
+            mainImg.style.objectPosition = `center ${selectedFiles[0].positionY}%`;
+            mainImg.id = 'gallery-img-0';
+            mainItem.appendChild(mainImg);
+
+            const mainLabel = document.createElement('div');
+            mainLabel.className = 'slot-label';
+            mainLabel.textContent = 'Slot 1: Cover (Utama)';
+            mainItem.appendChild(mainLabel);
+
+            galleryDiv.appendChild(mainItem);
+
+            // Side slots
+            if (n > 1) {
+                const sideGallery = document.createElement('div');
+                sideGallery.className = 'mock-side-gallery';
+
+                for (let i = 1; i < n; i++) {
+                    const sideItem = document.createElement('div');
+                    sideItem.className = 'mock-gallery-item';
+                    
+                    const sideImg = document.createElement('img');
+                    sideImg.src = selectedFiles[i].previewUrl;
+                    sideImg.style.objectPosition = `center ${selectedFiles[i].positionY}%`;
+                    sideImg.id = `gallery-img-${i}`;
+                    sideItem.appendChild(sideImg);
+
+                    const sideLabel = document.createElement('div');
+                    sideLabel.className = 'slot-label';
+                    sideLabel.textContent = `Slot ${i + 1}`;
+                    sideItem.appendChild(sideLabel);
+
+                    sideGallery.appendChild(sideItem);
+                }
+                galleryDiv.appendChild(sideGallery);
+            }
+
+            liveLayoutGallery.appendChild(galleryDiv);
+        }
+
+        // Add client-side validation to form submission
+        const propertyForm = document.getElementById('propertyForm');
+        if (propertyForm) {
+            propertyForm.addEventListener('submit', function (e) {
+                if (selectedFiles.length < 2) {
+                    e.preventDefault();
+                    alert('Minimal 2 foto wajib diunggah untuk melanjutkan.');
+                } else if (selectedFiles.length > 5) {
+                    e.preventDefault();
+                    alert('Maksimal 5 foto dapat diunggah.');
+                }
+            });
         }
     </script>
 @endsection

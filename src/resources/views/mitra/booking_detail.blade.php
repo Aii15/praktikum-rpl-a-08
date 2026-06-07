@@ -111,7 +111,7 @@
     <h1>Detail Penyewaan</h1>
 
     <div class="detail-card">
-        <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti }}">
+        <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
 
         <div class="detail-info">
             <h2>{{ $booking->property->nama_properti }}</h2>

@@ -29,7 +29,7 @@
 
                 <!-- Property Details Card -->
                 <div class="property-invoice-card">
-                    <img class="property-invoice-img" src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}">
+                    <img class="property-invoice-img" src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
                     <div class="property-invoice-info">
                         <span class="property-invoice-category">{{ $property->category->nama_kategori ?? 'Kategori' }}</span>
                         <h3 class="property-invoice-title">{{ $property->nama_properti }}</h3>

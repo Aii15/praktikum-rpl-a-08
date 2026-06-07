@@ -18,6 +18,7 @@ class PropertyPhoto extends Model
         'url_foto',
         'urutan',
         'is_cover',
+        'object_position',
     ];
 
     public function property()

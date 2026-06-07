@@ -19,6 +19,7 @@ class LandingController extends Controller
         $categories = PropertyCategory::orderBy('nama_kategori')->get();
 
         $properties = Property::with(['category', 'location', 'coverPhoto', 'reviews'])
+            ->where('status_pengajuan', 'approved')
             ->when($selectedLocation !== 'All' && $selectedLocation !== '', function ($query) use ($selectedLocation) {
                 $query->whereHas('location', function ($locationQuery) use ($selectedLocation) {
                     $locationQuery->where('nama_lokasi', $selectedLocation)

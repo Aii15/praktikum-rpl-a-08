@@ -36,6 +36,7 @@ class MitraController extends Controller
             ->whereHas('property', function ($query) use ($user) {
                 $query->where('id_mitra', $user->id);
             })
+            ->orderByRaw("CASE WHEN status_booking = 'pending' THEN 0 ELSE 1 END")
             ->orderByDesc('tanggal_mulai')
             ->get();
 
@@ -138,28 +139,46 @@ class MitraController extends Controller
         $request->validate([
             'nama_properti' => 'required|string|max:150',
             'id_kategori' => 'required|exists:property_categories,id_kategori',
-            'id_lokasi' => 'required|exists:lokasi,id_lokasi',
+            'alamat_detail' => 'required|string|max:500',
+            'kota' => 'required|string|max:100',
+            'provinsi' => 'required|string|max:100',
+            'kode_pos' => 'nullable|string|max:10',
             'harga_per_hari' => 'required|numeric|min:0',
             'fasilitas' => 'nullable|string|max:1000',
             'deskripsi' => 'required|string',
-            'images' => 'nullable|array|max:5',
-            'images.*' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'required|array|min:2|max:5',
+            'images.*' => 'file|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'positions' => 'nullable|array',
+            'positions.*' => 'integer|min:0|max:100',
         ], [
             'nama_properti.required' => 'Nama properti wajib diisi.',
             'id_kategori.required' => 'Kategori properti wajib dipilih.',
-            'id_lokasi.required' => 'Lokasi properti wajib dipilih.',
+            'alamat_detail.required' => 'Alamat detail wajib diisi.',
+            'kota.required' => 'Kota wajib diisi.',
+            'provinsi.required' => 'Provinsi wajib diisi.',
             'harga_per_hari.required' => 'Harga per hari wajib diisi.',
             'deskripsi.required' => 'Deskripsi properti wajib diisi.',
+            'images.required' => 'Minimal 2 foto wajib diunggah.',
+            'images.min' => 'Minimal 2 foto wajib diunggah.',
             'images.max' => 'Maksimal 5 foto dapat diunggah.',
             'images.*.image' => 'File harus berupa gambar.',
-            'images.*.mimes' => 'Jenis gambar harus jpeg, png, jpg, atau gif.',
+            'images.*.mimes' => 'Jenis gambar harus jpeg, png, jpg, gif, atau webp.',
             'images.*.max' => 'Ukuran setiap foto maksimal 2MB.',
+        ]);
+
+        $location = Location::firstOrCreate([
+            'alamat_detail' => $request->input('alamat_detail'),
+            'kota' => $request->input('kota'),
+            'provinsi' => $request->input('provinsi'),
+            'kode_pos' => $request->input('kode_pos'),
+        ], [
+            'nama_lokasi' => $request->input('kota'),
         ]);
 
         $property = Property::create([
             'id_mitra' => $user->id,
             'id_kategori' => $request->input('id_kategori'),
-            'id_lokasi' => $request->input('id_lokasi'),
+            'id_lokasi' => $location->id_lokasi,
             'nama_properti' => $request->input('nama_properti'),
             'deskripsi' => $request->input('deskripsi'),
             'harga_per_hari' => $request->input('harga_per_hari'),
@@ -169,12 +188,15 @@ class MitraController extends Controller
 
         if ($request->hasFile('images')) {
             $files = $request->file('images');
+            $positions = $request->input('positions', []);
             foreach ($files as $index => $file) {
-                $path = $file->store('property_photos', 'public');
+                $path = $file->store('property_photos/property_' . $property->id_properti, 'public');
+                $pos = $positions[$index] ?? '50';
                 $property->photos()->create([
                     'url_foto' => '/storage/'.$path,
                     'urutan' => $index + 1,
                     'is_cover' => $index === 0,
+                    'object_position' => $pos,
                 ]);
             }
         }
@@ -236,6 +258,7 @@ class MitraController extends Controller
                     'rentang_sewa' => $rentang_sewa,
                     'nama_properti' => $booking->property->nama_properti ?? '',
                     'cover_photo' => $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png',
+                    'cover_photo_position' => $booking->property->coverPhoto->object_position ?? '50',
                     'penyewa' => $booking->user->name ?? 'Penyewa Tidak Diketahui',
                     'email_penyewa' => $booking->user->email ?? '-',
                     'no_hp_penyewa' => $booking->user->no_hp ?? '-',

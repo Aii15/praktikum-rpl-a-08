@@ -645,7 +645,7 @@
                 <div class="booking-list">
                     @forelse($bookings as $booking)
                         <a href="{{ route('user.booking.detail', $booking->id_booking) }}" onclick="showBookingDetail(event, {{ $booking->id_booking }})" class="booking-card">
-                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
+                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
 
                             <div class="booking-info">
                                 <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
@@ -679,7 +679,7 @@
                     @forelse($wishlists as $wishlist)
                         @if($wishlist->property)
                             <a href="{{ route('detail-properti', $wishlist->property->id_properti) }}" class="booking-card">
-                                <img src="{{ $wishlist->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $wishlist->property->nama_properti }}">
+                                <img src="{{ $wishlist->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $wishlist->property->nama_properti }}" style="object-position: center {{ $wishlist->property->coverPhoto->object_position ?? '50' }}%;">
 
                                 <div class="booking-info">
                                     <h3>{{ $wishlist->property->nama_properti }}</h3>

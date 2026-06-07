@@ -329,7 +329,7 @@
             <h1>Detail Booking</h1>
 
             <div class="detail-card">
-                <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/profile/villa_ubud.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti ?? 'Property Image' }}">
+                <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/profile/villa_ubud.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti ?? 'Property Image' }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
 
                 <div class="detail-info">
                     <h2>{{ $booking->property->nama_properti ?? 'Detail Booking' }}</h2>
