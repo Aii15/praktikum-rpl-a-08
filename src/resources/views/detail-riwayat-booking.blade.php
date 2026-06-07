@@ -167,14 +167,14 @@
         }
 
         .content {
-            padding-top: 55px;
+            padding-top: 35px;
             max-width: 900px;
         }
 
         .content h1 {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 28px;
+            margin-bottom: 18px;
             letter-spacing: .5px;
         }
 
@@ -190,27 +190,27 @@
 
         .detail-banner {
             width: 100%;
-            height: 260px;
+            height: 180px;
             object-fit: cover;
             object-position: center;
             display: block;
         }
 
         .detail-info {
-            padding: 30px;
+            padding: 22px;
         }
 
         .detail-info h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             color: #111827;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px 30px;
+            gap: 15px 30px;
         }
 
         .info-group {
@@ -219,15 +219,15 @@
 
         .info-group strong {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             color: #6b7280;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .info-group p {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #374151;
             margin: 0;
@@ -236,10 +236,10 @@
 
         .booking-status {
             display: inline-block;
-            margin-top: 25px;
-            padding: 8px 20px;
+            margin-top: 15px;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
         }
 
@@ -255,12 +255,12 @@
 
         .back-btn {
             display: inline-block;
-            margin-top: 25px;
+            margin-top: 20px;
             color: #4b5563;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 10px;
             background: #f3f4f6;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -348,6 +348,11 @@
                         <div class="info-group">
                             <strong>Rentang Hari</strong>
                             <p>{{ $booking->rentang_hari }}</p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>Pemilik Properti</strong>
+                            <p>{{ $booking->property->mitra->name ?? 'Tidak Diketahui' }}</p>
                         </div>
                     </div>
 

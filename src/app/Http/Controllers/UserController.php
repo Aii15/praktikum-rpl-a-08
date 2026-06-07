@@ -90,7 +90,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $booking = Booking::with(['property.coverPhoto', 'property.location'])
+        $booking = Booking::with(['property.coverPhoto', 'property.location', 'property.mitra'])
             ->where('id_user', $user->id)
             ->findOrFail($id);
 
