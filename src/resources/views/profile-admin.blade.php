@@ -299,6 +299,32 @@
             text-decoration: underline;
         }
 
+        .item-action.btn-preview {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #2563eb;
+            color: #ffffff !important;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none !important;
+            box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
+            cursor: pointer;
+        }
+
+        .item-action.btn-preview:hover {
+            background: #1d4ed8;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            transform: translateY(-1px);
+        }
+
         /* Review Section Container (Screenshot 2) */
         .review-container {
             margin-bottom: 24px;
@@ -542,7 +568,7 @@
 
                                 <div style="text-align: right; display: flex; flex-direction: column; gap: 8px;">
                                     <div class="status-badge pending">Status: Menunggu</div>
-                                    <a href="{{ route('detail-properti', $property->id_properti) }}" target="_blank" class="item-action">Info Properti</a>
+                                    <a href="{{ route('detail-properti', $property->id_properti) }}?preview=admin" target="_blank" class="item-action btn-preview">Preview Detail Properti</a>
                                 </div>
                             </div>
 

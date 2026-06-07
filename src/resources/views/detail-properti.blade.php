@@ -13,6 +13,13 @@
 
     <div class="detail-page">
 
+        @if(request()->query('preview') === 'admin')
+            <div class="preview-notice-banner" style="background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 8px rgba(217, 119, 6, 0.05); animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <span><strong>Mode Preview Admin:</strong> Anda sedang melihat live preview detail properti yang sedang diajukan.</span>
+            </div>
+        @endif
+
         @if(session('success'))
             <div style="background: #d1fae5; color: #065f46; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 500; font-family: 'Poppins', sans-serif;">
                 {{ session('success') }}
@@ -30,10 +37,17 @@
         @endif
 
         <div class="top-header-actions">
-            <a href="/" class="back-link">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Kembali Ke Daftar Properti
-            </a>
+            @if(request()->query('preview') === 'admin')
+                <a href="{{ route('admin.pengajuan') }}" class="back-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Kembali Ke Daftar Pengajuan Properti
+                </a>
+            @else
+                <a href="/" class="back-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Kembali Ke Daftar Properti
+                </a>
+            @endif
 
             <div class="top-actions">
                 <button class="save-btn {{ $isSaved ? 'saved' : '' }}" onclick="toggleSave({{ $property->id_properti }})">
