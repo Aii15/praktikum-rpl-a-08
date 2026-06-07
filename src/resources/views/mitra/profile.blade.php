@@ -795,15 +795,39 @@
                         <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
                     </div>
 
-                    <div class="field-card" onclick="this.querySelector('select').focus();">
-                        <div class="field-text">
+                    <!-- Custom dropdown for category with icons -->
+                    <div class="field-card" style="position: relative; z-index: 15;" id="kategori-dropdown-container">
+                        <div class="field-text" onclick="toggleKategoriDropdown(event)">
                             <small>Kategori Properti</small>
-                            <select name="id_kategori" class="profile-select" required>
-                                <option value="">Pilih Kategori</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id_kategori }}" {{ old('id_kategori') == $category->id_kategori ? 'selected' : '' }}>{{ $category->nama_kategori }}</option>
-                                @endforeach
-                            </select>
+                            <div id="kategori-display" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 2px;">
+                                <span style="font-size: 15px; font-weight: 500; color: #777;">Pilih Kategori</span>
+                            </div>
+                            <input type="hidden" name="id_kategori" id="kategori-value" value="{{ old('id_kategori') }}" required>
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleKategoriDropdown(event)">
+
+                        <div id="kategori-dropdown" class="dropdown-menu-list">
+                            @php
+                                $categoryIconsList = [
+                                    'hunian' => 'hunian.svg',
+                                    'heritage' => 'heritage.svg',
+                                    'lanskap' => 'lanskap.svg',
+                                    'fasilitas publik' => 'fasilitas_publik.svg',
+                                    'komersial' => 'komersial.svg',
+                                    'studio' => 'studio_icon.svg',
+                                    'industrial' => 'industrial.svg',
+                                ];
+                            @endphp
+                            @foreach($categories as $category)
+                                @php
+                                    $catKey = strtolower($category->nama_kategori);
+                                    $catIcon = $categoryIconsList[$catKey] ?? 'property.png';
+                                @endphp
+                                <div class="dropdown-item-row category-item-row" data-id="{{ $category->id_kategori }}" data-name="{{ $category->nama_kategori }}" data-icon="/images/landing/icons/{{ $catIcon }}" onclick="selectKategori('{{ $category->id_kategori }}', '{{ $category->nama_kategori }}', '/images/landing/icons/{{ $catIcon }}', event)">
+                                    <img src="/images/landing/icons/{{ $catIcon }}" class="facility-icon" alt="{{ $category->nama_kategori }}">
+                                    <span>{{ $category->nama_kategori }}</span>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 
@@ -830,7 +854,7 @@
                     </div>
 
                     <!-- Custom dropdown for facilities with icons -->
-                    <div class="field-card" style="position: relative;" id="fasilitas-dropdown-container">
+                    <div class="field-card" style="position: relative; z-index: 10;" id="fasilitas-dropdown-container">
                         <div class="field-text" onclick="toggleFasilitasDropdown(event)">
                             <small>Fasilitas</small>
                             <div id="fasilitas-display" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 2px;">
@@ -876,7 +900,7 @@
                 <div class="btn-container">
                     <button type="button" class="btn-next" onclick="goToStep(2)">
                         <span>Next</span>
-                        <img src="/images/profile/next.png" alt="Next" style="width: 16px; height: 16px; filter: invert(1);">
+                        <img src="/images/profile/next.png" alt="Next" style="width: 16px; height: 16px;">
                     </button>
                 </div>
             </div>
@@ -1015,6 +1039,17 @@
 
             // Trigger check on load if old value is present (for facilities dropdown)
             updateFasilitasSelection();
+
+            // Old category pre-selection
+            const oldKategoriVal = document.getElementById('kategori-value')?.value;
+            if (oldKategoriVal) {
+                const matchedRow = document.querySelector(`.category-item-row[data-id="${oldKategoriVal}"]`);
+                if (matchedRow) {
+                    const name = matchedRow.getAttribute('data-name');
+                    const iconUrl = matchedRow.getAttribute('data-icon');
+                    selectKategori(oldKategoriVal, name, iconUrl);
+                }
+            }
         });
 
         // Search bookings logic
@@ -1030,6 +1065,41 @@
                     card.style.display = 'none';
                 }
             });
+        }
+
+        // Toggle category list
+        function toggleKategoriDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('kategori-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Select category
+        function selectKategori(id, name, iconUrl, e) {
+            if (e) e.stopPropagation();
+            const valueInput = document.getElementById('kategori-value');
+            if (valueInput) valueInput.value = id;
+
+            const displayContainer = document.getElementById('kategori-display');
+            if (displayContainer) {
+                displayContainer.innerHTML = '';
+                
+                const badge = document.createElement('div');
+                badge.className = 'selected-badge';
+                
+                const icon = document.createElement('img');
+                icon.src = iconUrl;
+                
+                const label = document.createElement('span');
+                label.textContent = name;
+                
+                badge.appendChild(icon);
+                badge.appendChild(label);
+                displayContainer.appendChild(badge);
+            }
+
+            const dropdown = document.getElementById('kategori-dropdown');
+            if (dropdown) dropdown.style.display = 'none';
         }
 
         // Toggle facilities list
@@ -1080,6 +1150,12 @@
             const dropdown = document.getElementById('fasilitas-dropdown');
             if (container && !container.contains(e.target)) {
                 if (dropdown) dropdown.style.display = 'none';
+            }
+
+            const catContainer = document.getElementById('kategori-dropdown-container');
+            const catDropdown = document.getElementById('kategori-dropdown');
+            if (catContainer && !catContainer.contains(e.target)) {
+                if (catDropdown) catDropdown.style.display = 'none';
             }
         });
 
