@@ -73,7 +73,7 @@ class LandingDataSeeder extends Seeder
             [
                 'nama_properti' => 'Kota Tua Jakarta',
                 'deskripsi' => 'Properti ikonik bergaya heritage di tengah pusat kota Jakarta dengan akses mudah dan ruang serbaguna untuk syuting.',
-                'harga_per_periode' => 15000000.00,
+                'harga_per_hari' => 15000000.00,
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, Parkir Mobil, Outdoor',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Komersial')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Jakarta')->id_lokasi,
@@ -81,7 +81,7 @@ class LandingDataSeeder extends Seeder
             [
                 'nama_properti' => 'Villa Ubud',
                 'deskripsi' => 'Villa mewah di Bali dengan area outdoor hijau dan pemandangan alam, cocok untuk video lifestyle dan promo.',
-                'harga_per_periode' => 10000000.00,
+                'harga_per_hari' => 10000000.00,
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, Parkir Mobil, CCTV, Outdoor',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Hunian')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Gianyar')->id_lokasi,
@@ -89,7 +89,7 @@ class LandingDataSeeder extends Seeder
             [
                 'nama_properti' => 'Studio',
                 'deskripsi' => 'Studio modern lengkap dengan lighting, properti, dan ruang ganti untuk sesi foto dan shooting komersial.',
-                'harga_per_periode' => 8000000.00,
+                'harga_per_hari' => 8000000.00,
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, CCTV, APAR, Parkir Mobil',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Studio')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Bandung')->id_lokasi,
@@ -97,7 +97,7 @@ class LandingDataSeeder extends Seeder
             [
                 'nama_properti' => 'Lawang Sewu',
                 'deskripsi' => 'Bangunan bersejarah terkenal di Kota Semarang, Jawa Tengah. Terkenal dengan arsitektur pintu yang megah dan sangat ikonik untuk produksi video, film, atau sesi foto pre-wedding bernuansa klasik.',
-                'harga_per_periode' => 150000000.00,
+                'harga_per_hari' => 150000000.00,
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, CCTV, Parkir Mobil, Sprinkler Water, Permit Included, APAR, Outdoor',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Heritage')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Semarang')->id_lokasi,

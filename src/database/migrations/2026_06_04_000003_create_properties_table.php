@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_lokasi');
             $table->string('nama_properti', 150);
             $table->text('deskripsi');
-            $table->decimal('harga_per_periode', 12, 2);
+            $table->decimal('harga_per_hari', 12, 2);
             $table->text('fasilitas')->nullable();
             $table->timestamps();
 

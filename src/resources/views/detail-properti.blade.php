@@ -91,8 +91,24 @@
                         </div>
 
                         <div class="info-item">
-                            <div class="info-title">Tipe Properti</div>
-                            <div class="info-desc">{{ $property->category->nama_kategori }}</div>
+                            @php
+                                $categoryIcons = [
+                                    'hunian' => 'hunian.svg',
+                                    'heritage' => 'heritage.svg',
+                                    'lanskap' => 'lanskap.svg',
+                                    'fasilitas publik' => 'fasilitas_publik.svg',
+                                    'komersial' => 'komersial.svg',
+                                    'studio' => 'studio_icon.svg',
+                                    'industrial' => 'industrial.svg',
+                                ];
+                                $categoryKey = strtolower($property->category->nama_kategori ?? '');
+                                $categoryIcon = $categoryIcons[$categoryKey] ?? null;
+                            @endphp
+                            @if($categoryIcon)
+                                <img src="/images/landing/icons/{{ $categoryIcon }}" alt="" class="info-img">
+                            @endif
+                            <div class="info-title">{{ $property->category->nama_kategori }}</div>
+                            <div class="info-desc">Tipe Properti</div>
                         </div>
 
                         <div class="info-item">
@@ -168,7 +184,7 @@
                     <hr>
 
                     <div class="calendar-section">
-                        <h2>IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
+                        <h2>IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
                         <p id="calendarDaysText">Pilih rentang tanggal di kalender</p>
 
                         <input type="text" id="dateRange">
@@ -177,7 +193,7 @@
                 </div>
 
                 <aside class="booking-card">
-                    <h2 id="totalPriceText">IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
+                    <h2 id="totalPriceText">IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span></h2>
                     <p id="bookingDaysText">Pilih tanggal</p>
 
                     <div class="date-box" onclick="toggleBookingCardCalendar(event)" style="cursor: pointer; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #222; border-radius: 6px; overflow: hidden; margin-bottom: 15px;">
@@ -375,7 +391,7 @@
                 const timeDiff = Math.abs(selectedDates[1].getTime() - selectedDates[0].getTime());
                 const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
 
-                const basePrice = {{ $property->harga_per_periode }};
+                const basePrice = {{ $property->harga_per_hari ?? 0 }};
                 const totalPrice = diffDays * basePrice;
                 const formattedPrice = 'IDR ' + new Intl.NumberFormat('id-ID').format(totalPrice);
 
@@ -385,7 +401,7 @@
                 document.getElementById("calendarDaysText").textContent = `Untuk ${diffDays} Hari (${instance.formatDate(selectedDates[0], "d/m/Y")} - ${instance.formatDate(selectedDates[1], "d/m/Y")})`;
             } else {
                 document.getElementById("hiddenDateRange").value = "";
-                document.getElementById("totalPriceText").innerHTML = `IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span>`;
+                document.getElementById("totalPriceText").innerHTML = `IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}<span style="font-size: 16px; font-weight: normal; color: #777;"> / Hari</span>`;
                 document.getElementById("bookingDaysText").textContent = "Pilih tanggal";
                 document.getElementById("calendarDaysText").textContent = "Pilih rentang tanggal di kalender";
                 document.getElementById("checkOutText").textContent = "--/--/----";

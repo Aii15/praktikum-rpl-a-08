@@ -19,8 +19,9 @@ class Property extends Model
         'id_lokasi',
         'nama_properti',
         'deskripsi',
-        'harga_per_periode',
+        'harga_per_hari',
         'fasilitas',
+        'status_pengajuan',
     ];
 
     public function mitra()

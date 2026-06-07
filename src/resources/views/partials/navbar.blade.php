@@ -9,14 +9,14 @@
             @php
                 $activeRole = session('active_role') ?? (Auth::user()->roles()->first()->name ?? Auth::user()->role ?? 'penyewa');
             @endphp
-            @if($activeRole === 'penyewa')
+            @if($activeRole === 'penyewa' || $activeRole === 'mitra')
                 <div class="profile-dropdown-container">
                     <button class="profile-btn" id="profileDropdownBtn" aria-label="Menu Profil">
                         <img src="/icons/login_profile.svg" alt="Profile" class="profile-icon">
                     </button>
                     <div class="profile-dropdown-menu" id="profileDropdownMenu">
                         <div class="dropdown-header">
-                            <span class="user-fullname">{{ Auth::user()->name }}</span>
+                            <span class="user-fullname">{{ $activeRole === 'mitra' ? (Auth::user()->mitraProfile->nama_mitra ?? Auth::user()->nama_mitra ?? Auth::user()->name) : Auth::user()->name }}</span>
                             <span class="user-role-label">{{ ucfirst($activeRole) }}</span>
                         </div>
                         <div class="dropdown-divider"></div>

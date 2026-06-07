@@ -47,23 +47,23 @@
 
                 <div class="dropdown type-dropdown" id="typeDropdown">
                     <button data-value="All" onclick="selectValue('typeValue', this.dataset.value)">All</button>
-                    <button data-value="Hunian" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/hunian.png">
+                    <button data-value="Hunian" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/hunian.svg">
                         Hunian</button>
                     <button data-value="Heritage" onclick="selectValue('typeValue', this.dataset.value)"><img
-                            src="/images/landing/icons/heritage.png">
+                            src="/images/landing/icons/heritage.svg">
                         Heritage</button>
-                    <button data-value="Lanskap" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/lanskap.png">
+                    <button data-value="Lanskap" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/lanskap.svg">
                         Lanskap</button>
                     <button data-value="Fasilitas Publik" onclick="selectValue('typeValue', this.dataset.value)"><img
-                            src="/images/landing/icons/fasilitas.png">
+                            src="/images/landing/icons/fasilitas_publik.svg">
                         Fasilitas Publik</button>
                     <button data-value="Komersial" onclick="selectValue('typeValue', this.dataset.value)"><img
-                            src="/images/landing/icons/komersial.png">
+                            src="/images/landing/icons/komersial.svg">
                         Komersial</button>
-                    <button data-value="Studio" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/studio.png">
+                    <button data-value="Studio" onclick="selectValue('typeValue', this.dataset.value)"><img src="/images/landing/icons/studio_icon.svg">
                         Studio</button>
                     <button data-value="Industrial" onclick="selectValue('typeValue', this.dataset.value)"><img
-                            src="/images/landing/icons/industrial.png">
+                            src="/images/landing/icons/industrial.svg">
                         Industrial</button>
                 </div>
 
@@ -80,16 +80,34 @@
                 <a href="{{ route('detail-properti', $property->id_properti) }}" class="card" 
                      data-location="{{ $property->location->kota ?? '' }}" 
                      data-category="{{ $property->category->nama_kategori ?? '' }}" 
-                     data-price="{{ $property->harga_per_periode }}">
+                     data-price="{{ $property->harga_per_hari }}">
                     <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}">
 
                     <div class="card-content">
 
                         <div class="card-row top-row">
-                            <span class="category">{{ $property->category->nama_kategori ?? 'Kategori Lain' }}</span>
+                            @php
+                                $categoryIcons = [
+                                    'hunian' => 'hunian.svg',
+                                    'heritage' => 'heritage.svg',
+                                    'lanskap' => 'lanskap.svg',
+                                    'fasilitas publik' => 'fasilitas_publik.svg',
+                                    'komersial' => 'komersial.svg',
+                                    'studio' => 'studio_icon.svg',
+                                    'industrial' => 'industrial.svg',
+                                ];
+                                $categoryKey = strtolower($property->category->nama_kategori ?? '');
+                                $categoryIcon = $categoryIcons[$categoryKey] ?? null;
+                            @endphp
+                            <span class="category" style="display: inline-flex; align-items: center; gap: 6px;">
+                                @if($categoryIcon)
+                                    <img src="/images/landing/icons/{{ $categoryIcon }}" alt="" style="width: 16px; height: 16px; object-fit: contain;">
+                                @endif
+                                <span>{{ $property->category->nama_kategori ?? 'Kategori Lain' }}</span>
+                            </span>
 
                             <div class="price-box">
-                                <span class="price">IDR {{ number_format($property->harga_per_periode, 0, ',', '.') }}</span>
+                                <span class="price">IDR {{ number_format($property->harga_per_hari, 0, ',', '.') }}</span>
                                 <small>Per Hari</small>
                             </div>
                         </div>
