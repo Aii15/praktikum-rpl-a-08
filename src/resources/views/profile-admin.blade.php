@@ -557,7 +557,7 @@
                     @forelse($pendingProperties as $property)
                         <div class="review-container">
                             <div class="item-card" style="box-shadow: none; border: none; background: transparent;">
-                                <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
+                                <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $property->nama_properti }}" style="object-position: {{ $property->coverPhoto->position_style ?? 'center 50%' }};">
 
                                 <div class="item-info">
                                     <h3>{{ $property->nama_properti }}</h3>
@@ -614,7 +614,7 @@
                 <div class="item-list">
                     @forelse($bookings as $booking)
                         <div class="item-card">
-                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $booking->property->nama_properti ?? 'Properti' }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
+                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $booking->property->nama_properti ?? 'Properti' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
 
                             <div class="item-info">
                                 <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
@@ -655,7 +655,7 @@
                 <div class="item-list">
                     @forelse($allProperties as $property)
                         <div class="item-card">
-                            <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
+                            <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $property->nama_properti }}" style="object-position: {{ $property->coverPhoto->position_style ?? 'center 50%' }};">
 
                             <div class="item-info">
                                 <h3>{{ $property->nama_properti }}</h3>

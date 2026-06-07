@@ -25,4 +25,13 @@ class PropertyPhoto extends Model
     {
         return $this->belongsTo(Property::class, 'id_properti', 'id_properti');
     }
+
+    public function getPositionStyleAttribute()
+    {
+        $pos = $this->object_position ?? '50';
+        if (str_contains($pos, ' ')) {
+            return $pos;
+        }
+        return "center {$pos}%";
+    }
 }

@@ -149,7 +149,7 @@ class MitraController extends Controller
             'images' => 'required|array|min:2|max:5',
             'images.*' => 'file|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'positions' => 'nullable|array',
-            'positions.*' => 'integer|min:0|max:100',
+            'positions.*' => 'string|max:20',
         ], [
             'nama_properti.required' => 'Nama properti wajib diisi.',
             'id_kategori.required' => 'Kategori properti wajib dipilih.',

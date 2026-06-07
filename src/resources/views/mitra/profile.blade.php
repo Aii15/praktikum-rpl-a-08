@@ -1108,8 +1108,8 @@
 
         /* --- Interactive Photo Upload Adjuster --- */
         .photo-control-list {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin-top: 15px;
             width: 100%;
@@ -1119,15 +1119,16 @@
             align-items: center;
             background: #ffffff;
             border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 12px;
-            gap: 16px;
+            border-radius: 8px;
+            padding: 8px;
+            gap: 10px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            min-width: 0;
         }
         .photo-control-thumb {
-            width: 90px;
-            height: 90px;
-            border-radius: 6px;
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
             overflow: hidden;
             position: relative;
             flex-shrink: 0;
@@ -1143,66 +1144,86 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
+            min-width: 0;
         }
         .photo-control-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: #111827;
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            min-width: 0;
+            width: 100%;
+        }
+        .photo-control-filename {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+            display: block;
         }
         .badge-cover {
             background: #fef3c7;
             color: #d97706;
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 4px;
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 3px;
             border: 1px solid #fcd34d;
+            font-weight: 500;
+            width: fit-content;
         }
         .badge-secondary {
             background: #f3f4f6;
             color: #4b5563;
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 4px;
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 3px;
             border: 1px solid #e5e7eb;
+            font-weight: 500;
+            width: fit-content;
         }
         .crop-adjuster {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
+            gap: 6px;
+            font-size: 11px;
             color: #4b5563;
+            margin-top: 2px;
+            width: 100%;
         }
         .crop-slider {
             flex: 1;
             accent-color: #f59e0b;
-            height: 5px;
-            border-radius: 3px;
+            height: 4px;
+            border-radius: 2px;
             background: #e5e7eb;
+            cursor: pointer;
+            min-width: 0;
         }
         .photo-control-actions {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
             align-items: flex-end;
+            flex-shrink: 0;
         }
         .btn-action {
             background: #f3f4f6;
             border: 1px solid #d1d5db;
-            border-radius: 6px;
-            padding: 4px 8px;
-            font-size: 12px;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 10px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
             color: #374151;
+            line-height: 1;
         }
         .btn-action:hover {
             background: #e5e7eb;
@@ -1746,6 +1767,12 @@
                     </div>
 
                     <div id="hidden-positions-container"></div>
+                    <div id="preview-notice-banner" style="display: none; justify-content: space-between; align-items: center; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-top: 15px; margin-bottom: 5px;">
+                        <span>💡 Geser slider Crop Horiz & Vert untuk memposisikan gambar.</span>
+                        <a href="#previewGalleryContainer" onclick="scrollToPreview(event)" style="color: #2563eb; text-decoration: underline; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                            Lihat Live Preview 👇
+                        </a>
+                    </div>
                     <div class="photo-control-list" id="photoControlList"></div>
 
                     <div class="preview-gallery-container" id="previewGalleryContainer" style="display: none;">
@@ -2528,6 +2555,7 @@
                 if (!file.type.startsWith('image/')) continue;
                 selectedFiles.push({
                     file: file,
+                    positionX: 50,
                     positionY: 50,
                     previewUrl: URL.createObjectURL(file)
                 });
@@ -2550,7 +2578,7 @@
                 const hiddenInput = document.createElement('input');
                 hiddenInput.type = 'hidden';
                 hiddenInput.name = 'positions[]';
-                hiddenInput.value = item.positionY;
+                hiddenInput.value = `${item.positionX || 50}% ${item.positionY || 50}%`;
                 hiddenPositionsContainer.appendChild(hiddenInput);
             });
 
@@ -2572,7 +2600,7 @@
                 thumb.className = 'photo-control-thumb';
                 const img = document.createElement('img');
                 img.src = item.previewUrl;
-                img.style.objectPosition = `center ${item.positionY}%`;
+                img.style.objectPosition = `${item.positionX || 50}% ${item.positionY || 50}%`;
                 img.id = `preview-thumb-img-${index}`;
                 thumb.appendChild(img);
                 card.appendChild(thumb);
@@ -2583,6 +2611,13 @@
 
                 const title = document.createElement('div');
                 title.className = 'photo-control-title';
+                
+                const filenameSpan = document.createElement('span');
+                filenameSpan.className = 'photo-control-filename';
+                filenameSpan.textContent = item.file.name;
+                filenameSpan.title = item.file.name;
+                title.appendChild(filenameSpan);
+
                 const badge = document.createElement('span');
                 if (index === 0) {
                     badge.className = 'badge-cover';
@@ -2591,51 +2626,88 @@
                     badge.className = 'badge-secondary';
                     badge.textContent = `Foto Detail #${index + 1}`;
                 }
-                title.textContent = item.file.name;
                 title.appendChild(badge);
                 info.appendChild(title);
 
-                // Vertical slider
-                const adjuster = document.createElement('div');
-                adjuster.className = 'crop-adjuster';
-                const label = document.createElement('span');
-                label.textContent = 'Crop Vertikal:';
-                const slider = document.createElement('input');
-                slider.type = 'range';
-                slider.className = 'crop-slider';
-                slider.min = '0';
-                slider.max = '100';
-                slider.value = item.positionY;
+                // Horizontal slider
+                const adjusterX = document.createElement('div');
+                adjusterX.className = 'crop-adjuster';
+                const labelX = document.createElement('span');
+                labelX.textContent = 'Horiz:';
+                labelX.style.width = '35px';
+                const sliderX = document.createElement('input');
+                sliderX.type = 'range';
+                sliderX.className = 'crop-slider';
+                sliderX.min = '0';
+                sliderX.max = '100';
+                sliderX.value = item.positionX || 50;
                 
-                const valDisplay = document.createElement('span');
-                valDisplay.style.width = '35px';
-                valDisplay.style.textAlign = 'right';
-                valDisplay.textContent = `${item.positionY}%`;
+                const valDisplayX = document.createElement('span');
+                valDisplayX.style.width = '30px';
+                valDisplayX.style.textAlign = 'right';
+                valDisplayX.textContent = `${sliderX.value}%`;
 
-                slider.oninput = function() {
-                    item.positionY = slider.value;
-                    valDisplay.textContent = `${slider.value}%`;
+                // Vertical slider
+                const adjusterY = document.createElement('div');
+                adjusterY.className = 'crop-adjuster';
+                const labelY = document.createElement('span');
+                labelY.textContent = 'Vert:';
+                labelY.style.width = '35px';
+                const sliderY = document.createElement('input');
+                sliderY.type = 'range';
+                sliderY.className = 'crop-slider';
+                sliderY.min = '0';
+                sliderY.max = '100';
+                sliderY.value = item.positionY || 50;
+                
+                const valDisplayY = document.createElement('span');
+                valDisplayY.style.width = '30px';
+                valDisplayY.style.textAlign = 'right';
+                valDisplayY.textContent = `${sliderY.value}%`;
+
+                function updateImagePositions() {
+                    const valX = sliderX.value;
+                    const valY = sliderY.value;
+                    item.positionX = valX;
+                    item.positionY = valY;
+                    valDisplayX.textContent = `${valX}%`;
+                    valDisplayY.textContent = `${valY}%`;
+                    
+                    const posStr = `${valX}% ${valY}%`;
                     
                     // Update preview thumbnail live
-                    img.style.objectPosition = `center ${slider.value}%`;
+                    if (img) {
+                        img.style.objectPosition = posStr;
+                    }
                     
                     // Update layout preview live if it is rendering
                     const galleryImg = document.getElementById(`gallery-img-${index}`);
                     if (galleryImg) {
-                        galleryImg.style.objectPosition = `center ${slider.value}%`;
+                        galleryImg.style.objectPosition = posStr;
                     }
 
                     // Update corresponding hidden input value
-                    hiddenPositionsContainer.children[index].value = slider.value;
-                };
+                    if (hiddenPositionsContainer && hiddenPositionsContainer.children && hiddenPositionsContainer.children[index]) {
+                        hiddenPositionsContainer.children[index].value = posStr;
+                    }
+                }
 
-                adjuster.appendChild(label);
-                adjuster.appendChild(slider);
-                adjuster.appendChild(valDisplay);
-                info.appendChild(adjuster);
+                sliderX.oninput = updateImagePositions;
+                sliderY.oninput = updateImagePositions;
+
+                adjusterX.appendChild(labelX);
+                adjusterX.appendChild(sliderX);
+                adjusterX.appendChild(valDisplayX);
+                info.appendChild(adjusterX);
+
+                adjusterY.appendChild(labelY);
+                adjusterY.appendChild(sliderY);
+                adjusterY.appendChild(valDisplayY);
+                info.appendChild(adjusterY);
+
                 card.appendChild(info);
 
-                // Action buttons (Up, Down, Delete)
+                // Action buttons (Prev, Next, Delete)
                 const actions = document.createElement('div');
                 actions.className = 'photo-control-actions';
 
@@ -2643,8 +2715,8 @@
                     const btnUp = document.createElement('button');
                     btnUp.type = 'button';
                     btnUp.className = 'btn-action';
-                    btnUp.textContent = '▲';
-                    btnUp.title = 'Pindahkan ke Atas';
+                    btnUp.textContent = '◀';
+                    btnUp.title = 'Pindahkan ke Sebelumnya';
                     btnUp.onclick = () => swapFiles(index, index - 1);
                     actions.appendChild(btnUp);
                 }
@@ -2653,8 +2725,8 @@
                     const btnDown = document.createElement('button');
                     btnDown.type = 'button';
                     btnDown.className = 'btn-action';
-                    btnDown.textContent = '▼';
-                    btnDown.title = 'Pindahkan ke Bawah';
+                    btnDown.textContent = '▶';
+                    btnDown.title = 'Pindahkan ke Berikutnya';
                     btnDown.onclick = () => swapFiles(index, index + 1);
                     actions.appendChild(btnDown);
                 }
@@ -2673,9 +2745,13 @@
             // Render Live Layout Preview (Only if there are at least 2 images)
             if (selectedFiles.length >= 2) {
                 previewGalleryContainer.style.display = 'block';
+                const banner = document.getElementById('preview-notice-banner');
+                if (banner) banner.style.display = 'flex';
                 renderLiveLayoutPreview();
             } else {
                 previewGalleryContainer.style.display = 'none';
+                const banner = document.getElementById('preview-notice-banner');
+                if (banner) banner.style.display = 'none';
                 liveLayoutGallery.innerHTML = '';
             }
         }
@@ -2709,7 +2785,7 @@
             
             const mainImg = document.createElement('img');
             mainImg.src = selectedFiles[0].previewUrl;
-            mainImg.style.objectPosition = `center ${selectedFiles[0].positionY}%`;
+            mainImg.style.objectPosition = `${selectedFiles[0].positionX || 50}% ${selectedFiles[0].positionY || 50}%`;
             mainImg.id = 'gallery-img-0';
             mainItem.appendChild(mainImg);
 
@@ -2731,7 +2807,7 @@
                     
                     const sideImg = document.createElement('img');
                     sideImg.src = selectedFiles[i].previewUrl;
-                    sideImg.style.objectPosition = `center ${selectedFiles[i].positionY}%`;
+                    sideImg.style.objectPosition = `${selectedFiles[i].positionX || 50}% ${selectedFiles[i].positionY || 50}%`;
                     sideImg.id = `gallery-img-${i}`;
                     sideItem.appendChild(sideImg);
 
@@ -2746,6 +2822,14 @@
             }
 
             liveLayoutGallery.appendChild(galleryDiv);
+        }
+
+        function scrollToPreview(e) {
+            if (e) e.preventDefault();
+            const el = document.getElementById('previewGalleryContainer');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Add client-side validation to form submission
