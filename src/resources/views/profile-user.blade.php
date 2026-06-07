@@ -155,7 +155,7 @@
         }
 
         .content {
-            padding-top: 55px;
+            padding-top: 0px;
             max-width: 900px;
         }
 
