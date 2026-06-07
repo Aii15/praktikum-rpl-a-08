@@ -91,8 +91,24 @@
                         </div>
 
                         <div class="info-item">
-                            <div class="info-title">Tipe Properti</div>
-                            <div class="info-desc">{{ $property->category->nama_kategori }}</div>
+                            @php
+                                $categoryIcons = [
+                                    'hunian' => 'hunian.svg',
+                                    'heritage' => 'heritage.svg',
+                                    'lanskap' => 'lanskap.svg',
+                                    'fasilitas publik' => 'fasilitas_publik.svg',
+                                    'komersial' => 'komersial.svg',
+                                    'studio' => 'studio_icon.svg',
+                                    'industrial' => 'industrial.svg',
+                                ];
+                                $categoryKey = strtolower($property->category->nama_kategori ?? '');
+                                $categoryIcon = $categoryIcons[$categoryKey] ?? null;
+                            @endphp
+                            @if($categoryIcon)
+                                <img src="/images/landing/icons/{{ $categoryIcon }}" alt="" class="info-img">
+                            @endif
+                            <div class="info-title">{{ $property->category->nama_kategori }}</div>
+                            <div class="info-desc">Tipe Properti</div>
                         </div>
 
                         <div class="info-item">
