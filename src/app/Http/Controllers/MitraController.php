@@ -26,14 +26,43 @@ class MitraController extends Controller
         return $user;
     }
 
-    public function profile()
+    protected function getUnifiedData()
     {
         $user = $this->ensureMitra();
+        $profile = $user->mitraProfile;
 
-        return view('mitra.profile', [
-            'user' => $user,
-            'profile' => $user->mitraProfile,
-        ]);
+        // Fetch bookings
+        $bookings = Booking::with(['property.coverPhoto', 'property.location', 'user'])
+            ->whereHas('property', function ($query) use ($user) {
+                $query->where('id_mitra', $user->id);
+            })
+            ->orderByDesc('tanggal_mulai')
+            ->get();
+
+        // Calculate booking prices
+        $bookings = $bookings->map(function ($booking) {
+            $start = \Carbon\Carbon::parse($booking->tanggal_mulai);
+            $end = \Carbon\Carbon::parse($booking->tanggal_selesai);
+            $days = max(1, $start->diffInDays($end) + 1);
+            $booking->total_price = $booking->property ? ($booking->property->harga_per_hari * $days) : 0;
+            return $booking;
+        });
+
+        // Fetch properties
+        $properties = Property::with(['coverPhoto', 'category', 'location'])
+            ->where('id_mitra', $user->id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $categories = PropertyCategory::orderBy('nama_kategori')->get();
+        $locations = Location::orderBy('kota')->get();
+
+        return compact('user', 'profile', 'bookings', 'properties', 'categories', 'locations');
+    }
+
+    public function profile()
+    {
+        return view('mitra.profile', $this->getUnifiedData());
     }
 
     public function updateProfile(Request $request)
@@ -89,45 +118,17 @@ class MitraController extends Controller
 
     public function bookingHistory()
     {
-        $user = $this->ensureMitra();
-
-        $bookings = Booking::with(['property', 'user'])
-            ->whereHas('property', function ($query) use ($user) {
-                $query->where('id_mitra', $user->id);
-            })
-            ->orderByDesc('tanggal_mulai')
-            ->get();
-
-        return view('mitra.bookings', [
-            'bookings' => $bookings,
-        ]);
+        return $this->profile();
     }
 
     public function properties()
     {
-        $user = $this->ensureMitra();
-
-        $properties = Property::with(['coverPhoto', 'category', 'location'])
-            ->where('id_mitra', $user->id)
-            ->orderByDesc('created_at')
-            ->get();
-
-        return view('mitra.properties', [
-            'properties' => $properties,
-        ]);
+        return $this->profile();
     }
 
     public function createProperty()
     {
-        $user = $this->ensureMitra();
-
-        $categories = PropertyCategory::orderBy('nama_kategori')->get();
-        $locations = Location::orderBy('kota')->get();
-
-        return view('mitra.property_form', [
-            'categories' => $categories,
-            'locations' => $locations,
-        ]);
+        return $this->profile();
     }
 
     public function storeProperty(Request $request)
@@ -193,16 +194,7 @@ class MitraController extends Controller
 
     public function applicationStatus()
     {
-        $user = $this->ensureMitra();
-
-        $properties = Property::with(['category', 'location', 'coverPhoto'])
-            ->where('id_mitra', $user->id)
-            ->orderByDesc('updated_at')
-            ->get();
-
-        return view('mitra.status_pengajuan', [
-            'properties' => $properties,
-        ]);
+        return $this->profile();
     }
 
     public function bookingDetail($id)

@@ -186,27 +186,27 @@
                 <h2 class="side-title">Profil Saya</h2>
 
                 <nav class="menu">
-                    <a href="{{ route('mitra.profile') }}" class="menu-item {{ request()->routeIs('mitra.profile') ? 'active' : '' }}">
+                    <a href="{{ route('mitra.profile') }}" id="menu-tentang-saya" class="menu-item {{ request()->routeIs('mitra.profile') ? 'active' : '' }}">
                         <img src="/icons/tentang_saya.svg" class="menu-icon" alt="Profil Icon">
                         <span>Tentang Saya</span>
                     </a>
 
-                    <a href="{{ route('mitra.bookings') }}" class="menu-item {{ request()->routeIs('mitra.bookings') || request()->routeIs('mitra.booking.detail') ? 'active' : '' }}">
+                    <a href="{{ route('mitra.bookings') }}" id="menu-riwayat-penyewaan" class="menu-item {{ request()->routeIs('mitra.bookings') || request()->routeIs('mitra.booking.detail') ? 'active' : '' }}">
                         <img src="/images/profile/history.png" class="menu-icon" alt="Riwayat Penyewaan Icon">
                         <span>Riwayat Penyewaan</span>
                     </a>
 
-                    <a href="{{ route('mitra.properties') }}" class="menu-item {{ request()->routeIs('mitra.properties') || request()->routeIs('mitra.property.detail') ? 'active' : '' }}">
+                    <a href="{{ route('mitra.properties') }}" id="menu-properti-saya" class="menu-item {{ request()->routeIs('mitra.properties') || request()->routeIs('mitra.property.detail') ? 'active' : '' }}">
                         <img src="/images/profile/property.png" class="menu-icon" alt="Properti Saya Icon">
                         <span>Properti Saya</span>
                     </a>
 
-                    <a href="{{ route('mitra.property.create') }}" class="menu-item {{ request()->routeIs('mitra.property.create') ? 'active' : '' }}">
+                    <a href="{{ route('mitra.property.create') }}" id="menu-tambah-properti" class="menu-item {{ request()->routeIs('mitra.property.create') ? 'active' : '' }}">
                         <img src="/images/profile/add.png" class="menu-icon" alt="Tambah Properti Icon">
                         <span>Tambah Properti</span>
                     </a>
 
-                    <a href="{{ route('mitra.status') }}" class="menu-item {{ request()->routeIs('mitra.status') || request()->routeIs('mitra.status.detail') ? 'active' : '' }}">
+                    <a href="{{ route('mitra.status') }}" id="menu-status-pengajuan" class="menu-item {{ request()->routeIs('mitra.status') || request()->routeIs('mitra.status.detail') ? 'active' : '' }}">
                         <img src="/images/profile/status.png" class="menu-icon" alt="Status Pengajuan Icon">
                         <span>Status Pengajuan</span>
                     </a>

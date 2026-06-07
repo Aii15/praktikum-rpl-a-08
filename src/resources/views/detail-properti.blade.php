@@ -375,7 +375,7 @@
                 const timeDiff = Math.abs(selectedDates[1].getTime() - selectedDates[0].getTime());
                 const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
 
-                const basePrice = {{ $property->harga_per_hari }};
+                const basePrice = {{ $property->harga_per_hari ?? 0 }};
                 const totalPrice = diffDays * basePrice;
                 const formattedPrice = 'IDR ' + new Intl.NumberFormat('id-ID').format(totalPrice);
 

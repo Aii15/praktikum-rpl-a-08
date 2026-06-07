@@ -16,7 +16,7 @@
                     </button>
                     <div class="profile-dropdown-menu" id="profileDropdownMenu">
                         <div class="dropdown-header">
-                            <span class="user-fullname">{{ Auth::user()->name }}</span>
+                            <span class="user-fullname">{{ $activeRole === 'mitra' ? (Auth::user()->mitraProfile->nama_mitra ?? Auth::user()->nama_mitra ?? Auth::user()->name) : Auth::user()->name }}</span>
                             <span class="user-role-label">{{ ucfirst($activeRole) }}</span>
                         </div>
                         <div class="dropdown-divider"></div>
