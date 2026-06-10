@@ -1317,11 +1317,48 @@
 @endsection
 
 @section('content')
+    <!-- TOAST PERINGATAN PROFIL MITRA -->
+    <div id="profile-toast-overlay" style="
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 99999;
+        pointer-events: none;
+    ">
+        <div id="profile-toast-box" style="
+            position: fixed;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: #fff;
+            border: 1.5px solid #ef4444;
+            border-left: 5px solid #ef4444;
+            border-radius: 12px;
+            padding: 16px 24px;
+            box-shadow: 0 8px 30px rgba(239,68,68,0.18);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #991b1b;
+            min-width: 300px;
+            max-width: 460px;
+            pointer-events: all;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        ">
+            <span style="font-size: 20px; flex-shrink:0;">⚠️</span>
+            <span id="profile-toast-msg">Mohon lengkapi semua data profil terlebih dahulu.</span>
+            <button onclick="closeProfileToast()" style="margin-left:auto; background:none; border:none; cursor:pointer; font-size:18px; color:#9ca3af; line-height:1;" aria-label="Tutup">×</button>
+        </div>
+    </div>
     <!-- SECTION 1: TENTANG SAYA -->
     <div id="section-tentang-saya" class="content-section">
         <h1>Tentang Saya</h1>
 
-        <form action="{{ route('mitra.profile.update') }}" method="POST">
+        <form id="profile-mitra-form" action="{{ route('mitra.profile.update') }}" method="POST" novalidate>
             @csrf
             <div class="form-list">
                 <div class="field-card" onclick="this.querySelector('input').focus();">
@@ -1389,7 +1426,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="save-btn">Simpan Perubahan</button>
+            <button type="submit" id="profile-save-btn" class="save-btn">Simpan Perubahan</button>
         </form>
     </div>
 
@@ -2497,16 +2534,36 @@
                 const requiredInputs = step1.querySelectorAll('[required]');
                 let valid = true;
                 requiredInputs.forEach(input => {
+                    const card = input.closest('.field-card');
                     if (!input.value.trim()) {
                         valid = false;
-                        input.closest('.field-card').style.borderColor = '#ef4444';
+                        if (card) {
+                            card.style.borderColor = '#ef4444';
+                            card.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+                        }
                     } else {
-                        input.closest('.field-card').style.borderColor = 'transparent';
+                        if (card) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
                     }
+
+                    // Clear highlight realtime saat user mulai mengetik
+                    input.addEventListener('input', function () {
+                        if (card && this.value.trim()) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
+                    }, { once: false });
                 });
 
                 if (!valid) {
-                    alert('Mohon lengkapi semua data spesifikasi properti terlebih dahulu.');
+                    showProfileToast('Mohon lengkapi semua data spesifikasi properti terlebih dahulu.');
+                    // Scroll ke field pertama yang kosong
+                    const firstEmpty = step1.querySelector('[required]:placeholder-shown, input[required][value=""]');
+                    if (firstEmpty) {
+                        firstEmpty.closest('.field-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                     return;
                 }
 
@@ -2845,10 +2902,87 @@
             propertyForm.addEventListener('submit', function (e) {
                 if (selectedFiles.length < 2) {
                     e.preventDefault();
-                    alert('Minimal 2 foto wajib diunggah untuk melanjutkan.');
+                    showProfileToast('Minimal 2 foto wajib diunggah untuk melanjutkan.');
                 } else if (selectedFiles.length > 5) {
                     e.preventDefault();
-                    alert('Maksimal 5 foto dapat diunggah.');
+                    showProfileToast('Maksimal 5 foto dapat diunggah.');
+                }
+            });
+        }
+
+        // =============================================
+        // VALIDASI FORM PROFIL MITRA
+        // =============================================
+        let profileToastTimer = null;
+
+        function showProfileToast(msg) {
+            const overlay = document.getElementById('profile-toast-overlay');
+            const box = document.getElementById('profile-toast-box');
+            const msgEl = document.getElementById('profile-toast-msg');
+            if (!overlay || !box) return;
+
+            msgEl.textContent = msg || 'Mohon lengkapi semua data profil terlebih dahulu.';
+            overlay.style.display = 'block';
+
+            // Trigger animation
+            requestAnimationFrame(() => {
+                box.style.opacity = '1';
+                box.style.transform = 'translateX(-50%) translateY(0)';
+            });
+
+            // Auto-dismiss setelah 4 detik
+            clearTimeout(profileToastTimer);
+            profileToastTimer = setTimeout(() => closeProfileToast(), 4000);
+        }
+
+        function closeProfileToast() {
+            const overlay = document.getElementById('profile-toast-overlay');
+            const box = document.getElementById('profile-toast-box');
+            if (!overlay || !box) return;
+
+            box.style.opacity = '0';
+            box.style.transform = 'translateX(-50%) translateY(-20px)';
+            setTimeout(() => { overlay.style.display = 'none'; }, 300);
+        }
+
+        const profileMitraForm = document.getElementById('profile-mitra-form');
+        if (profileMitraForm) {
+            profileMitraForm.addEventListener('submit', function (e) {
+                const requiredInputs = profileMitraForm.querySelectorAll('input[required]');
+                let valid = true;
+
+                requiredInputs.forEach(input => {
+                    const card = input.closest('.field-card');
+                    if (!input.value.trim()) {
+                        valid = false;
+                        if (card) {
+                            card.style.borderColor = '#ef4444';
+                            card.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+                        }
+                    } else {
+                        if (card) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
+                    }
+
+                    // Clear highlight realtime saat user mulai mengetik
+                    input.addEventListener('input', function () {
+                        if (card && this.value.trim()) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
+                    }, { once: false });
+                });
+
+                if (!valid) {
+                    e.preventDefault();
+                    showProfileToast('Mohon lengkapi semua data profil terlebih dahulu.');
+                    // Scroll ke field pertama yang kosong
+                    const firstEmpty = profileMitraForm.querySelector('input[required]:placeholder-shown, input[required][value=""]');
+                    if (firstEmpty) {
+                        firstEmpty.closest('.field-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 }
             });
         }
