@@ -2409,7 +2409,16 @@
         function selectKategori(id, name, iconUrl, e) {
             if (e) e.stopPropagation();
             const valueInput = document.getElementById('kategori-value');
-            if (valueInput) valueInput.value = id;
+            if (valueInput) {
+                valueInput.value = id;
+                valueInput.dispatchEvent(new Event('input'));
+                
+                const card = valueInput.closest('.field-card');
+                if (card) {
+                    card.style.borderColor = 'transparent';
+                    card.style.boxShadow = '';
+                }
+            }
 
             const displayContainer = document.getElementById('kategori-display');
             if (displayContainer) {
