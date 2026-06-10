@@ -785,10 +785,10 @@
                 overlay.innerHTML = `
                     <div class="custom-modal-box">
                         <div class="custom-modal-icon ${alertType}">
-                            \${alertType === 'success' ? '✓' : '!'}
+                            ${alertType === 'success' ? '✓' : '!'}
                         </div>
-                        <h3>\${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
-                        <p>\${message}</p>
+                        <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
+                        <p>${message}</p>
                         <div class="custom-modal-actions" style="justify-content: center;">
                             <button class="custom-modal-btn ok-btn">OK</button>
                         </div>
@@ -825,6 +825,62 @@
         }
         window.showCustomAlert = showCustomAlert;
 
+        // Custom Confirmation Modal Function
+        function showCustomConfirm(message, alertType = 'info') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${alertType}">
+                            ?
+                        </div>
+                        <h3>Konfirmasi</h3>
+                        <p>${message}</p>
+                        <div class="custom-modal-actions" style="display: flex; gap: 12px; justify-content: center;">
+                            <button class="custom-modal-btn cancel-btn" style="background: #e11d48; color: #ffffff;">Batal</button>
+                            <button class="custom-modal-btn ok-btn" style="background: #f7c948; color: #111111;">OK</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const cancelBtn = overlay.querySelector('.cancel-btn');
+                const okBtn = overlay.querySelector('.ok-btn');
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                cancelBtn.onclick = () => {
+                    close();
+                    resolve(false);
+                };
+                
+                okBtn.onclick = () => {
+                    close();
+                    resolve(true);
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve(false);
+                    }
+                };
+            });
+        }
+        window.showCustomConfirm = showCustomConfirm;
+
         // Rating & Review submit on Property Detail page
         let currentPropRating = 0;
         function setPropertyRating(rating) {
@@ -851,31 +907,35 @@
                 return;
             }
 
-            fetch(`/booking/${bookingId}/review`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    rating: rating,
-                    komentar: komentar
+            showCustomConfirm('Apakah Anda yakin ingin mengirim ulasan ini?', 'info').then((confirmed) => {
+                if (!confirmed) return;
+
+                fetch(`/booking/${bookingId}/review`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        rating: rating,
+                        komentar: komentar
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showCustomAlert(data.message, 'success').then(() => {
-                        window.location.reload();
-                    });
-                } else {
-                    showCustomAlert(data.message || 'Gagal mengirim ulasan.', 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Error submitting review:', error);
-                showCustomAlert('Terjadi kesalahan saat mengirim ulasan.', 'danger');
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showCustomAlert(data.message, 'success').then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        showCustomAlert(data.message || 'Gagal mengirim ulasan.', 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting review:', error);
+                    showCustomAlert('Terjadi kesalahan saat mengirim ulasan.', 'danger');
+                });
             });
         }
         window.submitPropertyReview = submitPropertyReview;
@@ -883,14 +943,19 @@
         // Feedback reply submit on Property Detail page
         function submitPropertyFeedback(event, reviewId) {
             event.preventDefault();
-            const text = document.getElementById(`propertyFeedbackText-\${reviewId}`).value;
+            const textareaElem = document.getElementById(`propertyFeedbackText-${reviewId}`);
+            if (!textareaElem) {
+                console.error(`Element propertyFeedbackText-${reviewId} not found`);
+                return;
+            }
+            const text = textareaElem.value;
 
             if (!text.trim()) {
                 showCustomAlert('Silakan tulis tanggapan terlebih dahulu.', 'danger');
                 return;
             }
 
-            fetch(`/mitra/review/\${reviewId}/feedback`, {
+            fetch(`/mitra/review/${reviewId}/feedback`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

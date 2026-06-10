@@ -1100,10 +1100,10 @@
                 overlay.innerHTML = `
                     <div class="custom-modal-box">
                         <div class="custom-modal-icon ${alertType}">
-                            \${alertType === 'success' ? '✓' : '!'}
+                            ${alertType === 'success' ? '✓' : '!'}
                         </div>
-                        <h3>\${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
-                        <p>\${message}</p>
+                        <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
+                        <p>${message}</p>
                         <div class="custom-modal-actions" style="justify-content: center;">
                             <button class="custom-modal-btn ok-btn">OK</button>
                         </div>
