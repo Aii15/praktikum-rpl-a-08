@@ -40,8 +40,19 @@ class LandingDataSeeder extends Seeder
             ]
         );
 
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin SpotRent',
+                'no_hp' => '081200000000',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+            ]
+        );
+
         $mitraRole = Role::firstOrCreate(['name' => 'mitra']);
         $penyewaRole = Role::firstOrCreate(['name' => 'penyewa']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
         if (! $mitra->roles()->where('role_id', $mitraRole->id)->exists()) {
             $mitra->roles()->attach($mitraRole->id);
@@ -49,6 +60,10 @@ class LandingDataSeeder extends Seeder
 
         if (! $penyewa->roles()->where('role_id', $penyewaRole->id)->exists()) {
             $penyewa->roles()->attach($penyewaRole->id);
+        }
+
+        if (! $admin->roles()->where('role_id', $adminRole->id)->exists()) {
+            $admin->roles()->attach($adminRole->id);
         }
 
         $categories = collect([
@@ -77,6 +92,7 @@ class LandingDataSeeder extends Seeder
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, Parkir Mobil, Outdoor',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Komersial')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Jakarta')->id_lokasi,
+                'status_pengajuan' => 'approved',
             ],
             [
                 'nama_properti' => 'Villa Ubud',
@@ -85,6 +101,7 @@ class LandingDataSeeder extends Seeder
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, Parkir Mobil, CCTV, Outdoor',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Hunian')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Gianyar')->id_lokasi,
+                'status_pengajuan' => 'approved',
             ],
             [
                 'nama_properti' => 'Studio',
@@ -93,6 +110,7 @@ class LandingDataSeeder extends Seeder
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, CCTV, APAR, Parkir Mobil',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Studio')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Bandung')->id_lokasi,
+                'status_pengajuan' => 'approved',
             ],
             [
                 'nama_properti' => 'Lawang Sewu',
@@ -101,6 +119,7 @@ class LandingDataSeeder extends Seeder
                 'fasilitas' => 'Sanitasi, Listrik dan Penerangan, CCTV, Parkir Mobil, Sprinkler Water, Permit Included, APAR, Outdoor',
                 'id_kategori' => $categories->firstWhere('nama_kategori', 'Heritage')->id_kategori,
                 'id_lokasi' => $locations->firstWhere('kota', 'Semarang')->id_lokasi,
+                'status_pengajuan' => 'approved',
             ],
         ])->map(function ($data) use ($mitra) {
             return Property::updateOrCreate([

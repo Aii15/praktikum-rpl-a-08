@@ -495,7 +495,7 @@
                 <div class="booking-list">
                     @forelse($bookings as $booking)
                         <a href="{{ route('user.booking.detail', $booking->id_booking) }}" class="booking-card">
-                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
+                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
 
                             <div class="booking-info">
                                 <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>

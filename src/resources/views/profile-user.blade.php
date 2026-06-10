@@ -155,7 +155,7 @@
         }
 
         .content {
-            padding-top: 55px;
+            padding-top: 0px;
             max-width: 900px;
         }
 
@@ -312,23 +312,23 @@
         }
 
         .booking-card {
-            background: #f9fafb;
+            background: #f3f4f6bf;
             border-radius: 14px;
             padding: 18px;
             display: flex;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .04);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
             text-decoration: none;
             color: #222;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
+            border: 1px solid #07070764;
         }
 
         .booking-card:hover {
             transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .1);
             border-color: #f7c948;
             background: #ffffff;
         }
@@ -379,6 +379,11 @@
             color: #15803d;
         }
 
+        .completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
         .process {
             background: #fef3c7;
             color: #b45309;
@@ -386,6 +391,249 @@
 
         .menu-item img[src*="upgrade.svg"] {
             filter: none !important;
+        }
+
+        /* Detail Booking Styles */
+        .detail-card {
+            width: 100%;
+            max-width: 650px;
+            background: #f9fafb;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+            margin-bottom: 12px;
+        }
+
+        .detail-banner {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .detail-info {
+            padding: 22px;
+        }
+
+        .detail-info h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 30px;
+        }
+
+        .info-group {
+            margin: 0;
+        }
+
+        .info-group strong {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-group p {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .booking-status {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .booking-status.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .booking-status.completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .booking-status.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .booking-status.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 8px;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+            color: #111827;
+            transform: translateX(-4px);
+        }
+
+        .back-btn:active {
+            transform: translateX(0);
+        }
+
+        /* Loader inside section */
+        .modal-loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            gap: 12px;
+        }
+
+        .modal-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(0, 0, 0, 0.08);
+            border-top-color: #f7c948;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .modal-loader-container p {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom Confirmation Modal Styles */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-modal-overlay.active {
+            opacity: 1;
+        }
+
+        .custom-modal-box {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            padding: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .custom-modal-overlay.active .custom-modal-box {
+            transform: scale(1);
+        }
+
+        .custom-modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 auto 18px;
+        }
+
+        .custom-modal-icon.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .custom-modal-icon.danger {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .custom-modal-box h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .custom-modal-box p {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .custom-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .custom-modal-btn {
+            flex: 1;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .custom-modal-btn.ok-btn {
+            background: #f7c948;
+            color: #111111;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.2);
+        }
+
+        .custom-modal-btn.ok-btn:hover {
+            background: #f5b91b;
+            box-shadow: 0 6px 16px rgba(247, 201, 72, 0.3);
         }
     </style>
 </head>
@@ -411,6 +659,11 @@
                     <a href="/riwayat-booking" id="menu-riwayat-booking" class="menu-item">
                         <img src="/images/profile/history.png" class="menu-icon" alt="Riwayat Booking Icon">
                         <span>Riwayat Booking</span>
+                    </a>
+
+                    <a href="/saved-properti" id="menu-saved-properti" class="menu-item">
+                        <img src="/icons/love.svg" class="menu-icon" alt="Saved Properti Icon">
+                        <span>Saved Properti</span>
                     </a>
 
                     @if(!Auth::user()->isMitra())
@@ -495,8 +748,8 @@
 
                 <div class="booking-list">
                     @forelse($bookings as $booking)
-                        <a href="{{ route('user.booking.detail', $booking->id_booking) }}" class="booking-card">
-                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
+                        <a href="{{ route('user.booking.detail', $booking->id_booking) }}" onclick="showBookingDetail(event, {{ $booking->id_booking }})" class="booking-card">
+                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
 
                             <div class="booking-info">
                                 <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
@@ -509,9 +762,9 @@
                             @elseif($booking->status_booking === 'confirmed')
                                 <div class="status success">Disetujui</div>
                             @elseif($booking->status_booking === 'completed')
-                                <div class="status success">Selesai</div>
+                                <div class="status completed">Selesai</div>
                             @else
-                                <div class="status" style="background:#fee2e2;color:#991b1b;">{{ ucfirst($booking->status_booking) }}</div>
+                                <div class="status" style="background:#fee2e2;color:#991b1b;">Ditolak</div>
                             @endif
                         </a>
                     @empty
@@ -521,11 +774,413 @@
                     @endforelse
                 </div>
             </div>
+
+            <!-- SECTION 3: SAVED PROPERTIES -->
+            <div id="section-saved-properti" class="content-section">
+                <h1>Saved Properti</h1>
+
+                <div class="booking-list">
+                    @forelse($wishlists as $wishlist)
+                        @if($wishlist->property)
+                            <a href="{{ route('detail-properti', $wishlist->property->id_properti) }}" class="booking-card">
+                                <img src="{{ $wishlist->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $wishlist->property->nama_properti }}" style="object-position: {{ $wishlist->property->coverPhoto->position_style ?? 'center 50%' }};">
+
+                                <div class="booking-info">
+                                    <h3>{{ $wishlist->property->nama_properti }}</h3>
+                                    <p>{{ $wishlist->property->location->kota ?? 'Lokasi Tidak Diketahui' }}</p>
+                                    <strong>Rp {{ number_format($wishlist->property->harga_per_hari, 0, ',', '.') }} / hari</strong>
+                                </div>
+
+                                <div style="display: flex; align-items: center; justify-content: flex-end; padding-right: 15px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="width: 28px; height: 28px; color: #ef4444; fill: #ef4444;">
+                                        <path d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.99 10.99 0 0 0 15 8" />
+                                    </svg>
+                                </div>
+                            </a>
+                        @endif
+                    @empty
+                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
+                            Anda belum menyimpan properti apa pun.
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+            <!-- SECTION 4: DETAIL BOOKING -->
+            <div id="section-detail-booking" class="content-section">
+                <h1>Detail Booking</h1>
+
+                <div id="detailLoading" class="modal-loader-container">
+                    <div class="modal-spinner"></div>
+                    <p>Memuat detail booking...</p>
+                </div>
+
+                <div id="detailBody" style="display: none;">
+                    <div class="detail-card">
+                        <img id="detailBanner" src="" class="detail-banner" alt="Property Banner">
+
+                        <div class="detail-info">
+                            <h2 id="detailPropertyName"></h2>
+
+                            <div class="info-grid">
+                                <div class="info-group">
+                                    <strong>Status Booking</strong>
+                                    <p id="detailStatusBooking"></p>
+                                </div>
+
+                                <div class="info-group">
+                                    <strong>Status Pembayaran</strong>
+                                    <p id="detailStatusPembayaran"></p>
+                                </div>
+
+                                <div class="info-group">
+                                    <strong>Total Harga</strong>
+                                    <p id="detailTotalPrice"></p>
+                                </div>
+
+                                <div class="info-group">
+                                    <strong>Rentang Hari</strong>
+                                    <p id="detailRentangHari"></p>
+                                </div>
+
+                                <div class="info-group">
+                                    <strong>Pemilik Properti</strong>
+                                    <p id="detailPemilik"></p>
+                                </div>
+                            </div>
+
+                            <span id="detailStatusBadge" class="booking-status"></span>
+
+                            <!-- Review Section -->
+                            <div id="detailReviewSection" style="margin-top: 25px; border-top: 1px solid #e5e7eb; padding-top: 20px; display: none;">
+                                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">Ulasan Anda</h3>
+                                
+                                <!-- Form to Submit Review -->
+                                <form id="reviewForm" style="display: none;" onsubmit="submitReview(event)">
+                                    <div style="margin-bottom: 15px;">
+                                        <label style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Rating</label>
+                                        <div class="star-rating" style="display: flex; gap: 8px;">
+                                            <span class="star-input" onclick="setRating(1)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                            <span class="star-input" onclick="setRating(2)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                            <span class="star-input" onclick="setRating(3)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                            <span class="star-input" onclick="setRating(4)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                            <span class="star-input" onclick="setRating(5)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                        </div>
+                                        <input type="hidden" id="ratingValue" value="" required>
+                                    </div>
+                                    <div style="margin-bottom: 15px;">
+                                        <label for="reviewKomentar" style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Komentar</label>
+                                        <textarea id="reviewKomentar" rows="3" style="width:100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline:none; font-family:'Poppins',sans-serif; resize: vertical;" placeholder="Tulis komentar ulasan Anda di sini..."></textarea>
+                                    </div>
+                                    <button type="submit" style="background:#f7c948; color:#111; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition: background 0.2s; outline:none;">Kirim Ulasan</button>
+                                </form>
+
+                                <!-- Display Existing Review -->
+                                <div id="existingReview" style="display: none;">
+                                    <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+                                        <span id="displayReviewStars" style="font-size: 20px; color: #f7c948; letter-spacing: 2px;"></span>
+                                        <span id="displayReviewDate" style="font-size: 12px; color: #6b7280; margin-left: 8px;"></span>
+                                    </div>
+                                    <p id="displayReviewText" style="font-size: 14px; color: #374151; margin-bottom: 0; line-height: 1.5; font-style: italic;"></p>
+                                    
+                                    <!-- Display Mitra Reply (Feedback) -->
+                                    <div id="displayMitraReply" style="margin-top: 15px; background: #f3f4f6; border-radius: 8px; padding: 12px 16px; border-left: 4px solid #f7c948; display: none;">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                                            <span style="font-size: 13px; font-weight: 600; color: #111827;" id="mitraReplyAuthor"></span>
+                                            <span id="mitraReplyDate" style="font-size: 11px; color: #6b7280;"></span>
+                                        </div>
+                                        <p id="mitraReplyText" style="font-size: 13px; color: #4b5563; margin-bottom: 0; line-height: 1.4;"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="/riwayat-booking" onclick="event.preventDefault(); navigateTo('/riwayat-booking');" class="back-btn">
+                        ← Kembali ke Riwayat
+                    </a>
+                </div>
+            </div>
         </section>
 
     </main>
 
     <script>
+        // Global booking ID passed from server for direct loads
+        window.activeBookingId = @json($activeBookingId ?? null);
+
+        // Define functions globally so they are hoisted and available everywhere
+        function navigateTo(path, pushState = true) {
+            const menuTentangSaya = document.getElementById('menu-tentang-saya');
+            const menuRiwayatBooking = document.getElementById('menu-riwayat-booking');
+            const menuSavedProperti = document.getElementById('menu-saved-properti');
+
+            const menuItems = [
+                { path: '/profile-user', sectionId: 'section-tentang-saya', title: 'Profile User - SpotRent', menuEl: menuTentangSaya },
+                { path: '/riwayat-booking', sectionId: 'section-riwayat-booking', title: 'Riwayat Booking - SpotRent', menuEl: menuRiwayatBooking },
+                { path: '/saved-properti', sectionId: 'section-saved-properti', title: 'Saved Properti - SpotRent', menuEl: menuSavedProperti },
+                { path: '/detail-riwayat-booking', sectionId: 'section-detail-booking', title: 'Detail Booking - SpotRent', menuEl: menuRiwayatBooking }
+            ];
+
+            let isDetail = path.match(/^\/detail-riwayat-booking\/(\d+)$/);
+            let matchedPath = isDetail ? '/detail-riwayat-booking' : path;
+
+            let matched = menuItems.find(item => item.path === matchedPath);
+            if (!matched) {
+                matched = menuItems[0];
+            }
+
+            menuItems.forEach(item => {
+                const sec = document.getElementById(item.sectionId);
+                if (sec) {
+                    if (item === matched) {
+                        sec.style.display = 'block';
+                        sec.offsetHeight; // force reflow
+                        sec.classList.add('active');
+                        if (item.menuEl) item.menuEl.classList.add('active');
+                    } else {
+                        sec.classList.remove('active');
+                        sec.style.display = 'none';
+                        if (item.menuEl && item.menuEl !== matched.menuEl) {
+                            item.menuEl.classList.remove('active');
+                        }
+                    }
+                }
+            });
+
+            document.title = matched.title;
+
+            if (pushState) {
+                history.pushState({ path: path }, '', path);
+            }
+
+            if (isDetail) {
+                const id = isDetail[1];
+                showBookingDetail(null, id, false);
+            }
+        }
+        window.navigateTo = navigateTo;
+
+        function showBookingDetail(event, id, shouldPushState = true) {
+            if (event) event.preventDefault();
+            
+            const loader = document.getElementById('detailLoading');
+            const body = document.getElementById('detailBody');
+            
+            if (loader) loader.style.display = 'flex';
+            if (body) body.style.display = 'none';
+
+            if (shouldPushState) {
+                navigateTo(`/detail-riwayat-booking/${id}`);
+                return;
+            }
+            
+            window.currentDetailBookingId = id;
+            
+            fetch(`/detail-riwayat-booking/${id}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && body && loader) {
+                    const booking = data.booking;
+                    
+                    document.getElementById('detailBanner').src = booking.cover_photo;
+                    document.getElementById('detailPropertyName').textContent = booking.nama_properti;
+                    
+                    let statusLabel = 'Ditolak';
+                    if (booking.status_booking === 'pending') statusLabel = 'Pending';
+                    else if (booking.status_booking === 'confirmed') statusLabel = 'Disetujui';
+                    else if (booking.status_booking === 'completed') statusLabel = 'Selesai';
+                    
+                    document.getElementById('detailStatusBooking').textContent = statusLabel;
+                    document.getElementById('detailStatusPembayaran').textContent = booking.status_pembayaran;
+                    document.getElementById('detailTotalPrice').textContent = booking.total_price_formatted;
+                    document.getElementById('detailRentangHari').textContent = booking.rentang_hari;
+                    document.getElementById('detailPemilik').textContent = booking.pemilik;
+
+                    const statusBadge = document.getElementById('detailStatusBadge');
+                    statusBadge.textContent = 'Booking ' + statusLabel;
+                    if (booking.status_booking === 'pending') {
+                        statusBadge.className = 'booking-status process';
+                    } else if (booking.status_booking === 'confirmed') {
+                        statusBadge.className = 'booking-status success';
+                    } else if (booking.status_booking === 'completed') {
+                        statusBadge.className = 'booking-status completed';
+                    } else {
+                        statusBadge.className = 'booking-status danger';
+                    }
+                    
+                    // Handle Review Display & Form
+                    const reviewSection = document.getElementById('detailReviewSection');
+                    const reviewForm = document.getElementById('reviewForm');
+                    const existingReview = document.getElementById('existingReview');
+                    
+                    if (booking.status_booking === 'confirmed' || booking.status_booking === 'completed') {
+                        reviewSection.style.display = 'block';
+                        
+                        if (booking.review) {
+                            // Review exists
+                            reviewForm.style.display = 'none';
+                            existingReview.style.display = 'block';
+                            
+                            // Render stars
+                            let starsHtml = '';
+                            for (let i = 1; i <= 5; i++) {
+                                if (i <= booking.review.rating) {
+                                    starsHtml += '★';
+                                } else {
+                                    starsHtml += '☆';
+                                }
+                            }
+                            document.getElementById('displayReviewStars').textContent = starsHtml;
+                            document.getElementById('displayReviewDate').textContent = booking.review.tanggal_review;
+                            document.getElementById('displayReviewText').textContent = booking.review.komentar || 'Tidak ada komentar tertulis.';
+                            
+                            // Handle Mitra Reply
+                            const mitraReply = document.getElementById('displayMitraReply');
+                            if (booking.review.balasan_mitra) {
+                                mitraReply.style.display = 'block';
+                                document.getElementById('mitraReplyAuthor').textContent = booking.pemilik + ' (Pemilik Properti)';
+                                document.getElementById('mitraReplyDate').textContent = booking.review.tanggal_balasan;
+                                document.getElementById('mitraReplyText').textContent = booking.review.balasan_mitra;
+                            } else {
+                                mitraReply.style.display = 'none';
+                            }
+                        } else {
+                            // Review doesn't exist yet, show form
+                            reviewForm.style.display = 'block';
+                            existingReview.style.display = 'none';
+                            
+                            // Reset form
+                            document.getElementById('ratingValue').value = '';
+                            document.getElementById('reviewKomentar').value = '';
+                            setRating(0);
+                        }
+                    } else {
+                        reviewSection.style.display = 'none';
+                    }
+                    
+                    loader.style.display = 'none';
+                    body.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching booking details:', error);
+                if (loader) {
+                    loader.innerHTML = '<p style="color: #dc3545; font-size: 14px; font-weight: 500;">Gagal memuat detail booking. Silakan coba lagi.</p>';
+                }
+            });
+        }
+        window.showBookingDetail = showBookingDetail;
+
+        let currentRating = 0;
+        function setRating(rating) {
+            currentRating = rating;
+            document.getElementById('ratingValue').value = rating;
+            const stars = document.querySelectorAll('.star-input');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.style.color = '#f7c948'; // Gold
+                } else {
+                    star.style.color = '#d1d5db'; // Grey
+                }
+            });
+        }
+        window.setRating = setRating;
+
+        // Custom Alert Modal Function
+        function showCustomAlert(message, alertType = 'success') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${alertType}">
+                            ${alertType === 'success' ? '✓' : '!'}
+                        </div>
+                        <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
+                        <p>${message}</p>
+                        <div class="custom-modal-actions" style="justify-content: center;">
+                            <button class="custom-modal-btn ok-btn">OK</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const okBtn = overlay.querySelector('.ok-btn');
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                okBtn.onclick = () => {
+                    close();
+                    resolve();
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve();
+                    }
+                };
+            });
+        }
+        window.showCustomAlert = showCustomAlert;
+
+        function submitReview(event) {
+            event.preventDefault();
+            const rating = document.getElementById('ratingValue').value;
+            const komentar = document.getElementById('reviewKomentar').value;
+
+            if (!rating) {
+                showCustomAlert('Silakan pilih rating bintang terlebih dahulu.', 'danger');
+                return;
+            }
+
+            const bookingId = window.currentDetailBookingId;
+            
+            fetch(`/booking/${bookingId}/review`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    rating: rating,
+                    komentar: komentar
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showCustomAlert(data.message, 'success').then(() => {
+                        showBookingDetail(null, bookingId, false);
+                    });
+                } else {
+                    showCustomAlert(data.message || 'Gagal mengirim ulasan.', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+                showCustomAlert('Terjadi kesalahan saat mengirim ulasan.', 'danger');
+            });
+        }
+        window.submitReview = submitReview;
+
         document.addEventListener('DOMContentLoaded', function() {
             // Flash message logic
             const flashContainer = document.getElementById('flash-message-container');
@@ -540,54 +1195,38 @@
                 }, 4000); // fades out after 4 seconds
             }
 
-            // SPA Routing logic
             const menuTentangSaya = document.getElementById('menu-tentang-saya');
             const menuRiwayatBooking = document.getElementById('menu-riwayat-booking');
+            const menuSavedProperti = document.getElementById('menu-saved-properti');
 
-            function navigateTo(path, pushState = true) {
-                if (path === '/riwayat-booking') {
-                    showSection('section-riwayat-booking');
-                    menuTentangSaya.classList.remove('active');
-                    menuRiwayatBooking.classList.add('active');
-                    document.title = "Riwayat Booking - SpotRent";
-                    if (pushState) history.pushState({ path: '/riwayat-booking' }, '', '/riwayat-booking');
-                } else {
-                    showSection('section-tentang-saya');
-                    menuTentangSaya.classList.add('active');
-                    menuRiwayatBooking.classList.remove('active');
-                    document.title = "Profile User - SpotRent";
-                    if (pushState) history.pushState({ path: '/profile-user' }, '', '/profile-user');
-                }
-            }
-
-            function showSection(sectionId) {
-                const sections = document.querySelectorAll('.content-section');
-                sections.forEach(sec => {
-                    sec.classList.remove('active');
-                    sec.style.display = 'none';
+            if (menuTentangSaya) {
+                menuTentangSaya.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/profile-user');
                 });
-
-                const activeSection = document.getElementById(sectionId);
-                if (activeSection) {
-                    activeSection.style.display = 'block';
-                    activeSection.offsetHeight; // force reflow
-                    activeSection.classList.add('active');
-                }
             }
 
-            menuTentangSaya.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigateTo('/profile-user');
-            });
+            if (menuRiwayatBooking) {
+                menuRiwayatBooking.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/riwayat-booking');
+                });
+            }
 
-            menuRiwayatBooking.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigateTo('/riwayat-booking');
-            });
+            if (menuSavedProperti) {
+                menuSavedProperti.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/saved-properti');
+                });
+            }
 
-            // Initial load check
+            // Initial load check (could be loaded with activeBookingId from server)
             const currentPath = window.location.pathname;
-            navigateTo(currentPath, false);
+            if (window.activeBookingId) {
+                navigateTo(`/detail-riwayat-booking/${window.activeBookingId}`, false);
+            } else {
+                navigateTo(currentPath, false);
+            }
 
             // Handle browser back/forward buttons
             window.addEventListener('popstate', function(e) {

@@ -18,10 +18,20 @@ class PropertyPhoto extends Model
         'url_foto',
         'urutan',
         'is_cover',
+        'object_position',
     ];
 
     public function property()
     {
         return $this->belongsTo(Property::class, 'id_properti', 'id_properti');
+    }
+
+    public function getPositionStyleAttribute()
+    {
+        $pos = $this->object_position ?? '50';
+        if (str_contains($pos, ' ')) {
+            return $pos;
+        }
+        return "center {$pos}%";
     }
 }

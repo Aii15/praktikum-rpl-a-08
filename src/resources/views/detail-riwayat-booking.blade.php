@@ -167,14 +167,14 @@
         }
 
         .content {
-            padding-top: 55px;
+            padding-top: 35px;
             max-width: 900px;
         }
 
         .content h1 {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 28px;
+            margin-bottom: 18px;
             letter-spacing: .5px;
         }
 
@@ -190,27 +190,27 @@
 
         .detail-banner {
             width: 100%;
-            height: 260px;
+            height: 180px;
             object-fit: cover;
             object-position: center;
             display: block;
         }
 
         .detail-info {
-            padding: 30px;
+            padding: 22px;
         }
 
         .detail-info h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             color: #111827;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px 30px;
+            gap: 15px 30px;
         }
 
         .info-group {
@@ -219,15 +219,15 @@
 
         .info-group strong {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             color: #6b7280;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .info-group p {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #374151;
             margin: 0;
@@ -236,10 +236,10 @@
 
         .booking-status {
             display: inline-block;
-            margin-top: 25px;
-            padding: 8px 20px;
+            margin-top: 15px;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
         }
 
@@ -255,12 +255,12 @@
 
         .back-btn {
             display: inline-block;
-            margin-top: 25px;
+            margin-top: 20px;
             color: #4b5563;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 10px;
             background: #f3f4f6;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -305,6 +305,11 @@
                         <span>Riwayat Booking</span>
                     </a>
 
+                    <a href="/saved-properti" class="menu-item">
+                        <img src="/icons/love.svg" class="menu-icon" alt="Saved Properti Icon">
+                        <span>Saved Properti</span>
+                    </a>
+
                     @if(!Auth::user()->isMitra())
                     <a href="/upgrade-mitra" class="menu-item">
                         <img src="/icons/upgrade.svg" class="menu-icon" alt="Upgrade Icon">
@@ -324,7 +329,7 @@
             <h1>Detail Booking</h1>
 
             <div class="detail-card">
-                <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/profile/villa_ubud.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti ?? 'Property Image' }}">
+                <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/profile/villa_ubud.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti ?? 'Property Image' }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
 
                 <div class="detail-info">
                     <h2>{{ $booking->property->nama_properti ?? 'Detail Booking' }}</h2>
@@ -332,12 +337,30 @@
                     <div class="info-grid">
                         <div class="info-group">
                             <strong>Status Booking</strong>
-                            <p>{{ ucfirst($booking->status_booking) }}</p>
+                            <p>
+                                @if($booking->status_booking === 'pending')
+                                    Pending
+                                @elseif($booking->status_booking === 'confirmed')
+                                    Disetujui
+                                @elseif($booking->status_booking === 'completed')
+                                    Selesai
+                                @else
+                                    Ditolak
+                                @endif
+                            </p>
                         </div>
 
                         <div class="info-group">
                             <strong>Status Pembayaran</strong>
-                            <p>{{ in_array($booking->status_booking, ['confirmed', 'completed']) ? 'Lunas' : 'Menunggu Konfirmasi' }}</p>
+                            <p>
+                                @if(in_array($booking->status_booking, ['confirmed', 'completed']))
+                                    Lunas
+                                @elseif($booking->status_booking === 'pending')
+                                    Menunggu Konfirmasi
+                                @else
+                                    Booking Ditolak
+                                @endif
+                            </p>
                         </div>
 
                         <div class="info-group">
@@ -349,6 +372,11 @@
                             <strong>Rentang Hari</strong>
                             <p>{{ $booking->rentang_hari }}</p>
                         </div>
+
+                        <div class="info-group">
+                            <strong>Pemilik Properti</strong>
+                            <p>{{ $booking->property->mitra->name ?? 'Tidak Diketahui' }}</p>
+                        </div>
                     </div>
 
                     @if($booking->status_booking === 'pending')
@@ -358,7 +386,7 @@
                     @elseif($booking->status_booking === 'completed')
                         <span class="booking-status approved">Booking Selesai</span>
                     @else
-                        <span class="booking-status" style="background:#fee2e2;color:#991b1b;">Booking {{ ucfirst($booking->status_booking) }}</span>
+                        <span class="booking-status" style="background:#fee2e2;color:#991b1b;">Booking Ditolak</span>
                     @endif
                 </div>
             </div>

@@ -191,6 +191,46 @@ class AuthController extends Controller
         return $this->finishLogin($user, $request)->with('success', 'Pendaftaran Penyewa berhasil.');
     }
 
+    public function showAdminLoginForm()
+    {
+        if (Auth::check() && session('active_role') === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        return view('admin.login');
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if ($user->hasRole('admin')) {
+                $request->session()->regenerate();
+                $request->session()->forget(['active_role', 'pending_role_selection_user_id']);
+                $request->session()->put('active_role', 'admin');
+
+                return redirect()->route('admin.dashboard')->with('success', 'Selamat datang kembali, Administrator.');
+            }
+
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return back()->withErrors([
+                'email' => 'Akses ditolak. Rute ini hanya khusus untuk Administrator.',
+            ])->onlyInput('email');
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->onlyInput('email');
+    }
+
     /*** untuk fungsi logout.*/
     public function logout(Request $request)
     {

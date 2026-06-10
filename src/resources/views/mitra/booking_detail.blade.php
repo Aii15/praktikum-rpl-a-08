@@ -3,70 +3,67 @@
 @section('styles')
     <style>
         .detail-card {
-            max-width: 620px;
+            width: 100%;
+            max-width: 650px;
             background: #f9fafb;
-            border-radius: 14px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
             border: 1px solid #e5e7eb;
         }
 
         .detail-banner {
             width: 100%;
-            height: 250px;
+            height: 180px;
             object-fit: cover;
+            object-position: center;
             display: block;
         }
 
         .detail-info {
-            padding: 26px;
+            padding: 22px;
         }
 
         .detail-info h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
+            color: #111827;
         }
 
         .info-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 30px;
         }
 
         .info-group {
             margin: 0;
-            border-bottom: 1px solid #f3f4f6;
-            padding-bottom: 12px;
-        }
-
-        .info-group:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
         }
 
         .info-group strong {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             color: #6b7280;
+            margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 4px;
         }
 
         .info-group p {
-            font-size: 16px;
-            font-weight: 500;
-            color: #1f2937;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
             margin: 0;
+            line-height: 1.5;
         }
 
         .booking-status {
             display: inline-block;
-            margin-top: 22px;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 13px;
+            margin-top: 15px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
         }
 
@@ -86,20 +83,26 @@
         }
 
         .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 25px;
+            display: inline-block;
+            margin-top: 20px;
             color: #4b5563;
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 8px 18px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .back-btn:hover {
+            background: #e5e7eb;
             color: #111827;
             transform: translateX(-4px);
+        }
+
+        .back-btn:active {
+            transform: translateX(0);
         }
     </style>
 @endsection
@@ -108,7 +111,7 @@
     <h1>Detail Penyewaan</h1>
 
     <div class="detail-card">
-        <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti }}">
+        <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $booking->property->nama_properti }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
 
         <div class="detail-info">
             <h2>{{ $booking->property->nama_properti }}</h2>

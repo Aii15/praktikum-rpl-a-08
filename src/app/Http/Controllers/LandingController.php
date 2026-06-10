@@ -15,10 +15,15 @@ class LandingController extends Controller
         $selectedCategory = $request->query('category', 'All');
         $selectedPrice = $request->query('price', 'All');
 
-        $locations = Location::orderBy('kota')->get();
+        $locations = Location::whereHas('properties', function ($propertyQuery) {
+                $propertyQuery->where('status_pengajuan', 'approved');
+            })
+            ->orderBy('kota')
+            ->get();
         $categories = PropertyCategory::orderBy('nama_kategori')->get();
 
         $properties = Property::with(['category', 'location', 'coverPhoto', 'reviews'])
+            ->where('status_pengajuan', 'approved')
             ->when($selectedLocation !== 'All' && $selectedLocation !== '', function ($query) use ($selectedLocation) {
                 $query->whereHas('location', function ($locationQuery) use ($selectedLocation) {
                     $locationQuery->where('nama_lokasi', $selectedLocation)

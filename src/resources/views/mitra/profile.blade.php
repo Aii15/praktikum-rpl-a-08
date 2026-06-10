@@ -220,6 +220,11 @@
             color: #15803d;
         }
 
+        .completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
         .process {
             background: #fef3c7;
             color: #b45309;
@@ -623,15 +628,737 @@
             background: #fee2e2;
             color: #991b1b;
         }
+
+        /* Detail Penyewaan Styles */
+        .detail-card {
+            width: 100%;
+            max-width: 650px;
+            background: #f9fafb;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+            margin-bottom: 12px;
+        }
+
+        .detail-banner {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .detail-info {
+            padding: 22px;
+        }
+
+        .detail-info h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 30px;
+        }
+
+        .info-group {
+            margin: 0;
+        }
+
+        .info-group strong {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-group p {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .booking-status {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .booking-status.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .booking-status.completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .booking-status.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .booking-status.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 8px;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+            color: #111827;
+            transform: translateX(-4px);
+        }
+
+        .back-btn:active {
+            transform: translateX(0);
+        }
+
+        /* Loader inside section */
+        .modal-loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            gap: 12px;
+        }
+
+        .modal-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(0, 0, 0, 0.08);
+            border-top-color: #f7c948;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .modal-loader-container p {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Statistics Cards Styles */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            border-radius: 14px;
+            padding: 22px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            border-left: 6px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card.blue {
+            background: #f0f5ff;
+            border-left-color: #2563eb;
+        }
+
+        .stat-card.green {
+            background: #f0fdf4;
+            border-left-color: #16a34a;
+        }
+
+        .stat-card.orange {
+            background: #fffbeb;
+            border-left-color: #d97706;
+        }
+
+        .stat-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card.blue .stat-title {
+            color: #4b6b94;
+        }
+
+        .stat-card.green .stat-title {
+            color: #4b8c62;
+        }
+
+        .stat-card.orange .stat-title {
+            color: #8c6a38;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .stat-card.blue .stat-value {
+            color: #1e40af;
+        }
+
+        .stat-card.green .stat-value {
+            color: #15803d;
+        }
+
+        .stat-card.orange .stat-value {
+            color: #78350f;
+        }
+
+        /* Filter Controls styles */
+        .filter-controls-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 20;
+        }
+
+        @media (max-width: 768px) {
+            .filter-controls-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-card {
+            min-height: 64px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            padding: 10px 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .filter-card:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        .filter-card:focus-within {
+            background: #ffffff;
+            border-color: #f7c948;
+            box-shadow: 0 8px 20px rgba(247, 201, 72, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .selected-display {
+            font-size: 15px;
+            font-weight: 500;
+            color: #222;
+            margin-top: 2px;
+        }
+
+        .status-badge-inline {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-badge-inline.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-badge-inline.completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .status-badge-inline.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .status-badge-inline.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Detail Action Buttons */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .approve-btn {
+            background: #25943a;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 148, 58, 0.2);
+        }
+
+        .approve-btn:hover {
+            background: #1e7e30;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 148, 58, 0.3);
+        }
+
+        .approve-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .reject-btn {
+            background: #e11d48;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
+        }
+
+        .reject-btn:hover {
+            background: #be123c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(225, 29, 72, 0.3);
+        }
+
+        .reject-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Custom Confirmation Modal Styles */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-modal-overlay.active {
+            opacity: 1;
+        }
+
+        .custom-modal-box {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            padding: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .custom-modal-overlay.active .custom-modal-box {
+            transform: scale(1);
+        }
+
+        .custom-modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 auto 18px;
+        }
+
+        .custom-modal-icon.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .custom-modal-icon.danger {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .custom-modal-icon.info {
+            background: #fef9c3;
+            color: #d97706;
+        }
+
+        .custom-modal-box h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .custom-modal-box p {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .custom-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .custom-modal-btn {
+            flex: 1;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .custom-modal-btn.cancel-btn {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .custom-modal-btn.cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .confirm-btn-success {
+            background: #25943a;
+            color: #ffffff;
+        }
+
+        .confirm-btn-success:hover {
+            background: #1e7e30;
+        }
+
+        .confirm-btn-danger {
+            background: #e11d48;
+            color: #ffffff;
+        }
+
+        .confirm-btn-danger:hover {
+            background: #be123c;
+        }
+
+        .custom-modal-btn.ok-btn {
+            background: #f7c948;
+            color: #111111;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.2);
+        }
+
+        .custom-modal-btn.ok-btn:hover {
+            background: #f5b91b;
+            box-shadow: 0 6px 16px rgba(247, 201, 72, 0.3);
+        }
+
+        /* --- Interactive Photo Upload Adjuster --- */
+        .photo-control-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .photo-control-card {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px;
+            gap: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            min-width: 0;
+        }
+        .photo-control-thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            border: 1px solid #d1d5db;
+        }
+        .photo-control-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .photo-control-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+        .photo-control-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            min-width: 0;
+            width: 100%;
+        }
+        .photo-control-filename {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+            display: block;
+        }
+        .badge-cover {
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 3px;
+            border: 1px solid #fcd34d;
+            font-weight: 500;
+            width: fit-content;
+        }
+        .badge-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 3px;
+            border: 1px solid #e5e7eb;
+            font-weight: 500;
+            width: fit-content;
+        }
+        .crop-adjuster {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #4b5563;
+            margin-top: 2px;
+            width: 100%;
+        }
+        .crop-slider {
+            flex: 1;
+            accent-color: #f59e0b;
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e7eb;
+            cursor: pointer;
+            min-width: 0;
+        }
+        .photo-control-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+        .btn-action {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #374151;
+            line-height: 1;
+        }
+        .btn-action:hover {
+            background: #e5e7eb;
+        }
+        .btn-delete {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #dc2626 !important;
+        }
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+        
+        /* Mock Gallery Layout Preview */
+        .preview-gallery-container {
+            margin-top: 30px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+            width: 100%;
+        }
+        .preview-gallery-container h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #374151;
+        }
+        .mock-gallery {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .mock-gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+        }
+        .mock-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .mock-main-item {
+            height: 220px;
+        }
+        .mock-side-gallery {
+            display: grid;
+            gap: 10px;
+        }
+        .mock-gallery-2 .mock-side-gallery .mock-gallery-item {
+            height: 220px;
+        }
+        .mock-gallery-3 .mock-side-gallery {
+            grid-template-columns: 1fr;
+        }
+        .mock-gallery-3 .mock-side-gallery .mock-gallery-item {
+            height: 105px;
+        }
+        .mock-gallery-4 .mock-side-gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .mock-gallery-4 .mock-side-gallery .mock-gallery-item {
+            height: 105px;
+        }
+        .mock-gallery-4 .mock-side-gallery .mock-gallery-item:first-child {
+            grid-column: span 2;
+        }
+        .mock-gallery-5 .mock-side-gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .mock-gallery-5 .mock-side-gallery .mock-gallery-item {
+            height: 105px;
+        }
+        .slot-label {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            background: rgba(0, 0, 0, 0.65);
+            color: white;
+            padding: 2px 6px;
+            font-size: 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            pointer-events: none;
+        }
     </style>
 @endsection
 
 @section('content')
+    <!-- TOAST PERINGATAN PROFIL MITRA -->
+    <div id="profile-toast-overlay" style="
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 99999;
+        pointer-events: none;
+    ">
+        <div id="profile-toast-box" style="
+            position: fixed;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: #fff;
+            border: 1.5px solid #ef4444;
+            border-left: 5px solid #ef4444;
+            border-radius: 12px;
+            padding: 16px 24px;
+            box-shadow: 0 8px 30px rgba(239,68,68,0.18);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #991b1b;
+            min-width: 300px;
+            max-width: 460px;
+            pointer-events: all;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        ">
+            <span style="font-size: 20px; flex-shrink:0;">⚠️</span>
+            <span id="profile-toast-msg">Mohon lengkapi semua data profil terlebih dahulu.</span>
+            <button onclick="closeProfileToast()" style="margin-left:auto; background:none; border:none; cursor:pointer; font-size:18px; color:#9ca3af; line-height:1;" aria-label="Tutup">×</button>
+        </div>
+    </div>
     <!-- SECTION 1: TENTANG SAYA -->
     <div id="section-tentang-saya" class="content-section">
         <h1>Tentang Saya</h1>
 
-        <form action="{{ route('mitra.profile.update') }}" method="POST">
+        <form id="profile-mitra-form" action="{{ route('mitra.profile.update') }}" method="POST" novalidate>
             @csrf
             <div class="form-list">
                 <div class="field-card" onclick="this.querySelector('input').focus();">
@@ -699,7 +1426,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="save-btn">Simpan Perubahan</button>
+            <button type="submit" id="profile-save-btn" class="save-btn">Simpan Perubahan</button>
         </form>
     </div>
 
@@ -707,14 +1434,83 @@
     <div id="section-riwayat-penyewaan" class="content-section">
         <h1>Riwayat Penyewaan</h1>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Cari penyewaan..." onkeyup="searchBookings()">
+
+        <!-- Filter and Sort Controls -->
+        <div class="filter-controls-container">
+            <!-- Search Card -->
+            <div class="field-card filter-card search-card">
+                <div class="field-text">
+                    <small>Cari Properti / Penyewa</small>
+                    <input type="text" id="filter-search-input" class="profile-input" placeholder="Tulis nama properti atau penyewa..." onkeyup="applyAllFilters()">
+                </div>
+                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+            </div>
+
+            <!-- Status Dropdown Card -->
+            <div class="field-card filter-card dropdown-card" id="status-dropdown-container" style="position: relative; z-index: 15;">
+                <div class="field-text" onclick="toggleFilterDropdown('status-dropdown', event)">
+                    <small>Status Penyewaan</small>
+                    <div id="status-display" class="selected-display">Semua Status</div>
+                    <input type="hidden" id="filter-status-value" value="all">
+                </div>
+                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleFilterDropdown('status-dropdown', event)">
+                
+                <div id="status-dropdown" class="dropdown-menu-list">
+                    <div class="dropdown-item-row status-item-row" data-val="all" onclick="selectFilterStatus('all', 'Semua Status', event)">
+                        <span>Semua Status</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="pending" onclick="selectFilterStatus('pending', 'Pending', event)">
+                        <span class="status-badge-inline process">Pending</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="confirmed" onclick="selectFilterStatus('confirmed', 'Disetujui', event)">
+                        <span class="status-badge-inline success">Disetujui</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="completed" onclick="selectFilterStatus('completed', 'Selesai', event)">
+                        <span class="status-badge-inline completed">Selesai</span>
+                    </div>
+                    <div class="dropdown-item-row status-item-row" data-val="rejected" onclick="selectFilterStatus('rejected', 'Ditolak', event)">
+                        <span class="status-badge-inline danger">Ditolak</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sort Dropdown Card -->
+            <div class="field-card filter-card dropdown-card" id="sort-dropdown-container" style="position: relative; z-index: 10;">
+                <div class="field-text" onclick="toggleFilterDropdown('sort-dropdown', event)">
+                    <small>Urutkan Berdasarkan</small>
+                    <div id="sort-display" class="selected-display">Tanggal Terbaru</div>
+                    <input type="hidden" id="filter-sort-value" value="date_desc">
+                </div>
+                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleFilterDropdown('sort-dropdown', event)">
+                
+                <div id="sort-dropdown" class="dropdown-menu-list">
+                    <div class="dropdown-item-row sort-item-row" data-val="date_desc" onclick="selectFilterSort('date_desc', 'Tanggal Terbaru', event)">
+                        <span>Tanggal Terbaru</span>
+                    </div>
+                    <div class="dropdown-item-row sort-item-row" data-val="date_asc" onclick="selectFilterSort('date_asc', 'Tanggal Terlama', event)">
+                        <span>Tanggal Terlama</span>
+                    </div>
+                    <div class="dropdown-item-row sort-item-row" data-val="price_desc" onclick="selectFilterSort('price_desc', 'Harga Tertinggi', event)">
+                        <span>Harga Tertinggi</span>
+                    </div>
+                    <div class="dropdown-item-row sort-item-row" data-val="price_asc" onclick="selectFilterSort('price_asc', 'Harga Terendah', event)">
+                        <span>Harga Terendah</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="booking-list">
             @forelse($bookings as $booking)
-                <a href="{{ route('mitra.booking.detail', $booking->id_booking) }}" class="booking-card">
-                    <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}">
+                <a href="{{ route('mitra.booking.detail', $booking->id_booking) }}" 
+                   onclick="showRentalDetail(event, {{ $booking->id_booking }})" 
+                   class="booking-card"
+                   data-status="{{ $booking->status_booking }}"
+                   data-property-name="{{ strtolower($booking->property->nama_properti ?? '') }}"
+                   data-tenant-name="{{ strtolower($booking->user->name ?? '') }}"
+                   data-price="{{ $booking->total_price ?? 0 }}"
+                   data-timestamp="{{ \Carbon\Carbon::parse($booking->tanggal_mulai)->timestamp }}">
+                    <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
 
                     <div class="booking-info">
                         <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
@@ -728,16 +1524,110 @@
                     @elseif($booking->status_booking === 'confirmed')
                         <div class="status success">Disetujui</div>
                     @elseif($booking->status_booking === 'completed')
-                        <div class="status success">Selesai</div>
+                        <div class="status completed">Selesai</div>
                     @else
-                        <div class="status danger">{{ ucfirst($booking->status_booking) }}</div>
+                        <div class="status danger">Ditolak</div>
                     @endif
                 </a>
             @empty
-                <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
+                <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px; width: 100%;">
                     Belum ada riwayat penyewaan untuk properti Anda.
                 </div>
             @endforelse
+        </div>
+    </div>
+
+    <!-- SECTION 6: DETAIL PENYEWAAN -->
+    <div id="section-detail-penyewaan" class="content-section">
+        <h1>Detail Penyewaan</h1>
+
+        <div id="detailLoading" class="modal-loader-container">
+            <div class="modal-spinner"></div>
+            <p>Memuat detail penyewaan...</p>
+        </div>
+
+        <div id="detailBody" style="display: none;">
+            <div class="detail-card">
+                <img id="detailBanner" src="" class="detail-banner" alt="Property Banner">
+
+                <div class="detail-info">
+                    <h2 id="detailPropertyName"></h2>
+
+                    <div class="info-grid">
+                        <div class="info-group">
+                            <strong>Penyewa</strong>
+                            <p id="detailPenyewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>Alamat E-mail Penyewa</strong>
+                            <p id="detailEmailPenyewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>No Telepon Penyewa</strong>
+                            <p id="detailNoHpPenyewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>Rentang Sewa</strong>
+                            <p id="detailRentangSewa"></p>
+                        </div>
+
+                        <div class="info-group">
+                            <strong>Total Harga</strong>
+                            <p id="detailTotalPrice"></p>
+                        </div>
+                    </div>
+
+                    <span id="detailStatusBadge" class="booking-status"></span>
+
+                    <!-- Action Buttons for Pending Booking -->
+                    <div id="bookingActionButtons" style="display: none; gap: 12px; margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 18px;">
+                        <button onclick="updateBookingStatus('confirmed')" class="action-btn approve-btn">
+                            Setujui Penyewaan
+                        </button>
+                        <button onclick="updateBookingStatus('rejected')" class="action-btn reject-btn">
+                            Tolak Penyewaan
+                        </button>
+                    </div>
+
+                    <!-- Review & Feedback Section -->
+                    <div id="detailReviewSection" style="margin-top: 25px; border-top: 1px solid #e5e7eb; padding-top: 20px; display: none;">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">Ulasan Penyewa</h3>
+                        
+                        <div id="tenantReviewContainer" style="display: none;">
+                            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+                                <span id="displayReviewStars" style="font-size: 20px; color: #f7c948; letter-spacing: 2px;"></span>
+                                <span id="displayReviewDate" style="font-size: 12px; color: #6b7280; margin-left: 8px;"></span>
+                            </div>
+                            <p id="displayReviewText" style="font-size: 14px; color: #374151; margin-bottom: 15px; line-height: 1.5; font-style: italic;"></p>
+                            
+                            <!-- Form to Submit Feedback -->
+                            <form id="feedbackForm" style="display: none;" onsubmit="submitFeedback(event)">
+                                <div style="margin-bottom: 15px;">
+                                    <label for="feedbackText" style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Tanggapan Anda</label>
+                                    <textarea id="feedbackText" rows="3" style="width:100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline:none; font-family:'Poppins',sans-serif; resize: vertical;" placeholder="Tulis tanggapan/feedback Anda di sini..."></textarea>
+                                </div>
+                                <button type="submit" style="background:#f7c948; color:#111; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition: background 0.2s; outline:none;">Kirim Tanggapan</button>
+                            </form>
+
+                            <!-- Display Existing Feedback -->
+                            <div id="existingFeedback" style="display: none; background: #f3f4f6; border-radius: 8px; padding: 12px 16px; border-left: 4px solid #f7c948; margin-top: 15px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                                    <span style="font-size: 13px; font-weight: 600; color: #111827;" id="displayFeedbackAuthor"></span>
+                                    <span id="displayFeedbackDate" style="font-size: 11px; color: #6b7280;"></span>
+                                </div>
+                                <p id="displayFeedbackText" style="font-size: 13px; color: #4b5563; margin-bottom: 0; line-height: 1.4;"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/riwayat-penyewaan" onclick="event.preventDefault(); navigateTo('/riwayat-penyewaan');" class="back-btn" style="margin-top: 15px;">
+                ← Kembali ke Riwayat Penyewaan
+            </a>
         </div>
     </div>
 
@@ -748,7 +1638,7 @@
         <div class="property-list">
             @forelse($properties as $property)
                 <div class="property-card">
-                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}">
+                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
 
                     <div class="property-info">
                         <h3>{{ $property->nama_properti }}</h3>
@@ -760,13 +1650,20 @@
                         Lihat Info Properti
                     </a>
 
-                    <form action="{{ route('mitra.property.delete', $property->id_properti) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus properti ini?');">
-                        @csrf
-                        <button type="submit" class="delete-btn">
+                    @if(($property->bookings_count ?? 0) > 0)
+                        <button type="button" class="delete-btn" style="opacity: 0.55; cursor: not-allowed;" disabled title="Properti tidak bisa dihapus karena sudah pernah dibooking oleh user.">
                             <img src="/images/profile/trash.png" alt="Hapus">
                             <span>Hapus</span>
                         </button>
-                    </form>
+                    @else
+                        <form action="{{ route('mitra.property.delete', $property->id_properti) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus properti ini?');">
+                            @csrf
+                            <button type="submit" class="delete-btn">
+                                <img src="/images/profile/trash.png" alt="Hapus">
+                                <span>Hapus</span>
+                            </button>
+                        </form>
+                    @endif
                 </div>
             @empty
                 <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
@@ -831,16 +1728,36 @@
                         </div>
                     </div>
 
-                    <div class="field-card" onclick="this.querySelector('select').focus();">
+                    <div class="field-card" onclick="this.querySelector('input').focus();">
                         <div class="field-text">
-                            <small>Lokasi Properti</small>
-                            <select name="id_lokasi" class="profile-select" required>
-                                <option value="">Pilih Lokasi</option>
-                                @foreach($locations as $location)
-                                    <option value="{{ $location->id_lokasi }}" {{ old('id_lokasi') == $location->id_lokasi ? 'selected' : '' }}>{{ $location->kota }} - {{ $location->alamat_detail }}</option>
-                                @endforeach
-                            </select>
+                            <small>Provinsi</small>
+                            <input type="text" name="provinsi" class="profile-input" value="{{ old('provinsi') }}" placeholder="Contoh: Jawa Barat" required>
                         </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                    </div>
+
+                    <div class="field-card" onclick="this.querySelector('input').focus();">
+                        <div class="field-text">
+                            <small>Kota / Kabupaten</small>
+                            <input type="text" name="kota" class="profile-input" value="{{ old('kota') }}" placeholder="Contoh: Bandung" required>
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                    </div>
+
+                    <div class="field-card" onclick="this.querySelector('textarea').focus();" style="height: auto; min-height: 85px;">
+                        <div class="field-text">
+                            <small>Alamat Lengkap / Detail</small>
+                            <textarea name="alamat_detail" class="profile-textarea" placeholder="Tulis nama jalan, nomor, RT/RW, kecamatan" style="min-height: 45px;" required>{{ old('alamat_detail') }}</textarea>
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                    </div>
+
+                    <div class="field-card" onclick="this.querySelector('input').focus();">
+                        <div class="field-text">
+                            <small>Kode Pos</small>
+                            <input type="text" name="kode_pos" class="profile-input" value="{{ old('kode_pos') }}" placeholder="Contoh: 40135">
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
                     </div>
 
                     <div class="field-card" onclick="document.getElementById('harga_display').focus();">
@@ -924,7 +1841,19 @@
                         <input type="file" id="property-images" name="images[]" accept="image/*" multiple style="display: none;" onchange="handleFileSelect(event)">
                     </div>
 
-                    <div class="preview-grid" id="previewGrid"></div>
+                    <div id="hidden-positions-container"></div>
+                    <div id="preview-notice-banner" style="display: none; justify-content: space-between; align-items: center; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-top: 15px; margin-bottom: 5px;">
+                        <span>💡 Geser slider Crop Horiz & Vert untuk memposisikan gambar.</span>
+                        <a href="#previewGalleryContainer" onclick="scrollToPreview(event)" style="color: #2563eb; text-decoration: underline; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                            Lihat Live Preview 👇
+                        </a>
+                    </div>
+                    <div class="photo-control-list" id="photoControlList"></div>
+
+                    <div class="preview-gallery-container" id="previewGalleryContainer" style="display: none;">
+                        <h3>Live Layout Preview</h3>
+                        <div id="liveLayoutGallery"></div>
+                    </div>
 
                 </div>
 
@@ -944,7 +1873,7 @@
         <div class="status-list">
             @forelse($properties as $property)
                 <a href="{{ route('mitra.status.detail', $property->id_properti) }}" class="status-card">
-                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}">
+                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
 
                     <div class="status-info">
                         <h3>{{ $property->nama_properti }}</h3>
@@ -972,7 +1901,10 @@
 
 @section('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Global booking ID passed from server for direct loads
+        window.activeBookingId = @json($activeBookingId ?? null);
+
+        function navigateTo(path, pushState = true) {
             const menuTentangSaya = document.getElementById('menu-tentang-saya');
             const menuRiwayatPenyewaan = document.getElementById('menu-riwayat-penyewaan');
             const menuPropertiSaya = document.getElementById('menu-properti-saya');
@@ -980,24 +1912,28 @@
             const menuStatusPengajuan = document.getElementById('menu-status-pengajuan');
 
             const menuItems = [
-                { el: menuTentangSaya, path: '/profile-mitra', sectionId: 'section-tentang-saya', title: 'Profile Mitra - SpotRent' },
-                { el: menuRiwayatPenyewaan, path: '/riwayat-penyewaan', sectionId: 'section-riwayat-penyewaan', title: 'Riwayat Penyewaan - SpotRent' },
-                { el: menuPropertiSaya, path: '/properti-saya', sectionId: 'section-properti-saya', title: 'Properti Saya - SpotRent' },
-                { el: menuTambahProperti, path: '/tambah-properti', sectionId: 'section-tambah-properti', title: 'Tambah Properti - SpotRent' },
-                { el: menuStatusPengajuan, path: '/status-pengajuan', sectionId: 'section-status-pengajuan', title: 'Status Pengajuan - SpotRent' }
+                { path: '/profile-mitra', sectionId: 'section-tentang-saya', title: 'Profile Mitra - SpotRent', el: menuTentangSaya },
+                { path: '/riwayat-penyewaan', sectionId: 'section-riwayat-penyewaan', title: 'Riwayat Penyewaan - SpotRent', el: menuRiwayatPenyewaan },
+                { path: '/properti-saya', sectionId: 'section-properti-saya', title: 'Properti Saya - SpotRent', el: menuPropertiSaya },
+                { path: '/tambah-properti', sectionId: 'section-tambah-properti', title: 'Tambah Properti - SpotRent', el: menuTambahProperti },
+                { path: '/status-pengajuan', sectionId: 'section-status-pengajuan', title: 'Status Pengajuan - SpotRent', el: menuStatusPengajuan },
+                { path: '/detail-riwayat-penyewaan', sectionId: 'section-detail-penyewaan', title: 'Detail Penyewaan - SpotRent', el: menuRiwayatPenyewaan }
             ];
 
-            function navigateTo(path, pushState = true) {
-                // Find matching route
-                let matched = menuItems.find(item => item.path === path);
-                if (!matched) {
-                    // fallback to profile
-                    matched = menuItems[0];
-                }
+            let isDetail = path.match(/^\/detail-riwayat-penyewaan\/(\d+)$/);
+            let matchedPath = isDetail ? '/detail-riwayat-penyewaan' : path;
 
-                // Show matched section, hide others
-                menuItems.forEach(item => {
-                    const sec = document.getElementById(item.sectionId);
+            // Find matching route
+            let matched = menuItems.find(item => item.path === matchedPath);
+            if (!matched) {
+                // fallback to profile
+                matched = menuItems[0];
+            }
+
+            // Show matched section, hide others
+            menuItems.forEach(item => {
+                const sec = document.getElementById(item.sectionId);
+                if (sec) {
                     if (item === matched) {
                         sec.style.display = 'block';
                         sec.offsetHeight; // force reflow
@@ -1006,16 +1942,373 @@
                     } else {
                         sec.classList.remove('active');
                         sec.style.display = 'none';
-                        if (item.el) item.el.classList.remove('active');
+                        if (item.el && item.el !== matched.el) {
+                            item.el.classList.remove('active');
+                        }
                     }
-                });
-
-                document.title = matched.title;
-
-                if (pushState) {
-                    history.pushState({ path: matched.path }, '', matched.path);
                 }
+            });
+
+            document.title = matched.title;
+
+            if (pushState) {
+                history.pushState({ path: path }, '', path);
             }
+
+            if (isDetail) {
+                const id = isDetail[1];
+                showRentalDetail(null, id, false);
+            }
+        }
+        window.navigateTo = navigateTo;
+
+        function showRentalDetail(event, id, shouldPushState = true) {
+            if (event) event.preventDefault();
+            
+            const loader = document.getElementById('detailLoading');
+            const body = document.getElementById('detailBody');
+            
+            if (loader) loader.style.display = 'flex';
+            if (body) body.style.display = 'none';
+
+            if (shouldPushState) {
+                navigateTo(`/detail-riwayat-penyewaan/${id}`);
+                return;
+            }
+            
+            fetch(`/detail-riwayat-penyewaan/${id}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && body && loader) {
+                    const booking = data.booking;
+                    
+                    document.getElementById('detailBanner').src = booking.cover_photo;
+                    document.getElementById('detailBanner').style.objectPosition = `center ${booking.cover_photo_position || '50'}%`;
+                    document.getElementById('detailPropertyName').textContent = booking.nama_properti;
+                    
+                    document.getElementById('detailPenyewa').textContent = booking.penyewa;
+                    document.getElementById('detailEmailPenyewa').textContent = booking.email_penyewa;
+                    document.getElementById('detailNoHpPenyewa').textContent = booking.no_hp_penyewa;
+                    document.getElementById('detailRentangSewa').textContent = booking.rentang_sewa;
+                    document.getElementById('detailTotalPrice').textContent = booking.total_price_formatted;
+
+                    const statusBadge = document.getElementById('detailStatusBadge');
+                    statusBadge.textContent = booking.status_text;
+                    if (booking.status_booking === 'pending') {
+                        statusBadge.className = 'booking-status process';
+                    } else if (booking.status_booking === 'confirmed') {
+                        statusBadge.className = 'booking-status success';
+                    } else if (booking.status_booking === 'completed') {
+                        statusBadge.className = 'booking-status completed';
+                    } else {
+                        statusBadge.className = 'booking-status danger';
+                    }
+                    
+                    window.currentViewingBookingId = booking.id_booking;
+                    const actionButtons = document.getElementById('bookingActionButtons');
+                    if (actionButtons) {
+                        if (booking.status_booking === 'pending') {
+                            actionButtons.style.display = 'flex';
+                        } else {
+                            actionButtons.style.display = 'none';
+                        }
+                    }
+                    
+                    // Handle Review & Feedback Section
+                    const reviewSection = document.getElementById('detailReviewSection');
+                    const tenantReviewContainer = document.getElementById('tenantReviewContainer');
+                    const feedbackForm = document.getElementById('feedbackForm');
+                    const existingFeedback = document.getElementById('existingFeedback');
+                    
+                    if (booking.review) {
+                        reviewSection.style.display = 'block';
+                        tenantReviewContainer.style.display = 'block';
+                        
+                        // Render stars
+                        let starsHtml = '';
+                        for (let i = 1; i <= 5; i++) {
+                            if (i <= booking.review.rating) {
+                                starsHtml += '★';
+                            } else {
+                                starsHtml += '☆';
+                            }
+                        }
+                        document.getElementById('displayReviewStars').textContent = starsHtml;
+                        document.getElementById('displayReviewDate').textContent = booking.review.tanggal_review;
+                        document.getElementById('displayReviewText').textContent = booking.review.komentar || 'Tidak ada komentar tertulis.';
+                        
+                        window.currentReviewId = booking.review.id_review;
+                        
+                        if (booking.review.balasan_mitra) {
+                            feedbackForm.style.display = 'none';
+                            existingFeedback.style.display = 'block';
+                            
+                            document.getElementById('displayFeedbackAuthor').textContent = 'Anda (Pemilik Properti)';
+                            document.getElementById('displayFeedbackDate').textContent = booking.review.tanggal_balasan;
+                            document.getElementById('displayFeedbackText').textContent = booking.review.balasan_mitra;
+                        } else {
+                            feedbackForm.style.display = 'block';
+                            existingFeedback.style.display = 'none';
+                            document.getElementById('feedbackText').value = '';
+                        }
+                    } else {
+                        reviewSection.style.display = 'none';
+                        tenantReviewContainer.style.display = 'none';
+                        window.currentReviewId = null;
+                    }
+                    
+                    loader.style.display = 'none';
+                    body.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching rental details:', error);
+                if (loader) {
+                    loader.innerHTML = '<p style="color: #dc3545; font-size: 14px; font-weight: 500;">Gagal memuat detail penyewaan. Silakan coba lagi.</p>';
+                }
+            });
+        }
+        window.showRentalDetail = showRentalDetail;
+
+        function submitFeedback(event) {
+            event.preventDefault();
+            const text = document.getElementById('feedbackText').value;
+
+            if (!text.trim()) {
+                showCustomAlert('Silakan tulis tanggapan terlebih dahulu.', 'danger');
+                return;
+            }
+
+            const reviewId = window.currentReviewId;
+            if (!reviewId) {
+                showCustomAlert('ID ulasan tidak ditemukan.', 'danger');
+                return;
+            }
+
+            fetch(`/mitra/review/${reviewId}/feedback`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    balasan_mitra: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showCustomAlert(data.message, 'success').then(() => {
+                        showRentalDetail(null, window.currentViewingBookingId, false);
+                    });
+                } else {
+                    showCustomAlert(data.message || 'Gagal mengirim tanggapan.', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting feedback:', error);
+                showCustomAlert('Terjadi kesalahan saat mengirim tanggapan.', 'danger');
+            });
+        }
+        window.submitFeedback = submitFeedback;
+
+        // Custom confirmation and alert modals
+        function showCustomConfirm(message, actionType = 'confirm') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                let btnClass = 'confirm-btn-primary';
+                if (actionType === 'success') btnClass = 'confirm-btn-success';
+                if (actionType === 'danger') btnClass = 'confirm-btn-danger';
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${actionType}">
+                            ${actionType === 'danger' ? '!' : '?'}
+                        </div>
+                        <h3>Konfirmasi</h3>
+                        <p>${message}</p>
+                        <div class="custom-modal-actions">
+                            <button class="custom-modal-btn cancel-btn">Batal</button>
+                            <button class="custom-modal-btn ${btnClass}">Ya, Lanjutkan</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const cancelBtn = overlay.querySelector('.cancel-btn');
+                const confirmBtn = overlay.querySelector(`.${btnClass}`);
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                cancelBtn.onclick = () => {
+                    close();
+                    resolve(false);
+                };
+                
+                confirmBtn.onclick = () => {
+                    close();
+                    resolve(true);
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve(false);
+                    }
+                };
+            });
+        }
+
+        function showCustomAlert(message, alertType = 'success') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${alertType}">
+                            ${alertType === 'success' ? '✓' : '!'}
+                        </div>
+                        <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
+                        <p>${message}</p>
+                        <div class="custom-modal-actions" style="justify-content: center;">
+                            <button class="custom-modal-btn ok-btn">OK</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const okBtn = overlay.querySelector('.ok-btn');
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                okBtn.onclick = () => {
+                    close();
+                    resolve();
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve();
+                    }
+                };
+            });
+        }
+
+        async function updateBookingStatus(status) {
+            const bookingId = window.currentViewingBookingId;
+            if (!bookingId) return;
+
+            const confirmMsg = status === 'confirmed' 
+                ? 'Apakah Anda yakin ingin menyetujui penyewaan ini?' 
+                : 'Apakah Anda yakin ingin menolak penyewaan ini?';
+
+            const actionType = status === 'confirmed' ? 'success' : 'danger';
+            const confirmed = await showCustomConfirm(confirmMsg, actionType);
+            if (!confirmed) return;
+
+            const actionButtons = document.getElementById('bookingActionButtons');
+            const statusBadge = document.getElementById('detailStatusBadge');
+            
+            if (actionButtons) actionButtons.style.opacity = '0.5';
+
+            fetch(`/detail-riwayat-penyewaan/${bookingId}/status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(response => response.json())
+            .then(async data => {
+                if (actionButtons) actionButtons.style.opacity = '1';
+                
+                if (data.success) {
+                    if (actionButtons) actionButtons.style.display = 'none';
+                    
+                    if (statusBadge) {
+                        statusBadge.textContent = data.booking.status_text;
+                        if (status === 'confirmed') {
+                            statusBadge.className = 'booking-status success';
+                        } else {
+                            statusBadge.className = 'booking-status danger';
+                        }
+                    }
+                    
+                    const card = document.querySelector(`.booking-card[href*="/detail-riwayat-penyewaan/${bookingId}"]`);
+                    if (card) {
+                        card.setAttribute('data-status', status);
+                        const cardStatusDiv = card.querySelector('.status');
+                        if (cardStatusDiv) {
+                            if (status === 'confirmed') {
+                                cardStatusDiv.className = 'status success';
+                                cardStatusDiv.textContent = 'Disetujui';
+                            } else {
+                                cardStatusDiv.className = 'status danger';
+                                cardStatusDiv.textContent = 'Ditolak';
+                            }
+                        }
+                    }
+                    
+                    await showCustomAlert(data.message, 'success');
+                } else {
+                    await showCustomAlert(data.message || 'Gagal memperbarui status.', 'info');
+                }
+            })
+            .catch(async error => {
+                if (actionButtons) actionButtons.style.opacity = '1';
+                console.error('Error updating booking status:', error);
+                await showCustomAlert('Terjadi kesalahan saat memproses permintaan.', 'info');
+            });
+        }
+        window.updateBookingStatus = updateBookingStatus;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuTentangSaya = document.getElementById('menu-tentang-saya');
+            const menuRiwayatPenyewaan = document.getElementById('menu-riwayat-penyewaan');
+            const menuPropertiSaya = document.getElementById('menu-properti-saya');
+            const menuTambahProperti = document.getElementById('menu-tambah-properti');
+            const menuStatusPengajuan = document.getElementById('menu-status-pengajuan');
+
+            const menuItems = [
+                { el: menuTentangSaya, path: '/profile-mitra' },
+                { el: menuRiwayatPenyewaan, path: '/riwayat-penyewaan' },
+                { el: menuPropertiSaya, path: '/properti-saya' },
+                { el: menuTambahProperti, path: '/tambah-properti' },
+                { el: menuStatusPengajuan, path: '/status-pengajuan' }
+            ];
 
             // Bind click events
             menuItems.forEach(item => {
@@ -1029,7 +2322,11 @@
 
             // Initial load check
             const currentPath = window.location.pathname;
-            navigateTo(currentPath, false);
+            if (window.activeBookingId) {
+                navigateTo(`/detail-riwayat-penyewaan/${window.activeBookingId}`, false);
+            } else {
+                navigateTo(currentPath, false);
+            }
 
             // Handle browser back/forward buttons
             window.addEventListener('popstate', function(e) {
@@ -1050,21 +2347,172 @@
                     selectKategori(oldKategoriVal, name, iconUrl);
                 }
             }
+
+            // Apply rental history filters and sort on load
+            applyAllFilters();
         });
 
-        // Search bookings logic
-        function searchBookings() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.booking-card');
+        // Apply all filters and sorting on Mitra Rental History
+        function applyAllFilters() {
+            const searchInputEl = document.getElementById('filter-search-input');
+            const searchQuery = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
+            
+            const statusInputEl = document.getElementById('filter-status-value');
+            const statusFilter = statusInputEl ? statusInputEl.value : 'all';
+            
+            const sortInputEl = document.getElementById('filter-sort-value');
+            const sortBy = sortInputEl ? sortInputEl.value : 'date_desc';
+            
+            const bookingListContainer = document.querySelector('.booking-list');
+            if (!bookingListContainer) return;
+            
+            const cards = Array.from(bookingListContainer.querySelectorAll('.booking-card'));
+            let visibleCount = 0;
+            
             cards.forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                const text = card.querySelector('.booking-info').textContent.toLowerCase();
-                if (title.includes(query) || text.includes(query)) {
+                const propName = card.getAttribute('data-property-name') || '';
+                const tenantName = card.getAttribute('data-tenant-name') || '';
+                const status = card.getAttribute('data-status') || '';
+                
+                // 1. Check Search Query
+                const matchesSearch = searchQuery === '' || 
+                                      propName.includes(searchQuery) || 
+                                      tenantName.includes(searchQuery);
+                                      
+                // 2. Check Status Filter
+                let matchesStatus = false;
+                if (statusFilter === 'all') {
+                    matchesStatus = true;
+                } else if (statusFilter === 'pending') {
+                    matchesStatus = (status === 'pending');
+                } else if (statusFilter === 'confirmed') {
+                    matchesStatus = (status === 'confirmed');
+                } else if (statusFilter === 'completed') {
+                    matchesStatus = (status === 'completed');
+                } else if (statusFilter === 'rejected') {
+                    matchesStatus = (status !== 'pending' && status !== 'confirmed' && status !== 'completed');
+                }
+                
+                if (matchesSearch && matchesStatus) {
                     card.style.display = 'flex';
+                    visibleCount++;
                 } else {
                     card.style.display = 'none';
                 }
             });
+            
+            // Handle Empty State
+            let emptyMessage = document.getElementById('empty-bookings-message');
+            if (visibleCount === 0) {
+                if (!emptyMessage) {
+                    emptyMessage = document.createElement('div');
+                    emptyMessage.id = 'empty-bookings-message';
+                    emptyMessage.style.cssText = "text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px; width: 100%;";
+                    emptyMessage.textContent = "Tidak ada riwayat penyewaan yang cocok dengan filter.";
+                    bookingListContainer.appendChild(emptyMessage);
+                } else {
+                    emptyMessage.style.display = 'block';
+                }
+            } else {
+                if (emptyMessage) {
+                    emptyMessage.style.display = 'none';
+                }
+            }
+            
+            // 3. Sort Cards
+            if (visibleCount > 1) {
+                cards.sort((a, b) => {
+                    const statusA = a.getAttribute('data-status') || '';
+                    const statusB = b.getAttribute('data-status') || '';
+
+                    // If status filter is "all", prioritize pending at the very top
+                    if (statusFilter === 'all') {
+                        if (statusA === 'pending' && statusB !== 'pending') return -1;
+                        if (statusA !== 'pending' && statusB === 'pending') return 1;
+                    }
+
+                    if (sortBy === 'date_desc') {
+                        const valA = parseInt(a.getAttribute('data-timestamp')) || 0;
+                        const valB = parseInt(b.getAttribute('data-timestamp')) || 0;
+                        return valB - valA;
+                    } else if (sortBy === 'date_asc') {
+                        const valA = parseInt(a.getAttribute('data-timestamp')) || 0;
+                        const valB = parseInt(b.getAttribute('data-timestamp')) || 0;
+                        return valA - valB;
+                    } else if (sortBy === 'price_desc') {
+                        const valA = parseFloat(a.getAttribute('data-price')) || 0;
+                        const valB = parseFloat(b.getAttribute('data-price')) || 0;
+                        return valB - valA;
+                    } else if (sortBy === 'price_asc') {
+                        const valA = parseFloat(a.getAttribute('data-price')) || 0;
+                        const valB = parseFloat(b.getAttribute('data-price')) || 0;
+                        return valA - valB;
+                    }
+                    return 0;
+                });
+                
+                // Re-append sorted cards in order
+                cards.forEach(card => {
+                    bookingListContainer.appendChild(card);
+                });
+            }
+        }
+
+        // Toggle Filter and Sort custom dropdowns
+        function toggleFilterDropdown(id, e) {
+            if (e) e.stopPropagation();
+            
+            // Close other dropdowns first
+            ['status-dropdown', 'sort-dropdown', 'kategori-dropdown', 'fasilitas-dropdown'].forEach(dropId => {
+                if (dropId !== id) {
+                    const drop = document.getElementById(dropId);
+                    if (drop) drop.style.display = 'none';
+                }
+            });
+            
+            const dropdown = document.getElementById(id);
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        // Select Status Filter
+        function selectFilterStatus(val, label, e) {
+            if (e) e.stopPropagation();
+            const valInput = document.getElementById('filter-status-value');
+            if (valInput) valInput.value = val;
+            
+            const display = document.getElementById('status-display');
+            if (display) {
+                if (val === 'all') {
+                    display.innerHTML = 'Semua Status';
+                } else {
+                    let badgeClass = 'process';
+                    if (val === 'confirmed') badgeClass = 'success';
+                    if (val === 'completed') badgeClass = 'completed';
+                    if (val === 'rejected') badgeClass = 'danger';
+                    
+                    display.innerHTML = `<span class="status-badge-inline ${badgeClass}">${label}</span>`;
+                }
+            }
+            
+            const dropdown = document.getElementById('status-dropdown');
+            if (dropdown) dropdown.style.display = 'none';
+            applyAllFilters();
+        }
+
+        // Select Sort Filter
+        function selectFilterSort(val, label, e) {
+            if (e) e.stopPropagation();
+            const valInput = document.getElementById('filter-sort-value');
+            if (valInput) valInput.value = val;
+            
+            const display = document.getElementById('sort-display');
+            if (display) display.textContent = label;
+            
+            const dropdown = document.getElementById('sort-dropdown');
+            if (dropdown) dropdown.style.display = 'none';
+            applyAllFilters();
         }
 
         // Toggle category list
@@ -1078,7 +2526,16 @@
         function selectKategori(id, name, iconUrl, e) {
             if (e) e.stopPropagation();
             const valueInput = document.getElementById('kategori-value');
-            if (valueInput) valueInput.value = id;
+            if (valueInput) {
+                valueInput.value = id;
+                valueInput.dispatchEvent(new Event('input'));
+                
+                const card = valueInput.closest('.field-card');
+                if (card) {
+                    card.style.borderColor = 'transparent';
+                    card.style.boxShadow = '';
+                }
+            }
 
             const displayContainer = document.getElementById('kategori-display');
             if (displayContainer) {
@@ -1157,6 +2614,18 @@
             if (catContainer && !catContainer.contains(e.target)) {
                 if (catDropdown) catDropdown.style.display = 'none';
             }
+
+            const statusContainer = document.getElementById('status-dropdown-container');
+            const statusDropdown = document.getElementById('status-dropdown');
+            if (statusContainer && !statusContainer.contains(e.target)) {
+                if (statusDropdown) statusDropdown.style.display = 'none';
+            }
+
+            const sortContainer = document.getElementById('sort-dropdown-container');
+            const sortDropdown = document.getElementById('sort-dropdown');
+            if (sortContainer && !sortContainer.contains(e.target)) {
+                if (sortDropdown) sortDropdown.style.display = 'none';
+            }
         });
 
         // Price formatting logic (Indonesian Rupiah formatting)
@@ -1191,16 +2660,36 @@
                 const requiredInputs = step1.querySelectorAll('[required]');
                 let valid = true;
                 requiredInputs.forEach(input => {
+                    const card = input.closest('.field-card');
                     if (!input.value.trim()) {
                         valid = false;
-                        input.closest('.field-card').style.borderColor = '#ef4444';
+                        if (card) {
+                            card.style.borderColor = '#ef4444';
+                            card.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+                        }
                     } else {
-                        input.closest('.field-card').style.borderColor = 'transparent';
+                        if (card) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
                     }
+
+                    // Clear highlight realtime saat user mulai mengetik
+                    input.addEventListener('input', function () {
+                        if (card && this.value.trim()) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
+                    }, { once: false });
                 });
 
                 if (!valid) {
-                    alert('Mohon lengkapi semua data spesifikasi properti terlebih dahulu.');
+                    showProfileToast('Mohon lengkapi semua data spesifikasi properti terlebih dahulu.');
+                    // Scroll ke field pertama yang kosong
+                    const firstEmpty = step1.querySelector('[required]:placeholder-shown, input[required][value=""]');
+                    if (firstEmpty) {
+                        firstEmpty.closest('.field-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                     return;
                 }
 
@@ -1217,9 +2706,12 @@
         // PHOTO UPLOAD DRAG & DROP
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('property-images');
-        const previewGrid = document.getElementById('previewGrid');
         const countLabel = document.getElementById('photo-count-label');
-        let selectedFiles = [];
+        const photoControlList = document.getElementById('photoControlList');
+        const previewGalleryContainer = document.getElementById('previewGalleryContainer');
+        const liveLayoutGallery = document.getElementById('liveLayoutGallery');
+        const hiddenPositionsContainer = document.getElementById('hidden-positions-container');
+        let selectedFiles = []; // Array of { file: File, positionY: number, previewUrl: string }
 
         if (dropzone) {
             dropzone.addEventListener('dragover', (e) => {
@@ -1235,7 +2727,6 @@
                 e.preventDefault();
                 dropzone.classList.remove('dragover');
                 if (e.dataTransfer.files.length > 0) {
-                    fileInput.files = e.dataTransfer.files;
                     handleFiles(e.dataTransfer.files);
                 }
             });
@@ -1246,57 +2737,380 @@
         }
 
         function handleFiles(files) {
-            if (!fileInput || !previewGrid || !countLabel) return;
-            selectedFiles = Array.from(files).slice(0, 5); // Max 5 photos
+            if (!fileInput) return;
+            const newFiles = Array.from(files);
             
-            // Re-assign selected files to input files
+            for (let file of newFiles) {
+                if (selectedFiles.length >= 5) break;
+                if (!file.type.startsWith('image/')) continue;
+                selectedFiles.push({
+                    file: file,
+                    positionX: 50,
+                    positionY: 50,
+                    previewUrl: URL.createObjectURL(file)
+                });
+            }
+            
+            updateFormInputsAndPreviews();
+        }
+
+        function updateFormInputsAndPreviews() {
+            if (!fileInput || !countLabel || !photoControlList || !previewGalleryContainer || !liveLayoutGallery || !hiddenPositionsContainer) return;
+            
+            // Sync files list to input field
             const dt = new DataTransfer();
-            selectedFiles.forEach(file => dt.items.add(file));
+            selectedFiles.forEach(item => dt.items.add(item.file));
             fileInput.files = dt.files;
 
-            previewGrid.innerHTML = '';
-            
+            // Sync hidden inputs for positions
+            hiddenPositionsContainer.innerHTML = '';
+            selectedFiles.forEach(item => {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'positions[]';
+                hiddenInput.value = `${item.positionX || 50}% ${item.positionY || 50}%`;
+                hiddenPositionsContainer.appendChild(hiddenInput);
+            });
+
+            // Update photo count text
             if (selectedFiles.length > 0) {
-                countLabel.textContent = `${selectedFiles.length} foto terpilih`;
-                
-                selectedFiles.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const item = document.createElement('div');
-                        item.className = 'preview-item';
-                        
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        
-                        const removeBtn = document.createElement('button');
-                        removeBtn.className = 'remove-btn';
-                        removeBtn.innerHTML = '×';
-                        removeBtn.type = 'button';
-                        removeBtn.onclick = (event) => {
-                            event.stopPropagation();
-                            removeFile(index);
-                        };
-                        
-                        item.appendChild(img);
-                        item.appendChild(removeBtn);
-                        previewGrid.appendChild(item);
-                    };
-                    reader.readAsDataURL(file);
-                });
+                countLabel.textContent = `${selectedFiles.length} foto terpilih (Minimal 2, Maksimal 5)`;
             } else {
-                countLabel.textContent = 'Belum ada foto terpilih';
+                countLabel.textContent = 'Belum ada foto terpilih (Minimal 2, Maksimal 5)';
+            }
+
+            // Render photo control list
+            photoControlList.innerHTML = '';
+            selectedFiles.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'photo-control-card';
+
+                // Thumb preview
+                const thumb = document.createElement('div');
+                thumb.className = 'photo-control-thumb';
+                const img = document.createElement('img');
+                img.src = item.previewUrl;
+                img.style.objectPosition = `${item.positionX || 50}% ${item.positionY || 50}%`;
+                img.id = `preview-thumb-img-${index}`;
+                thumb.appendChild(img);
+                card.appendChild(thumb);
+
+                // Information & Crop Adjuster
+                const info = document.createElement('div');
+                info.className = 'photo-control-info';
+
+                const title = document.createElement('div');
+                title.className = 'photo-control-title';
+                
+                const filenameSpan = document.createElement('span');
+                filenameSpan.className = 'photo-control-filename';
+                filenameSpan.textContent = item.file.name;
+                filenameSpan.title = item.file.name;
+                title.appendChild(filenameSpan);
+
+                const badge = document.createElement('span');
+                if (index === 0) {
+                    badge.className = 'badge-cover';
+                    badge.textContent = 'Foto Utama (Cover)';
+                } else {
+                    badge.className = 'badge-secondary';
+                    badge.textContent = `Foto Detail #${index + 1}`;
+                }
+                title.appendChild(badge);
+                info.appendChild(title);
+
+                // Horizontal slider
+                const adjusterX = document.createElement('div');
+                adjusterX.className = 'crop-adjuster';
+                const labelX = document.createElement('span');
+                labelX.textContent = 'Horiz:';
+                labelX.style.width = '35px';
+                const sliderX = document.createElement('input');
+                sliderX.type = 'range';
+                sliderX.className = 'crop-slider';
+                sliderX.min = '0';
+                sliderX.max = '100';
+                sliderX.value = item.positionX || 50;
+                
+                const valDisplayX = document.createElement('span');
+                valDisplayX.style.width = '30px';
+                valDisplayX.style.textAlign = 'right';
+                valDisplayX.textContent = `${sliderX.value}%`;
+
+                // Vertical slider
+                const adjusterY = document.createElement('div');
+                adjusterY.className = 'crop-adjuster';
+                const labelY = document.createElement('span');
+                labelY.textContent = 'Vert:';
+                labelY.style.width = '35px';
+                const sliderY = document.createElement('input');
+                sliderY.type = 'range';
+                sliderY.className = 'crop-slider';
+                sliderY.min = '0';
+                sliderY.max = '100';
+                sliderY.value = item.positionY || 50;
+                
+                const valDisplayY = document.createElement('span');
+                valDisplayY.style.width = '30px';
+                valDisplayY.style.textAlign = 'right';
+                valDisplayY.textContent = `${sliderY.value}%`;
+
+                function updateImagePositions() {
+                    const valX = sliderX.value;
+                    const valY = sliderY.value;
+                    item.positionX = valX;
+                    item.positionY = valY;
+                    valDisplayX.textContent = `${valX}%`;
+                    valDisplayY.textContent = `${valY}%`;
+                    
+                    const posStr = `${valX}% ${valY}%`;
+                    
+                    // Update preview thumbnail live
+                    if (img) {
+                        img.style.objectPosition = posStr;
+                    }
+                    
+                    // Update layout preview live if it is rendering
+                    const galleryImg = document.getElementById(`gallery-img-${index}`);
+                    if (galleryImg) {
+                        galleryImg.style.objectPosition = posStr;
+                    }
+
+                    // Update corresponding hidden input value
+                    if (hiddenPositionsContainer && hiddenPositionsContainer.children && hiddenPositionsContainer.children[index]) {
+                        hiddenPositionsContainer.children[index].value = posStr;
+                    }
+                }
+
+                sliderX.oninput = updateImagePositions;
+                sliderY.oninput = updateImagePositions;
+
+                adjusterX.appendChild(labelX);
+                adjusterX.appendChild(sliderX);
+                adjusterX.appendChild(valDisplayX);
+                info.appendChild(adjusterX);
+
+                adjusterY.appendChild(labelY);
+                adjusterY.appendChild(sliderY);
+                adjusterY.appendChild(valDisplayY);
+                info.appendChild(adjusterY);
+
+                card.appendChild(info);
+
+                // Action buttons (Prev, Next, Delete)
+                const actions = document.createElement('div');
+                actions.className = 'photo-control-actions';
+
+                if (index > 0) {
+                    const btnUp = document.createElement('button');
+                    btnUp.type = 'button';
+                    btnUp.className = 'btn-action';
+                    btnUp.textContent = '◀';
+                    btnUp.title = 'Pindahkan ke Sebelumnya';
+                    btnUp.onclick = () => swapFiles(index, index - 1);
+                    actions.appendChild(btnUp);
+                }
+
+                if (index < selectedFiles.length - 1) {
+                    const btnDown = document.createElement('button');
+                    btnDown.type = 'button';
+                    btnDown.className = 'btn-action';
+                    btnDown.textContent = '▶';
+                    btnDown.title = 'Pindahkan ke Berikutnya';
+                    btnDown.onclick = () => swapFiles(index, index + 1);
+                    actions.appendChild(btnDown);
+                }
+
+                const btnDel = document.createElement('button');
+                btnDel.type = 'button';
+                btnDel.className = 'btn-action btn-delete';
+                btnDel.textContent = 'Hapus';
+                btnDel.onclick = () => removeFile(index);
+                actions.appendChild(btnDel);
+
+                card.appendChild(actions);
+                photoControlList.appendChild(card);
+            });
+
+            // Render Live Layout Preview (Only if there are at least 2 images)
+            if (selectedFiles.length >= 2) {
+                previewGalleryContainer.style.display = 'block';
+                const banner = document.getElementById('preview-notice-banner');
+                if (banner) banner.style.display = 'flex';
+                renderLiveLayoutPreview();
+            } else {
+                previewGalleryContainer.style.display = 'none';
+                const banner = document.getElementById('preview-notice-banner');
+                if (banner) banner.style.display = 'none';
+                liveLayoutGallery.innerHTML = '';
             }
         }
 
+        function swapFiles(idx1, idx2) {
+            const temp = selectedFiles[idx1];
+            selectedFiles[idx1] = selectedFiles[idx2];
+            selectedFiles[idx2] = temp;
+            updateFormInputsAndPreviews();
+        }
+
         function removeFile(index) {
-            if (!fileInput) return;
-            selectedFiles.splice(index, 1);
+            if (selectedFiles[index]) {
+                URL.revokeObjectURL(selectedFiles[index].previewUrl);
+                selectedFiles.splice(index, 1);
+            }
+            updateFormInputsAndPreviews();
+        }
+
+        function renderLiveLayoutPreview() {
+            if (!liveLayoutGallery) return;
+            liveLayoutGallery.innerHTML = '';
+
+            const n = selectedFiles.length; // Range [2, 5]
+            const galleryDiv = document.createElement('div');
+            galleryDiv.className = `mock-gallery mock-gallery-${n}`;
+
+            // Main / Cover slot (Slot 1)
+            const mainItem = document.createElement('div');
+            mainItem.className = 'mock-gallery-item mock-main-item';
             
-            const dt = new DataTransfer();
-            selectedFiles.forEach(file => dt.items.add(file));
-            fileInput.files = dt.files;
-            
-            handleFiles(fileInput.files);
+            const mainImg = document.createElement('img');
+            mainImg.src = selectedFiles[0].previewUrl;
+            mainImg.style.objectPosition = `${selectedFiles[0].positionX || 50}% ${selectedFiles[0].positionY || 50}%`;
+            mainImg.id = 'gallery-img-0';
+            mainItem.appendChild(mainImg);
+
+            const mainLabel = document.createElement('div');
+            mainLabel.className = 'slot-label';
+            mainLabel.textContent = 'Slot 1: Cover (Utama)';
+            mainItem.appendChild(mainLabel);
+
+            galleryDiv.appendChild(mainItem);
+
+            // Side slots
+            if (n > 1) {
+                const sideGallery = document.createElement('div');
+                sideGallery.className = 'mock-side-gallery';
+
+                for (let i = 1; i < n; i++) {
+                    const sideItem = document.createElement('div');
+                    sideItem.className = 'mock-gallery-item';
+                    
+                    const sideImg = document.createElement('img');
+                    sideImg.src = selectedFiles[i].previewUrl;
+                    sideImg.style.objectPosition = `${selectedFiles[i].positionX || 50}% ${selectedFiles[i].positionY || 50}%`;
+                    sideImg.id = `gallery-img-${i}`;
+                    sideItem.appendChild(sideImg);
+
+                    const sideLabel = document.createElement('div');
+                    sideLabel.className = 'slot-label';
+                    sideLabel.textContent = `Slot ${i + 1}`;
+                    sideItem.appendChild(sideLabel);
+
+                    sideGallery.appendChild(sideItem);
+                }
+                galleryDiv.appendChild(sideGallery);
+            }
+
+            liveLayoutGallery.appendChild(galleryDiv);
+        }
+
+        function scrollToPreview(e) {
+            if (e) e.preventDefault();
+            const el = document.getElementById('previewGalleryContainer');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Add client-side validation to form submission
+        const propertyForm = document.getElementById('propertyForm');
+        if (propertyForm) {
+            propertyForm.addEventListener('submit', function (e) {
+                if (selectedFiles.length < 2) {
+                    e.preventDefault();
+                    showProfileToast('Minimal 2 foto wajib diunggah untuk melanjutkan.');
+                } else if (selectedFiles.length > 5) {
+                    e.preventDefault();
+                    showProfileToast('Maksimal 5 foto dapat diunggah.');
+                }
+            });
+        }
+
+        // =============================================
+        // VALIDASI FORM PROFIL MITRA
+        // =============================================
+        let profileToastTimer = null;
+
+        function showProfileToast(msg) {
+            const overlay = document.getElementById('profile-toast-overlay');
+            const box = document.getElementById('profile-toast-box');
+            const msgEl = document.getElementById('profile-toast-msg');
+            if (!overlay || !box) return;
+
+            msgEl.textContent = msg || 'Mohon lengkapi semua data profil terlebih dahulu.';
+            overlay.style.display = 'block';
+
+            // Trigger animation
+            requestAnimationFrame(() => {
+                box.style.opacity = '1';
+                box.style.transform = 'translateX(-50%) translateY(0)';
+            });
+
+            // Auto-dismiss setelah 4 detik
+            clearTimeout(profileToastTimer);
+            profileToastTimer = setTimeout(() => closeProfileToast(), 4000);
+        }
+
+        function closeProfileToast() {
+            const overlay = document.getElementById('profile-toast-overlay');
+            const box = document.getElementById('profile-toast-box');
+            if (!overlay || !box) return;
+
+            box.style.opacity = '0';
+            box.style.transform = 'translateX(-50%) translateY(-20px)';
+            setTimeout(() => { overlay.style.display = 'none'; }, 300);
+        }
+
+        const profileMitraForm = document.getElementById('profile-mitra-form');
+        if (profileMitraForm) {
+            profileMitraForm.addEventListener('submit', function (e) {
+                const requiredInputs = profileMitraForm.querySelectorAll('input[required]');
+                let valid = true;
+
+                requiredInputs.forEach(input => {
+                    const card = input.closest('.field-card');
+                    if (!input.value.trim()) {
+                        valid = false;
+                        if (card) {
+                            card.style.borderColor = '#ef4444';
+                            card.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+                        }
+                    } else {
+                        if (card) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
+                    }
+
+                    // Clear highlight realtime saat user mulai mengetik
+                    input.addEventListener('input', function () {
+                        if (card && this.value.trim()) {
+                            card.style.borderColor = 'transparent';
+                            card.style.boxShadow = '';
+                        }
+                    }, { once: false });
+                });
+
+                if (!valid) {
+                    e.preventDefault();
+                    showProfileToast('Mohon lengkapi semua data profil terlebih dahulu.');
+                    // Scroll ke field pertama yang kosong
+                    const firstEmpty = profileMitraForm.querySelector('input[required]:placeholder-shown, input[required][value=""]');
+                    if (firstEmpty) {
+                        firstEmpty.closest('.field-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
         }
     </script>
 @endsection

@@ -1,0 +1,821 @@
+/* payment.css - Premium Booking Checkout Portal Styles */
+
+:root {
+    --primary-color: #f7c948;
+    --primary-hover: #e2b434;
+    --secondary-color: #020f3a;
+    --bg-gray: #f7f7f7;
+    --text-main: #222222;
+    --text-muted: #888888;
+    --success-color: #10b981;
+    --error-color: #dc3545;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --border-color: #ebebeb;
+}
+
+body {
+    background-color: var(--bg-gray);
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Container Split-Screen */
+.payment-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.payment-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+/* Left Panel: Invoice Details */
+.payment-invoice {
+    flex: 1.2;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.invoice-header {
+    border-bottom: 2px dashed var(--border-color);
+    padding-bottom: 20px;
+}
+
+.invoice-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 4px;
+}
+
+.invoice-header p {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* Property Info Card */
+.property-invoice-card {
+    display: flex;
+    gap: 20px;
+    background: var(--bg-gray);
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease;
+}
+
+.property-invoice-card:hover {
+    transform: translateY(-2px);
+}
+
+.property-invoice-img {
+    width: 120px;
+    height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.property-invoice-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.property-invoice-category {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #cda017;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.property-invoice-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.property-invoice-location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.property-invoice-location svg {
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+/* Booking Details (Check-in/out) */
+.booking-dates-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.date-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.date-box span {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.date-box strong {
+    font-size: 14px;
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+.date-box:first-child {
+    border-right: 1px solid var(--border-color);
+    padding-right: 16px;
+}
+
+/* Price Breakdown */
+.price-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 10px;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555555;
+}
+
+.price-item.total {
+    border-top: 2px solid var(--border-color);
+    padding-top: 16px;
+    margin-top: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.price-item.total .total-amount {
+    color: #cda017;
+    font-size: 20px;
+}
+
+/* Right Panel: Payment wizard */
+.payment-wizard {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    position: relative;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Step Progress Indicator */
+.steps-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 35px;
+    padding: 0 10px;
+}
+
+.steps-progress::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    right: 10px;
+    height: 3px;
+    background: var(--border-color);
+    z-index: 1;
+}
+
+.progress-line {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    width: 0%;
+    height: 3px;
+    background: var(--primary-color);
+    z-index: 2;
+    transition: width 0.4s ease;
+}
+
+.step-node {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+
+.step-node.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    box-shadow: 0 0 10px rgba(247, 201, 72, 0.4);
+}
+
+.step-node.completed {
+    border-color: var(--success-color);
+    background: var(--success-color);
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.step-label {
+    position: absolute;
+    top: 38px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+}
+
+.step-node.active .step-label {
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+.step-node.completed .step-label {
+    color: var(--success-color);
+}
+
+/* Wizard Content Panels */
+.wizard-panel {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+    animation: fadeIn 0.4s ease;
+}
+
+.wizard-panel.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Method Selector Styling (Step 1) */
+.method-selection-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.method-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+.payment-card-option {
+    position: relative;
+    height: 140px;
+    border-radius: 18px;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Brand specific card designs */
+.payment-card-option.visa {
+    background: linear-gradient(135deg, #d5e2f6 0%, #a2c2f2 70%, #416fb8 100%);
+    color: #0c1530;
+    border: 1px solid #a3beeb;
+}
+
+.payment-card-option.visa .card-middle {
+    color: #0c1530;
+}
+
+.payment-card-option.visa .card-holder-label,
+.payment-card-option.visa .card-expiry-label {
+    color: rgba(12, 21, 48, 0.65);
+}
+
+.payment-card-option.visa .card-holder-name,
+.payment-card-option.visa .card-expiry-val {
+    color: #0c1530;
+    font-weight: 600;
+}
+
+.payment-card-option.visa .card-brand-logo {
+    height: 18px;
+}
+
+.payment-card-option.mastercard {
+    background: linear-gradient(135deg, #fbe3cd 0%, #fdbf84 70%, #c0560a 100%);
+    color: #2c1a04;
+    border: 1px solid #eab282;
+}
+
+.payment-card-option.mastercard .card-middle {
+    color: #2c1a04;
+}
+
+.payment-card-option.mastercard .card-holder-label,
+.payment-card-option.mastercard .card-expiry-label {
+    color: rgba(44, 26, 4, 0.6);
+}
+
+.payment-card-option.mastercard .card-holder-name,
+.payment-card-option.mastercard .card-expiry-val {
+    color: #2c1a04;
+    font-weight: 600;
+}
+
+.payment-card-option.mastercard .card-brand-logo {
+    height: 38px; /* Enlarged logo */
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+/* Shine overlay effect */
+.payment-card-option::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 60%);
+    pointer-events: none;
+}
+
+.payment-card-option:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-chip {
+    width: 36px;
+    height: 28px;
+    background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+    border-radius: 6px;
+    position: relative;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.5);
+}
+
+.card-chip::after {
+    content: '';
+    position: absolute;
+    top: 4px; left: 4px; right: 4px; bottom: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}
+
+.card-brand-logo {
+    height: 25px;
+    object-fit: contain;
+}
+
+.payment-card-option.visa .card-brand-logo {
+    height: 18px;
+}
+
+.card-middle {
+    font-size: 16px;
+    letter-spacing: 2.5px;
+    font-family: monospace;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 11px;
+}
+
+.card-holder {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-holder-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-holder-name {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.card-expiry {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.card-expiry-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+}
+
+.card-expiry-val {
+    font-weight: 500;
+}
+
+/* Card Wizard Form (Step 2) */
+.wizard-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Virtual Card mini preview */
+.mini-virtual-card {
+    height: 110px;
+    border-radius: 14px;
+    padding: 15px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mini-virtual-card.visa {
+    background: linear-gradient(135deg, #d5e2f6 0%, #a2c2f2 70%, #416fb8 100%);
+    color: #0c1530;
+    border: 1px solid #a3beeb;
+}
+
+.mini-virtual-card.visa .card-middle {
+    color: #0c1530;
+}
+
+.mini-virtual-card.visa .card-holder-label,
+.mini-virtual-card.visa .card-expiry-label {
+    color: rgba(12, 21, 48, 0.65);
+}
+
+.mini-virtual-card.visa .card-holder-name,
+.mini-virtual-card.visa .card-expiry-val {
+    color: #0c1530;
+    font-weight: 600;
+}
+
+.mini-virtual-card.visa .card-brand-logo {
+    filter: none;
+}
+
+.mini-virtual-card.mastercard {
+    background: linear-gradient(135deg, #fbe3cd 0%, #fdbf84 70%, #c0560a 100%);
+    color: #2c1a04;
+    border: 1px solid #eab282;
+}
+
+.mini-virtual-card.mastercard .card-middle {
+    color: #2c1a04;
+}
+
+.mini-virtual-card.mastercard .card-holder-label,
+.mini-virtual-card.mastercard .card-expiry-label {
+    color: rgba(44, 26, 4, 0.6);
+}
+
+.mini-virtual-card.mastercard .card-holder-name,
+.mini-virtual-card.mastercard .card-expiry-val {
+    color: #2c1a04;
+    font-weight: 600;
+}
+
+.mini-virtual-card.mastercard .card-brand-logo {
+    height: 26px; /* Enlarged logo in preview */
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.mini-virtual-card .card-chip {
+    width: 28px;
+    height: 22px;
+}
+
+.mini-virtual-card .card-brand-logo {
+    height: 18px;
+}
+
+.mini-virtual-card .card-middle {
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.mini-virtual-card .card-bottom {
+    font-size: 9px;
+}
+
+.form-group-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 12px 14px;
+    padding-right: 44px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--bg-gray);
+    color: #333333;
+}
+
+.input-with-icon input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(247, 201, 72, 0.15);
+    background-color: #ffffff;
+}
+
+.input-with-icon .input-icon-right {
+    position: absolute;
+    right: 14px;
+    height: 20px;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.form-group input.standard-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--bg-gray);
+    color: #333333;
+}
+
+.form-group input.standard-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(247, 201, 72, 0.15);
+    background-color: #ffffff;
+}
+
+.wizard-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    gap: 12px;
+}
+
+.btn-wizard-back {
+    background: #ffffff;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-wizard-back:hover {
+    background: var(--bg-gray);
+    border-color: #d0d0d0;
+}
+
+.btn-wizard-submit {
+    flex-grow: 1;
+    background: var(--primary-color);
+    color: #111111;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(247, 201, 72, 0.2);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-wizard-submit:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(247, 201, 72, 0.35);
+}
+
+.btn-wizard-submit:active {
+    transform: translateY(0);
+}
+
+.btn-wizard-submit:disabled {
+    background: #e2e8f0;
+    color: #a0aec0;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Spinner Loader */
+.submit-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #111111;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error Alert inside Wizard */
+.wizard-error-alert {
+    background: #fee2e2;
+    color: var(--error-color);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(220, 53, 69, 0.1);
+}
+
+/* Step 3: Success Screen Styling */
+.success-panel-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #ffffff;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.success-panel-overlay.active {
+    display: flex;
+}
+
+.checkmark-outer-circle {
+    width: 90px;
+    height: 90px;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: scaleUpElastic 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.checkmark-inner-icon {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    animation: checkmarkPop 0.5s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.success-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 12px;
+}
+
+.success-description {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0 auto 30px;
+}
+
+.countdown-bar-container {
+    width: 200px;
+    height: 4px;
+    background: var(--bg-gray);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 10px auto;
+}
+
+.countdown-bar-fill {
+    height: 100%;
+    background: var(--success-color);
+    width: 100%;
+    animation: countdownProgress 3s linear forwards;
+}
+
+@keyframes scaleUpElastic {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes checkmarkPop {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes countdownProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+    .payment-container {
+        flex-direction: column;
+    }
+    .payment-invoice, .payment-wizard {
+        flex: none;
+        width: 100%;
+    }
+}
