@@ -51,6 +51,7 @@ class MitraController extends Controller
 
         // Fetch properties
         $properties = Property::with(['coverPhoto', 'category', 'location'])
+            ->withCount('bookings')
             ->where('id_mitra', $user->id)
             ->orderByDesc('created_at')
             ->get();
@@ -208,7 +209,14 @@ class MitraController extends Controller
     {
         $user = $this->ensureMitra();
 
-        $property = Property::where('id_mitra', $user->id)->findOrFail($id);
+        $property = Property::withCount('bookings')
+            ->where('id_mitra', $user->id)
+            ->findOrFail($id);
+
+        if ($property->bookings_count > 0) {
+            return back()->with('error', 'Properti tidak dapat dihapus karena sudah pernah dibooking oleh user.');
+        }
+
         $property->delete();
 
         return back()->with('success', 'Properti berhasil dihapus.');
@@ -277,12 +285,24 @@ class MitraController extends Controller
     {
         $user = $this->ensureMitra();
 
-        $property = Property::with(['category', 'location', 'photos'])
+        $property = Property::with(['category', 'location', 'photos', 'coverPhoto'])
             ->where('id_mitra', $user->id)
             ->findOrFail($id);
 
+        $bookedDateRanges = $property->bookings()
+            ->whereIn('status_booking', ['pending', 'confirmed'])
+            ->orderBy('tanggal_mulai')
+            ->get(['tanggal_mulai', 'tanggal_selesai'])
+            ->map(function ($booking) {
+                return [
+                    'from' => $booking->tanggal_mulai,
+                    'to' => $booking->tanggal_selesai,
+                ];
+            });
+
         return view('mitra.property_detail', [
             'property' => $property,
+            'bookedDateRanges' => $bookedDateRanges,
         ]);
     }
 

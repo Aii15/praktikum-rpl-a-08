@@ -1582,13 +1582,20 @@
                         Lihat Info Properti
                     </a>
 
-                    <form action="{{ route('mitra.property.delete', $property->id_properti) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus properti ini?');">
-                        @csrf
-                        <button type="submit" class="delete-btn">
+                    @if(($property->bookings_count ?? 0) > 0)
+                        <button type="button" class="delete-btn" style="opacity: 0.55; cursor: not-allowed;" disabled title="Properti tidak bisa dihapus karena sudah pernah dibooking oleh user.">
                             <img src="/images/profile/trash.png" alt="Hapus">
                             <span>Hapus</span>
                         </button>
-                    </form>
+                    @else
+                        <form action="{{ route('mitra.property.delete', $property->id_properti) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus properti ini?');">
+                            @csrf
+                            <button type="submit" class="delete-btn">
+                                <img src="/images/profile/trash.png" alt="Hapus">
+                                <span>Hapus</span>
+                            </button>
+                        </form>
+                    @endif
                 </div>
             @empty
                 <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
