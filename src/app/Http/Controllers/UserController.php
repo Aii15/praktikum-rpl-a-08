@@ -90,7 +90,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $booking = Booking::with(['property.coverPhoto', 'property.location', 'property.mitra'])
+        $booking = Booking::with(['property.coverPhoto', 'property.location', 'property.mitra', 'review'])
             ->where('id_user', $user->id)
             ->findOrFail($id);
 
@@ -114,6 +114,14 @@ class UserController extends Controller
                     'nama_properti' => $booking->property->nama_properti ?? '',
                     'cover_photo' => $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png',
                     'pemilik' => $booking->property->mitra->name ?? 'Tidak Diketahui',
+                    'review' => $booking->review ? [
+                        'id_review' => $booking->review->id_review,
+                        'rating' => $booking->review->rating,
+                        'komentar' => $booking->review->komentar,
+                        'tanggal_review' => \Carbon\Carbon::parse($booking->review->tanggal_review)->format('d/m/Y'),
+                        'balasan_mitra' => $booking->review->balasan_mitra,
+                        'tanggal_balasan' => $booking->review->tanggal_balasan ? \Carbon\Carbon::parse($booking->review->tanggal_balasan)->format('d/m/Y') : null,
+                    ] : null,
                 ]
             ]);
         }
@@ -139,5 +147,52 @@ class UserController extends Controller
         $activeBookingId = $id;
 
         return view('profile-user', compact('user', 'bookings', 'wishlists', 'activeBookingId'));
+    }
+
+    /**
+     * Store rating and review for a booking.
+     */
+    public function storeReview(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'komentar' => 'nullable|string|max:1000',
+        ], [
+            'rating.required' => 'Rating wajib dipilih.',
+            'rating.integer' => 'Rating harus berupa angka.',
+            'rating.min' => 'Rating minimal 1 bintang.',
+            'rating.max' => 'Rating maksimal 5 bintang.',
+        ]);
+
+        $booking = Booking::where('id_user', $user->id)
+            ->whereIn('status_booking', ['confirmed', 'completed'])
+            ->findOrFail($id);
+
+        if ($booking->review()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda sudah memberikan review untuk pesanan ini.'
+            ], 400);
+        }
+
+        $review = \App\Models\Review::create([
+            'id_booking' => $booking->id_booking,
+            'rating' => $request->input('rating'),
+            'komentar' => $request->input('komentar'),
+            'tanggal_review' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ulasan berhasil dikirim!',
+            'review' => [
+                'id_review' => $review->id_review,
+                'rating' => $review->rating,
+                'komentar' => $review->komentar,
+                'tanggal_review' => \Carbon\Carbon::parse($review->tanggal_review)->format('d/m/Y'),
+            ]
+        ]);
     }
 }

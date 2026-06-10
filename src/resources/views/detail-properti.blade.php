@@ -6,6 +6,111 @@
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ asset('css/detail-properti.css') }}">
+    <style>
+        /* Custom Confirmation Modal Styles */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-modal-overlay.active {
+            opacity: 1;
+        }
+
+        .custom-modal-box {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            padding: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .custom-modal-overlay.active .custom-modal-box {
+            transform: scale(1);
+        }
+
+        .custom-modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 auto 18px;
+        }
+
+        .custom-modal-icon.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .custom-modal-icon.danger {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .custom-modal-box h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .custom-modal-box p {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .custom-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .custom-modal-btn {
+            flex: 1;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .custom-modal-btn.ok-btn {
+            background: #f7c948;
+            color: #111111;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.2);
+        }
+
+        .custom-modal-btn.ok-btn:hover {
+            background: #f5b91b;
+            box-shadow: 0 6px 16px rgba(247, 201, 72, 0.3);
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -296,6 +401,33 @@
                     </div>
                 </div>
             </div>
+
+            @if($userBookingToReview)
+                <div class="review-form-card" style="background: #ffffff; border-radius: 12px; padding: 24px; border: 1px solid #eaeaea; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 30px; font-family: 'Poppins', sans-serif;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #111827;">Tulis Ulasan Anda</h3>
+                    <p style="font-size: 13px; color: #6b7280; margin-bottom: 18px;">
+                        Anda memiliki sewaan yang telah disetujui untuk properti ini (Periode: {{ \Carbon\Carbon::parse($userBookingToReview->tanggal_mulai)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($userBookingToReview->tanggal_selesai)->format('d/m/Y') }}). Silakan bagikan pengalaman Anda.
+                    </p>
+                    <form id="propertyReviewForm" onsubmit="submitPropertyReview(event, {{ $userBookingToReview->id_booking }})">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Rating</label>
+                            <div class="star-rating" style="display: flex; gap: 8px;">
+                                <span class="star-input-prop" onclick="setPropertyRating(1)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                <span class="star-input-prop" onclick="setPropertyRating(2)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                <span class="star-input-prop" onclick="setPropertyRating(3)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                <span class="star-input-prop" onclick="setPropertyRating(4)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                                <span class="star-input-prop" onclick="setPropertyRating(5)" style="cursor:pointer; font-size: 28px; color: #d1d5db; transition: color 0.15s;">★</span>
+                            </div>
+                            <input type="hidden" id="propertyRatingValue" value="" required>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label for="propertyReviewKomentar" style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Komentar</label>
+                            <textarea id="propertyReviewKomentar" rows="3" style="width:100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline:none; font-family:'Poppins',sans-serif; resize: vertical;" placeholder="Tulis komentar ulasan Anda di sini..." required></textarea>
+                        </div>
+                        <button type="submit" style="background:#f7c948; color:#111; border:none; padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition: background 0.2s; outline:none; font-family: 'Poppins', sans-serif;">Kirim Ulasan</button>
+                    </form>
+                </div>
+            @endif
             
             <div class="review-grid">
                 @forelse ($property->reviews as $review)
@@ -320,9 +452,34 @@
                             @endfor
                         </div>
 
-                        <p class="review-text">
+                        <p class="review-text" style="margin-bottom: 0;">
                             {{ $review->komentar }}
                         </p>
+
+                        @if($review->balasan_mitra)
+                            <div class="mitra-reply-box" style="margin-top: 15px; background: #f9fafb; border-radius: 8px; padding: 12px 16px; border-left: 4px solid #f7c948; border-top: 1px solid #f0f0f0;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 6px;">
+                                        <span style="font-size: 13px; font-weight: 600; color: #111827;">{{ $property->mitra->name ?? 'Pemilik Properti' }}</span>
+                                        <span style="font-size: 11px; font-weight: 600; color: #a16207; background: #fef9c3; padding: 2px 6px; border-radius: 4px;">Pemilik Properti</span>
+                                    </div>
+                                    <span style="font-size: 11px; color: #6b7280;">{{ \Carbon\Carbon::parse($review->tanggal_balasan)->format('d/m/Y') }}</span>
+                                </div>
+                                <p class="reply-text" style="font-size: 13px; color: #4b5563; margin-bottom: 0; line-height: 1.4;">
+                                    {{ $review->balasan_mitra }}
+                                </p>
+                            </div>
+                        @elseif(Auth::check() && session('active_role') === 'mitra' && $property->id_mitra === Auth::id())
+                            <div class="mitra-reply-form" style="margin-top: 15px; border-top: 1px solid #eaeaea; padding-top: 15px;">
+                                <form onsubmit="submitPropertyFeedback(event, {{ $review->id_review }})">
+                                    <div style="margin-bottom: 12px;">
+                                        <label style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Tulis Tanggapan Pemilik</label>
+                                        <textarea id="propertyFeedbackText-{{ $review->id_review }}" rows="2" style="width:100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; outline:none; font-family:'Poppins',sans-serif; resize: vertical;" placeholder="Tulis tanggapan/feedback Anda terhadap ulasan ini..." required></textarea>
+                                    </div>
+                                    <button type="submit" style="background:#f7c948; color:#111; border:none; padding:8px 16px; border-radius:6px; font-weight:600; cursor:pointer; font-size:12px; transition: background 0.2s; outline:none;">Kirim Tanggapan</button>
+                                </form>
+                            </div>
+                        @endif
                     </div>
                 @empty
                     <div style="grid-column: span 2; text-align: center; color: #777; padding: 40px 0; font-size: 16px;">
@@ -618,5 +775,147 @@
             if (e.key === 'ArrowLeft') showPrev();
             if (e.key === 'Escape') closeLightbox();
         });
+
+        // Custom Alert Modal Function
+        function showCustomAlert(message, alertType = 'success') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${alertType}">
+                            \${alertType === 'success' ? '✓' : '!'}
+                        </div>
+                        <h3>\${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
+                        <p>\${message}</p>
+                        <div class="custom-modal-actions" style="justify-content: center;">
+                            <button class="custom-modal-btn ok-btn">OK</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const okBtn = overlay.querySelector('.ok-btn');
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                okBtn.onclick = () => {
+                    close();
+                    resolve();
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve();
+                    }
+                };
+            });
+        }
+        window.showCustomAlert = showCustomAlert;
+
+        // Rating & Review submit on Property Detail page
+        let currentPropRating = 0;
+        function setPropertyRating(rating) {
+            currentPropRating = rating;
+            document.getElementById('propertyRatingValue').value = rating;
+            const stars = document.querySelectorAll('.star-input-prop');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.style.color = '#f7c948'; // Gold
+                } else {
+                    star.style.color = '#d1d5db'; // Grey
+                }
+            });
+        }
+        window.setPropertyRating = setPropertyRating;
+
+        function submitPropertyReview(event, bookingId) {
+            event.preventDefault();
+            const rating = document.getElementById('propertyRatingValue').value;
+            const komentar = document.getElementById('propertyReviewKomentar').value;
+
+            if (!rating) {
+                showCustomAlert('Silakan pilih rating bintang terlebih dahulu.', 'danger');
+                return;
+            }
+
+            fetch(`/booking/${bookingId}/review`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    rating: rating,
+                    komentar: komentar
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showCustomAlert(data.message, 'success').then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    showCustomAlert(data.message || 'Gagal mengirim ulasan.', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+                showCustomAlert('Terjadi kesalahan saat mengirim ulasan.', 'danger');
+            });
+        }
+        window.submitPropertyReview = submitPropertyReview;
+
+        // Feedback reply submit on Property Detail page
+        function submitPropertyFeedback(event, reviewId) {
+            event.preventDefault();
+            const text = document.getElementById(`propertyFeedbackText-\${reviewId}`).value;
+
+            if (!text.trim()) {
+                showCustomAlert('Silakan tulis tanggapan terlebih dahulu.', 'danger');
+                return;
+            }
+
+            fetch(`/mitra/review/\${reviewId}/feedback`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    balasan_mitra: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showCustomAlert(data.message, 'success').then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    showCustomAlert(data.message || 'Gagal mengirim tanggapan.', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting feedback:', error);
+                showCustomAlert('Terjadi kesalahan saat mengirim tanggapan.', 'danger');
+            });
+        }
+        window.submitPropertyFeedback = submitPropertyFeedback;
     </script>
 @endsection

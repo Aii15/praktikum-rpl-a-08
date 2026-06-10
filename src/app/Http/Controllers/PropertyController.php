@@ -34,7 +34,17 @@ class PropertyController extends Controller
                 ->exists();
         }
 
-        return view('detail-properti', compact('property', 'avgRating', 'disabledDates', 'isSaved'));
+        $userBookingToReview = null;
+        if (Auth::check() && session('active_role') === 'penyewa') {
+            $userBookingToReview = Booking::where('id_properti', $id)
+                ->where('id_user', Auth::id())
+                ->whereIn('status_booking', ['confirmed', 'completed'])
+                ->whereDoesntHave('review')
+                ->orderBy('created_at', 'desc')
+                ->first();
+        }
+
+        return view('detail-properti', compact('property', 'avgRating', 'disabledDates', 'isSaved', 'userBookingToReview'));
     }
 
     public function book(Request $request, $id)

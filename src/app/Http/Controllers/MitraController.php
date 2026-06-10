@@ -231,7 +231,7 @@ class MitraController extends Controller
     {
         $user = $this->ensureMitra();
 
-        $booking = Booking::with(['property.coverPhoto', 'property.location', 'user'])
+        $booking = Booking::with(['property.coverPhoto', 'property.location', 'user', 'review'])
             ->whereHas('property', function ($query) use ($user) {
                 $query->where('id_mitra', $user->id);
             })
@@ -270,6 +270,14 @@ class MitraController extends Controller
                     'penyewa' => $booking->user->name ?? 'Penyewa Tidak Diketahui',
                     'email_penyewa' => $booking->user->email ?? '-',
                     'no_hp_penyewa' => $booking->user->no_hp ?? '-',
+                    'review' => $booking->review ? [
+                        'id_review' => $booking->review->id_review,
+                        'rating' => $booking->review->rating,
+                        'komentar' => $booking->review->komentar,
+                        'tanggal_review' => \Carbon\Carbon::parse($booking->review->tanggal_review)->format('d/m/Y'),
+                        'balasan_mitra' => $booking->review->balasan_mitra,
+                        'tanggal_balasan' => $booking->review->tanggal_balasan ? \Carbon\Carbon::parse($booking->review->tanggal_balasan)->format('d/m/Y') : null,
+                    ] : null,
                 ]
             ]);
         }
@@ -356,6 +364,48 @@ class MitraController extends Controller
                 'id_booking' => $booking->id_booking,
                 'status_booking' => $booking->status_booking,
                 'status_text' => $status_text,
+            ]
+        ]);
+    }
+
+    /**
+     * Store feedback for a review.
+     */
+    public function storeFeedback(Request $request, $id)
+    {
+        $user = $this->ensureMitra();
+
+        $request->validate([
+            'balasan_mitra' => 'required|string|max:1000',
+        ], [
+            'balasan_mitra.required' => 'Tanggapan wajib diisi.',
+        ]);
+
+        $review = \App\Models\Review::findOrFail($id);
+        $booking = $review->booking;
+
+        if (!$booking || $booking->property->id_mitra !== $user->id) {
+            abort(403, 'Akses ditolak. Anda bukan pemilik properti untuk ulasan ini.');
+        }
+
+        if ($review->balasan_mitra !== null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda sudah memberikan feedback untuk ulasan ini.'
+            ], 400);
+        }
+
+        $review->balasan_mitra = $request->input('balasan_mitra');
+        $review->tanggal_balasan = now();
+        $review->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tanggapan ulasan berhasil dikirim!',
+            'review' => [
+                'id_review' => $review->id_review,
+                'balasan_mitra' => $review->balasan_mitra,
+                'tanggal_balasan' => \Carbon\Carbon::parse($review->tanggal_balasan)->format('d/m/Y'),
             ]
         ]);
     }

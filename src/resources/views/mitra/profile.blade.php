@@ -1591,6 +1591,37 @@
                             Tolak Penyewaan
                         </button>
                     </div>
+
+                    <!-- Review & Feedback Section -->
+                    <div id="detailReviewSection" style="margin-top: 25px; border-top: 1px solid #e5e7eb; padding-top: 20px; display: none;">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">Ulasan Penyewa</h3>
+                        
+                        <div id="tenantReviewContainer" style="display: none;">
+                            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+                                <span id="displayReviewStars" style="font-size: 20px; color: #f7c948; letter-spacing: 2px;"></span>
+                                <span id="displayReviewDate" style="font-size: 12px; color: #6b7280; margin-left: 8px;"></span>
+                            </div>
+                            <p id="displayReviewText" style="font-size: 14px; color: #374151; margin-bottom: 15px; line-height: 1.5; font-style: italic;"></p>
+                            
+                            <!-- Form to Submit Feedback -->
+                            <form id="feedbackForm" style="display: none;" onsubmit="submitFeedback(event)">
+                                <div style="margin-bottom: 15px;">
+                                    <label for="feedbackText" style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Tanggapan Anda</label>
+                                    <textarea id="feedbackText" rows="3" style="width:100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline:none; font-family:'Poppins',sans-serif; resize: vertical;" placeholder="Tulis tanggapan/feedback Anda di sini..."></textarea>
+                                </div>
+                                <button type="submit" style="background:#f7c948; color:#111; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition: background 0.2s; outline:none;">Kirim Tanggapan</button>
+                            </form>
+
+                            <!-- Display Existing Feedback -->
+                            <div id="existingFeedback" style="display: none; background: #f3f4f6; border-radius: 8px; padding: 12px 16px; border-left: 4px solid #f7c948; margin-top: 15px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                                    <span style="font-size: 13px; font-weight: 600; color: #111827;" id="displayFeedbackAuthor"></span>
+                                    <span id="displayFeedbackDate" style="font-size: 11px; color: #6b7280;"></span>
+                                </div>
+                                <p id="displayFeedbackText" style="font-size: 13px; color: #4b5563; margin-bottom: 0; line-height: 1.4;"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1988,6 +2019,49 @@
                         }
                     }
                     
+                    // Handle Review & Feedback Section
+                    const reviewSection = document.getElementById('detailReviewSection');
+                    const tenantReviewContainer = document.getElementById('tenantReviewContainer');
+                    const feedbackForm = document.getElementById('feedbackForm');
+                    const existingFeedback = document.getElementById('existingFeedback');
+                    
+                    if (booking.review) {
+                        reviewSection.style.display = 'block';
+                        tenantReviewContainer.style.display = 'block';
+                        
+                        // Render stars
+                        let starsHtml = '';
+                        for (let i = 1; i <= 5; i++) {
+                            if (i <= booking.review.rating) {
+                                starsHtml += '★';
+                            } else {
+                                starsHtml += '☆';
+                            }
+                        }
+                        document.getElementById('displayReviewStars').textContent = starsHtml;
+                        document.getElementById('displayReviewDate').textContent = booking.review.tanggal_review;
+                        document.getElementById('displayReviewText').textContent = booking.review.komentar || 'Tidak ada komentar tertulis.';
+                        
+                        window.currentReviewId = booking.review.id_review;
+                        
+                        if (booking.review.balasan_mitra) {
+                            feedbackForm.style.display = 'none';
+                            existingFeedback.style.display = 'block';
+                            
+                            document.getElementById('displayFeedbackAuthor').textContent = 'Anda (Pemilik Properti)';
+                            document.getElementById('displayFeedbackDate').textContent = booking.review.tanggal_balasan;
+                            document.getElementById('displayFeedbackText').textContent = booking.review.balasan_mitra;
+                        } else {
+                            feedbackForm.style.display = 'block';
+                            existingFeedback.style.display = 'none';
+                            document.getElementById('feedbackText').value = '';
+                        }
+                    } else {
+                        reviewSection.style.display = 'none';
+                        tenantReviewContainer.style.display = 'none';
+                        window.currentReviewId = null;
+                    }
+                    
                     loader.style.display = 'none';
                     body.style.display = 'block';
                 }
@@ -2000,6 +2074,49 @@
             });
         }
         window.showRentalDetail = showRentalDetail;
+
+        function submitFeedback(event) {
+            event.preventDefault();
+            const text = document.getElementById('feedbackText').value;
+
+            if (!text.trim()) {
+                showCustomAlert('Silakan tulis tanggapan terlebih dahulu.', 'danger');
+                return;
+            }
+
+            const reviewId = window.currentReviewId;
+            if (!reviewId) {
+                showCustomAlert('ID ulasan tidak ditemukan.', 'danger');
+                return;
+            }
+
+            fetch(`/mitra/review/${reviewId}/feedback`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    balasan_mitra: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showCustomAlert(data.message, 'success').then(() => {
+                        showRentalDetail(null, window.currentViewingBookingId, false);
+                    });
+                } else {
+                    showCustomAlert(data.message || 'Gagal mengirim tanggapan.', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting feedback:', error);
+                showCustomAlert('Terjadi kesalahan saat mengirim tanggapan.', 'danger');
+            });
+        }
+        window.submitFeedback = submitFeedback;
 
         // Custom confirmation and alert modals
         function showCustomConfirm(message, actionType = 'confirm') {

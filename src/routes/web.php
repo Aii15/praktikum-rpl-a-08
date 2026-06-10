@@ -33,6 +33,7 @@ Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':penyewa'])-
     Route::get('/riwayat-booking', [UserController::class, 'bookingHistory'])->name('user.booking.history');
     Route::get('/saved-properti', [UserController::class, 'profile'])->name('user.saved');
     Route::get('/detail-riwayat-booking/{id}', [UserController::class, 'bookingDetail'])->name('user.booking.detail');
+    Route::post('/booking/{id}/review', [UserController::class, 'storeReview'])->name('user.booking.review.store');
 });
 
 // Route::view('/profile-mitra', 'profile-mitra');
@@ -99,6 +100,7 @@ Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':mitra'])->g
     Route::get('/riwayat-penyewaan', [MitraController::class, 'bookingHistory'])->name('mitra.bookings');
     Route::get('/detail-riwayat-penyewaan/{id}', [MitraController::class, 'bookingDetail'])->name('mitra.booking.detail');
     Route::post('/detail-riwayat-penyewaan/{id}/status', [MitraController::class, 'updateBookingStatus'])->name('mitra.booking.updateStatus');
+    Route::post('/mitra/review/{id}/feedback', [MitraController::class, 'storeFeedback'])->name('mitra.review.feedback.store');
 
     Route::get('/properti-saya', [MitraController::class, 'properties'])->name('mitra.properties');
     Route::get('/detail-properti-saya/{id}', [MitraController::class, 'propertyDetail'])->name('mitra.property.detail');

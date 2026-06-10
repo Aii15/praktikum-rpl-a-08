@@ -18,6 +18,8 @@ class Review extends Model
         'rating',
         'komentar',
         'tanggal_review',
+        'balasan_mitra',
+        'tanggal_balasan',
     ];
 
     public function booking()
