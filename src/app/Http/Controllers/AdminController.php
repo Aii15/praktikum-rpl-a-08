@@ -53,7 +53,17 @@ class AdminController extends Controller
                 return $booking;
             });
 
-        return view('profile-admin', compact('pendingProperties', 'allProperties', 'bookings'));
+        // 4. All reviews in the system (Kelola Komentar)
+        $reviews = \App\Models\Review::with(['booking.property.coverPhoto', 'booking.user', 'booking.property.mitra'])
+            ->orderByDesc('created_at')
+            ->get();
+
+        // 5. All users in the system (Manajemen Pengguna)
+        $users = \App\Models\User::with('roles')
+            ->orderBy('name')
+            ->get();
+
+        return view('profile-admin', compact('pendingProperties', 'allProperties', 'bookings', 'reviews', 'users'));
     }
 
     /**
@@ -79,5 +89,61 @@ class AdminController extends Controller
         $statusMessage = $property->status_pengajuan === 'approved' ? 'disetujui' : 'ditolak';
 
         return redirect()->route('admin.dashboard')->with('success', "Properti '{$property->nama_properti}' berhasil {$statusMessage}.");
+    }
+
+    /**
+     * Delete a review from the database.
+     */
+    public function deleteReview($id)
+    {
+        $this->ensureAdmin();
+        $review = \App\Models\Review::findOrFail($id);
+        $review->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ulasan berhasil dihapus.'
+        ]);
+    }
+
+    /**
+     * Delete only the Mitra's feedback from a review.
+     */
+    public function deleteFeedback($id)
+    {
+        $this->ensureAdmin();
+        $review = \App\Models\Review::findOrFail($id);
+        $review->balasan_mitra = null;
+        $review->tanggal_balasan = null;
+        $review->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tanggapan mitra berhasil dihapus.'
+        ]);
+    }
+
+    /**
+     * Delete a user account and all their related data from the database.
+     */
+    public function deleteUser($id)
+    {
+        $this->ensureAdmin();
+
+        $currentUser = Auth::user();
+        if ($currentUser->id == $id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda tidak dapat menghapus akun Anda sendiri.'
+            ], 400);
+        }
+
+        $user = \App\Models\User::findOrFail($id);
+        $user->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Akun pengguna '{$user->name}' berhasil dihapus."
+        ]);
     }
 }

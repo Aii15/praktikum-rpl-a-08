@@ -51,8 +51,13 @@ Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':admin'])->g
     Route::get('/admin/pengajuan-properti', [AdminController::class, 'dashboard'])->name('admin.pengajuan');
     Route::get('/admin/riwayat-pemesanan', [AdminController::class, 'dashboard'])->name('admin.riwayat');
     Route::get('/admin/list-properti', [AdminController::class, 'dashboard'])->name('admin.properties');
+    Route::get('/admin/manage-comments', [AdminController::class, 'dashboard'])->name('admin.comments');
+    Route::get('/admin/manage-users', [AdminController::class, 'dashboard'])->name('admin.users');
+    Route::delete('/admin/user/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 
     Route::post('/admin/pengajuan-properti/{id}/review', [AdminController::class, 'reviewProperty'])->name('admin.property.review');
+    Route::delete('/admin/review/{id}', [AdminController::class, 'deleteReview'])->name('admin.review.delete');
+    Route::post('/admin/review/{id}/delete-feedback', [AdminController::class, 'deleteFeedback'])->name('admin.review.deleteFeedback');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
