@@ -3384,7 +3384,7 @@
 
             const mainLabel = document.createElement('div');
             mainLabel.className = 'slot-label';
-            mainLabel.textContent = 'Slot 1: Cover (Utama)';
+            mainLabel.textContent = 'Foto 1: Cover (Utama)';
             mainItem.appendChild(mainLabel);
 
             galleryDiv.appendChild(mainItem);
@@ -3406,7 +3406,7 @@
 
                     const sideLabel = document.createElement('div');
                     sideLabel.className = 'slot-label';
-                    sideLabel.textContent = `Slot ${i + 1}`;
+                    sideLabel.textContent = `Foto ${i + 1}`;
                     sideItem.appendChild(sideLabel);
 
                     sideGallery.appendChild(sideItem);

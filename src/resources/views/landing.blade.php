@@ -29,7 +29,10 @@
 
                     <button class="search-item" onclick="toggleDropdown('priceDropdown', event)" style="display: flex; align-items: center; gap: 10px;">
                         <img src="/images/landing/icons/arrow_sort.svg" alt="Sort" style="width: 26px; height: 26px; object-fit: contain; position: relative; z-index: 10; flex-shrink: 0;">
-                        <strong id="priceValue" style="white-space: nowrap; margin-top: 0; line-height: 1;">{{ $selectedPrice ?? 'All' }}</strong>
+                        <div style="display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 10;">
+                            <span>Harga</span>
+                            <strong id="priceValue" style="white-space: nowrap; margin-top: 0; line-height: 1;">{{ $selectedPrice ?? 'All' }}</strong>
+                        </div>
                     </button>
 
                     <button class="search-button" onclick="searchProperties()">›</button>
