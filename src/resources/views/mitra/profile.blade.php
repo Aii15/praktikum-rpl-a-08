@@ -164,7 +164,7 @@
             color: #222;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
+            border: 3px solid #e5e7eb;
         }
 
         .booking-card:hover {
@@ -252,7 +252,7 @@
             gap: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, .04);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
+            border: 3px solid #e5e7eb;
         }
 
         .property-card:hover {
@@ -563,7 +563,7 @@
             color: #222;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
+            border: 3px solid #e5e7eb;
         }
 
         .status-card:hover {
@@ -1453,7 +1453,7 @@
                     <div id="status-display" class="selected-display">Semua Status</div>
                     <input type="hidden" id="filter-status-value" value="all">
                 </div>
-                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleFilterDropdown('status-dropdown', event)">
+                <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleFilterDropdown('status-dropdown', event)">
                 
                 <div id="status-dropdown" class="dropdown-menu-list">
                     <div class="dropdown-item-row status-item-row" data-val="all" onclick="selectFilterStatus('all', 'Semua Status', event)">
@@ -1481,7 +1481,7 @@
                     <div id="sort-display" class="selected-display">Tanggal Terbaru</div>
                     <input type="hidden" id="filter-sort-value" value="date_desc">
                 </div>
-                <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleFilterDropdown('sort-dropdown', event)">
+                <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleFilterDropdown('sort-dropdown', event)">
                 
                 <div id="sort-dropdown" class="dropdown-menu-list">
                     <div class="dropdown-item-row sort-item-row" data-val="date_desc" onclick="selectFilterSort('date_desc', 'Tanggal Terbaru', event)">
@@ -1701,7 +1701,7 @@
                             </div>
                             <input type="hidden" name="id_kategori" id="kategori-value" value="{{ old('id_kategori') }}" required>
                         </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleKategoriDropdown(event)">
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleKategoriDropdown(event)">
 
                         <div id="kategori-dropdown" class="dropdown-menu-list">
                             @php
@@ -1779,7 +1779,7 @@
                             </div>
                             <input type="hidden" name="fasilitas" id="fasilitas-value" value="{{ old('fasilitas') }}">
                         </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleFasilitasDropdown(event)">
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleFasilitasDropdown(event)">
 
                         <div id="fasilitas-dropdown" class="dropdown-menu-list">
                             @php

@@ -244,7 +244,7 @@
             gap: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, .04);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
+            border: 3px solid #e5e7eb;
             width: 100%;
         }
 
@@ -784,8 +784,6 @@
             margin-bottom: 30px;
         }
         .stats-item-card {
-            background: #f9fafb;
-            border: 2px solid transparent;
             border-radius: 14px;
             padding: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.04);
@@ -793,22 +791,61 @@
             flex-direction: column;
             gap: 8px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid transparent;
+        }
+        .stats-item-card.blue {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+        .stats-item-card.green {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+        .stats-item-card.orange {
+            background: #fffbeb;
+            border-color: #fef08a;
         }
         .stats-item-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            border-color: #f7c948;
+        }
+        .stats-item-card.blue:hover {
             background: #ffffff;
+            border-color: #3b82f6;
+        }
+        .stats-item-card.green:hover {
+            background: #ffffff;
+            border-color: #22c55e;
+        }
+        .stats-item-card.orange:hover {
+            background: #ffffff;
+            border-color: #eab308;
         }
         .stats-item-card h4 {
             font-size: 14px;
-            color: #6b7280;
-            font-weight: 500;
+            font-weight: 600;
+        }
+        .stats-item-card.blue h4 {
+            color: #1e40af;
+        }
+        .stats-item-card.green h4 {
+            color: #166534;
+        }
+        .stats-item-card.orange h4 {
+            color: #854d0e;
         }
         .stats-item-card .stats-value {
             font-size: 32px;
             font-weight: 700;
-            color: #111827;
+        }
+        .stats-item-card.blue .stats-value {
+            color: #1d4ed8;
+        }
+        .stats-item-card.green .stats-value {
+            color: #15803d;
+        }
+        .stats-item-card.orange .stats-value {
+            color: #b45309;
         }
         .stats-detail-grid {
             display: grid;
@@ -817,10 +854,17 @@
         }
         .stats-detail-section {
             background: #f9fafb;
-            border: 1px solid #e5e7eb;
+            border: 3px solid #e5e7eb;
             border-radius: 14px;
             padding: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stats-detail-section:hover {
+            border-color: #cbd5e1;
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
         }
         .stats-detail-title {
             font-size: 16px;
@@ -1014,7 +1058,7 @@
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; position: relative; z-index: 20;">
                             <button id="btn-reset-booking-date" style="display: none; background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; outline: none; font-family: 'Poppins', sans-serif;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'" onclick="resetBookingDateFilter(event)">Reset</button>
-                            <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                            <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon">
                         </div>
                     </div>
 
@@ -1025,7 +1069,7 @@
                             <div id="booking-status-display" class="selected-display">Semua Status</div>
                             <input type="hidden" id="filter-booking-status-value" value="all">
                         </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleBookingsDropdown('booking-status-dropdown', event)">
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleBookingsDropdown('booking-status-dropdown', event)">
                         
                         <div id="booking-status-dropdown" class="dropdown-menu-list">
                             <div class="dropdown-item-row booking-status-item-row" data-val="all" onclick="selectBookingStatusFilter('all', 'Semua Status', event)">
@@ -1143,7 +1187,7 @@
                             <div id="rating-display" class="selected-display">Semua Rating</div>
                             <input type="hidden" id="filter-rating-value" value="all">
                         </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleCommentsDropdown('rating-dropdown', event)">
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleCommentsDropdown('rating-dropdown', event)">
                         
                         <div id="rating-dropdown" class="dropdown-menu-list">
                             <div class="dropdown-item-row rating-item-row" data-val="all" onclick="selectCommentsRating('all', 'Semua Rating', event)">
@@ -1166,7 +1210,7 @@
                             <div id="time-display" class="selected-display">Terbaru</div>
                             <input type="hidden" id="filter-time-value" value="newest">
                         </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleCommentsDropdown('time-dropdown', event)">
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleCommentsDropdown('time-dropdown', event)">
                         
                         <div id="time-dropdown" class="dropdown-menu-list">
                             <div class="dropdown-item-row time-item-row" data-val="newest" onclick="selectCommentsTime('newest', 'Terbaru', event)">
@@ -1281,7 +1325,7 @@
                             <div id="user-role-display" class="selected-display">Semua Peran</div>
                             <input type="hidden" id="filter-user-role-value" value="all">
                         </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon" onclick="toggleUsersDropdown('user-role-dropdown', event)">
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleUsersDropdown('user-role-dropdown', event)">
                         
                         <div id="user-role-dropdown" class="dropdown-menu-list">
                             <div class="dropdown-item-row user-role-item-row" data-val="all" onclick="selectUserRoleFilter('all', 'Semua Peran', event)">
@@ -1374,15 +1418,15 @@
 
                 <!-- Main Metric Cards -->
                 <div class="stats-grid">
-                    <div class="stats-item-card">
+                    <div class="stats-item-card blue">
                         <h4>Total Pengguna</h4>
                         <div class="stats-value">{{ $stats['total_users'] }}</div>
                     </div>
-                    <div class="stats-item-card">
+                    <div class="stats-item-card green">
                         <h4>Total Pemesanan</h4>
                         <div class="stats-value">{{ $stats['total_bookings'] }}</div>
                     </div>
-                    <div class="stats-item-card">
+                    <div class="stats-item-card orange">
                         <h4>Total Properti</h4>
                         <div class="stats-value">{{ $stats['total_properties'] }}</div>
                     </div>
