@@ -1106,163 +1106,145 @@
             box-shadow: 0 6px 16px rgba(247, 201, 72, 0.3);
         }
 
-        /* --- Interactive Photo Upload Adjuster --- */
-        .photo-control-list {
+        /* --- Sub-step 2A: Upload List Styles --- */
+        .photo-upload-list {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
             margin-top: 15px;
             width: 100%;
         }
-        .photo-control-card {
+        .upload-item-card {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 8px;
-            gap: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 3px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 12px;
+            gap: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             min-width: 0;
         }
-        .photo-control-thumb {
-            width: 70px;
-            height: 70px;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-            flex-shrink: 0;
-            border: 1px solid #d1d5db;
+        .upload-item-card:hover {
+            border-color: #f7c948;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(247, 201, 72, 0.08);
         }
-        .photo-control-thumb img {
+        .upload-item-thumb {
+            width: 100%;
+            aspect-ratio: 16/10;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1.5px solid #e5e7eb;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .upload-item-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            object-position: center center;
         }
-        .photo-control-info {
-            flex: 1;
+        .upload-item-info {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
             min-width: 0;
         }
-        .photo-control-title {
+        .upload-item-title {
             font-size: 13px;
             font-weight: 600;
             color: #111827;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 2px;
+            gap: 6px;
             min-width: 0;
-            width: 100%;
         }
-        .photo-control-filename {
+        .upload-item-filename {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-            width: 100%;
             display: block;
-        }
-        .badge-cover {
-            background: #fef3c7;
-            color: #d97706;
-            font-size: 10px;
-            padding: 1px 4px;
-            border-radius: 3px;
-            border: 1px solid #fcd34d;
-            font-weight: 500;
-            width: fit-content;
-        }
-        .badge-secondary {
-            background: #f3f4f6;
-            color: #4b5563;
-            font-size: 10px;
-            padding: 1px 4px;
-            border-radius: 3px;
-            border: 1px solid #e5e7eb;
-            font-weight: 500;
-            width: fit-content;
-        }
-        .crop-adjuster {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            color: #4b5563;
-            margin-top: 2px;
             width: 100%;
-        }
-        .crop-slider {
-            flex: 1;
-            accent-color: #f59e0b;
-            height: 4px;
-            border-radius: 2px;
-            background: #e5e7eb;
-            cursor: pointer;
             min-width: 0;
         }
-        .photo-control-actions {
+        .upload-item-actions {
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-            align-items: flex-end;
-            flex-shrink: 0;
-        }
-        .btn-action {
-            background: #f3f4f6;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            padding: 2px 6px;
-            font-size: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.15s ease;
-            display: flex;
+            gap: 8px;
             align-items: center;
-            justify-content: center;
-            color: #374151;
-            line-height: 1;
-        }
-        .btn-action:hover {
-            background: #e5e7eb;
-        }
-        .btn-delete {
-            background: #fee2e2;
-            border-color: #fca5a5;
-            color: #dc2626 !important;
-        }
-        .btn-delete:hover {
-            background: #fecaca;
-        }
-        
-        /* Mock Gallery Layout Preview */
-        .preview-gallery-container {
-            margin-top: 30px;
-            border-top: 1px solid #e5e7eb;
-            padding-top: 20px;
             width: 100%;
+            justify-content: flex-end;
+            border-top: 1.5px solid #f3f4f6;
+            padding-top: 10px;
+            margin-top: auto;
+        }
+
+        /* --- Sub-step 2B: Sticky Wide Preview --- */
+        .sticky-preview-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            background: #ffffff;
+            padding: 10px 0 20px 0;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+        .preview-gallery-container {
+            width: 100%;
+            background: #f9fafb;
+            border: 3px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: all 0.25s ease;
         }
         .preview-gallery-container h3 {
             font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #374151;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #111827;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 8px;
+        }
+        .btn-back-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            color: #4b5563;
+            border: 1.5px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-back-arrow:hover {
+            background: #f7c948;
+            color: #111111;
+            border-color: #f7c948;
+            transform: translateX(-2px);
+            box-shadow: 0 4px 10px rgba(247, 201, 72, 0.2);
         }
         .mock-gallery {
             display: grid;
-            grid-template-columns: 1.35fr 1fr;
+            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
             gap: 10px;
-            margin-top: 15px;
             width: 100%;
+            height: 180px; /* Reduced vertical height for compact wide proportions */
         }
         .mock-gallery-item {
             position: relative;
             overflow: hidden;
             border-radius: 8px;
             background: #f3f4f6;
-            border: 1px solid #e5e7eb;
+            border: 1.5px solid #e5e7eb;
+            height: 100%;
+            min-width: 0; /* Prevent grid items from expanding past tracks */
+            min-height: 0;
         }
         .mock-gallery-item img {
             width: 100%;
@@ -1271,35 +1253,44 @@
             display: block;
         }
         .mock-main-item {
-            height: 220px;
+            height: 100%;
         }
         .mock-side-gallery {
             display: grid;
             gap: 10px;
+            height: 100%;
+            min-width: 0; /* Prevent sub-grid track expansion */
+            min-height: 0;
+        }
+        .mock-gallery-2 .mock-side-gallery {
+            grid-template-columns: minmax(0, 1fr);
         }
         .mock-gallery-2 .mock-side-gallery .mock-gallery-item {
-            height: 220px;
+            height: 100%;
         }
         .mock-gallery-3 .mock-side-gallery {
-            grid-template-columns: 1fr;
+            grid-template-rows: repeat(2, minmax(0, 1fr));
+            grid-template-columns: minmax(0, 1fr);
         }
         .mock-gallery-3 .mock-side-gallery .mock-gallery-item {
-            height: 105px;
+            height: 100%;
         }
         .mock-gallery-4 .mock-side-gallery {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
         .mock-gallery-4 .mock-side-gallery .mock-gallery-item {
-            height: 105px;
+            height: 100%;
         }
         .mock-gallery-4 .mock-side-gallery .mock-gallery-item:first-child {
             grid-column: span 2;
         }
         .mock-gallery-5 .mock-side-gallery {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-rows: repeat(2, minmax(0, 1fr));
         }
         .mock-gallery-5 .mock-side-gallery .mock-gallery-item {
-            height: 105px;
+            height: 100%;
         }
         .slot-label {
             position: absolute;
@@ -1313,6 +1304,243 @@
             font-weight: 500;
             pointer-events: none;
         }
+
+        /* --- Interactive Crop Adjuster Cards --- */
+        /* --- Sub-step 2B: Crop Table Styles --- */
+        .crop-table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+        .crop-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+        .crop-table th {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4b5563;
+            text-align: left;
+            padding: 8px 16px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .crop-table td {
+            background: #ffffff;
+            border-top: 3px solid #e5e7eb;
+            border-bottom: 3px solid #e5e7eb;
+            padding: 12px 16px;
+            vertical-align: middle;
+        }
+        .crop-table td:first-child {
+            border-left: 3px solid #e5e7eb;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            width: 90px;
+        }
+        .crop-table td:last-child {
+            border-right: 3px solid #e5e7eb;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .crop-table tr:hover td {
+            border-color: #f7c948;
+            background: #fffdf5;
+        }
+        .crop-table tr:hover td:first-child {
+            border-left-color: #f7c948;
+        }
+        .crop-table tr:hover td:last-child {
+            border-right-color: #f7c948;
+        }
+        .crop-table-thumb {
+            width: 60px;
+            height: 40px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1.5px solid #e5e7eb;
+            position: relative;
+        }
+        .crop-table-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center !important;
+            display: block;
+        }
+        .crop-table-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            max-width: 240px;
+        }
+        .crop-table-filename {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+        }
+        .badge-cover {
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #fcd34d;
+            font-weight: 600;
+            width: fit-content;
+        }
+        .badge-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+            font-weight: 600;
+            width: fit-content;
+        }
+        .crop-table-adjuster {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .crop-table-slider-cell {
+            width: 220px;
+        }
+        .crop-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            outline: none;
+            transition: background 0.15s ease;
+            cursor: pointer;
+            min-width: 0;
+        }
+        .crop-slider:hover {
+            background: #cbd5e1;
+        }
+        .crop-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f7c948;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(247, 201, 72, 0.4);
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+        .crop-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #e2b434;
+        }
+        .crop-slider::-webkit-slider-thumb:active {
+            transform: scale(0.95);
+            background: #d97706;
+        }
+        .crop-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f7c948;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(247, 201, 72, 0.4);
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+        .crop-slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            background: #e2b434;
+        }
+        .crop-slider::-moz-range-thumb:active {
+            transform: scale(0.95);
+            background: #d97706;
+        }
+        .photo-control-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+        .btn-action {
+            background: #f3f4f6;
+            border: 1.5px solid #d1d5db;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #374151;
+            line-height: 1;
+        }
+        .btn-action:hover {
+            background: #e5e7eb;
+            border-color: #9ca3af;
+            transform: scale(1.05);
+        }
+        .btn-delete {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #dc2626 !important;
+        }
+        .btn-delete:hover {
+            background: #fecaca;
+            border-color: #fca5a5;
+        }
+
+        /* --- Sidebar Collapse Transition --- */
+        .profile-page {
+            transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1), gap 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .sidebar {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding-right 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .content {
+            transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .mock-gallery {
+            transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .crop-table-slider-cell {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        
+        .profile-page.sidebar-collapsed {
+            grid-template-columns: 0px 1fr !important;
+            gap: 0px !important;
+        }
+        .profile-page.sidebar-collapsed .sidebar {
+            transform: translateX(-380px) !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            padding-right: 0 !important;
+            border-right-color: transparent !important;
+        }
+        .profile-page.sidebar-collapsed .content {
+            max-width: 100% !important;
+        }
+        .profile-page.sidebar-collapsed .mock-gallery {
+            height: 240px !important;
+        }
+        .profile-page.sidebar-collapsed .crop-table-slider-cell {
+            width: 320px !important;
+        }
+        
     </style>
 @endsection
 
@@ -1675,7 +1903,15 @@
 
     <!-- SECTION 4: TAMBAH PROPERTI -->
     <div id="section-tambah-properti" class="content-section">
-        <h1 id="form-title">Tambah Properti</h1>
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 28px;">
+            <button type="button" id="btn-back-crop-top" class="btn-back-arrow" onclick="goToSubStep('upload')" title="Kembali ke Upload" style="display: none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <h1 id="form-title" style="margin: 0; margin-bottom: 0 !important; letter-spacing: 0.5px;">Tambah Properti</h1>
+        </div>
 
         <form action="{{ route('mitra.property.store') }}" method="POST" enctype="multipart/form-data" id="propertyForm">
             @csrf
@@ -1822,13 +2058,14 @@
                 </div>
             </div>
 
-            <!-- STEP 2: UPLOAD FOTO -->
+            <!-- STEP 2: TAMBAH FOTO PROPERTI -->
             <div id="step-2" class="form-step" style="display: none;">
-                <div class="form-list">
-                    
+                
+                <!-- SUB-STEP 2A: UPLOAD FOTO -->
+                <div id="sub-step-upload" class="form-list">
                     <div class="field-card">
                         <div class="field-text">
-                            <small>Tambah Foto (Maksimal 5 Foto)</small>
+                            <small>Unggah File Foto (Minimal 2, Maksimal 5 Foto)</small>
                             <span id="photo-count-label" style="font-size: 15px; font-weight: 500; color: #222; margin-top: 2px;">Belum ada foto terpilih</span>
                         </div>
                         <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
@@ -1842,25 +2079,57 @@
                     </div>
 
                     <div id="hidden-positions-container"></div>
-                    <div id="preview-notice-banner" style="display: none; justify-content: space-between; align-items: center; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-top: 15px; margin-bottom: 5px;">
-                        <span>💡 Geser slider Crop Horiz & Vert untuk memposisikan gambar.</span>
-                        <a href="#previewGalleryContainer" onclick="scrollToPreview(event)" style="color: #2563eb; text-decoration: underline; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                            Lihat Live Preview 👇
-                        </a>
+                    
+                    <!-- Upload list showing files with reorder arrows and delete action -->
+                    <div class="photo-upload-list" id="uploadPhotoList"></div>
+                    
+                    <div class="btn-container">
+                        <button type="button" class="btn-back" onclick="goToStep(1)">Kembali</button>
+                        <button type="button" class="btn-next" id="btn-to-crop" onclick="goToSubStep('crop')" disabled style="opacity: 0.5; cursor: not-allowed;">
+                            <span>Atur Posisi Gambar</span>
+                            <img src="/images/profile/next.png" alt="Next" style="width: 16px; height: 16px;">
+                        </button>
                     </div>
-                    <div class="photo-control-list" id="photoControlList"></div>
-
-                    <div class="preview-gallery-container" id="previewGalleryContainer" style="display: none;">
-                        <h3>Live Layout Preview</h3>
-                        <div id="liveLayoutGallery"></div>
-                    </div>
-
                 </div>
 
-                <div class="btn-container">
-                    <button type="button" class="btn-back" onclick="goToStep(1)">Kembali</button>
-                    <button type="submit" class="btn-submit">Ajukan Properti</button>
+                <!-- SUB-STEP 2B: ATUR CROP / POSISI -->
+                <div id="sub-step-crop" class="form-list" style="display: none;">
+                    <div class="sticky-preview-wrapper">
+                        <div class="preview-gallery-container" id="previewGalleryContainer">
+                            <h3 style="margin-bottom: 10px;">Live Layout Preview</h3>
+                            <div id="liveLayoutGallery"></div>
+                        </div>
+                    </div>
+
+                    <div class="field-card">
+                        <div class="field-text">
+                            <small>Sesuaikan Thumbnail</small>
+                            <span style="font-size: 14px; font-weight: 500; color: #666; margin-top: 2px;">Geser slider untuk memposisikan bagian tengah gambar yang ingin ditampilkan pada mockup layout di atas.</span>
+                        </div>
+                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
+                    </div>
+
+                    <!-- Photo control list showing horizontal/vertical sliders (table layout) -->
+                    <div class="crop-table-container">
+                        <table class="crop-table">
+                            <thead>
+                                <tr>
+                                    <th>Gambar</th>
+                                    <th>Informasi</th>
+                                    <th>Posisi Horiz (X)</th>
+                                    <th>Posisi Vert (Y)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="photoControlList"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="btn-container">
+                        <button type="button" class="btn-back" onclick="goToSubStep('upload')">Kembali ke Upload</button>
+                        <button type="submit" class="btn-submit">Ajukan Properti</button>
+                    </div>
                 </div>
+
             </div>
 
         </form>
@@ -1958,6 +2227,16 @@
             if (isDetail) {
                 const id = isDetail[1];
                 showRentalDetail(null, id, false);
+            }
+
+            // Restore sidebar whenever page changes in router
+            const profilePage = document.querySelector('.profile-page');
+            if (profilePage) {
+                profilePage.classList.remove('sidebar-collapsed');
+            }
+            const btnBackCropTop = document.getElementById('btn-back-crop-top');
+            if (btnBackCropTop) {
+                btnBackCropTop.style.display = 'none';
             }
         }
         window.navigateTo = navigateTo;
@@ -2651,6 +2930,54 @@
         }
 
         // STEP NAVIGATION
+        let activeSubStep = 'upload';
+
+        function goToSubStep(subStep) {
+            const stepUpload = document.getElementById('sub-step-upload');
+            const stepCrop = document.getElementById('sub-step-crop');
+            const profilePage = document.querySelector('.profile-page');
+            if (!stepUpload || !stepCrop) return;
+
+            if (subStep === 'crop') {
+                if (selectedFiles.length < 2) {
+                    showProfileToast('Minimal 2 foto wajib diunggah untuk mengatur posisi.');
+                    return;
+                }
+                activeSubStep = 'crop';
+                stepUpload.style.display = 'none';
+                stepCrop.style.display = 'flex';
+                renderLiveLayoutPreview();
+                
+                // Hide sidebar with animation
+                if (profilePage) {
+                    profilePage.classList.add('sidebar-collapsed');
+                }
+                const btnBackCropTop = document.getElementById('btn-back-crop-top');
+                if (btnBackCropTop) {
+                    btnBackCropTop.style.display = 'inline-flex';
+                }
+            } else {
+                activeSubStep = 'upload';
+                stepUpload.style.display = 'flex';
+                stepCrop.style.display = 'none';
+                
+                // Restore sidebar
+                if (profilePage) {
+                    profilePage.classList.remove('sidebar-collapsed');
+                }
+                const btnBackCropTop = document.getElementById('btn-back-crop-top');
+                if (btnBackCropTop) {
+                    btnBackCropTop.style.display = 'none';
+                }
+            }
+            
+            // Scroll to the form section top seamlessly
+            const targetSec = document.getElementById('section-tambah-properti');
+            if (targetSec) {
+                targetSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         function goToStep(step) {
             const step1 = document.getElementById('step-1');
             const step2 = document.getElementById('step-2');
@@ -2696,10 +3023,23 @@
                 step1.style.display = 'none';
                 step2.style.display = 'block';
                 document.getElementById('form-title').textContent = 'Tambah Foto Properti';
+                
+                // Default to upload sub-step
+                goToSubStep('upload');
             } else {
                 step1.style.display = 'block';
                 step2.style.display = 'none';
                 document.getElementById('form-title').textContent = 'Tambah Properti';
+                
+                // Restore sidebar when leaving step 2
+                const profilePage = document.querySelector('.profile-page');
+                if (profilePage) {
+                    profilePage.classList.remove('sidebar-collapsed');
+                }
+                const btnBackCropTop = document.getElementById('btn-back-crop-top');
+                if (btnBackCropTop) {
+                    btnBackCropTop.style.display = 'none';
+                }
             }
         }
 
@@ -2707,11 +3047,12 @@
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('property-images');
         const countLabel = document.getElementById('photo-count-label');
+        const uploadPhotoList = document.getElementById('uploadPhotoList');
         const photoControlList = document.getElementById('photoControlList');
         const previewGalleryContainer = document.getElementById('previewGalleryContainer');
         const liveLayoutGallery = document.getElementById('liveLayoutGallery');
         const hiddenPositionsContainer = document.getElementById('hidden-positions-container');
-        let selectedFiles = []; // Array of { file: File, positionY: number, previewUrl: string }
+        let selectedFiles = []; // Array of { file: File, positionX: number, positionY: number, previewUrl: string }
 
         if (dropzone) {
             dropzone.addEventListener('dragover', (e) => {
@@ -2755,7 +3096,7 @@
         }
 
         function updateFormInputsAndPreviews() {
-            if (!fileInput || !countLabel || !photoControlList || !previewGalleryContainer || !liveLayoutGallery || !hiddenPositionsContainer) return;
+            if (!fileInput || !countLabel || !hiddenPositionsContainer) return;
             
             // Sync files list to input field
             const dt = new DataTransfer();
@@ -2779,170 +3120,232 @@
                 countLabel.textContent = 'Belum ada foto terpilih (Minimal 2, Maksimal 5)';
             }
 
-            // Render photo control list
-            photoControlList.innerHTML = '';
-            selectedFiles.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'photo-control-card';
-
-                // Thumb preview
-                const thumb = document.createElement('div');
-                thumb.className = 'photo-control-thumb';
-                const img = document.createElement('img');
-                img.src = item.previewUrl;
-                img.style.objectPosition = `${item.positionX || 50}% ${item.positionY || 50}%`;
-                img.id = `preview-thumb-img-${index}`;
-                thumb.appendChild(img);
-                card.appendChild(thumb);
-
-                // Information & Crop Adjuster
-                const info = document.createElement('div');
-                info.className = 'photo-control-info';
-
-                const title = document.createElement('div');
-                title.className = 'photo-control-title';
-                
-                const filenameSpan = document.createElement('span');
-                filenameSpan.className = 'photo-control-filename';
-                filenameSpan.textContent = item.file.name;
-                filenameSpan.title = item.file.name;
-                title.appendChild(filenameSpan);
-
-                const badge = document.createElement('span');
-                if (index === 0) {
-                    badge.className = 'badge-cover';
-                    badge.textContent = 'Foto Utama (Cover)';
+            // Sync navigation button disabled state in Upload Stage
+            const btnToCrop = document.getElementById('btn-to-crop');
+            if (btnToCrop) {
+                if (selectedFiles.length >= 2) {
+                    btnToCrop.disabled = false;
+                    btnToCrop.style.opacity = '1';
+                    btnToCrop.style.cursor = 'pointer';
                 } else {
-                    badge.className = 'badge-secondary';
-                    badge.textContent = `Foto Detail #${index + 1}`;
+                    btnToCrop.disabled = true;
+                    btnToCrop.style.opacity = '0.5';
+                    btnToCrop.style.cursor = 'not-allowed';
                 }
-                title.appendChild(badge);
-                info.appendChild(title);
+            }
 
-                // Horizontal slider
-                const adjusterX = document.createElement('div');
-                adjusterX.className = 'crop-adjuster';
-                const labelX = document.createElement('span');
-                labelX.textContent = 'Horiz:';
-                labelX.style.width = '35px';
-                const sliderX = document.createElement('input');
-                sliderX.type = 'range';
-                sliderX.className = 'crop-slider';
-                sliderX.min = '0';
-                sliderX.max = '100';
-                sliderX.value = item.positionX || 50;
-                
-                const valDisplayX = document.createElement('span');
-                valDisplayX.style.width = '30px';
-                valDisplayX.style.textAlign = 'right';
-                valDisplayX.textContent = `${sliderX.value}%`;
+            // If we are currently in crop step but photo count drops below 2, automatically fallback to upload sub-step
+            if (activeSubStep === 'crop' && selectedFiles.length < 2) {
+                goToSubStep('upload');
+            }
 
-                // Vertical slider
-                const adjusterY = document.createElement('div');
-                adjusterY.className = 'crop-adjuster';
-                const labelY = document.createElement('span');
-                labelY.textContent = 'Vert:';
-                labelY.style.width = '35px';
-                const sliderY = document.createElement('input');
-                sliderY.type = 'range';
-                sliderY.className = 'crop-slider';
-                sliderY.min = '0';
-                sliderY.max = '100';
-                sliderY.value = item.positionY || 50;
-                
-                const valDisplayY = document.createElement('span');
-                valDisplayY.style.width = '30px';
-                valDisplayY.style.textAlign = 'right';
-                valDisplayY.textContent = `${sliderY.value}%`;
+            // 1. Render Sub-step 2A Upload List
+            if (uploadPhotoList) {
+                uploadPhotoList.innerHTML = '';
+                selectedFiles.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'upload-item-card';
 
-                function updateImagePositions() {
-                    const valX = sliderX.value;
-                    const valY = sliderY.value;
-                    item.positionX = valX;
-                    item.positionY = valY;
-                    valDisplayX.textContent = `${valX}%`;
-                    valDisplayY.textContent = `${valY}%`;
+                    // Thumb preview
+                    const thumb = document.createElement('div');
+                    thumb.className = 'upload-item-thumb';
+                    const img = document.createElement('img');
+                    img.src = item.previewUrl;
+                    thumb.appendChild(img);
+                    card.appendChild(thumb);
+
+                    // Information
+                    const info = document.createElement('div');
+                    info.className = 'upload-item-info';
+
+                    const title = document.createElement('div');
+                    title.className = 'upload-item-title';
                     
-                    const posStr = `${valX}% ${valY}%`;
+                    const filenameSpan = document.createElement('span');
+                    filenameSpan.className = 'upload-item-filename';
+                    filenameSpan.textContent = item.file.name;
+                    filenameSpan.title = item.file.name;
+                    title.appendChild(filenameSpan);
+
+                    const badge = document.createElement('span');
+                    if (index === 0) {
+                        badge.className = 'badge-cover';
+                        badge.textContent = 'Foto Utama (Cover)';
+                    } else {
+                        badge.className = 'badge-secondary';
+                        badge.textContent = `Foto Detail #${index + 1}`;
+                    }
+                    title.appendChild(badge);
+                    info.appendChild(title);
+                    card.appendChild(info);
+
+                    // Reordering & deletion actions
+                    const actions = document.createElement('div');
+                    actions.className = 'upload-item-actions';
+
+                    if (index > 0) {
+                        const btnUp = document.createElement('button');
+                        btnUp.type = 'button';
+                        btnUp.className = 'btn-action';
+                        btnUp.textContent = '◀';
+                        btnUp.title = 'Pindahkan Ke Kiri';
+                        btnUp.onclick = () => swapFiles(index, index - 1);
+                        actions.appendChild(btnUp);
+                    }
+
+                    if (index < selectedFiles.length - 1) {
+                        const btnDown = document.createElement('button');
+                        btnDown.type = 'button';
+                        btnDown.className = 'btn-action';
+                        btnDown.textContent = '▶';
+                        btnDown.title = 'Pindahkan Ke Kanan';
+                        btnDown.onclick = () => swapFiles(index, index + 1);
+                        actions.appendChild(btnDown);
+                    }
+
+                    const btnDel = document.createElement('button');
+                    btnDel.type = 'button';
+                    btnDel.className = 'btn-action btn-delete';
+                    btnDel.textContent = 'Hapus';
+                    btnDel.onclick = () => removeFile(index);
+                    actions.appendChild(btnDel);
+
+                    card.appendChild(actions);
+                    uploadPhotoList.appendChild(card);
+                });
+            }
+
+            // 2. Render Sub-step 2B Crop Controls List (Table Rows)
+            if (photoControlList) {
+                photoControlList.innerHTML = '';
+                selectedFiles.forEach((item, index) => {
+                    const row = document.createElement('tr');
+
+                    // 1. Thumbnail cell
+                    const tdThumb = document.createElement('td');
+                    const thumb = document.createElement('div');
+                    thumb.className = 'crop-table-thumb';
+                    const img = document.createElement('img');
+                    img.src = item.previewUrl;
+                    img.id = `preview-thumb-img-${index}`;
+                    thumb.appendChild(img);
+                    tdThumb.appendChild(thumb);
+                    row.appendChild(tdThumb);
+
+                    // 2. Info cell
+                    const tdInfo = document.createElement('td');
+                    const info = document.createElement('div');
+                    info.className = 'crop-table-info';
                     
-                    // Update preview thumbnail live
-                    if (img) {
-                        img.style.objectPosition = posStr;
+                    const filenameSpan = document.createElement('span');
+                    filenameSpan.className = 'crop-table-filename';
+                    filenameSpan.textContent = item.file.name;
+                    filenameSpan.title = item.file.name;
+                    info.appendChild(filenameSpan);
+
+                    const badge = document.createElement('span');
+                    if (index === 0) {
+                        badge.className = 'badge-cover';
+                        badge.textContent = 'Foto Utama (Cover)';
+                    } else {
+                        badge.className = 'badge-secondary';
+                        badge.textContent = `Foto Detail #${index + 1}`;
                     }
+                    info.appendChild(badge);
+                    tdInfo.appendChild(info);
+                    row.appendChild(tdInfo);
+
+                    // 3. Horizontal Slider cell
+                    const tdSliderX = document.createElement('td');
+                    tdSliderX.className = 'crop-table-slider-cell';
+                    const adjusterX = document.createElement('div');
+                    adjusterX.className = 'crop-table-adjuster';
                     
-                    // Update layout preview live if it is rendering
-                    const galleryImg = document.getElementById(`gallery-img-${index}`);
-                    if (galleryImg) {
-                        galleryImg.style.objectPosition = posStr;
+                    const sliderX = document.createElement('input');
+                    sliderX.type = 'range';
+                    sliderX.className = 'crop-slider';
+                    sliderX.min = '0';
+                    sliderX.max = '100';
+                    sliderX.value = item.positionX || 50;
+                    
+                    const valDisplayX = document.createElement('span');
+                    valDisplayX.style.width = '30px';
+                    valDisplayX.style.textAlign = 'right';
+                    valDisplayX.style.fontSize = '12px';
+                    valDisplayX.style.fontWeight = '600';
+                    valDisplayX.style.color = '#4b5563';
+                    valDisplayX.textContent = `${sliderX.value}%`;
+
+                    adjusterX.appendChild(sliderX);
+                    adjusterX.appendChild(valDisplayX);
+                    tdSliderX.appendChild(adjusterX);
+                    row.appendChild(tdSliderX);
+
+                    // 4. Vertical Slider cell
+                    const tdSliderY = document.createElement('td');
+                    tdSliderY.className = 'crop-table-slider-cell';
+                    const adjusterY = document.createElement('div');
+                    adjusterY.className = 'crop-table-adjuster';
+                    
+                    const sliderY = document.createElement('input');
+                    sliderY.type = 'range';
+                    sliderY.className = 'crop-slider';
+                    sliderY.min = '0';
+                    sliderY.max = '100';
+                    sliderY.value = item.positionY || 50;
+                    
+                    const valDisplayY = document.createElement('span');
+                    valDisplayY.style.width = '30px';
+                    valDisplayY.style.textAlign = 'right';
+                    valDisplayY.style.fontSize = '12px';
+                    valDisplayY.style.fontWeight = '600';
+                    valDisplayY.style.color = '#4b5563';
+                    valDisplayY.textContent = `${sliderY.value}%`;
+
+                    adjusterY.appendChild(sliderY);
+                    adjusterY.appendChild(valDisplayY);
+                    tdSliderY.appendChild(adjusterY);
+                    row.appendChild(tdSliderY);
+
+                    function updateImagePositions() {
+                        const valX = sliderX.value;
+                        const valY = sliderY.value;
+                        item.positionX = valX;
+                        item.positionY = valY;
+                        valDisplayX.textContent = `${valX}%`;
+                        valDisplayY.textContent = `${valY}%`;
+                        
+                        const posStr = `${valX}% ${valY}%`;
+                        
+                        // Update layout preview live (mock gallery image position shifts, thumbnail is locked via CSS)
+                        const galleryImg = document.getElementById(`gallery-img-${index}`);
+                        if (galleryImg) {
+                            galleryImg.style.objectPosition = posStr;
+                        }
+
+                        // Update corresponding hidden input value
+                        if (hiddenPositionsContainer && hiddenPositionsContainer.children && hiddenPositionsContainer.children[index]) {
+                            hiddenPositionsContainer.children[index].value = posStr;
+                        }
                     }
 
-                    // Update corresponding hidden input value
-                    if (hiddenPositionsContainer && hiddenPositionsContainer.children && hiddenPositionsContainer.children[index]) {
-                        hiddenPositionsContainer.children[index].value = posStr;
+                    sliderX.oninput = updateImagePositions;
+                    sliderY.oninput = updateImagePositions;
+
+                    photoControlList.appendChild(row);
+                });
+            }
+
+            // 3. Update/Toggle Live Layout Preview visibility
+            if (previewGalleryContainer) {
+                if (selectedFiles.length >= 2) {
+                    previewGalleryContainer.style.display = 'block';
+                    if (activeSubStep === 'crop') {
+                        renderLiveLayoutPreview();
                     }
+                } else {
+                    previewGalleryContainer.style.display = 'none';
                 }
-
-                sliderX.oninput = updateImagePositions;
-                sliderY.oninput = updateImagePositions;
-
-                adjusterX.appendChild(labelX);
-                adjusterX.appendChild(sliderX);
-                adjusterX.appendChild(valDisplayX);
-                info.appendChild(adjusterX);
-
-                adjusterY.appendChild(labelY);
-                adjusterY.appendChild(sliderY);
-                adjusterY.appendChild(valDisplayY);
-                info.appendChild(adjusterY);
-
-                card.appendChild(info);
-
-                // Action buttons (Prev, Next, Delete)
-                const actions = document.createElement('div');
-                actions.className = 'photo-control-actions';
-
-                if (index > 0) {
-                    const btnUp = document.createElement('button');
-                    btnUp.type = 'button';
-                    btnUp.className = 'btn-action';
-                    btnUp.textContent = '◀';
-                    btnUp.title = 'Pindahkan ke Sebelumnya';
-                    btnUp.onclick = () => swapFiles(index, index - 1);
-                    actions.appendChild(btnUp);
-                }
-
-                if (index < selectedFiles.length - 1) {
-                    const btnDown = document.createElement('button');
-                    btnDown.type = 'button';
-                    btnDown.className = 'btn-action';
-                    btnDown.textContent = '▶';
-                    btnDown.title = 'Pindahkan ke Berikutnya';
-                    btnDown.onclick = () => swapFiles(index, index + 1);
-                    actions.appendChild(btnDown);
-                }
-
-                const btnDel = document.createElement('button');
-                btnDel.type = 'button';
-                btnDel.className = 'btn-action btn-delete';
-                btnDel.textContent = 'Hapus';
-                btnDel.onclick = () => removeFile(index);
-                actions.appendChild(btnDel);
-
-                card.appendChild(actions);
-                photoControlList.appendChild(card);
-            });
-
-            // Render Live Layout Preview (Only if there are at least 2 images)
-            if (selectedFiles.length >= 2) {
-                previewGalleryContainer.style.display = 'block';
-                const banner = document.getElementById('preview-notice-banner');
-                if (banner) banner.style.display = 'flex';
-                renderLiveLayoutPreview();
-            } else {
-                previewGalleryContainer.style.display = 'none';
-                const banner = document.getElementById('preview-notice-banner');
-                if (banner) banner.style.display = 'none';
-                liveLayoutGallery.innerHTML = '';
             }
         }
 
