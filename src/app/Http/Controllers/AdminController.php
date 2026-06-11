@@ -63,7 +63,26 @@ class AdminController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('profile-admin', compact('pendingProperties', 'allProperties', 'bookings', 'reviews', 'users'));
+        // 6. Statistics counters (Statistik)
+        $stats = [
+            'total_users' => \App\Models\User::count(),
+            'total_tenants' => \App\Models\User::whereHas('roles', function($q) { $q->where('name', 'penyewa'); })->count(),
+            'total_owners' => \App\Models\User::whereHas('roles', function($q) { $q->where('name', 'mitra'); })->count(),
+            'total_admins' => \App\Models\User::whereHas('roles', function($q) { $q->where('name', 'admin'); })->count(),
+            
+            'total_properties' => Property::count(),
+            'approved_properties' => Property::where('status_pengajuan', 'approved')->count(),
+            'pending_properties' => Property::where('status_pengajuan', 'pending')->count(),
+            'rejected_properties' => Property::where('status_pengajuan', 'rejected')->count(),
+            
+            'total_bookings' => Booking::count(),
+            'pending_bookings' => Booking::where('status_booking', 'pending')->count(),
+            'confirmed_bookings' => Booking::where('status_booking', 'confirmed')->count(),
+            'completed_bookings' => Booking::where('status_booking', 'completed')->count(),
+            'rejected_bookings' => Booking::where('status_booking', 'rejected')->count(),
+        ];
+
+        return view('profile-admin', compact('pendingProperties', 'allProperties', 'bookings', 'reviews', 'users', 'stats'));
     }
 
     /**
