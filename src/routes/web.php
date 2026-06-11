@@ -53,6 +53,7 @@ Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':admin'])->g
     Route::get('/admin/list-properti', [AdminController::class, 'dashboard'])->name('admin.properties');
     Route::get('/admin/manage-comments', [AdminController::class, 'dashboard'])->name('admin.comments');
     Route::get('/admin/manage-users', [AdminController::class, 'dashboard'])->name('admin.users');
+    Route::get('/admin/stats', [AdminController::class, 'dashboard'])->name('admin.stats');
     Route::delete('/admin/user/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 
     Route::post('/admin/pengajuan-properti/{id}/review', [AdminController::class, 'reviewProperty'])->name('admin.property.review');

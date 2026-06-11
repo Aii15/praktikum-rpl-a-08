@@ -775,6 +775,77 @@
         .dropdown-item-row:hover {
             background: #f3f4f6;
         }
+
+        /* Statistics Panel Styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stats-item-card {
+            background: #f9fafb;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stats-item-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-color: #f7c948;
+            background: #ffffff;
+        }
+        .stats-item-card h4 {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .stats-item-card .stats-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .stats-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .stats-detail-section {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .stats-detail-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 8px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e5e7eb;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        .stats-row:last-child {
+            border-bottom: none;
+        }
+        .stats-row strong {
+            color: #111827;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -809,6 +880,11 @@
                     <a href="/admin/manage-users" id="menu-manage-users" class="menu-item">
                         <img src="/icons/members.svg" class="menu-icon" alt="Manajemen Pengguna">
                         <span>Manajemen Pengguna</span>
+                    </a>
+
+                    <a href="/admin/stats" id="menu-stats" class="menu-item">
+                        <img src="/icons/stats_icon.svg" class="menu-icon" alt="Statistik">
+                        <span>Statistik</span>
                     </a>
                 </nav>
             </div>
@@ -1291,6 +1367,85 @@
                     @endforelse
                 </div>
             </div>
+
+            <!-- SECTION 7: STATISTIK -->
+            <div id="section-stats" class="content-section">
+                <h1>Statistik</h1>
+
+                <!-- Main Metric Cards -->
+                <div class="stats-grid">
+                    <div class="stats-item-card">
+                        <h4>Total Pengguna</h4>
+                        <div class="stats-value">{{ $stats['total_users'] }}</div>
+                    </div>
+                    <div class="stats-item-card">
+                        <h4>Total Pemesanan</h4>
+                        <div class="stats-value">{{ $stats['total_bookings'] }}</div>
+                    </div>
+                    <div class="stats-item-card">
+                        <h4>Total Properti</h4>
+                        <div class="stats-value">{{ $stats['total_properties'] }}</div>
+                    </div>
+                </div>
+
+                <!-- Detailed Breakdown Sections -->
+                <div class="stats-detail-grid">
+                    <!-- Detail Pengguna -->
+                    <div class="stats-detail-section">
+                        <div class="stats-detail-title">Detail Peran Pengguna</div>
+                        <div class="stats-row">
+                            <span>Admin</span>
+                            <strong>{{ $stats['total_admins'] }}</strong>
+                        </div>
+                        <div class="stats-row">
+                            <span>Mitra (Pemilik Properti)</span>
+                            <strong>{{ $stats['total_owners'] }}</strong>
+                        </div>
+                        <div class="stats-row">
+                            <span>Penyewa</span>
+                            <strong>{{ $stats['total_tenants'] }}</strong>
+                        </div>
+                    </div>
+
+                    <!-- Detail Properti -->
+                    <div class="stats-detail-section">
+                        <div class="stats-detail-title">Detail Status Properti</div>
+                        <div class="stats-row">
+                            <span>Disetujui (Approved)</span>
+                            <strong>{{ $stats['approved_properties'] }}</strong>
+                        </div>
+                        <div class="stats-row">
+                            <span>Menunggu (Pending)</span>
+                            <strong>{{ $stats['pending_properties'] }}</strong>
+                        </div>
+                        <div class="stats-row">
+                            <span>Ditolak (Rejected)</span>
+                            <strong>{{ $stats['rejected_properties'] }}</strong>
+                        </div>
+                    </div>
+
+                    <!-- Detail Pemesanan -->
+                    <div class="stats-detail-section">
+                        <div class="stats-detail-title">Detail Status Pemesanan</div>
+                        <div class="stats-row">
+                            <span>Selesai (Completed)</span>
+                            <strong>{{ $stats['completed_bookings'] }}</strong>
+                        </div>
+                        <div class="stats-row">
+                            <span>Disetujui (Confirmed)</span>
+                            <strong>{{ $stats['confirmed_bookings'] }}</strong>
+                        </div>
+                        <div class="stats-row">
+                            <span>Menunggu (Pending)</span>
+                            <strong>{{ $stats['pending_bookings'] }}</strong>
+                        </div>
+                        <div class="stats-row">
+                            <span>Ditolak (Rejected)</span>
+                            <strong>{{ $stats['rejected_bookings'] }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
@@ -1316,6 +1471,7 @@
             const menuListProperti = document.getElementById('menu-list-properti');
             const menuManageComments = document.getElementById('menu-manage-comments');
             const menuManageUsers = document.getElementById('menu-manage-users');
+            const menuStats = document.getElementById('menu-stats');
             const cardPengajuanProperti = document.getElementById('card-pengajuan-properti');
             const cardRiwayatPemesanan = document.getElementById('card-riwayat-pemesanan');
             const kembaliPengajuan = document.getElementById('kembali-pengajuan');
@@ -1327,7 +1483,8 @@
                 { path: '/admin/riwayat-pemesanan', sectionId: 'section-riwayat-pemesanan', title: 'Riwayat Pemesanan - SpotRent', menuEl: menuLogAktivitas },
                 { path: '/admin/list-properti', sectionId: 'section-list-properti', title: 'List Properti - SpotRent', menuEl: menuListProperti },
                 { path: '/admin/manage-comments', sectionId: 'section-manage-comments', title: 'Kelola Komentar - SpotRent', menuEl: menuManageComments },
-                { path: '/admin/manage-users', sectionId: 'section-manage-users', title: 'Manajemen Pengguna - SpotRent', menuEl: menuManageUsers }
+                { path: '/admin/manage-users', sectionId: 'section-manage-users', title: 'Manajemen Pengguna - SpotRent', menuEl: menuManageUsers },
+                { path: '/admin/stats', sectionId: 'section-stats', title: 'Statistik - SpotRent', menuEl: menuStats }
             ];
 
             function navigateTo(path, pushState = true) {
@@ -1390,6 +1547,12 @@
                 menuManageUsers.addEventListener('click', function(e) {
                     e.preventDefault();
                     navigateTo('/admin/manage-users');
+                });
+            }
+            if (menuStats) {
+                menuStats.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/admin/stats');
                 });
             }
             if (cardPengajuanProperti) {
