@@ -59,5 +59,9 @@
         // ID booking global yang diteruskan dari server untuk pemuatan langsung
         window.activeBookingId = @json($activeBookingId ?? null);
     </script>
+    <script src="{{ asset('js/mitra/rental.js') }}"></script>
+    <script src="{{ asset('js/mitra/property.js') }}"></script>
+    <script src="{{ asset('js/mitra/image-upload.js') }}"></script>
+    <script src="{{ asset('js/mitra/profile-validation.js') }}"></script>
     <script src="{{ asset('js/profile-mitra.js') }}"></script>
 @endsection
