@@ -217,9 +217,14 @@ class MitraController extends Controller
             return back()->with('error', 'Properti tidak dapat dihapus karena sudah pernah dibooking oleh user.');
         }
 
+        $status = $property->status_pengajuan;
         $property->delete();
 
-        return back()->with('success', 'Properti berhasil dihapus.');
+        if ($status === 'pending' || $status === 'rejected') {
+            return redirect()->route('mitra.status')->with('success', 'Pengajuan properti berhasil dibatalkan.');
+        }
+
+        return redirect()->route('mitra.properties')->with('success', 'Properti berhasil dihapus.');
     }
 
     public function applicationStatus()
@@ -252,6 +257,8 @@ class MitraController extends Controller
                 $status_text = 'Disetujui / Aktif';
             } elseif ($booking->status_booking === 'completed') {
                 $status_text = 'Transaksi Selesai';
+            } elseif ($booking->status_booking === 'cancelled') {
+                $status_text = 'Dibatalkan oleh Penyewa';
             } else {
                 $status_text = 'Ditolak';
             }

@@ -1753,6 +1753,8 @@
                         <div class="status success">Disetujui</div>
                     @elseif($booking->status_booking === 'completed')
                         <div class="status completed">Selesai</div>
+                    @elseif($booking->status_booking === 'cancelled')
+                        <div class="status danger" style="background:#fee2e2;color:#991b1b;">Dibatalkan</div>
                     @else
                         <div class="status danger">Ditolak</div>
                     @endif

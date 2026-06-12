@@ -108,7 +108,9 @@ class UserController extends Controller
                     'status_booking' => $booking->status_booking,
                     'status_pembayaran' => in_array($booking->status_booking, ['confirmed', 'completed']) 
                         ? 'Lunas' 
-                        : ($booking->status_booking === 'pending' ? 'Menunggu Konfirmasi' : 'Booking Ditolak'),
+                        : ($booking->status_booking === 'pending' 
+                            ? 'Menunggu Konfirmasi' 
+                            : ($booking->status_booking === 'cancelled' ? 'Dibatalkan' : 'Booking Ditolak')),
                     'total_price_formatted' => 'Rp ' . number_format($booking->total_price, 0, ',', '.'),
                     'rentang_hari' => $booking->rentang_hari,
                     'nama_properti' => $booking->property->nama_properti ?? '',
@@ -192,6 +194,29 @@ class UserController extends Controller
                 'rating' => $review->rating,
                 'komentar' => $review->komentar,
                 'tanggal_review' => \Carbon\Carbon::parse($review->tanggal_review)->format('d/m/Y'),
+            ]
+        ]);
+    }
+
+    /**
+     * Cancel a pending booking.
+     */
+    public function cancelBooking($id)
+    {
+        $user = Auth::user();
+        $booking = Booking::where('id_user', $user->id)
+            ->where('status_booking', 'pending')
+            ->findOrFail($id);
+
+        $booking->status_booking = 'cancelled';
+        $booking->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Booking Anda berhasil dibatalkan.',
+            'booking' => [
+                'id_booking' => $booking->id_booking,
+                'status_booking' => $booking->status_booking,
             ]
         ]);
     }

@@ -33,6 +33,7 @@ Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':penyewa'])-
     Route::get('/riwayat-booking', [UserController::class, 'bookingHistory'])->name('user.booking.history');
     Route::get('/saved-properti', [UserController::class, 'profile'])->name('user.saved');
     Route::get('/detail-riwayat-booking/{id}', [UserController::class, 'bookingDetail'])->name('user.booking.detail');
+    Route::post('/booking/{id}/cancel', [UserController::class, 'cancelBooking'])->name('user.booking.cancel');
     Route::post('/booking/{id}/review', [UserController::class, 'storeReview'])->name('user.booking.review.store');
 });
 

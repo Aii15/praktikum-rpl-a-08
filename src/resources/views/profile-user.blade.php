@@ -763,6 +763,8 @@
                                 <div class="status success">Disetujui</div>
                             @elseif($booking->status_booking === 'completed')
                                 <div class="status completed">Selesai</div>
+                            @elseif($booking->status_booking === 'cancelled')
+                                <div class="status" style="background:#fee2e2;color:#991b1b;">Dibatalkan</div>
                             @else
                                 <div class="status" style="background:#fee2e2;color:#991b1b;">Ditolak</div>
                             @endif
@@ -849,6 +851,13 @@
                             </div>
 
                             <span id="detailStatusBadge" class="booking-status"></span>
+
+                            <!-- Cancel Booking Section -->
+                            <div id="bookingCancelSection" style="margin-top: 20px; display: none;">
+                                <button type="button" onclick="confirmCancelBooking()" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; transition: background 0.2s; outline: none; font-family: 'Poppins', sans-serif;">
+                                    Batalkan Booking
+                                </button>
+                            </div>
 
                             <!-- Review Section -->
                             <div id="detailReviewSection" style="margin-top: 25px; border-top: 1px solid #e5e7eb; padding-top: 20px; display: none;">
@@ -994,6 +1003,7 @@
                     if (booking.status_booking === 'pending') statusLabel = 'Pending';
                     else if (booking.status_booking === 'confirmed') statusLabel = 'Disetujui';
                     else if (booking.status_booking === 'completed') statusLabel = 'Selesai';
+                    else if (booking.status_booking === 'cancelled') statusLabel = 'Dibatalkan';
                     
                     document.getElementById('detailStatusBooking').textContent = statusLabel;
                     document.getElementById('detailStatusPembayaran').textContent = booking.status_pembayaran;
@@ -1011,6 +1021,16 @@
                         statusBadge.className = 'booking-status completed';
                     } else {
                         statusBadge.className = 'booking-status danger';
+                    }
+
+                    // Handle Cancel Booking Section
+                    const cancelSection = document.getElementById('bookingCancelSection');
+                    if (cancelSection) {
+                        if (booking.status_booking === 'pending') {
+                            cancelSection.style.display = 'block';
+                        } else {
+                            cancelSection.style.display = 'none';
+                        }
                     }
                     
                     // Handle Review Display & Form
@@ -1234,6 +1254,109 @@
                 navigateTo(path, false);
             });
         });
+
+        function showCustomConfirm(message, actionType = 'confirm') {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'custom-modal-overlay';
+                
+                let confirmBtnStyle = 'background: #f7c948; color: #111111;';
+                if (actionType === 'danger') {
+                    confirmBtnStyle = 'background: #e11d48; color: #ffffff;';
+                }
+                
+                overlay.innerHTML = `
+                    <div class="custom-modal-box">
+                        <div class="custom-modal-icon ${actionType === 'danger' ? 'danger' : 'success'}">
+                            ${actionType === 'danger' ? '!' : '?'}
+                        </div>
+                        <h3>Konfirmasi</h3>
+                        <p>${message}</p>
+                        <div class="custom-modal-actions" style="display: flex; gap: 12px; justify-content: center;">
+                            <button class="custom-modal-btn cancel-btn" style="background: #f3f4f6; color: #374151; border: 1px solid #d1d5db;">Batal</button>
+                            <button class="custom-modal-btn confirm-btn" style="${confirmBtnStyle}">Ya, Lanjutkan</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                const cancelBtn = overlay.querySelector('.cancel-btn');
+                const confirmBtn = overlay.querySelector('.confirm-btn');
+                
+                function close() {
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 300);
+                }
+                
+                cancelBtn.onclick = () => {
+                    close();
+                    resolve(false);
+                };
+                
+                confirmBtn.onclick = () => {
+                    close();
+                    resolve(true);
+                };
+                
+                overlay.onclick = (e) => {
+                    if (e.target === overlay) {
+                        close();
+                        resolve(false);
+                    }
+                };
+            });
+        }
+
+        async function confirmCancelBooking() {
+            const bookingId = window.currentDetailBookingId;
+            if (!bookingId) return;
+
+            const confirmed = await showCustomConfirm('Apakah Anda yakin ingin membatalkan booking ini?', 'danger');
+            if (!confirmed) return;
+
+            fetch(`/booking/${bookingId}/cancel`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showCustomAlert(data.message, 'success').then(() => {
+                        // Refresh booking details
+                        showBookingDetail(null, bookingId, false);
+                        
+                        // Also update status inside the list of bookings on the left side
+                        const card = document.querySelector(`.booking-card[href*="/detail-riwayat-booking/${bookingId}"]`);
+                        if (card) {
+                            const statusDiv = card.querySelector('.status');
+                            if (statusDiv) {
+                                statusDiv.className = 'status';
+                                statusDiv.style.cssText = 'background:#fee2e2;color:#991b1b;';
+                                statusDiv.textContent = 'Dibatalkan';
+                            }
+                        }
+                    });
+                } else {
+                    showCustomAlert(data.message || 'Gagal membatalkan booking.', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error cancelling booking:', error);
+                showCustomAlert('Terjadi kesalahan saat membatalkan booking.', 'danger');
+            });
+        }
+        window.confirmCancelBooking = confirmCancelBooking;
 
         function searchBookings() {
             const query = document.getElementById('searchInput').value.toLowerCase();
