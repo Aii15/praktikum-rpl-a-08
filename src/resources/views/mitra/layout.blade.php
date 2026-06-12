@@ -96,6 +96,10 @@
             }
         });
     </script>
+    <!-- Global JS Helpers -->
+    <script src="{{ asset('js/modal-helpers.js') }}"></script>
+    <script src="{{ asset('js/spa-router.js') }}"></script>
+
     @yield('scripts')
 </body>
 

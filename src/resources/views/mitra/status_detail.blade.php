@@ -267,64 +267,7 @@
 
 @section('scripts')
     <script>
-        function showCustomConfirm(message, actionType = 'confirm') {
-            return new Promise((resolve) => {
-                const overlay = document.createElement('div');
-                overlay.className = 'custom-modal-overlay';
-                
-                let confirmBtnStyle = 'background: #f7c948; color: #111111;';
-                if (actionType === 'danger') {
-                    confirmBtnStyle = 'background: #e11d48; color: #ffffff;';
-                }
-                
-                overlay.innerHTML = `
-                    <div class="custom-modal-box">
-                        <div class="custom-modal-icon ${actionType === 'danger' ? 'danger' : 'success'}">
-                            ${actionType === 'danger' ? '!' : '?'}
-                        </div>
-                        <h3>Konfirmasi</h3>
-                        <p>${message}</p>
-                        <div class="custom-modal-actions" style="display: flex; gap: 12px; justify-content: center;">
-                            <button class="custom-modal-btn cancel-btn" style="background: #f3f4f6; color: #374151; border: 1px solid #d1d5db;">Batal</button>
-                            <button class="custom-modal-btn confirm-btn" style="${confirmBtnStyle}">Ya, Lanjutkan</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(overlay);
-                
-                setTimeout(() => {
-                    overlay.classList.add('active');
-                }, 10);
-                
-                const cancelBtn = overlay.querySelector('.cancel-btn');
-                const confirmBtn = overlay.querySelector('.confirm-btn');
-                
-                function close() {
-                    overlay.classList.remove('active');
-                    setTimeout(() => {
-                        overlay.remove();
-                    }, 300);
-                }
-                
-                cancelBtn.onclick = () => {
-                    close();
-                    resolve(false);
-                };
-                
-                confirmBtn.onclick = () => {
-                    close();
-                    resolve(true);
-                };
-                
-                overlay.onclick = (e) => {
-                    if (e.target === overlay) {
-                        close();
-                        resolve(false);
-                    }
-                };
-            });
-        }
+
 
         async function confirmCancelProperty() {
             const confirmed = await showCustomConfirm('Apakah Anda yakin ingin membatalkan pengajuan properti ini?', 'danger');

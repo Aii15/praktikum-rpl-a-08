@@ -8,6 +8,8 @@
     <link rel="icon" href="/images/logo.png" type="image/png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="{{ asset('js/modal-helpers.js') }}"></script>
+    <script src="{{ asset('js/spa-router.js') }}"></script>
 
     <link rel="stylesheet" href="{{ asset('css/dashboard-shared.css') }}">
     <link rel="stylesheet" href="{{ asset('css/profile-user-custom.css') }}">
@@ -88,59 +90,7 @@
         // Global booking ID passed from server for direct loads
         window.activeBookingId = @json($activeBookingId ?? null);
 
-        // Define functions globally so they are hoisted and available everywhere
-        function navigateTo(path, pushState = true) {
-            const menuTentangSaya = document.getElementById('menu-tentang-saya');
-            const menuRiwayatBooking = document.getElementById('menu-riwayat-booking');
-            const menuSavedProperti = document.getElementById('menu-saved-properti');
-            const menuRiwayatTransaksi = document.getElementById('menu-riwayat-transaksi');
 
-            const menuItems = [
-                { path: '/profile-user', sectionId: 'section-tentang-saya', title: 'Profile User - SpotRent', menuEl: menuTentangSaya },
-                { path: '/riwayat-booking', sectionId: 'section-riwayat-booking', title: 'Riwayat Booking - SpotRent', menuEl: menuRiwayatBooking },
-                { path: '/saved-properti', sectionId: 'section-saved-properti', title: 'Saved Properti - SpotRent', menuEl: menuSavedProperti },
-                { path: '/riwayat-transaksi', sectionId: 'section-riwayat-transaksi', title: 'Riwayat Transaksi - SpotRent', menuEl: menuRiwayatTransaksi },
-                { path: '/detail-riwayat-booking', sectionId: 'section-detail-booking', title: 'Detail Booking - SpotRent', menuEl: menuRiwayatBooking }
-            ];
-
-            let isDetail = path.match(/^\/detail-riwayat-booking\/(\d+)$/);
-            let matchedPath = isDetail ? '/detail-riwayat-booking' : path;
-
-            let matched = menuItems.find(item => item.path === matchedPath);
-            if (!matched) {
-                matched = menuItems[0];
-            }
-
-            menuItems.forEach(item => {
-                const sec = document.getElementById(item.sectionId);
-                if (sec) {
-                    if (item === matched) {
-                        sec.style.display = 'block';
-                        sec.offsetHeight; // force reflow
-                        sec.classList.add('active');
-                        if (item.menuEl) item.menuEl.classList.add('active');
-                    } else {
-                        sec.classList.remove('active');
-                        sec.style.display = 'none';
-                        if (item.menuEl && item.menuEl !== matched.menuEl) {
-                            item.menuEl.classList.remove('active');
-                        }
-                    }
-                }
-            });
-
-            document.title = matched.title;
-
-            if (pushState) {
-                history.pushState({ path: path }, '', path);
-            }
-
-            if (isDetail) {
-                const id = isDetail[1];
-                showBookingDetail(null, id, false);
-            }
-        }
-        window.navigateTo = navigateTo;
 
         function showBookingDetail(event, id, shouldPushState = true) {
             if (event) event.preventDefault();
@@ -284,54 +234,7 @@
         }
         window.setRating = setRating;
 
-        // Custom Alert Modal Function
-        function showCustomAlert(message, alertType = 'success') {
-            return new Promise((resolve) => {
-                const overlay = document.createElement('div');
-                overlay.className = 'custom-modal-overlay';
-                
-                overlay.innerHTML = `
-                    <div class="custom-modal-box">
-                        <div class="custom-modal-icon ${alertType}">
-                            ${alertType === 'success' ? '✓' : '!'}
-                        </div>
-                        <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
-                        <p>${message}</p>
-                        <div class="custom-modal-actions" style="justify-content: center;">
-                            <button class="custom-modal-btn ok-btn">OK</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(overlay);
-                
-                setTimeout(() => {
-                    overlay.classList.add('active');
-                }, 10);
-                
-                const okBtn = overlay.querySelector('.ok-btn');
-                
-                function close() {
-                    overlay.classList.remove('active');
-                    setTimeout(() => {
-                        overlay.remove();
-                    }, 300);
-                }
-                
-                okBtn.onclick = () => {
-                    close();
-                    resolve();
-                };
-                
-                overlay.onclick = (e) => {
-                    if (e.target === overlay) {
-                        close();
-                        resolve();
-                    }
-                };
-            });
-        }
-        window.showCustomAlert = showCustomAlert;
+
 
         function submitReview(event) {
             event.preventDefault();
@@ -393,33 +296,36 @@
             const menuSavedProperti = document.getElementById('menu-saved-properti');
             const menuRiwayatTransaksi = document.getElementById('menu-riwayat-transaksi');
 
-            if (menuTentangSaya) {
-                menuTentangSaya.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/profile-user');
-                });
-            }
+            const routes = [
+                { path: '/profile-user', sectionId: 'section-tentang-saya', title: 'Profile User - SpotRent', menuEl: menuTentangSaya },
+                { path: '/riwayat-booking', sectionId: 'section-riwayat-booking', title: 'Riwayat Booking - SpotRent', menuEl: menuRiwayatBooking },
+                { path: '/saved-properti', sectionId: 'section-saved-properti', title: 'Saved Properti - SpotRent', menuEl: menuSavedProperti },
+                { path: '/riwayat-transaksi', sectionId: 'section-riwayat-transaksi', title: 'Riwayat Transaksi - SpotRent', menuEl: menuRiwayatTransaksi },
+                { path: '/detail-riwayat-booking', regex: /^\/detail-riwayat-booking\/(\d+)$/, sectionId: 'section-detail-booking', title: 'Detail Booking - SpotRent', menuEl: menuRiwayatBooking }
+            ];
 
-            if (menuRiwayatBooking) {
-                menuRiwayatBooking.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/riwayat-booking');
-                });
-            }
+            SPARouter.init(routes, routes[0], (path, matched, params) => {
+                if (matched.path === '/detail-riwayat-booking' || matched.regex) {
+                    const id = params ? params[0] : path.match(/^\/detail-riwayat-booking\/(\d+)$/)[1];
+                    showBookingDetail(null, id, false);
+                }
+            });
 
-            if (menuSavedProperti) {
-                menuSavedProperti.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/saved-properti');
-                });
-            }
+            const menuItems = [
+                { el: menuTentangSaya, path: '/profile-user' },
+                { el: menuRiwayatBooking, path: '/riwayat-booking' },
+                { el: menuSavedProperti, path: '/saved-properti' },
+                { el: menuRiwayatTransaksi, path: '/riwayat-transaksi' }
+            ];
 
-            if (menuRiwayatTransaksi) {
-                menuRiwayatTransaksi.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/riwayat-transaksi');
-                });
-            }
+            menuItems.forEach(item => {
+                if (item.el) {
+                    item.el.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        navigateTo(item.path);
+                    });
+                }
+            });
 
             // Initial load check (could be loaded with activeBookingId from server)
             const currentPath = window.location.pathname;
@@ -428,72 +334,9 @@
             } else {
                 navigateTo(currentPath, false);
             }
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', function(e) {
-                const path = (e.state && e.state.path) ? e.state.path : window.location.pathname;
-                navigateTo(path, false);
-            });
         });
 
-        function showCustomConfirm(message, actionType = 'confirm') {
-            return new Promise((resolve) => {
-                const overlay = document.createElement('div');
-                overlay.className = 'custom-modal-overlay';
-                
-                let confirmBtnStyle = 'background: #f7c948; color: #111111;';
-                if (actionType === 'danger') {
-                    confirmBtnStyle = 'background: #e11d48; color: #ffffff;';
-                }
-                
-                overlay.innerHTML = `
-                    <div class="custom-modal-box">
-                        <div class="custom-modal-icon ${actionType === 'danger' ? 'danger' : 'success'}">
-                            ${actionType === 'danger' ? '!' : '?'}
-                        </div>
-                        <h3>Konfirmasi</h3>
-                        <p>${message}</p>
-                        <div class="custom-modal-actions" style="display: flex; gap: 12px; justify-content: center;">
-                            <button class="custom-modal-btn cancel-btn" style="background: #f3f4f6; color: #374151; border: 1px solid #d1d5db;">Batal</button>
-                            <button class="custom-modal-btn confirm-btn" style="${confirmBtnStyle}">Ya, Lanjutkan</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(overlay);
-                
-                setTimeout(() => {
-                    overlay.classList.add('active');
-                }, 10);
-                
-                const cancelBtn = overlay.querySelector('.cancel-btn');
-                const confirmBtn = overlay.querySelector('.confirm-btn');
-                
-                function close() {
-                    overlay.classList.remove('active');
-                    setTimeout(() => {
-                        overlay.remove();
-                    }, 300);
-                }
-                
-                cancelBtn.onclick = () => {
-                    close();
-                    resolve(false);
-                };
-                
-                confirmBtn.onclick = () => {
-                    close();
-                    resolve(true);
-                };
-                
-                overlay.onclick = (e) => {
-                    if (e.target === overlay) {
-                        close();
-                        resolve(false);
-                    }
-                };
-            });
-        }
+
 
         async function confirmCancelBooking() {
             const bookingId = window.currentDetailBookingId;

@@ -283,111 +283,7 @@
         }
         window.submitFeedback = submitFeedback;
 
-        // Custom confirmation and alert modals
-        function showCustomConfirm(message, actionType = 'confirm') {
-            return new Promise((resolve) => {
-                const overlay = document.createElement('div');
-                overlay.className = 'custom-modal-overlay';
-                
-                let btnClass = 'confirm-btn-primary';
-                if (actionType === 'success') btnClass = 'confirm-btn-success';
-                if (actionType === 'danger') btnClass = 'confirm-btn-danger';
-                
-                overlay.innerHTML = `
-                    <div class="custom-modal-box">
-                        <div class="custom-modal-icon ${actionType}">
-                            ${actionType === 'danger' ? '!' : '?'}
-                        </div>
-                        <h3>Konfirmasi</h3>
-                        <p>${message}</p>
-                        <div class="custom-modal-actions">
-                            <button class="custom-modal-btn cancel-btn">Batal</button>
-                            <button class="custom-modal-btn ${btnClass}">Ya, Lanjutkan</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(overlay);
-                
-                setTimeout(() => {
-                    overlay.classList.add('active');
-                }, 10);
-                
-                const cancelBtn = overlay.querySelector('.cancel-btn');
-                const confirmBtn = overlay.querySelector(`.${btnClass}`);
-                
-                function close() {
-                    overlay.classList.remove('active');
-                    setTimeout(() => {
-                        overlay.remove();
-                    }, 300);
-                }
-                
-                cancelBtn.onclick = () => {
-                    close();
-                    resolve(false);
-                };
-                
-                confirmBtn.onclick = () => {
-                    close();
-                    resolve(true);
-                };
-                
-                overlay.onclick = (e) => {
-                    if (e.target === overlay) {
-                        close();
-                        resolve(false);
-                    }
-                };
-            });
-        }
 
-        function showCustomAlert(message, alertType = 'success') {
-            return new Promise((resolve) => {
-                const overlay = document.createElement('div');
-                overlay.className = 'custom-modal-overlay';
-                
-                overlay.innerHTML = `
-                    <div class="custom-modal-box">
-                        <div class="custom-modal-icon ${alertType}">
-                            ${alertType === 'success' ? '✓' : '!'}
-                        </div>
-                        <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
-                        <p>${message}</p>
-                        <div class="custom-modal-actions" style="justify-content: center;">
-                            <button class="custom-modal-btn ok-btn">OK</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(overlay);
-                
-                setTimeout(() => {
-                    overlay.classList.add('active');
-                }, 10);
-                
-                const okBtn = overlay.querySelector('.ok-btn');
-                
-                function close() {
-                    overlay.classList.remove('active');
-                    setTimeout(() => {
-                        overlay.remove();
-                    }, 300);
-                }
-                
-                okBtn.onclick = () => {
-                    close();
-                    resolve();
-                };
-                
-                overlay.onclick = (e) => {
-                    if (e.target === overlay) {
-                        close();
-                        resolve();
-                    }
-                };
-            });
-        }
 
         async function updateBookingStatus(status) {
             const bookingId = window.currentViewingBookingId;
@@ -487,6 +383,33 @@
             const menuTambahProperti = document.getElementById('menu-tambah-properti');
             const menuStatusPengajuan = document.getElementById('menu-status-pengajuan');
 
+            const routes = [
+                { path: '/profile-mitra', sectionId: 'section-tentang-saya', title: 'Profile Mitra - SpotRent', menuEl: menuTentangSaya },
+                { path: '/riwayat-penyewaan', sectionId: 'section-riwayat-penyewaan', title: 'Riwayat Penyewaan - SpotRent', menuEl: menuRiwayatPenyewaan },
+                { path: '/properti-saya', sectionId: 'section-properti-saya', title: 'Properti Saya - SpotRent', menuEl: menuPropertiSaya },
+                { path: '/tambah-properti', sectionId: 'section-tambah-properti', title: 'Tambah Properti - SpotRent', menuEl: menuTambahProperti },
+                { path: '/status-pengajuan', sectionId: 'section-status-pengajuan', title: 'Status Pengajuan - SpotRent', menuEl: menuStatusPengajuan },
+                { path: '/detail-riwayat-penyewaan', regex: /^\/detail-riwayat-penyewaan\/(\d+)$/, sectionId: 'section-detail-penyewaan', title: 'Detail Penyewaan - SpotRent', menuEl: menuRiwayatPenyewaan }
+            ];
+
+            SPARouter.init(routes, routes[0], (path, matched, params) => {
+                if (matched.path === '/detail-riwayat-penyewaan' || matched.regex) {
+                    const id = params ? params[0] : path.match(/^\/detail-riwayat-penyewaan\/(\d+)$/)[1];
+                    showRentalDetail(null, id, false);
+                }
+                
+                // Restore sidebar whenever page changes in router
+                const profilePage = document.querySelector('.profile-page');
+                if (profilePage) {
+                    profilePage.classList.remove('sidebar-collapsed');
+                }
+                const btnBackCropTop = document.getElementById('btn-back-crop-top');
+                if (btnBackCropTop) {
+                    btnBackCropTop.style.display = 'none';
+                }
+            });
+
+            // Bind click events
             const menuItems = [
                 { el: menuTentangSaya, path: '/profile-mitra' },
                 { el: menuRiwayatPenyewaan, path: '/riwayat-penyewaan' },
@@ -495,7 +418,6 @@
                 { el: menuStatusPengajuan, path: '/status-pengajuan' }
             ];
 
-            // Bind click events
             menuItems.forEach(item => {
                 if (item.el) {
                     item.el.addEventListener('click', function(e) {
@@ -512,12 +434,6 @@
             } else {
                 navigateTo(currentPath, false);
             }
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', function(e) {
-                const path = (e.state && e.state.path) ? e.state.path : window.location.pathname;
-                navigateTo(path, false);
-            });
 
             // Trigger check on load if old value is present (for facilities dropdown)
             updateFasilitasSelection();
