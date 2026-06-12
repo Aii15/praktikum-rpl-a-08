@@ -283,7 +283,8 @@
 
         /* Riwayat Booking Section Styles */
         .search-box {
-            margin-bottom: 25px;
+            margin-bottom: 0;
+            width: 100%;
         }
 
         .search-box input {
@@ -303,6 +304,141 @@
             background: #fff;
             border-color: #f7c948;
             box-shadow: 0 4px 12px rgba(247, 201, 72, 0.15);
+        }
+
+        .filter-controls-container {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 20;
+        }
+
+        #section-riwayat-booking .filter-controls-container {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        #section-riwayat-transaksi .filter-controls-container {
+            grid-template-columns: 2fr 1fr 1fr;
+        }
+
+        @media (max-width: 768px) {
+            #section-riwayat-booking .filter-controls-container,
+            #section-riwayat-transaksi .filter-controls-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-card {
+            height: 50px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 0 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .filter-card:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+        }
+
+        .filter-card:focus-within {
+            background: #fff;
+            border-color: #f7c948;
+            box-shadow: 0 4px 12px rgba(247, 201, 72, 0.15);
+        }
+
+        .filter-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            flex: 1;
+        }
+
+        .filter-text small {
+            display: block;
+            font-size: 9px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+        .filter-display {
+            font-size: 13px;
+            font-weight: 600;
+            color: #222;
+            line-height: 1.2;
+        }
+
+        .dropdown-menu-list {
+            display: none;
+            position: absolute;
+            top: 55px;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            z-index: 100;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .dropdown-item-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4b5563;
+        }
+
+        .dropdown-item-row:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .status-badge-inline {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-badge-inline.success {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-badge-inline.process {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .status-badge-inline.completed {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .status-badge-inline.danger {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .booking-list {
@@ -747,13 +883,45 @@
             <div id="section-riwayat-booking" class="content-section">
                 <h1>Riwayat Booking</h1>
 
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Cari booking..." onkeyup="searchBookings()">
+                <div class="filter-controls-container">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Cari booking..." onkeyup="searchBookings()">
+                    </div>
+
+                    <div class="filter-card" id="booking-status-filter-card" onclick="toggleDropdown('booking-status-dropdown', event)">
+                        <div class="filter-text">
+                            <small>Status Booking</small>
+                            <div id="booking-status-display" class="filter-display">Semua Status</div>
+                            <input type="hidden" id="filter-booking-status-value" value="all">
+                        </div>
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" style="width: 16px; height: 16px;">
+                        
+                        <div id="booking-status-dropdown" class="dropdown-menu-list">
+                            <div class="dropdown-item-row" onclick="selectBookingFilter('all', 'Semua Status', event)">
+                                <span>Semua Status</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectBookingFilter('pending', 'Pending', event)">
+                                <span class="status-badge-inline process">Pending</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectBookingFilter('confirmed', 'Disetujui', event)">
+                                <span class="status-badge-inline success">Disetujui</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectBookingFilter('completed', 'Selesai', event)">
+                                <span class="status-badge-inline completed">Selesai</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectBookingFilter('cancelled', 'Dibatalkan', event)">
+                                <span class="status-badge-inline danger">Dibatalkan</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectBookingFilter('rejected', 'Ditolak', event)">
+                                <span class="status-badge-inline danger">Ditolak</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="booking-list">
                     @forelse($bookings as $booking)
-                        <a href="{{ route('user.booking.detail', $booking->id_booking) }}" onclick="showBookingDetail(event, {{ $booking->id_booking }})" class="booking-card">
+                        <a href="{{ route('user.booking.detail', $booking->id_booking) }}" onclick="showBookingDetail(event, {{ $booking->id_booking }})" class="booking-card" data-status="{{ $booking->status_booking }}">
                             <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
 
                             <div class="booking-info">
@@ -817,8 +985,49 @@
             <div id="section-riwayat-transaksi" class="content-section">
                 <h1>Riwayat Transaksi</h1>
 
-                <div class="search-box">
-                    <input type="text" id="transactionSearchInput" placeholder="Cari transaksi..." onkeyup="searchTransactions()">
+                <div class="filter-controls-container">
+                    <div class="search-box">
+                        <input type="text" id="transactionSearchInput" placeholder="Cari transaksi..." onkeyup="searchTransactions()">
+                    </div>
+
+                    <div class="filter-card" id="transaction-status-filter-card" onclick="toggleDropdown('transaction-status-dropdown', event)">
+                        <div class="filter-text">
+                            <small>Status Transaksi</small>
+                            <div id="transaction-status-display" class="filter-display">Semua Status</div>
+                            <input type="hidden" id="filter-transaction-status-value" value="all">
+                        </div>
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" style="width: 16px; height: 16px;">
+                        
+                        <div id="transaction-status-dropdown" class="dropdown-menu-list">
+                            <div class="dropdown-item-row" onclick="selectTransactionFilter('all', 'Semua Status', event)">
+                                <span>Semua Status</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectTransactionFilter('terbayar', 'Terbayar', event)">
+                                <span class="status-badge-inline success">Terbayar</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectTransactionFilter('refund', 'Refund', event)">
+                                <span class="status-badge-inline danger">Refund</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-card" id="transaction-sort-filter-card" onclick="toggleDropdown('transaction-sort-dropdown', event)">
+                        <div class="filter-text">
+                            <small>Urutkan</small>
+                            <div id="transaction-sort-display" class="filter-display">Terbaru</div>
+                            <input type="hidden" id="filter-transaction-sort-value" value="newest">
+                        </div>
+                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" style="width: 16px; height: 16px;">
+                        
+                        <div id="transaction-sort-dropdown" class="dropdown-menu-list">
+                            <div class="dropdown-item-row" onclick="selectTransactionSortFilter('newest', 'Terbaru', event)">
+                                <span>Terbaru</span>
+                            </div>
+                            <div class="dropdown-item-row" onclick="selectTransactionSortFilter('oldest', 'Terlama', event)">
+                                <span>Terlama</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="booking-list">
@@ -826,8 +1035,9 @@
                         @php
                             $status = $booking->status_booking;
                             $isRefund = in_array($status, ['rejected', 'cancelled']);
+                            $transStatus = $isRefund ? 'refund' : 'terbayar';
                         @endphp
-                        <div class="booking-card transaction-card" style="cursor: default;">
+                        <div class="booking-card transaction-card" data-status="{{ $transStatus }}" data-timestamp="{{ $booking->created_at->timestamp }}" style="cursor: default;">
                             <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
 
                             <div class="booking-info">
@@ -1412,33 +1622,115 @@
         }
         window.confirmCancelBooking = confirmCancelBooking;
 
+        function toggleDropdown(dropdownId, event) {
+            if (event) event.stopPropagation();
+            const dropdown = document.getElementById(dropdownId);
+            const isVisible = dropdown.style.display === 'block';
+            
+            // Close all other dropdowns first
+            document.querySelectorAll('.dropdown-menu-list').forEach(d => {
+                d.style.display = 'none';
+            });
+            
+            if (!isVisible) {
+                dropdown.style.display = 'block';
+            }
+        }
+        window.toggleDropdown = toggleDropdown;
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.dropdown-menu-list').forEach(d => {
+                d.style.display = 'none';
+            });
+        });
+
+        function selectBookingFilter(statusValue, statusText, event) {
+            if (event) event.stopPropagation();
+            document.getElementById('filter-booking-status-value').value = statusValue;
+            document.getElementById('booking-status-display').textContent = statusText;
+            document.getElementById('booking-status-dropdown').style.display = 'none';
+            searchBookings();
+        }
+        window.selectBookingFilter = selectBookingFilter;
+
         function searchBookings() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.booking-card');
+            const statusFilter = document.getElementById('filter-booking-status-value').value;
+            const cards = document.querySelectorAll('#section-riwayat-booking .booking-card');
+            
             cards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
                 const city = card.querySelector('p').textContent.toLowerCase();
-                if (title.includes(query) || city.includes(query)) {
+                const status = card.getAttribute('data-status');
+                
+                const matchesQuery = title.includes(query) || city.includes(query);
+                const matchesStatus = (statusFilter === 'all') || (status === statusFilter);
+                
+                if (matchesQuery && matchesStatus) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
                 }
             });
         }
+        window.searchBookings = searchBookings;
+
+        function selectTransactionFilter(statusValue, statusText, event) {
+            if (event) event.stopPropagation();
+            document.getElementById('filter-transaction-status-value').value = statusValue;
+            document.getElementById('transaction-status-display').textContent = statusText;
+            document.getElementById('transaction-status-dropdown').style.display = 'none';
+            searchTransactions();
+        }
+        window.selectTransactionFilter = selectTransactionFilter;
+
+        function selectTransactionSortFilter(sortValue, sortText, event) {
+            if (event) event.stopPropagation();
+            document.getElementById('filter-transaction-sort-value').value = sortValue;
+            document.getElementById('transaction-sort-display').textContent = sortText;
+            document.getElementById('transaction-sort-dropdown').style.display = 'none';
+            searchTransactions();
+        }
+        window.selectTransactionSortFilter = selectTransactionSortFilter;
 
         function searchTransactions() {
             const query = document.getElementById('transactionSearchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.transaction-card');
+            const statusFilter = document.getElementById('filter-transaction-status-value').value;
+            const sortFilter = document.getElementById('filter-transaction-sort-value').value;
+            const container = document.querySelector('#section-riwayat-transaksi .booking-list');
+            const cards = Array.from(document.querySelectorAll('#section-riwayat-transaksi .transaction-card'));
+            
             cards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
                 const text = card.textContent.toLowerCase();
-                if (title.includes(query) || text.includes(query)) {
+                const status = card.getAttribute('data-status');
+                
+                const matchesQuery = title.includes(query) || text.includes(query);
+                const matchesStatus = (statusFilter === 'all') || (status === statusFilter);
+                
+                if (matchesQuery && matchesStatus) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
                 }
             });
+
+            // Sort cards
+            cards.sort((a, b) => {
+                const timeA = parseInt(a.getAttribute('data-timestamp'));
+                const timeB = parseInt(b.getAttribute('data-timestamp'));
+                if (sortFilter === 'newest') {
+                    return timeB - timeA;
+                } else {
+                    return timeA - timeB;
+                }
+            });
+
+            // Re-append cards in sorted order
+            cards.forEach(card => container.appendChild(card));
         }
+        window.searchTransactions = searchTransactions;
     </script>
 </body>
 

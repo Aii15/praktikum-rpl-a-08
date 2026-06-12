@@ -1886,9 +1886,9 @@
                             <span>Hapus</span>
                         </button>
                     @else
-                        <form action="{{ route('mitra.property.delete', $property->id_properti) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus properti ini?');">
+                        <form id="delete-form-{{ $property->id_properti }}" action="{{ route('mitra.property.delete', $property->id_properti) }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" class="delete-btn">
+                            <button type="button" class="delete-btn" onclick="confirmDeleteProperty({{ $property->id_properti }})">
                                 <img src="/images/profile/trash.png" alt="Hapus">
                                 <span>Hapus</span>
                             </button>
@@ -2562,6 +2562,18 @@
                             }
                         }
                     }
+
+                    // Update sidebar notification bubble dynamically
+                    const bubble = document.querySelector('#menu-riwayat-penyewaan .notification-bubble');
+                    if (bubble) {
+                        let count = parseInt(bubble.textContent.trim()) || 0;
+                        count = Math.max(0, count - 1);
+                        if (count > 0) {
+                            bubble.textContent = count;
+                        } else {
+                            bubble.remove();
+                        }
+                    }
                     
                     await showCustomAlert(data.message, 'success');
                 } else {
@@ -2575,6 +2587,14 @@
             });
         }
         window.updateBookingStatus = updateBookingStatus;
+
+        async function confirmDeleteProperty(propertyId) {
+            const confirmed = await showCustomConfirm('Apakah Anda yakin ingin menghapus properti ini?', 'danger');
+            if (confirmed) {
+                document.getElementById(`delete-form-${propertyId}`).submit();
+            }
+        }
+        window.confirmDeleteProperty = confirmDeleteProperty;
 
         document.addEventListener('DOMContentLoaded', function() {
             const menuTentangSaya = document.getElementById('menu-tentang-saya');

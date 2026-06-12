@@ -1,3 +1,10 @@
+@php
+    $pendingBookingCount = \App\Models\Booking::where('status_booking', 'pending')
+        ->whereHas('property', function ($query) {
+            $query->where('id_mitra', Auth::id());
+        })
+        ->count();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,6 +126,22 @@
             transform: scale(1.1) rotate(5deg);
         }
 
+        .notification-bubble {
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+        }
+
         .home-link {
             display: flex;
             align-items: center;
@@ -195,6 +218,9 @@
                     <a href="{{ route('mitra.bookings') }}" id="menu-riwayat-penyewaan" class="menu-item {{ request()->routeIs('mitra.bookings') || request()->routeIs('mitra.booking.detail') ? 'active' : '' }}">
                         <img src="/images/profile/history.png" class="menu-icon" alt="Riwayat Penyewaan Icon">
                         <span>Riwayat Penyewaan</span>
+                        @if($pendingBookingCount > 0)
+                            <span class="notification-bubble">{{ $pendingBookingCount }}</span>
+                        @endif
                     </a>
 
                     <a href="{{ route('mitra.properties') }}" id="menu-properti-saya" class="menu-item {{ request()->routeIs('mitra.properties') || request()->routeIs('mitra.property.detail') ? 'active' : '' }}">

@@ -121,6 +121,25 @@
             transform: scale(1.1) rotate(5deg);
         }
 
+        .notification-bubble {
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+        }
+
+        .menu-item .notification-bubble {
+            margin-left: auto;
+        }
+
         .home-link {
             display: flex;
             align-items: center;
@@ -909,6 +928,9 @@
                     <a href="/profile-admin" id="menu-log-aktivitas" class="menu-item active">
                         <img src="/icons/tentang_saya.svg" class="menu-icon" alt="Log Aktivitas">
                         <span>Log Aktivitas</span>
+                        @if(count($pendingProperties) > 0)
+                            <span class="notification-bubble">{{ count($pendingProperties) }}</span>
+                        @endif
                     </a>
 
                     <a href="/admin/list-properti" id="menu-list-properti" class="menu-item">
@@ -965,7 +987,12 @@
 
                 <div class="admin-list">
                     <a href="/admin/pengajuan-properti" class="admin-card" id="card-pengajuan-properti">
-                        <span>Pengajuan Properti</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span>Pengajuan Properti</span>
+                            @if(count($pendingProperties) > 0)
+                                <span class="notification-bubble" style="box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);">{{ count($pendingProperties) }}</span>
+                            @endif
+                        </div>
                         <img src="/images/profile/edit.png" alt="Edit Icon">
                     </a>
 
