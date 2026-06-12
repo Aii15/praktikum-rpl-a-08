@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <title>Dashboard Admin - SpotRent</title>
     <link rel="icon" href="/images/logo.png" type="image/png">
+    <script src="{{ asset('js/modal-helpers.js') }}"></script>
+    <script src="{{ asset('js/spa-router.js') }}"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -868,7 +870,7 @@
         }
         .stats-detail-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
         }
         .stats-detail-section {
@@ -1548,7 +1550,7 @@
             const kembaliPengajuan = document.getElementById('kembali-pengajuan');
             const kembaliRiwayat = document.getElementById('kembali-riwayat');
 
-            const menuItems = [
+            const routes = [
                 { path: '/profile-admin', sectionId: 'section-log-aktivitas', title: 'Dashboard Admin - SpotRent', menuEl: menuLogAktivitas },
                 { path: '/admin/pengajuan-properti', sectionId: 'section-pengajuan-properti', title: 'Pengajuan Properti - SpotRent', menuEl: menuLogAktivitas },
                 { path: '/admin/riwayat-pemesanan', sectionId: 'section-riwayat-pemesanan', title: 'Riwayat Pemesanan - SpotRent', menuEl: menuLogAktivitas },
@@ -1558,203 +1560,29 @@
                 { path: '/admin/stats', sectionId: 'section-stats', title: 'Statistik - SpotRent', menuEl: menuStats }
             ];
 
-            function navigateTo(path, pushState = true) {
-                let matched = menuItems.find(item => item.path === path);
-                if (!matched) {
-                    matched = menuItems[0];
-                }
-
-                // Transition sections
-                menuItems.forEach(item => {
-                    const sec = document.getElementById(item.sectionId);
-                    if (item === matched) {
-                        sec.style.display = 'block';
-                        sec.offsetHeight; // force reflow
-                        sec.classList.add('active');
-                    } else {
-                        sec.classList.remove('active');
-                        sec.style.display = 'none';
-                    }
-                });
-
-                // Update active states on sidebar items
-                menuItems.forEach(item => {
-                    if (item.menuEl) {
-                        if (item.menuEl === matched.menuEl) {
-                            item.menuEl.classList.add('active');
-                        } else {
-                            item.menuEl.classList.remove('active');
-                        }
-                    }
-                });
-
-                document.title = matched.title;
-
-                if (pushState) {
-                    history.pushState({ path: matched.path }, '', matched.path);
-                }
-            }
+            SPARouter.init(routes, routes[0]);
 
             // Click Handlers
-            if (menuLogAktivitas) {
-                menuLogAktivitas.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/profile-admin');
-                });
-            }
-            if (menuListProperti) {
-                menuListProperti.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/admin/list-properti');
-                });
-            }
-            if (menuManageComments) {
-                menuManageComments.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/admin/manage-comments');
-                });
-            }
-            if (menuManageUsers) {
-                menuManageUsers.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/admin/manage-users');
-                });
-            }
-            if (menuStats) {
-                menuStats.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/admin/stats');
-                });
-            }
-            if (cardPengajuanProperti) {
-                cardPengajuanProperti.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/admin/pengajuan-properti');
-                });
-            }
-            if (cardRiwayatPemesanan) {
-                cardRiwayatPemesanan.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/admin/riwayat-pemesanan');
-                });
-            }
-            if (kembaliPengajuan) {
-                kembaliPengajuan.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/profile-admin');
-                });
-            }
-            if (kembaliRiwayat) {
-                kembaliRiwayat.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateTo('/profile-admin');
-                });
-            }
+            const bindings = [
+                { el: menuLogAktivitas, path: '/profile-admin' },
+                { el: menuListProperti, path: '/admin/list-properti' },
+                { el: menuManageComments, path: '/admin/manage-comments' },
+                { el: menuManageUsers, path: '/admin/manage-users' },
+                { el: menuStats, path: '/admin/stats' },
+                { el: cardPengajuanProperti, path: '/admin/pengajuan-properti' },
+                { el: cardRiwayatPemesanan, path: '/admin/riwayat-pemesanan' },
+                { el: kembaliPengajuan, path: '/profile-admin' },
+                { el: kembaliRiwayat, path: '/profile-admin' }
+            ];
 
-            // Custom Alert Modal Function
-            function showCustomAlert(message, alertType = 'success') {
-                return new Promise((resolve) => {
-                    const overlay = document.createElement('div');
-                    overlay.className = 'custom-modal-overlay';
-                    
-                    overlay.innerHTML = `
-                        <div class="custom-modal-box">
-                            <div class="custom-modal-icon ${alertType}">
-                                ${alertType === 'success' ? '✓' : '!'}
-                            </div>
-                            <h3>${alertType === 'success' ? 'Sukses' : 'Gagal'}</h3>
-                            <p>${message}</p>
-                            <div class="custom-modal-actions" style="justify-content: center;">
-                                <button class="custom-modal-btn ok-btn">OK</button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    document.body.appendChild(overlay);
-                    
-                    setTimeout(() => {
-                        overlay.classList.add('active');
-                    }, 10);
-                    
-                    const okBtn = overlay.querySelector('.ok-btn');
-                    
-                    function close() {
-                        overlay.classList.remove('active');
-                        setTimeout(() => {
-                            overlay.remove();
-                        }, 300);
-                    }
-                    
-                    okBtn.onclick = () => {
-                        close();
-                        resolve();
-                    };
-                    
-                    overlay.onclick = (e) => {
-                        if (e.target === overlay) {
-                            close();
-                            resolve();
-                        }
-                    };
-                });
-            }
-            window.showCustomAlert = showCustomAlert;
-
-            // Custom Confirmation Modal Function
-            function showCustomConfirm(message, alertType = 'info') {
-                return new Promise((resolve) => {
-                    const overlay = document.createElement('div');
-                    overlay.className = 'custom-modal-overlay';
-                    
-                    overlay.innerHTML = `
-                        <div class="custom-modal-box">
-                            <div class="custom-modal-icon ${alertType}">
-                                ?
-                            </div>
-                            <h3>Konfirmasi</h3>
-                            <p>${message}</p>
-                            <div class="custom-modal-actions" style="display: flex; gap: 12px; justify-content: center;">
-                                <button class="custom-modal-btn cancel-btn" style="background: #e11d48; color: #ffffff;">Batal</button>
-                                <button class="custom-modal-btn ok-btn" style="background: #f7c948; color: #111111;">OK</button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    document.body.appendChild(overlay);
-                    
-                    setTimeout(() => {
-                        overlay.classList.add('active');
-                    }, 10);
-                    
-                    const cancelBtn = overlay.querySelector('.cancel-btn');
-                    const okBtn = overlay.querySelector('.ok-btn');
-                    
-                    function close() {
-                        overlay.classList.remove('active');
-                        setTimeout(() => {
-                            overlay.remove();
-                        }, 300);
-                    }
-                    
-                    cancelBtn.onclick = () => {
-                        close();
-                        resolve(false);
-                    };
-                    
-                    okBtn.onclick = () => {
-                        close();
-                        resolve(true);
-                    };
-                    
-                    overlay.onclick = (e) => {
-                        if (e.target === overlay) {
-                            close();
-                            resolve(false);
-                        }
-                    };
-                });
-            }
-            window.showCustomConfirm = showCustomConfirm;
+            bindings.forEach(binding => {
+                if (binding.el) {
+                    binding.el.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        navigateTo(binding.path);
+                    });
+                }
+            });
 
             // Toggle Comments Dropdown
             function toggleCommentsDropdown(id, e) {
@@ -2386,12 +2214,6 @@
             // Init page from URL
             const currentPath = window.location.pathname;
             navigateTo(currentPath, false);
-
-            // Popstate browser navigation
-            window.addEventListener('popstate', function(e) {
-                const path = (e.state && e.state.path) ? e.state.path : window.location.pathname;
-                navigateTo(path, false);
-            });
         });
     </script>
 </body>

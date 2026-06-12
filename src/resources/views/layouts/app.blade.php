@@ -23,6 +23,10 @@
 
     @yield('content')
 
+    <!-- Global JS Helpers -->
+    <script src="{{ asset('js/modal-helpers.js') }}"></script>
+    <script src="{{ asset('js/spa-router.js') }}"></script>
+
     <!-- Page Specific Scripts -->
     @yield('scripts')
 </body>
