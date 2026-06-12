@@ -1,4 +1,4 @@
-<!-- SECTION 3: PROPERTI SAYA -->
+<!-- BAGIAN 3: PROPERTI SAYA -->
 <div id="section-properti-saya" class="content-section">
     <h1>Properti Saya</h1>
 

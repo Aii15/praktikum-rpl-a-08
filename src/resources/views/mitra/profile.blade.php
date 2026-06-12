@@ -56,7 +56,7 @@
 
 @section('scripts')
     <script>
-        // Global booking ID passed from server for direct loads
+        // ID booking global yang diteruskan dari server untuk pemuatan langsung
         window.activeBookingId = @json($activeBookingId ?? null);
 
         function navigateTo(path, pushState = true) {
@@ -78,20 +78,20 @@
             let isDetail = path.match(/^\/detail-riwayat-penyewaan\/(\d+)$/);
             let matchedPath = isDetail ? '/detail-riwayat-penyewaan' : path;
 
-            // Find matching route
+            // Cari rute yang cocok
             let matched = menuItems.find(item => item.path === matchedPath);
             if (!matched) {
                 // fallback to profile
                 matched = menuItems[0];
             }
 
-            // Show matched section, hide others
+            // Tampilkan section yang cocok, sembunyikan yang lain
             menuItems.forEach(item => {
                 const sec = document.getElementById(item.sectionId);
                 if (sec) {
                     if (item === matched) {
                         sec.style.display = 'block';
-                        sec.offsetHeight; // force reflow
+                        sec.offsetHeight; // picu reflow browser
                         sec.classList.add('active');
                         if (item.el) item.el.classList.add('active');
                     } else {
@@ -115,7 +115,7 @@
                 showRentalDetail(null, id, false);
             }
 
-            // Restore sidebar whenever page changes in router
+            // Pulihkan sidebar setiap kali halaman berubah di router
             const profilePage = document.querySelector('.profile-page');
             if (profilePage) {
                 profilePage.classList.remove('sidebar-collapsed');
@@ -184,7 +184,7 @@
                         }
                     }
                     
-                    // Handle Review & Feedback Section
+                    // Tangani Bagian Ulasan & Tanggapan
                     const reviewSection = document.getElementById('detailReviewSection');
                     const tenantReviewContainer = document.getElementById('tenantReviewContainer');
                     const feedbackForm = document.getElementById('feedbackForm');
@@ -194,7 +194,7 @@
                         reviewSection.style.display = 'block';
                         tenantReviewContainer.style.display = 'block';
                         
-                        // Render stars
+                        // Tampilkan bintang ulasan
                         let starsHtml = '';
                         for (let i = 1; i <= 5; i++) {
                             if (i <= booking.review.rating) {
@@ -343,7 +343,7 @@
                         }
                     }
 
-                    // Update sidebar notification bubble dynamically
+                    // Perbarui bubble notifikasi sidebar secara dinamis
                     const bubble = document.querySelector('#menu-riwayat-penyewaan .notification-bubble');
                     if (bubble) {
                         let count = parseInt(bubble.textContent.trim()) || 0;
@@ -409,7 +409,7 @@
                 }
             });
 
-            // Bind click events
+            // Ikat event klik pada menu
             const menuItems = [
                 { el: menuTentangSaya, path: '/profile-mitra' },
                 { el: menuRiwayatPenyewaan, path: '/riwayat-penyewaan' },
@@ -427,7 +427,7 @@
                 }
             });
 
-            // Initial load check
+            // Pemeriksaan pemuatan awal halaman
             const currentPath = window.location.pathname;
             if (window.activeBookingId) {
                 navigateTo(`/detail-riwayat-penyewaan/${window.activeBookingId}`, false);
@@ -435,10 +435,10 @@
                 navigateTo(currentPath, false);
             }
 
-            // Trigger check on load if old value is present (for facilities dropdown)
+            // Picu pemeriksaan saat memuat jika nilai lama ada (untuk dropdown fasilitas)
             updateFasilitasSelection();
 
-            // Old category pre-selection
+            // Pra-seleksi kategori lama
             const oldKategoriVal = document.getElementById('kategori-value')?.value;
             if (oldKategoriVal) {
                 const matchedRow = document.querySelector(`.category-item-row[data-id="${oldKategoriVal}"]`);
@@ -449,11 +449,11 @@
                 }
             }
 
-            // Apply rental history filters and sort on load
+            // Terapkan filter riwayat sewa dan pengurutan saat dimuat
             applyAllFilters();
         });
 
-        // Apply all filters and sorting on Mitra Rental History
+        // Terapkan semua filter dan pengurutan pada Riwayat Penyewaan Mitra
         function applyAllFilters() {
             const searchInputEl = document.getElementById('filter-search-input');
             const searchQuery = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
@@ -475,12 +475,12 @@
                 const tenantName = card.getAttribute('data-tenant-name') || '';
                 const status = card.getAttribute('data-status') || '';
                 
-                // 1. Check Search Query
+                // 1. Periksa Query Pencarian
                 const matchesSearch = searchQuery === '' || 
                                       propName.includes(searchQuery) || 
                                       tenantName.includes(searchQuery);
                                       
-                // 2. Check Status Filter
+                // 2. Periksa Filter Status
                 let matchesStatus = false;
                 if (statusFilter === 'all') {
                     matchesStatus = true;
@@ -502,7 +502,7 @@
                 }
             });
             
-            // Handle Empty State
+            // Tangani Tampilan Riwayat Kosong
             let emptyMessage = document.getElementById('empty-bookings-message');
             if (visibleCount === 0) {
                 if (!emptyMessage) {
@@ -520,13 +520,13 @@
                 }
             }
             
-            // 3. Sort Cards
+            // 3. Urutkan Kartu
             if (visibleCount > 1) {
                 cards.sort((a, b) => {
                     const statusA = a.getAttribute('data-status') || '';
                     const statusB = b.getAttribute('data-status') || '';
 
-                    // If status filter is "all", prioritize pending at the very top
+                    // Jika filter status adalah "semua", prioritaskan status pending di paling atas
                     if (statusFilter === 'all') {
                         if (statusA === 'pending' && statusB !== 'pending') return -1;
                         if (statusA !== 'pending' && statusB === 'pending') return 1;
@@ -552,18 +552,18 @@
                     return 0;
                 });
                 
-                // Re-append sorted cards in order
+                // Lampirkan kembali kartu yang telah diurutkan sesuai urutan
                 cards.forEach(card => {
                     bookingListContainer.appendChild(card);
                 });
             }
         }
 
-        // Toggle Filter and Sort custom dropdowns
+        // Beralih tampilan dropdown kustom Filter dan Urutkan
         function toggleFilterDropdown(id, e) {
             if (e) e.stopPropagation();
             
-            // Close other dropdowns first
+            // Tutup dropdown lain terlebih dahulu
             ['status-dropdown', 'sort-dropdown', 'kategori-dropdown', 'fasilitas-dropdown'].forEach(dropId => {
                 if (dropId !== id) {
                     const drop = document.getElementById(dropId);
@@ -577,7 +577,7 @@
             }
         }
 
-        // Select Status Filter
+        // Pilih Filter Status
         function selectFilterStatus(val, label, e) {
             if (e) e.stopPropagation();
             const valInput = document.getElementById('filter-status-value');
@@ -602,7 +602,7 @@
             applyAllFilters();
         }
 
-        // Select Sort Filter
+        // Pilih Filter Pengurutan
         function selectFilterSort(val, label, e) {
             if (e) e.stopPropagation();
             const valInput = document.getElementById('filter-sort-value');
@@ -616,14 +616,14 @@
             applyAllFilters();
         }
 
-        // Toggle category list
+        // Beralih tampilan daftar kategori
         function toggleKategoriDropdown(e) {
             e.stopPropagation();
             const dropdown = document.getElementById('kategori-dropdown');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
-        // Select category
+        // Pilih kategori
         function selectKategori(id, name, iconUrl, e) {
             if (e) e.stopPropagation();
             const valueInput = document.getElementById('kategori-value');
@@ -660,14 +660,14 @@
             if (dropdown) dropdown.style.display = 'none';
         }
 
-        // Toggle facilities list
+        // Beralih tampilan daftar fasilitas
         function toggleFasilitasDropdown(e) {
             e.stopPropagation();
             const dropdown = document.getElementById('fasilitas-dropdown');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
-        // Update facilities text display and hidden input
+        // Perbarui tampilan teks fasilitas dan input tersembunyi
         function updateFasilitasSelection() {
             const checkboxes = document.querySelectorAll('.facility-checkbox');
             const selectedNames = [];
@@ -702,7 +702,7 @@
             }
         }
 
-        // Close dropdown when clicking outside
+        // Tutup dropdown jika mengklik di luar area
         document.addEventListener('click', function(e) {
             const container = document.getElementById('fasilitas-dropdown-container');
             const dropdown = document.getElementById('fasilitas-dropdown');
@@ -729,7 +729,7 @@
             }
         });
 
-        // Price formatting logic (Indonesian Rupiah formatting)
+        // Logika pemformatan harga (pemformatan Rupiah Indonesia)
         const displayInput = document.getElementById('harga_display');
         const hiddenInput = document.getElementById('harga_per_hari');
 
@@ -751,7 +751,7 @@
             }
         }
 
-        // STEP NAVIGATION
+        // NAVIGASI LANGKAH
         let activeSubStep = 'upload';
 
         function goToSubStep(subStep) {
@@ -770,7 +770,7 @@
                 stepCrop.style.display = 'flex';
                 renderLiveLayoutPreview();
                 
-                // Hide sidebar with animation
+                // Sembunyikan sidebar dengan animasi
                 if (profilePage) {
                     profilePage.classList.add('sidebar-collapsed');
                 }
@@ -783,7 +783,7 @@
                 stepUpload.style.display = 'flex';
                 stepCrop.style.display = 'none';
                 
-                // Restore sidebar
+                // Pulihkan sidebar
                 if (profilePage) {
                     profilePage.classList.remove('sidebar-collapsed');
                 }
@@ -793,7 +793,7 @@
                 }
             }
             
-            // Scroll to the form section top seamlessly
+            // Gulir ke bagian atas form secara halus
             const targetSec = document.getElementById('section-tambah-properti');
             if (targetSec) {
                 targetSec.scrollIntoView({ behavior: 'smooth' });
@@ -805,7 +805,7 @@
             const step2 = document.getElementById('step-2');
             
             if (step === 2) {
-                // Validate required inputs in step 1
+                // Validasi input wajib pada langkah 1
                 const requiredInputs = step1.querySelectorAll('[required]');
                 let valid = true;
                 requiredInputs.forEach(input => {
@@ -846,14 +846,14 @@
                 step2.style.display = 'block';
                 document.getElementById('form-title').textContent = 'Tambah Foto Properti';
                 
-                // Default to upload sub-step
+                // Secara default masuk ke sub-langkah unggah
                 goToSubStep('upload');
             } else {
                 step1.style.display = 'block';
                 step2.style.display = 'none';
                 document.getElementById('form-title').textContent = 'Tambah Properti';
                 
-                // Restore sidebar when leaving step 2
+                // Pulihkan sidebar saat meninggalkan langkah 2
                 const profilePage = document.querySelector('.profile-page');
                 if (profilePage) {
                     profilePage.classList.remove('sidebar-collapsed');
@@ -865,7 +865,7 @@
             }
         }
 
-        // PHOTO UPLOAD DRAG & DROP
+        // SERET & TARUH UNTUK UNGGAH FOTO
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('property-images');
         const countLabel = document.getElementById('photo-count-label');
@@ -920,12 +920,12 @@
         function updateFormInputsAndPreviews() {
             if (!fileInput || !countLabel || !hiddenPositionsContainer) return;
             
-            // Sync files list to input field
+            // Sinkronisasi daftar file ke bidang input
             const dt = new DataTransfer();
             selectedFiles.forEach(item => dt.items.add(item.file));
             fileInput.files = dt.files;
 
-            // Sync hidden inputs for positions
+            // Sinkronisasi input tersembunyi untuk posisi
             hiddenPositionsContainer.innerHTML = '';
             selectedFiles.forEach(item => {
                 const hiddenInput = document.createElement('input');
@@ -935,14 +935,14 @@
                 hiddenPositionsContainer.appendChild(hiddenInput);
             });
 
-            // Update photo count text
+            // Perbarui teks jumlah foto
             if (selectedFiles.length > 0) {
                 countLabel.textContent = `${selectedFiles.length} foto terpilih (Minimal 2, Maksimal 5)`;
             } else {
                 countLabel.textContent = 'Belum ada foto terpilih (Minimal 2, Maksimal 5)';
             }
 
-            // Sync navigation button disabled state in Upload Stage
+            // Sinkronisasi status aktif/nonaktif tombol navigasi di Tahap Unggah
             const btnToCrop = document.getElementById('btn-to-crop');
             if (btnToCrop) {
                 if (selectedFiles.length >= 2) {
@@ -956,19 +956,19 @@
                 }
             }
 
-            // If we are currently in crop step but photo count drops below 2, automatically fallback to upload sub-step
+            // Jika saat ini berada di langkah crop tetapi jumlah foto kurang dari 2, secara otomatis kembali ke sub-langkah unggah
             if (activeSubStep === 'crop' && selectedFiles.length < 2) {
                 goToSubStep('upload');
             }
 
-            // 1. Render Sub-step 2A Upload List
+            // 1. Tampilkan Sub-langkah Daftar Unggahan 2A
             if (uploadPhotoList) {
                 uploadPhotoList.innerHTML = '';
                 selectedFiles.forEach((item, index) => {
                     const card = document.createElement('div');
                     card.className = 'upload-item-card';
 
-                    // Thumb preview
+                    // Pratinjau gambar mini
                     const thumb = document.createElement('div');
                     thumb.className = 'upload-item-thumb';
                     const img = document.createElement('img');
@@ -976,7 +976,7 @@
                     thumb.appendChild(img);
                     card.appendChild(thumb);
 
-                    // Information
+                    // Informasi
                     const info = document.createElement('div');
                     info.className = 'upload-item-info';
 
@@ -1001,7 +1001,7 @@
                     info.appendChild(title);
                     card.appendChild(info);
 
-                    // Reordering & deletion actions
+                    // Aksi pengurutan kembali & penghapusan
                     const actions = document.createElement('div');
                     actions.className = 'upload-item-actions';
 
@@ -1037,13 +1037,13 @@
                 });
             }
 
-            // 2. Render Sub-step 2B Crop Controls List (Table Rows)
+            // 2. Tampilkan Sub-langkah Daftar Kontrol Pemotongan 2B (Baris Tabel)
             if (photoControlList) {
                 photoControlList.innerHTML = '';
                 selectedFiles.forEach((item, index) => {
                     const row = document.createElement('tr');
 
-                    // 1. Thumbnail cell
+                    // 1. Sel gambar mini
                     const tdThumb = document.createElement('td');
                     const thumb = document.createElement('div');
                     thumb.className = 'crop-table-thumb';
@@ -1054,7 +1054,7 @@
                     tdThumb.appendChild(thumb);
                     row.appendChild(tdThumb);
 
-                    // 2. Info cell
+                    // 2. Sel info
                     const tdInfo = document.createElement('td');
                     const info = document.createElement('div');
                     info.className = 'crop-table-info';
@@ -1077,7 +1077,7 @@
                     tdInfo.appendChild(info);
                     row.appendChild(tdInfo);
 
-                    // 3. Horizontal Slider cell
+                    // 3. Sel Slider Horizontal
                     const tdSliderX = document.createElement('td');
                     tdSliderX.className = 'crop-table-slider-cell';
                     const adjusterX = document.createElement('div');
@@ -1103,7 +1103,7 @@
                     tdSliderX.appendChild(adjusterX);
                     row.appendChild(tdSliderX);
 
-                    // 4. Vertical Slider cell
+                    // 4. Sel Slider Vertikal
                     const tdSliderY = document.createElement('td');
                     tdSliderY.className = 'crop-table-slider-cell';
                     const adjusterY = document.createElement('div');
@@ -1139,13 +1139,13 @@
                         
                         const posStr = `${valX}% ${valY}%`;
                         
-                        // Update layout preview live (mock gallery image position shifts, thumbnail is locked via CSS)
+                        // Perbarui pratinjau tata letak secara langsung (pergeseran posisi gambar galeri tiruan, gambar mini dikunci melalui CSS)
                         const galleryImg = document.getElementById(`gallery-img-${index}`);
                         if (galleryImg) {
                             galleryImg.style.objectPosition = posStr;
                         }
 
-                        // Update corresponding hidden input value
+                        // Perbarui nilai input tersembunyi yang sesuai
                         if (hiddenPositionsContainer && hiddenPositionsContainer.children && hiddenPositionsContainer.children[index]) {
                             hiddenPositionsContainer.children[index].value = posStr;
                         }
@@ -1158,7 +1158,7 @@
                 });
             }
 
-            // 3. Update/Toggle Live Layout Preview visibility
+            // 3. Perbarui/Alihkan visibilitas Pratinjau Tata Letak Langsung
             if (previewGalleryContainer) {
                 if (selectedFiles.length >= 2) {
                     previewGalleryContainer.style.display = 'block';
@@ -1194,7 +1194,7 @@
             const galleryDiv = document.createElement('div');
             galleryDiv.className = `mock-gallery mock-gallery-${n}`;
 
-            // Main / Cover slot (Slot 1)
+            // Slot Utama / Sampul (Slot 1)
             const mainItem = document.createElement('div');
             mainItem.className = 'mock-gallery-item mock-main-item';
             
@@ -1211,7 +1211,7 @@
 
             galleryDiv.appendChild(mainItem);
 
-            // Side slots
+            // Slot Samping
             if (n > 1) {
                 const sideGallery = document.createElement('div');
                 sideGallery.className = 'mock-side-gallery';
@@ -1247,7 +1247,7 @@
             }
         }
 
-        // Add client-side validation to form submission
+        // Tambahkan validasi sisi klien ke pengiriman form
         const propertyForm = document.getElementById('propertyForm');
         if (propertyForm) {
             propertyForm.addEventListener('submit', function (e) {

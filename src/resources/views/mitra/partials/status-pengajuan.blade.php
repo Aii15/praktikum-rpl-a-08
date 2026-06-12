@@ -1,4 +1,4 @@
-<!-- SECTION 5: STATUS PENGAJUAN -->
+<!-- BAGIAN 5: STATUS PENGAJUAN -->
 <div id="section-status-pengajuan" class="content-section">
     <h1>Status Pengajuan Properti</h1>
 
