@@ -13,7 +13,7 @@
     <form action="{{ route('mitra.property.store') }}" method="POST" enctype="multipart/form-data" id="propertyForm">
         @csrf
         
-        <!-- STEP 1: SPESIFIKASI PROPERTI -->
+        <!-- LANGKAH 1: SPESIFIKASI PROPERTI -->
         <div id="step-1" class="form-step">
             <div class="form-list">
                 
@@ -25,7 +25,7 @@
                     <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
                 </div>
 
-                <!-- Custom dropdown for category with icons -->
+                <!-- Dropdown kustom untuk kategori dengan ikon -->
                 <div class="field-card" style="position: relative; z-index: 15;" id="kategori-dropdown-container">
                     <div class="field-text" onclick="toggleKategoriDropdown(event)">
                         <small>Kategori Properti</small>
@@ -97,13 +97,13 @@
                     <div class="field-text">
                         <small>Harga per Hari (Rp)</small>
                         <input type="text" id="harga_display" class="profile-input" value="{{ old('harga_per_hari') }}" placeholder="Harga per Hari" required>
-                        <!-- Hidden field holding the unformatted integer for submission -->
+                        <!-- Input tersembunyi yang menyimpan nilai integer mentah untuk pengiriman -->
                         <input type="hidden" name="harga_per_hari" id="harga_per_hari" value="{{ old('harga_per_hari') }}">
                     </div>
                     <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
                 </div>
 
-                <!-- Custom dropdown for facilities with icons -->
+                <!-- Dropdown kustom untuk fasilitas dengan ikon -->
                 <div class="field-card" style="position: relative; z-index: 10;" id="fasilitas-dropdown-container">
                     <div class="field-text" onclick="toggleFasilitasDropdown(event)">
                         <small>Fasilitas</small>
@@ -149,16 +149,16 @@
 
             <div class="btn-container">
                 <button type="button" class="btn-next" onclick="goToStep(2)">
-                    <span>Next</span>
-                    <img src="/images/profile/next.png" alt="Next" style="width: 16px; height: 16px;">
+                    <span>Lanjut</span>
+                    <img src="/images/profile/next.png" alt="Lanjut" style="width: 16px; height: 16px;">
                 </button>
             </div>
         </div>
 
-        <!-- STEP 2: TAMBAH FOTO PROPERTI -->
+        <!-- LANGKAH 2: TAMBAH FOTO PROPERTI -->
         <div id="step-2" class="form-step" style="display: none;">
             
-            <!-- SUB-STEP 2A: UPLOAD FOTO -->
+            <!-- SUB-LANGKAH 2A: UNGGAH FOTO -->
             <div id="sub-step-upload" class="form-list">
                 <div class="field-card">
                     <div class="field-text">
@@ -177,19 +177,19 @@
 
                 <div id="hidden-positions-container"></div>
                 
-                <!-- Upload list showing files with reorder arrows and delete action -->
+                <!-- Daftar unggahan menampilkan file dengan tanda panah pengurutan dan aksi hapus -->
                 <div class="photo-upload-list" id="uploadPhotoList"></div>
                 
                 <div class="btn-container">
                     <button type="button" class="btn-back" onclick="goToStep(1)">Kembali</button>
                     <button type="button" class="btn-next" id="btn-to-crop" onclick="goToSubStep('crop')" disabled style="opacity: 0.5; cursor: not-allowed;">
                         <span>Atur Posisi Gambar</span>
-                        <img src="/images/profile/next.png" alt="Next" style="width: 16px; height: 16px;">
+                        <img src="/images/profile/next.png" alt="Lanjut" style="width: 16px; height: 16px;">
                     </button>
                 </div>
             </div>
 
-            <!-- SUB-STEP 2B: ATUR CROP / POSISI -->
+            <!-- SUB-LANGKAH 2B: ATUR POSISI GAMBAR -->
             <div id="sub-step-crop" class="form-list" style="display: none;">
                 <div class="sticky-preview-wrapper">
                     <div class="preview-gallery-container" id="previewGalleryContainer">
@@ -206,7 +206,7 @@
                     <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
                 </div>
 
-                <!-- Photo control list showing horizontal/vertical sliders (table layout) -->
+                <!-- Daftar kontrol foto menampilkan slider horizontal/vertical (tata letak tabel) -->
                 <div class="crop-table-container">
                     <table class="crop-table">
                         <thead>

@@ -3,9 +3,9 @@
     <h1>Riwayat Penyewaan</h1>
 
 
-    <!-- Filter and Sort Controls -->
+    <!-- Kontrol Filter dan Pengurutan -->
     <div class="filter-controls-container">
-        <!-- Search Card -->
+        <!-- Kartu Pencarian -->
         <div class="field-card filter-card search-card">
             <div class="field-text">
                 <small>Cari Properti / Penyewa</small>
@@ -14,7 +14,7 @@
             <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
         </div>
 
-        <!-- Status Dropdown Card -->
+        <!-- Kartu Dropdown Status -->
         <div class="field-card filter-card dropdown-card" id="status-dropdown-container" style="position: relative; z-index: 15;">
             <div class="field-text" onclick="toggleFilterDropdown('status-dropdown', event)">
                 <small>Status Penyewaan</small>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <!-- Sort Dropdown Card -->
+        <!-- Kartu Dropdown Urutkan -->
         <div class="field-card filter-card dropdown-card" id="sort-dropdown-container" style="position: relative; z-index: 10;">
             <div class="field-text" onclick="toggleFilterDropdown('sort-dropdown', event)">
                 <small>Urutkan Berdasarkan</small>
@@ -107,7 +107,7 @@
     </div>
 </div>
 
-<!-- SECTION 6: DETAIL PENYEWAAN -->
+<!-- BAGIAN 6: DETAIL PENYEWAAN -->
 <div id="section-detail-penyewaan" class="content-section">
     <h1>Detail Penyewaan</h1>
 
@@ -118,7 +118,7 @@
 
     <div id="detailBody" style="display: none;">
         <div class="detail-card">
-            <img id="detailBanner" src="" class="detail-banner" alt="Property Banner">
+            <img id="detailBanner" src="" class="detail-banner" alt="Banner Properti">
 
             <div class="detail-info">
                 <h2 id="detailPropertyName"></h2>
@@ -152,7 +152,7 @@
 
                 <span id="detailStatusBadge" class="booking-status"></span>
 
-                <!-- Action Buttons for Pending Booking -->
+                <!-- Tombol Aksi untuk Penyewaan Tertunda -->
                 <div id="bookingActionButtons" style="display: none; gap: 12px; margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 18px;">
                     <button onclick="updateBookingStatus('confirmed')" class="action-btn approve-btn">
                         Setujui Penyewaan
@@ -162,7 +162,7 @@
                     </button>
                 </div>
 
-                <!-- Review & Feedback Section -->
+                <!-- Bagian Ulasan & Tanggapan -->
                 <div id="detailReviewSection" style="margin-top: 25px; border-top: 1px solid #e5e7eb; padding-top: 20px; display: none;">
                     <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827;">Ulasan Penyewa</h3>
                     
@@ -173,7 +173,7 @@
                         </div>
                         <p id="displayReviewText" style="font-size: 14px; color: #374151; margin-bottom: 15px; line-height: 1.5; font-style: italic;"></p>
                         
-                        <!-- Form to Submit Feedback -->
+                        <!-- Form untuk Mengirim Tanggapan -->
                         <form id="feedbackForm" style="display: none;" onsubmit="submitFeedback(event)">
                             <div style="margin-bottom: 15px;">
                                 <label for="feedbackText" style="display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px;">Tanggapan Anda</label>
@@ -182,7 +182,7 @@
                             <button type="submit" style="background:#f7c948; color:#111; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition: background 0.2s; outline:none;">Kirim Tanggapan</button>
                         </form>
 
-                        <!-- Display Existing Feedback -->
+                        <!-- Menampilkan Tanggapan yang Ada -->
                         <div id="existingFeedback" style="display: none; background: #f3f4f6; border-radius: 8px; padding: 12px 16px; border-left: 4px solid #f7c948; margin-top: 15px;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
                                 <span style="font-size: 13px; font-weight: 600; color: #111827;" id="displayFeedbackAuthor"></span>
