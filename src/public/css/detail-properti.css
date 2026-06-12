@@ -30,7 +30,7 @@ body {
     border: 1px solid #e0e0e0;
     border-radius: 20px;
     background: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -39,7 +39,7 @@ body {
     color: #000;
     border-color: #b5b5b5;
     transform: translateX(-4px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .back-link:active {
@@ -64,7 +64,7 @@ body {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: all 0.2s ease;
 }
 
@@ -79,7 +79,9 @@ body {
     fill: none;
     stroke: #222222;
     stroke-width: 4;
-    transition: fill 0.25s ease, stroke 0.25s ease;
+    transition:
+        fill 0.25s ease,
+        stroke 0.25s ease;
 }
 
 .save-btn:hover {
@@ -195,7 +197,7 @@ body {
 }
 
 .gallery-item::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -224,7 +226,7 @@ body {
 }
 
 .property-subtitle {
-    font-size: 14px;
+    font-size: 17px;
     color: #555;
     margin-bottom: 28px;
 }
@@ -262,7 +264,7 @@ body {
 }
 
 .info-title {
-    font-size: 15px;
+    font-size: 20px;
     font-weight: 600;
     color: #333;
     line-height: 1.2;
@@ -325,7 +327,7 @@ hr {
 }
 
 .description {
-    font-size: 13px;
+    font-size: 17px;
     line-height: 1.7;
     color: #555;
     text-align: justify;
@@ -503,8 +505,8 @@ hr {
 
 .rating-bars p {
     text-align: center;
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     margin-bottom: 22px;
 }
 
@@ -628,7 +630,9 @@ hr {
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
     transform: scale(0.95);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    transition:
+        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.2s ease;
 }
 
 .lightbox.show .lightbox-content img {
@@ -643,7 +647,9 @@ hr {
     font-size: 48px;
     font-weight: 200;
     cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
     z-index: 10001;
     line-height: 1;
     user-select: none;
@@ -667,7 +673,10 @@ hr {
     cursor: pointer;
     border-radius: 50%;
     user-select: none;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
     transform: translateY(-50%);
     z-index: 10000;
     display: flex;
@@ -799,30 +808,30 @@ hr {
 
 /* Custom Premium Flatpickr Styling */
 .flatpickr-calendar {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
     border-radius: 12px !important;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
     border: 1px solid #e2e8f0 !important;
     background: #ffffff !important;
 }
 
-.flatpickr-day.selected, 
-.flatpickr-day.startRange, 
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
 .flatpickr-day.endRange,
-.flatpickr-day.selected.inRange, 
-.flatpickr-day.startRange.inRange, 
-.flatpickr-day.endRange.inRange, 
-.flatpickr-day.selected:focus, 
-.flatpickr-day.startRange:focus, 
-.flatpickr-day.endRange:focus, 
-.flatpickr-day.selected:hover, 
-.flatpickr-day.startRange:hover, 
-.flatpickr-day.endRange:hover, 
-.flatpickr-day.selected.prevMonthDay, 
-.flatpickr-day.startRange.prevMonthDay, 
-.flatpickr-day.endRange.prevMonthDay, 
-.flatpickr-day.selected.nextMonthDay, 
-.flatpickr-day.startRange.nextMonthDay, 
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
 .flatpickr-day.endRange.nextMonthDay {
     background: #f7c948 !important;
     border-color: #f7c948 !important;
@@ -833,11 +842,13 @@ hr {
 .flatpickr-day.inRange {
     background: rgba(247, 201, 72, 0.15) !important;
     border-color: transparent !important;
-    box-shadow: -5px 0 0 rgba(247, 201, 72, 0.15), 5px 0 0 rgba(247, 201, 72, 0.15) !important;
+    box-shadow:
+        -5px 0 0 rgba(247, 201, 72, 0.15),
+        5px 0 0 rgba(247, 201, 72, 0.15) !important;
     color: #111 !important;
 }
 
-.flatpickr-day.disabled, 
+.flatpickr-day.disabled,
 .flatpickr-day.disabled:hover {
     color: #cbd5e1 !important;
     background: transparent !important;
@@ -868,13 +879,13 @@ span.flatpickr-weekday {
     border-radius: 8px !important;
 }
 
-.flatpickr-day.prevMonthDay, 
+.flatpickr-day.prevMonthDay,
 .flatpickr-day.nextMonthDay {
     color: #cbd5e1 !important;
     background: transparent !important;
 }
 
-.flatpickr-day.prevMonthDay:hover, 
+.flatpickr-day.prevMonthDay:hover,
 .flatpickr-day.nextMonthDay:hover {
     background: #f1f5f9 !important;
     color: #cbd5e1 !important;
@@ -903,7 +914,7 @@ span.flatpickr-weekday {
     position: relative;
 }
 .flatpickr-day.booked-day::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 4px;
     left: 50%;
@@ -924,11 +935,14 @@ span.flatpickr-weekday {
     padding: 8px 12px;
     border-radius: 8px;
     font-size: 12px;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 500;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     pointer-events: none; /* prevent hover flickering */
-    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease,
+        visibility 0.15s ease;
     opacity: 0;
     visibility: hidden;
     transform: translateY(5px);
@@ -946,7 +960,7 @@ span.flatpickr-weekday {
 }
 
 .booking-tooltip::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -6px;
     left: 50%;
@@ -957,4 +971,3 @@ span.flatpickr-weekday {
     display: block;
     width: 0;
 }
-
