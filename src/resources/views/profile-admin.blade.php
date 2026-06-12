@@ -981,542 +981,20 @@
                 </div>
             @endif
 
-            <!-- SECTION 1: LOG AKTIVITAS (DASHBOARD) -->
-            <div id="section-log-aktivitas" class="content-section">
-                <h1>Log Aktivitas</h1>
+            <!-- BAGIAN 1: LOG AKTIVITAS (DASHBOARD) -->
+            @include('partials.admin.log-aktivitas')
 
-                <div class="admin-list">
-                    <a href="/admin/pengajuan-properti" class="admin-card" id="card-pengajuan-properti">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <span>Pengajuan Properti</span>
-                            @if(count($pendingProperties) > 0)
-                                <span class="notification-bubble" style="box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);">{{ count($pendingProperties) }}</span>
-                            @endif
-                        </div>
-                        <img src="/images/profile/edit.png" alt="Edit Icon">
-                    </a>
+            <!-- BAGIAN 4: LIST PROPERTI -->
+            @include('partials.admin.list-properti')
 
-                    <a href="/admin/riwayat-pemesanan" class="admin-card" id="card-riwayat-pemesanan">
-                        <span>Riwayat Pemesanan</span>
-                        <img src="/images/profile/edit.png" alt="Edit Icon">
-                    </a>
-                </div>
-            </div>
+            <!-- BAGIAN 5: KELOLA KOMENTAR -->
+            @include('partials.admin.manage-comments')
 
-            <!-- SECTION 2: PENGAJUAN PROPERTI -->
-            <div id="section-pengajuan-properti" class="content-section">
-                <h1>Pengajuan Properti</h1>
+            <!-- BAGIAN 6: MANAJEMEN PENGGUNA -->
+            @include('partials.admin.manage-users')
 
-                <div class="item-list">
-                    @forelse($pendingProperties as $property)
-                        <div class="review-container">
-                            <div class="item-card" style="box-shadow: none; border: none; background: transparent;">
-                                <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $property->nama_properti }}" style="object-position: {{ $property->coverPhoto->position_style ?? 'center 50%' }};">
-
-                                <div class="item-info">
-                                    <h3>{{ $property->nama_properti }}</h3>
-                                    <p>Wilayah: {{ $property->location->kota ?? 'Lokasi tidak diketahui' }}</p>
-                                    <p>Mitra: {{ $property->mitra->nama_mitra ?? $property->mitra->name ?? 'Mitra tidak diketahui' }}</p>
-                                    <strong>Rp {{ number_format($property->harga_per_hari, 0, ',', '.') }} / hari</strong>
-                                </div>
-
-                                <div style="text-align: right; display: flex; flex-direction: column; gap: 8px;">
-                                    <div class="status-badge pending">Status: Menunggu</div>
-                                    <a href="{{ route('detail-properti', $property->id_properti) }}?preview=admin" target="_blank" class="item-action btn-preview">Preview Detail Properti</a>
-                                </div>
-                            </div>
-
-                            <div class="review-box">
-                                <form action="{{ route('admin.property.review', $property->id_properti) }}" method="POST">
-                                    @csrf
-                                    <div class="review-header">
-                                        <span>Catatan</span>
-
-                                        <div class="action-buttons">
-                                            <button type="submit" name="status_pengajuan" value="approved" class="btn-decision accept">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                                Terima
-                                            </button>
-                                            <button type="submit" name="status_pengajuan" value="rejected" class="btn-decision reject">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                                Tolak
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <textarea name="catatan" placeholder="Tulis Catatan Di Sini"></textarea>
-                                </form>
-                            </div>
-                        </div>
-                    @empty
-                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
-                            Tidak ada pengajuan properti baru yang perlu di-review.
-                        </div>
-                    @endforelse
-                </div>
-
-                <button id="kembali-pengajuan" class="back-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                    Kembali
-                </button>
-            </div>
-
-            <!-- SECTION 3: RIWAYAT PEMESANAN -->
-            <div id="section-riwayat-pemesanan" class="content-section">
-                <h1>Riwayat Pemesanan</h1>
-
-                <!-- Filter and Sort Controls matching Mitra style -->
-                <div class="filter-controls-container">
-                    <!-- Search Card -->
-                    <div class="field-card filter-card search-card" onclick="document.getElementById('filter-bookings-search-input').focus()">
-                        <div class="field-text">
-                            <small>Cari Properti / Penyewa</small>
-                            <input type="text" id="filter-bookings-search-input" class="profile-input" placeholder="Tulis nama properti atau penyewa..." onkeyup="applyBookingsFilters()">
-                        </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
-                    </div>
-
-                    <!-- Date Dropdown Card (Calendar) -->
-                    <div class="field-card filter-card dropdown-card" id="booking-date-filter-container" style="position: relative; z-index: 15;">
-                        <div class="field-text">
-                            <small>Filter Tanggal</small>
-                            <div id="booking-date-display" class="selected-display">Semua Tanggal</div>
-                            <input type="text" id="filter-booking-date-range" class="profile-input" style="position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer;" placeholder="Pilih rentang tanggal...">
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px; position: relative; z-index: 20;">
-                            <button id="btn-reset-booking-date" style="display: none; background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; outline: none; font-family: 'Poppins', sans-serif;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'" onclick="resetBookingDateFilter(event)">Reset</button>
-                            <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon">
-                        </div>
-                    </div>
-
-                    <!-- Status Dropdown Card -->
-                    <div class="field-card filter-card dropdown-card" id="booking-status-dropdown-container" style="position: relative; z-index: 10;">
-                        <div class="field-text" onclick="toggleBookingsDropdown('booking-status-dropdown', event)">
-                            <small>Status Pemesanan</small>
-                            <div id="booking-status-display" class="selected-display">Semua Status</div>
-                            <input type="hidden" id="filter-booking-status-value" value="all">
-                        </div>
-                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleBookingsDropdown('booking-status-dropdown', event)">
-                        
-                        <div id="booking-status-dropdown" class="dropdown-menu-list">
-                            <div class="dropdown-item-row booking-status-item-row" data-val="all" onclick="selectBookingStatusFilter('all', 'Semua Status', event)">
-                                <span>Semua Status</span>
-                            </div>
-                            <div class="dropdown-item-row booking-status-item-row" data-val="pending" onclick="selectBookingStatusFilter('pending', 'Pending', event)">
-                                <span class="status-badge-inline process">Pending</span>
-                            </div>
-                            <div class="dropdown-item-row booking-status-item-row" data-val="confirmed" onclick="selectBookingStatusFilter('confirmed', 'Disetujui', event)">
-                                <span class="status-badge-inline success">Disetujui</span>
-                            </div>
-                            <div class="dropdown-item-row booking-status-item-row" data-val="rejected" onclick="selectBookingStatusFilter('rejected', 'Ditolak', event)">
-                                <span class="status-badge-inline danger">Ditolak</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item-list">
-                    @forelse($bookings as $booking)
-                        <div class="item-card booking-card-item" 
-                             data-property-name="{{ strtolower($booking->property->nama_properti ?? '') }}" 
-                             data-tenant-name="{{ strtolower($booking->user->name ?? '') }}" 
-                             data-start-date="{{ $booking->tanggal_mulai }}" 
-                             data-end-date="{{ $booking->tanggal_selesai }}" 
-                             data-status="{{ $booking->status_booking }}">
-                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $booking->property->nama_properti ?? 'Properti' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
-
-                            <div class="item-info">
-                                <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
-                                <p>Wilayah: {{ $booking->property->location->kota ?? 'Lokasi tidak diketahui' }}</p>
-                                <p>Penyewa: {{ $booking->user->name ?? 'Penyewa tidak diketahui' }}</p>
-                                <p>Durasi: {{ \Carbon\Carbon::parse($booking->tanggal_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($booking->tanggal_selesai)->format('d M Y') }}</p>
-                                <strong>IDR {{ number_format($booking->total_price, 0, ',', '.') }}</strong>
-                            </div>
-
-                            <div style="text-align: right; display: flex; flex-direction: column; gap: 8px;">
-                                @if($booking->status_booking === 'pending')
-                                    <div class="status-badge pending">Pending</div>
-                                @elseif($booking->status_booking === 'confirmed' || $booking->status_booking === 'completed')
-                                    <div class="status-badge approved">Disetujui</div>
-                                @else
-                                    <div class="status-badge rejected">{{ ucfirst($booking->status_booking) }}</div>
-                                @endif
-                                <span style="font-size: 13px; color: #2563eb; cursor: pointer; text-decoration: underline; font-weight: 600;" onclick="showBookingDetail({{ $booking->id_booking }})">Info Pemesanan</span>
-                            </div>
-                        </div>
-                    @empty
-                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px; width: 100%;">
-                            Belum ada riwayat pemesanan di dalam sistem.
-                        </div>
-                    @endforelse
-                </div>
-
-                <button id="kembali-riwayat" class="back-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                    Kembali
-                </button>
-            </div>
-
-            <!-- SECTION 4: LIST PROPERTI -->
-            <div id="section-list-properti" class="content-section">
-                <h1>List Properti</h1>
-
-                <div class="item-list">
-                    @forelse($allProperties as $property)
-                        <div class="item-card">
-                            <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="item-thumb" alt="{{ $property->nama_properti }}" style="object-position: {{ $property->coverPhoto->position_style ?? 'center 50%' }};">
-
-                            <div class="item-info">
-                                <h3>{{ $property->nama_properti }}</h3>
-                                <p>Wilayah: {{ $property->location->kota ?? 'Lokasi tidak diketahui' }}</p>
-                                <p>Mitra: {{ $property->mitra->nama_mitra ?? $property->mitra->name ?? 'Mitra tidak diketahui' }}</p>
-                                <strong>Rp {{ number_format($property->harga_per_hari, 0, ',', '.') }} / hari</strong>
-                            </div>
-
-                            <div style="text-align: right; display: flex; flex-direction: column; gap: 8px;">
-                                @if($property->status_pengajuan === 'approved')
-                                    <div class="status-badge approved">Disetujui</div>
-                                @elseif($property->status_pengajuan === 'pending')
-                                    <div class="status-badge pending">Menunggu</div>
-                                @else
-                                    <div class="status-badge rejected">Ditolak</div>
-                                @endif
-                                <a href="{{ route('detail-properti', $property->id_properti) }}" target="_blank" class="item-action">Lihat Info Properti</a>
-                            </div>
-                        </div>
-                    @empty
-                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
-                            Belum ada properti terdaftar dalam sistem.
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-
-            <!-- SECTION 5: KELOLA KOMENTAR -->
-            <div id="section-manage-comments" class="content-section">
-                <h1>Kelola Komentar</h1>
-
-                <!-- Filter and Sort Controls matching Mitra style -->
-                <div class="filter-controls-container">
-                    <!-- Search Card -->
-                    <div class="field-card filter-card search-card" onclick="document.getElementById('filter-comments-search-input').focus()">
-                        <div class="field-text">
-                            <small>Cari Properti / Penyewa / Komentar</small>
-                            <input type="text" id="filter-comments-search-input" class="profile-input" placeholder="Tulis nama properti, penyewa, atau ulasan..." onkeyup="applyCommentsFilters()">
-                        </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
-                    </div>
-
-                    <!-- Rating Dropdown Card -->
-                    <div class="field-card filter-card dropdown-card" id="rating-dropdown-container" style="position: relative; z-index: 15;">
-                        <div class="field-text" onclick="toggleCommentsDropdown('rating-dropdown', event)">
-                            <small>Filter Rating</small>
-                            <div id="rating-display" class="selected-display">Semua Rating</div>
-                            <input type="hidden" id="filter-rating-value" value="all">
-                        </div>
-                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleCommentsDropdown('rating-dropdown', event)">
-                        
-                        <div id="rating-dropdown" class="dropdown-menu-list">
-                            <div class="dropdown-item-row rating-item-row" data-val="all" onclick="selectCommentsRating('all', 'Semua Rating', event)">
-                                <span>Semua Rating</span>
-                            </div>
-                            @for($stars = 5; $stars >= 1; $stars--)
-                            <div class="dropdown-item-row rating-item-row" data-val="{{ $stars }}" onclick="selectCommentsRating('{{ $stars }}', 'Bintang {{ $stars }}', event)">
-                                <span class="status-badge-inline process" style="background: #fef9c3; color: #a16207; display: flex; align-items: center; gap: 4px;">
-                                    {{ $stars }} ★
-                                </span>
-                            </div>
-                            @endfor
-                        </div>
-                    </div>
-
-                    <!-- Waktu Komentar Dropdown Card -->
-                    <div class="field-card filter-card dropdown-card" id="time-dropdown-container" style="position: relative; z-index: 10;">
-                        <div class="field-text" onclick="toggleCommentsDropdown('time-dropdown', event)">
-                            <small>Waktu Komentar</small>
-                            <div id="time-display" class="selected-display">Terbaru</div>
-                            <input type="hidden" id="filter-time-value" value="newest">
-                        </div>
-                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleCommentsDropdown('time-dropdown', event)">
-                        
-                        <div id="time-dropdown" class="dropdown-menu-list">
-                            <div class="dropdown-item-row time-item-row" data-val="newest" onclick="selectCommentsTime('newest', 'Terbaru', event)">
-                                <span>Terbaru</span>
-                            </div>
-                            <div class="dropdown-item-row time-item-row" data-val="oldest" onclick="selectCommentsTime('oldest', 'Terlama', event)">
-                                <span>Terlama</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item-list">
-                    @forelse($reviews as $review)
-                        @php
-                            $property = $review->booking->property ?? null;
-                            $penyewa = $review->booking->user ?? null;
-                            $coverPhoto = $property ? $property->coverPhoto : null;
-                        @endphp
-                        <div class="item-card review-card-item" id="review-card-{{ $review->id_review }}" 
-                             data-property-name="{{ strtolower($property->nama_properti ?? '') }}" 
-                             data-tenant-name="{{ strtolower($penyewa->name ?? '') }}" 
-                             data-comment-text="{{ strtolower($review->komentar ?? '') }}" 
-                             data-rating="{{ $review->rating }}" 
-                             data-has-feedback="{{ $review->balasan_mitra ? 'true' : 'false' }}"
-                             data-timestamp="{{ \Carbon\Carbon::parse($review->tanggal_review)->timestamp }}"
-                             style="flex-direction: column; align-items: stretch; gap: 16px;">
-                            <!-- Property info at the top -->
-                            @if($property)
-                            <div style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px;">
-                                <img src="{{ $coverPhoto->url_foto ?? '/images/landing/property.png' }}" style="width: 70px; height: 50px; border-radius: 8px; object-fit: cover; object-position: {{ $coverPhoto->position_style ?? 'center 50%' }};" alt="{{ $property->nama_properti }}">
-                                <div>
-                                    <h4 style="font-size: 14px; font-weight: 600; color: #1f2937; margin-bottom: 2px;">{{ $property->nama_properti }}</h4>
-                                    <span style="font-size: 12px; color: #6b7280;">Pemilik: {{ $property->mitra->nama_mitra ?? $property->mitra->name ?? 'Mitra tidak diketahui' }}</span>
-                                </div>
-                            </div>
-                            @endif
-
-                            <!-- Review content -->
-                            <div>
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-                                    <div>
-                                        <span style="font-size: 14px; font-weight: 600; color: #374151;">{{ $penyewa->name ?? 'Penyewa' }}</span>
-                                        <span style="font-size: 12px; color: #9ca3af; margin-left: 8px;">{{ \Carbon\Carbon::parse($review->tanggal_review)->format('d M Y H:i') }}</span>
-                                    </div>
-                                    <div style="display: flex; gap: 2px;">
-                                        @for ($j = 1; $j <= 5; $j++)
-                                            @if ($j <= $review->rating)
-                                                <img src="/images/informasi/icons/star.png" style="width: 14px; height: 14px; object-fit: contain;" alt="">
-                                            @else
-                                                <img src="/images/informasi/icons/star.png" style="width: 14px; height: 14px; object-fit: contain; opacity: 0.3;" alt="">
-                                            @endif
-                                        @endfor
-                                    </div>
-                                </div>
-                                <p style="font-size: 14px; color: #4b5563; line-height: 1.5; font-style: italic;">"{{ $review->komentar }}"</p>
-                            </div>
-
-                            <!-- Mitra feedback if exists -->
-                            <div class="feedback-container-wrapper-{{ $review->id_review }}" style="display: {{ $review->balasan_mitra ? 'block' : 'none' }}; margin-left: 20px; padding-left: 14px; border-left: 3px solid #f7c948;">
-                                <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 6px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <span style="font-size: 12px; font-weight: 600; color: #b45309; display: inline-flex; align-items: center; gap: 6px;">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                            Tanggapan Mitra (Pemilik Properti)
-                                        </span>
-                                        <span style="font-size: 11px; color: #9ca3af;" class="feedback-date-{{ $review->id_review }}">{{ $review->tanggal_balasan ? \Carbon\Carbon::parse($review->tanggal_balasan)->format('d M Y H:i') : '' }}</span>
-                                    </div>
-                                    <p style="font-size: 13px; color: #4b5563;" class="feedback-text-{{ $review->id_review }}">{{ $review->balasan_mitra }}</p>
-                                </div>
-                            </div>
-
-                            <!-- Action buttons -->
-                            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 4px; border-top: 1px solid #f3f4f6; padding-top: 12px;">
-                                <button onclick="confirmDeleteFeedback({{ $review->id_review }})" class="btn-delete-feedback-{{ $review->id_review }}" style="display: {{ $review->balasan_mitra ? 'inline-flex' : 'none' }}; align-items: center; gap: 6px; padding: 8px 14px; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 8px; color: #b91c1c; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                    Hapus Tanggapan
-                                </button>
-                                <button onclick="confirmDeleteReview({{ $review->id_review }})" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 8px; color: #b91c1c; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                    Hapus Ulasan
-                                </button>
-                            </div>
-                        </div>
-                    @empty
-                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px; width: 100%;">
-                            Belum ada komentar ulasan di dalam platform.
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-
-            <!-- SECTION 6: MANAJEMEN PENGGUNA -->
-            <div id="section-manage-users" class="content-section">
-                <h1>Manajemen Pengguna</h1>
-
-                <!-- Filter and Sort Controls matching other pages -->
-                <div class="filter-controls-container">
-                    <!-- Search Card -->
-                    <div class="field-card filter-card search-card" onclick="document.getElementById('filter-users-search-input').focus()">
-                        <div class="field-text">
-                            <small>Cari Pengguna</small>
-                            <input type="text" id="filter-users-search-input" class="profile-input" placeholder="Tulis nama, email, atau nomor HP..." onkeyup="applyUsersFilters()">
-                        </div>
-                        <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
-                    </div>
-
-                    <!-- Role Dropdown Card -->
-                    <div class="field-card filter-card dropdown-card" id="user-role-dropdown-container" style="position: relative; z-index: 15;">
-                        <div class="field-text" onclick="toggleUsersDropdown('user-role-dropdown', event)">
-                            <small>Filter Peran</small>
-                            <div id="user-role-display" class="selected-display">Semua Peran</div>
-                            <input type="hidden" id="filter-user-role-value" value="all">
-                        </div>
-                        <img src="/icons/chevron-down.svg" class="edit-icon" alt="Dropdown Icon" onclick="toggleUsersDropdown('user-role-dropdown', event)">
-                        
-                        <div id="user-role-dropdown" class="dropdown-menu-list">
-                            <div class="dropdown-item-row user-role-item-row" data-val="all" onclick="selectUserRoleFilter('all', 'Semua Peran', event)">
-                                <span>Semua Peran</span>
-                            </div>
-                            <div class="dropdown-item-row user-role-item-row" data-val="admin" onclick="selectUserRoleFilter('admin', 'Admin', event)">
-                                <span class="status-badge-inline success" style="background: #dcfce7; color: #15803d;">Admin</span>
-                            </div>
-                            <div class="dropdown-item-row user-role-item-row" data-val="mitra" onclick="selectUserRoleFilter('mitra', 'Mitra', event)">
-                                <span class="status-badge-inline process" style="background: #fef3c7; color: #b45309;">Mitra</span>
-                            </div>
-                            <div class="dropdown-item-row user-role-item-row" data-val="penyewa" onclick="selectUserRoleFilter('penyewa', 'Penyewa', event)">
-                                <span class="status-badge-inline completed" style="background: #e0f2fe; color: #0369a1;">Penyewa</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item-list">
-                    @forelse($users as $user)
-                        @php
-                            $primaryRole = $user->primary_role;
-                            $initials = strtoupper(substr($user->name, 0, 1));
-                            
-                            $colorIndex = ord($initials) % 5;
-                            $bgColors = ['#fef3c7', '#dcfce7', '#e0f2fe', '#fee2e2', '#f3e8ff'];
-                            $textColors = ['#b45309', '#15803d', '#0369a1', '#991b1b', '#6b21a8'];
-                            $avatarBg = $bgColors[$colorIndex];
-                            $avatarText = $textColors[$colorIndex];
-                        @endphp
-                        <div class="item-card user-card-item" id="user-card-{{ $user->id }}"
-                             data-user-name="{{ strtolower($user->name ?? '') }}"
-                             data-user-email="{{ strtolower($user->email ?? '') }}"
-                             data-user-phone="{{ $user->no_hp ?? '' }}"
-                             data-user-role="{{ $primaryRole }}"
-                             style="display: flex; align-items: center; gap: 20px; padding: 20px; width: 100%;">
-                            
-                            <!-- Initials Avatar -->
-                            <div style="width: 54px; height: 54px; border-radius: 50%; background: {{ $avatarBg }}; color: {{ $avatarText }}; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.04);">
-                                {{ $initials }}
-                            </div>
-
-                            <!-- User details -->
-                            <div class="item-info">
-                                <h3 style="margin-bottom: 4px;">{{ $user->name }}</h3>
-                                <p style="margin-bottom: 2px;"><strong>Email:</strong> {{ $user->email }}</p>
-                                <p style="margin-bottom: 2px;"><strong>No. HP:</strong> {{ $user->no_hp ?? '-' }}</p>
-                                @if($user->alamat)
-                                    <p style="margin-bottom: 2px;"><strong>Alamat:</strong> {{ $user->alamat }}</p>
-                                @endif
-                                @if($user->rekening_bank)
-                                    <p style="margin-bottom: 2px;"><strong>Rekening Bank:</strong> {{ $user->rekening_bank }}</p>
-                                @endif
-                            </div>
-
-                            <!-- Role Badge and Actions -->
-                            <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0;">
-                                @if($primaryRole === 'admin')
-                                    <span class="status-badge approved">Admin</span>
-                                @elseif($primaryRole === 'mitra')
-                                    <span class="status-badge pending" style="background: #fef3c7; color: #b45309;">Mitra</span>
-                                @else
-                                    <span class="status-badge" style="background: #e0f2fe; color: #0369a1;">Penyewa</span>
-                                @endif
-
-                                @if(Auth::id() != $user->id)
-                                    <button onclick="confirmDeleteUser({{ $user->id }})" 
-                                            style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 8px; color: #b91c1c; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; outline: none; font-family: 'Poppins', sans-serif;" 
-                                            onmouseover="this.style.background='#fecaca'" 
-                                            onmouseout="this.style.background='#fee2e2'">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                        Hapus Pengguna
-                                    </button>
-                                @else
-                                    <span style="font-size: 12px; color: #9ca3af; font-style: italic;">Akun Anda</span>
-                                @endif
-                            </div>
-                        </div>
-                    @empty
-                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px; width: 100%;">
-                            Belum ada pengguna terdaftar.
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-
-            <!-- SECTION 7: STATISTIK -->
-            <div id="section-stats" class="content-section">
-                <h1>Statistik</h1>
-
-                <!-- Main Metric Cards -->
-                <div class="stats-grid">
-                    <div class="stats-item-card blue">
-                        <h4>Total Pengguna</h4>
-                        <div class="stats-value">{{ $stats['total_users'] }}</div>
-                    </div>
-                    <div class="stats-item-card green">
-                        <h4>Total Pemesanan</h4>
-                        <div class="stats-value">{{ $stats['total_bookings'] }}</div>
-                    </div>
-                    <div class="stats-item-card orange">
-                        <h4>Total Properti</h4>
-                        <div class="stats-value">{{ $stats['total_properties'] }}</div>
-                    </div>
-                </div>
-
-                <!-- Detailed Breakdown Sections -->
-                <div class="stats-detail-grid">
-                    <!-- Detail Pengguna -->
-                    <div class="stats-detail-section">
-                        <div class="stats-detail-title">Detail Peran Pengguna</div>
-                        <div class="stats-row">
-                            <span>Admin</span>
-                            <strong>{{ $stats['total_admins'] }}</strong>
-                        </div>
-                        <div class="stats-row">
-                            <span>Mitra (Pemilik Properti)</span>
-                            <strong>{{ $stats['total_owners'] }}</strong>
-                        </div>
-                        <div class="stats-row">
-                            <span>Penyewa</span>
-                            <strong>{{ $stats['total_tenants'] }}</strong>
-                        </div>
-                    </div>
-
-                    <!-- Detail Properti -->
-                    <div class="stats-detail-section">
-                        <div class="stats-detail-title">Detail Status Properti</div>
-                        <div class="stats-row">
-                            <span>Disetujui (Approved)</span>
-                            <strong>{{ $stats['approved_properties'] }}</strong>
-                        </div>
-                        <div class="stats-row">
-                            <span>Menunggu (Pending)</span>
-                            <strong>{{ $stats['pending_properties'] }}</strong>
-                        </div>
-                        <div class="stats-row">
-                            <span>Ditolak (Rejected)</span>
-                            <strong>{{ $stats['rejected_properties'] }}</strong>
-                        </div>
-                    </div>
-
-                    <!-- Detail Pemesanan -->
-                    <div class="stats-detail-section">
-                        <div class="stats-detail-title">Detail Status Pemesanan</div>
-                        <div class="stats-row">
-                            <span>Selesai (Completed)</span>
-                            <strong>{{ $stats['completed_bookings'] }}</strong>
-                        </div>
-                        <div class="stats-row">
-                            <span>Disetujui (Confirmed)</span>
-                            <strong>{{ $stats['confirmed_bookings'] }}</strong>
-                        </div>
-                        <div class="stats-row">
-                            <span>Menunggu (Pending)</span>
-                            <strong>{{ $stats['pending_bookings'] }}</strong>
-                        </div>
-                        <div class="stats-row">
-                            <span>Ditolak (Rejected)</span>
-                            <strong>{{ $stats['rejected_bookings'] }}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- BAGIAN 7: STATISTIK -->
+            @include('partials.admin.stats-summary')
         </section>
 
     </main>
@@ -2074,7 +1552,7 @@
                 };
             };
 
-            // Toggle Bookings Dropdown
+            // Toggle Dropdown Pemesanan
             function toggleBookingsDropdown(id, e) {
                 if (e) e.stopPropagation();
                 
@@ -2093,7 +1571,7 @@
             }
             window.toggleBookingsDropdown = toggleBookingsDropdown;
 
-            // Select Booking Status Filter
+            // Pilih Filter Status Pemesanan
             function selectBookingStatusFilter(val, label, e) {
                 if (e) e.stopPropagation();
                 const valInput = document.getElementById('filter-booking-status-value');
@@ -2118,7 +1596,7 @@
             }
             window.selectBookingStatusFilter = selectBookingStatusFilter;
 
-            // Initialize Flatpickr on Date Range Filter
+            // Inisialisasi Flatpickr pada Filter Rentang Tanggal
             const bookingFlatpickr = flatpickr("#filter-booking-date-range", {
                 mode: "range",
                 dateFormat: "Y-m-d",
@@ -2158,7 +1636,7 @@
                 applyBookingsFilters();
             };
 
-            // Apply Bookings Filters
+            // Terapkan Filter Pemesanan
             function applyBookingsFilters() {
                 const searchInputEl = document.getElementById('filter-bookings-search-input');
                 const searchQuery = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
@@ -2196,12 +1674,12 @@
                     const endDateStr = card.getAttribute('data-end-date') || '';
                     const status = card.getAttribute('data-status') || '';
                     
-                    // 1. Search filter
+                    // 1. Filter pencarian
                     const matchesSearch = searchQuery === '' || 
                                           propName.includes(searchQuery) || 
                                           tenantName.includes(searchQuery);
                                           
-                    // 2. Status filter
+                    // 2. Filter status
                     let matchesStatus = false;
                     if (statusFilter === 'all') {
                         matchesStatus = true;
@@ -2213,7 +1691,7 @@
                         matchesStatus = (status !== 'pending' && status !== 'confirmed' && status !== 'completed');
                     }
                     
-                    // 3. Date range filter
+                    // 3. Filter rentang tanggal
                     let matchesDate = true;
                     if (filterStart && filterEnd) {
                         const cardStart = new Date(startDateStr);
@@ -2229,7 +1707,7 @@
                     }
                 });
                 
-                // Handle Empty State
+                // Tangani Tampilan Kosong
                 let emptyMessage = document.getElementById('empty-bookings-filter-message');
                 if (visibleCount === 0) {
                     if (!emptyMessage) {
@@ -2249,7 +1727,7 @@
             }
             window.applyBookingsFilters = applyBookingsFilters;
 
-            // Toggle Users Dropdown
+            // Toggle Dropdown Pengguna
             function toggleUsersDropdown(id, e) {
                 if (e) e.stopPropagation();
                 
@@ -2268,7 +1746,7 @@
             }
             window.toggleUsersDropdown = toggleUsersDropdown;
 
-            // Select User Role Filter
+            // Pilih Filter Peran Pengguna
             function selectUserRoleFilter(val, label, e) {
                 if (e) e.stopPropagation();
                 const valInput = document.getElementById('filter-user-role-value');
@@ -2293,7 +1771,7 @@
             }
             window.selectUserRoleFilter = selectUserRoleFilter;
 
-            // Apply Users Filters
+            // Terapkan Filter Pengguna
             function applyUsersFilters() {
                 const searchInputEl = document.getElementById('filter-users-search-input');
                 const searchQuery = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
@@ -2313,13 +1791,13 @@
                     const userPhone = card.getAttribute('data-user-phone') || '';
                     const userRole = card.getAttribute('data-user-role') || '';
                     
-                    // 1. Search filter
+                    // 1. Filter pencarian
                     const matchesSearch = searchQuery === '' || 
                                           userName.includes(searchQuery) || 
                                           userEmail.includes(searchQuery) ||
                                           userPhone.includes(searchQuery);
                                           
-                    // 2. Role filter
+                    // 2. Filter peran
                     const matchesRole = roleFilter === 'all' || userRole === roleFilter;
                     
                     if (matchesSearch && matchesRole) {
@@ -2330,7 +1808,7 @@
                     }
                 });
                 
-                // Handle Empty State
+                // Tangani Tampilan Kosong
                 let emptyMessage = document.getElementById('empty-users-filter-message');
                 if (visibleCount === 0) {
                     if (!emptyMessage) {
@@ -2350,7 +1828,7 @@
             }
             window.applyUsersFilters = applyUsersFilters;
 
-            // Confirm and delete user via AJAX
+            // Konfirmasi dan hapus pengguna via AJAX
             window.confirmDeleteUser = function(userId) {
                 showCustomConfirm('Apakah Anda yakin ingin menghapus pengguna ini beserta seluruh data terkait (properti, pemesanan, dll) secara permanen?', 'danger').then(confirmed => {
                     if (confirmed) {
@@ -2383,11 +1861,11 @@
                 });
             };
 
-            // Init page from URL
+            // Inisialisasi halaman dari URL
             const currentPath = window.location.pathname;
             navigateTo(currentPath, false);
 
-            // Popstate browser navigation
+            // Navigasi browser popstate
             window.addEventListener('popstate', function(e) {
                 const path = (e.state && e.state.path) ? e.state.path : window.location.pathname;
                 navigateTo(path, false);
