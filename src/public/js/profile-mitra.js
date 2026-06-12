@@ -1,74 +1,8 @@
 // ID booking global yang diteruskan dari server untuk pemuatan langsung
         
 
-        function navigateTo(path, pushState = true) {
-            const menuTentangSaya = document.getElementById('menu-tentang-saya');
-            const menuRiwayatPenyewaan = document.getElementById('menu-riwayat-penyewaan');
-            const menuPropertiSaya = document.getElementById('menu-properti-saya');
-            const menuTambahProperti = document.getElementById('menu-tambah-properti');
-            const menuStatusPengajuan = document.getElementById('menu-status-pengajuan');
 
-            const menuItems = [
-                { path: '/profile-mitra', sectionId: 'section-tentang-saya', title: 'Profile Mitra - SpotRent', el: menuTentangSaya },
-                { path: '/riwayat-penyewaan', sectionId: 'section-riwayat-penyewaan', title: 'Riwayat Penyewaan - SpotRent', el: menuRiwayatPenyewaan },
-                { path: '/properti-saya', sectionId: 'section-properti-saya', title: 'Properti Saya - SpotRent', el: menuPropertiSaya },
-                { path: '/tambah-properti', sectionId: 'section-tambah-properti', title: 'Tambah Properti - SpotRent', el: menuTambahProperti },
-                { path: '/status-pengajuan', sectionId: 'section-status-pengajuan', title: 'Status Pengajuan - SpotRent', el: menuStatusPengajuan },
-                { path: '/detail-riwayat-penyewaan', sectionId: 'section-detail-penyewaan', title: 'Detail Penyewaan - SpotRent', el: menuRiwayatPenyewaan }
-            ];
-
-            let isDetail = path.match(/^\/detail-riwayat-penyewaan\/(\d+)$/);
-            let matchedPath = isDetail ? '/detail-riwayat-penyewaan' : path;
-
-            // Cari rute yang cocok
-            let matched = menuItems.find(item => item.path === matchedPath);
-            if (!matched) {
-                // fallback to profile
-                matched = menuItems[0];
-            }
-
-            // Tampilkan section yang cocok, sembunyikan yang lain
-            menuItems.forEach(item => {
-                const sec = document.getElementById(item.sectionId);
-                if (sec) {
-                    if (item === matched) {
-                        sec.style.display = 'block';
-                        sec.offsetHeight; // picu reflow browser
-                        sec.classList.add('active');
-                        if (item.el) item.el.classList.add('active');
-                    } else {
-                        sec.classList.remove('active');
-                        sec.style.display = 'none';
-                        if (item.el && item.el !== matched.el) {
-                            item.el.classList.remove('active');
-                        }
-                    }
-                }
-            });
-
-            document.title = matched.title;
-
-            if (pushState) {
-                history.pushState({ path: path }, '', path);
-            }
-
-            if (isDetail) {
-                const id = isDetail[1];
-                showRentalDetail(null, id, false);
-            }
-
-            // Pulihkan sidebar setiap kali halaman berubah di router
-            const profilePage = document.querySelector('.profile-page');
-            if (profilePage) {
-                profilePage.classList.remove('sidebar-collapsed');
-            }
-            const btnBackCropTop = document.getElementById('btn-back-crop-top');
-            if (btnBackCropTop) {
-                btnBackCropTop.style.display = 'none';
-            }
-        }
-        window.navigateTo = navigateTo;
-
+        
         function showRentalDetail(event, id, shouldPushState = true) {
             if (event) event.preventDefault();
             
