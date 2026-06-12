@@ -666,6 +666,11 @@
                         <span>Saved Properti</span>
                     </a>
 
+                    <a href="/riwayat-transaksi" id="menu-riwayat-transaksi" class="menu-item">
+                        <img src="/icons/transaction.svg" class="menu-icon" alt="Riwayat Transaksi Icon">
+                        <span>Riwayat Transaksi</span>
+                    </a>
+
                     @if(!Auth::user()->isMitra())
                     <a href="/upgrade-mitra" class="menu-item">
                         <img src="/icons/upgrade.svg" class="menu-icon" alt="Upgrade Icon">
@@ -807,6 +812,45 @@
                     @endforelse
                 </div>
             </div>
+
+            <!-- SECTION 5: RIWAYAT TRANSAKSI -->
+            <div id="section-riwayat-transaksi" class="content-section">
+                <h1>Riwayat Transaksi</h1>
+
+                <div class="search-box">
+                    <input type="text" id="transactionSearchInput" placeholder="Cari transaksi..." onkeyup="searchTransactions()">
+                </div>
+
+                <div class="booking-list">
+                    @forelse($bookings as $booking)
+                        @php
+                            $status = $booking->status_booking;
+                            $isRefund = in_array($status, ['rejected', 'cancelled']);
+                        @endphp
+                        <div class="booking-card transaction-card" style="cursor: default;">
+                            <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
+
+                            <div class="booking-info">
+                                <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>
+                                <p style="margin-bottom: 4px;">Tanggal Transaksi: {{ $booking->created_at->format('d M Y') }}</p>
+                                <p style="margin-bottom: 4px;">Periode Sewa: {{ \Carbon\Carbon::parse($booking->tanggal_mulai)->translatedFormat('d M Y') }} - {{ \Carbon\Carbon::parse($booking->tanggal_selesai)->translatedFormat('d M Y') }}</p>
+                                <strong>IDR {{ number_format($booking->total_price, 0, ',', '.') }}</strong>
+                            </div>
+
+                            @if($isRefund)
+                                <div class="status" style="background:#fee2e2;color:#991b1b;">Refund</div>
+                            @else
+                                <div class="status success">Terbayar</div>
+                            @endif
+                        </div>
+                    @empty
+                        <div style="text-align: center; padding: 40px 0; color: #666; font-size: 16px; background: #f9fafb; border-radius: 14px;">
+                            Anda belum memiliki riwayat transaksi.
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
             <!-- SECTION 4: DETAIL BOOKING -->
             <div id="section-detail-booking" class="content-section">
                 <h1>Detail Booking</h1>
@@ -922,11 +966,13 @@
             const menuTentangSaya = document.getElementById('menu-tentang-saya');
             const menuRiwayatBooking = document.getElementById('menu-riwayat-booking');
             const menuSavedProperti = document.getElementById('menu-saved-properti');
+            const menuRiwayatTransaksi = document.getElementById('menu-riwayat-transaksi');
 
             const menuItems = [
                 { path: '/profile-user', sectionId: 'section-tentang-saya', title: 'Profile User - SpotRent', menuEl: menuTentangSaya },
                 { path: '/riwayat-booking', sectionId: 'section-riwayat-booking', title: 'Riwayat Booking - SpotRent', menuEl: menuRiwayatBooking },
                 { path: '/saved-properti', sectionId: 'section-saved-properti', title: 'Saved Properti - SpotRent', menuEl: menuSavedProperti },
+                { path: '/riwayat-transaksi', sectionId: 'section-riwayat-transaksi', title: 'Riwayat Transaksi - SpotRent', menuEl: menuRiwayatTransaksi },
                 { path: '/detail-riwayat-booking', sectionId: 'section-detail-booking', title: 'Detail Booking - SpotRent', menuEl: menuRiwayatBooking }
             ];
 
@@ -1218,6 +1264,7 @@
             const menuTentangSaya = document.getElementById('menu-tentang-saya');
             const menuRiwayatBooking = document.getElementById('menu-riwayat-booking');
             const menuSavedProperti = document.getElementById('menu-saved-properti');
+            const menuRiwayatTransaksi = document.getElementById('menu-riwayat-transaksi');
 
             if (menuTentangSaya) {
                 menuTentangSaya.addEventListener('click', function(e) {
@@ -1237,6 +1284,13 @@
                 menuSavedProperti.addEventListener('click', function(e) {
                     e.preventDefault();
                     navigateTo('/saved-properti');
+                });
+            }
+
+            if (menuRiwayatTransaksi) {
+                menuRiwayatTransaksi.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('/riwayat-transaksi');
                 });
             }
 
@@ -1365,6 +1419,20 @@
                 const title = card.querySelector('h3').textContent.toLowerCase();
                 const city = card.querySelector('p').textContent.toLowerCase();
                 if (title.includes(query) || city.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchTransactions() {
+            const query = document.getElementById('transactionSearchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.transaction-card');
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const text = card.textContent.toLowerCase();
+                if (title.includes(query) || text.includes(query)) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
