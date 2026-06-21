@@ -195,7 +195,7 @@
             $activeRole = session('active_role');
             $canBook = !Auth::check() || $activeRole === 'penyewa';
         @endphp
-        <form action="{{ route('detail-properti.book', $property->id_properti) }}" method="POST" style="display: contents;">
+        <form id="bookingForm" action="{{ route('detail-properti.book', $property->id_properti) }}" method="POST" style="display: contents;">
             @csrf
             <input type="hidden" name="date_range" id="hiddenDateRange">
 
@@ -879,5 +879,21 @@
             });
         }
         window.submitPropertyFeedback = submitPropertyFeedback;
+
+        // Validasi pemilihan tanggal saat submit form booking
+        const bookingForm = document.getElementById('bookingForm');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', function(event) {
+                const dateRange = document.getElementById('hiddenDateRange').value;
+                if (!dateRange || dateRange.trim() === '') {
+                    event.preventDefault();
+                    if (typeof showCustomAlert === 'function') {
+                        showCustomAlert('Silakan pilih tanggal booking / sewa terlebih dahulu pada kalender.', 'danger');
+                    } else {
+                        alert('Silakan pilih tanggal booking / sewa terlebih dahulu pada kalender.');
+                    }
+                }
+            });
+        }
     </script>
 @endsection

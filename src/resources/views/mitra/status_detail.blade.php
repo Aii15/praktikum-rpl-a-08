@@ -244,6 +244,12 @@
 
             @if($property->status_pengajuan === 'approved')
                 <div class="status-badge approved">Disetujui</div>
+                @if($property->catatan)
+                    <div class="admin-notes" style="margin-top: 20px; background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px 20px; border-radius: 8px; border: 1px solid #bbf7d0;">
+                        <span style="display: block; font-size: 13px; font-weight: 700; color: #15803d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Catatan Admin:</span>
+                        <p style="margin: 0; font-size: 14px; color: #14532d; line-height: 1.5; font-family: 'Poppins', sans-serif;">{{ $property->catatan }}</p>
+                    </div>
+                @endif
             @elseif($property->status_pengajuan === 'pending')
                 <div style="display: flex; align-items: center; gap: 15px; margin-top: 22px;">
                     <div class="status-badge pending" style="margin-top: 0;">Menunggu</div>
@@ -255,7 +261,13 @@
                     </form>
                 </div>
             @else
-                <div class="status-badge rejected">{{ ucfirst($property->status_pengajuan) }}</div>
+                <div class="status-badge rejected">Ditolak</div>
+                @if($property->catatan)
+                    <div class="admin-notes" style="margin-top: 20px; background: #fff5f5; border-left: 4px solid #ef4444; padding: 15px 20px; border-radius: 8px; border: 1px solid #fca5a5;">
+                        <span style="display: block; font-size: 13px; font-weight: 700; color: #991b1b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Catatan Penolakan Admin:</span>
+                        <p style="margin: 0; font-size: 14px; color: #7f1d1d; line-height: 1.5; font-family: 'Poppins', sans-serif;">{{ $property->catatan }}</p>
+                    </div>
+                @endif
             @endif
         </div>
     </div>
