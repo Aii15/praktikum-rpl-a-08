@@ -1,11 +1,11 @@
 ### ANGGOTA TIM
 
-| Nama                     | NIM      |
-| ------------------------ | -------- |
-| YUSRAN RIZQI LAKSONO     | L0124125 |
-| JAUHAR MUFID TAMIR       | L0124131 |
-| MUHAMMAD AKBAR KURNIAWAN | L0124136 |
-| MUHAMMAD AYMAN           | L0124137 |
+| Nama                         | NIM      |  Akun GitHub                                 |
+| :--------------------------- | :------- | :------------------------------------- |
+| **YUSRAN RIZQI LAKSONO**     | L0124125 | [@YYYusrn](https://github.com/YYYusrn) |
+| **JAUHAR MUFID TAMIR**       | L0124131 | [@jauhar7](https://github.com/jauhar7) |
+| **MUHAMMAD AKBAR KURNIAWAN** | L0124136 | [@Frezga](https://github.com/Frezga)   |
+| **MUHAMMAD AYMAN**           | L0124137 | [@Aii15](https://github.com/Aii15)     |
 
 Fitur yang sudah diimplementasikan:
 
