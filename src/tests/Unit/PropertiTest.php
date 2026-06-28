@@ -7,9 +7,7 @@ use App\Models\Property;
 
 class PropertiTest extends TestCase
 {
-    /**
-     * Test format harga ke Rupiah berhasil (Happy Path).
-     */
+    /*** Test format harga ke Rupiah berhasil (Happy Path).*/
     public function test_format_harga_ke_rupiah_berhasil(): void
     {
         // --- 1. ARRANGE ---
@@ -29,9 +27,7 @@ class PropertiTest extends TestCase
         $this->assertEquals('Rp 2.750.500', $formatRupiah2);
     }
 
-    /**
-     * Test format harga ke Rupiah ketika harga bernilai nol atau null (Edge Case).
-     */
+    /*** Test format harga ke Rupiah ketika harga bernilai nol atau null (Edge Case).*/
     public function test_format_harga_nol_atau_null(): void
     {
         // --- 1. ARRANGE ---

@@ -8,9 +8,7 @@ use App\Models\Property;
 
 class PemesananTest extends TestCase
 {
-    /**
-     * Test hitung durasi sewa berhasil (Happy Path & Edge Case).
-     */
+    /*** Test hitung durasi sewa berhasil (Happy Path & Edge Case).*/
     public function test_hitung_durasi_sewa_berhasil(): void
     {
         // --- 1. ARRANGE ---
@@ -33,9 +31,7 @@ class PemesananTest extends TestCase
         $this->assertEquals(3, $durasiTigaHari);
     }
 
-    /**
-     * Test hitung total harga sewa berhasil (Happy Path).
-     */
+    /*** Test hitung total harga sewa berhasil (Happy Path).*/
     public function test_hitung_total_harga_sewa_berhasil(): void
     {
         // --- 1. ARRANGE ---
@@ -58,9 +54,7 @@ class PemesananTest extends TestCase
         $this->assertEquals(600000.0, $totalHarga);
     }
 
-    /**
-     * Test hitung total harga sewa ketika properti tidak ada (Unhappy Path).
-     */
+    /*** Test hitung total harga sewa ketika properti tidak ada (Unhappy Path).*/
     public function test_hitung_total_harga_sewa_tanpa_properti(): void
     {
         // --- 1. ARRANGE ---

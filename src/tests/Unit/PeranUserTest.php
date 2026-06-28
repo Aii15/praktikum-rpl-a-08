@@ -11,9 +11,7 @@ class PeranUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Test assign role and check role status (Happy Path).
-     */
+    /*** Test assign role dan check role status (Happy Path).*/
     public function test_bisa_menambahkan_dan_memeriksa_peran_user(): void
     {
         // --- 1. ARRANGE ---
@@ -36,9 +34,7 @@ class PeranUserTest extends TestCase
         $this->assertEquals('mitra', $user->primary_role);
     }
 
-    /**
-     * Test assign role baru yang belum ada di database (Edge Case).
-     */
+    /*** Test assign role baru yang belum ada di database (Edge Case).*/
     public function test_assign_role_baru_akan_membuat_record_role_di_database(): void
     {
         // --- 1. ARRANGE ---
@@ -48,7 +44,7 @@ class PeranUserTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
 
-        // Pastikan role 'custom_role' belum ada di database
+        // memastikan role 'custom_role' belum ada di database
         $this->assertDatabaseMissing('roles', ['name' => 'custom_role']);
 
         // --- 2. ACT ---

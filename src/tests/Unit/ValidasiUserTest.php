@@ -7,9 +7,7 @@ use App\Models\User;
 
 class ValidasiUserTest extends TestCase
 {
-    /**
-     * Test format nomor telepon valid (Happy Path).
-     */
+    /*** Test format nomor telepon valid (Happy Path).*/
     public function test_format_nomor_telepon_valid(): void
     {
         // --- 1. ARRANGE ---
@@ -28,9 +26,7 @@ class ValidasiUserTest extends TestCase
         $this->assertTrue($hasil3);
     }
 
-    /**
-     * Test format nomor telepon tidak valid (Unhappy Paths).
-     */
+    /*** Test format nomor telepon tidak valid (Unhappy Paths).*/
     public function test_format_nomor_telepon_tidak_valid(): void
     {
         // --- 1. ARRANGE ---
@@ -52,9 +48,7 @@ class ValidasiUserTest extends TestCase
         $this->assertFalse($hasil4);
     }
 
-    /**
-     * Test format KTP valid (Happy Path).
-     */
+    /*** Test format KTP valid (Happy Path).*/
     public function test_format_ktp_valid(): void
     {
         // --- 1. ARRANGE ---
@@ -67,9 +61,7 @@ class ValidasiUserTest extends TestCase
         $this->assertTrue($hasil);
     }
 
-    /**
-     * Test format KTP tidak valid (Unhappy Paths).
-     */
+    /*** Test format KTP tidak valid (Unhappy Paths).*/
     public function test_format_ktp_tidak_valid(): void
     {
         // --- 1. ARRANGE ---
