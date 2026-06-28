@@ -40,6 +40,14 @@ class Property extends Model
         return $this->belongsTo(Location::class, 'id_lokasi', 'id_lokasi');
     }
 
+    /**
+     * Format harga per hari ke Rupiah, misal "Rp 150.000".
+     */
+    public function getFormattedPriceAttribute(): string
+    {
+        return 'Rp ' . number_format($this->harga_per_hari ?? 0, 0, ',', '.');
+    }
+
     public function photos()
     {
         return $this->hasMany(PropertyPhoto::class, 'id_properti', 'id_properti');

@@ -52,6 +52,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Memvalidasi format nomor telepon (diawali 08 dan panjang 10-13 digit).
+     */
+    public static function isValidPhoneNumber(string $noHp): bool
+    {
+        return (bool) preg_match('/^08[0-9]{8,11}$/', $noHp);
+    }
+
+    /**
+     * Memvalidasi format nomor KTP (tepat 16 digit angka).
+     */
+    public static function isValidKtp(string $ktp): bool
+    {
+        return (bool) preg_match('/^[0-9]{16}$/', $ktp);
+    }
+
+    /**
      * Check whether user has a given role name.
      */
     public function hasRole(string $roleName): bool
