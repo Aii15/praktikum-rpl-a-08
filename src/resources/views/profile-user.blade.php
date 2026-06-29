@@ -132,6 +132,7 @@
                     document.getElementById('detailStatusPembayaran').textContent = booking.status_pembayaran;
                     document.getElementById('detailTotalPrice').textContent = booking.total_price_formatted;
                     document.getElementById('detailRentangHari').textContent = booking.rentang_hari;
+                    document.getElementById('detailEmailMitra').textContent = booking.email_mitra;
                     document.getElementById('detailPemilik').textContent = booking.pemilik;
 
                     const statusBadge = document.getElementById('detailStatusBadge');

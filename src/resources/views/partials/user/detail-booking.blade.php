@@ -35,6 +35,11 @@
                     </div>
 
                     <div class="info-group">
+                        <strong>Email Mitra</strong>
+                        <p id="detailEmailMitra"></p>
+                    </div>
+
+                    <div class="info-group">
                         <strong>Pemilik Properti</strong>
                         <p id="detailPemilik"></p>
                     </div>

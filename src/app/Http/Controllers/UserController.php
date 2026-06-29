@@ -116,6 +116,7 @@ class UserController extends Controller
                     'nama_properti' => $booking->property->nama_properti ?? '',
                     'cover_photo' => $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png',
                     'pemilik' => $booking->property->mitra->name ?? 'Tidak Diketahui',
+                    'email_mitra' => $booking->property->mitra->email ?? 'Tidak Diketahui',
                     'review' => $booking->review ? [
                         'id_review' => $booking->review->id_review,
                         'rating' => $booking->review->rating,

@@ -374,6 +374,11 @@
                         </div>
 
                         <div class="info-group">
+                            <strong>Email Mitra</strong>
+                            <p>{{ $booking->property->mitra->email ?? 'Tidak Diketahui' }}</p>
+                        </div>
+
+                        <div class="info-group">
                             <strong>Pemilik Properti</strong>
                             <p>{{ $booking->property->mitra->name ?? 'Tidak Diketahui' }}</p>
                         </div>
