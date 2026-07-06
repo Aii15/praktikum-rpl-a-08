@@ -153,11 +153,7 @@ function confirmDeleteReview(reviewId) {
             .then(data => {
                 if (data.success) {
                     showCustomAlert(data.message, 'success').then(() => {
-                        const card = document.getElementById(`review-card-${reviewId}`);
-                        if (card) {
-                            card.remove();
-                        }
-                        applyCommentsFilters();
+                        window.location.reload();
                     });
                 } else {
                     showCustomAlert(data.message || 'Gagal menghapus ulasan.', 'danger');

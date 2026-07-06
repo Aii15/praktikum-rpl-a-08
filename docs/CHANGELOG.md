@@ -29,4 +29,3 @@
 - Perbaikan bug validasi booking pada tanggal lampau
 - Perbaikan bug validasi upload foto properti agar mematuhi batasan server PHP secara dinamis
 - Perbaikan bug ketidaksesuaian posisi crop thumbnail gambar dengan cara menyamakan ukuran bingkai live preview dan halaman detail
-

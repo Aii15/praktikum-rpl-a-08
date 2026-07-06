@@ -118,11 +118,7 @@ function confirmDeleteUser(userId) {
             .then(data => {
                 if (data.success) {
                     showCustomAlert(data.message, 'success').then(() => {
-                        const card = document.getElementById(`user-card-${userId}`);
-                        if (card) {
-                            card.remove();
-                        }
-                        applyUsersFilters();
+                        window.location.reload();
                     });
                 } else {
                     showCustomAlert(data.message || 'Gagal menghapus pengguna.', 'danger');

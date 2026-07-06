@@ -65,12 +65,12 @@ class AdminController extends Controller
 
         // 6. Statistics counters (Statistik)
         $stats = [
-            'total_users' => \App\Models\User::count(),
-            'total_tenants' => \App\Models\User::whereHas('roles', function($q) { $q->where('name', 'penyewa'); })->count(),
-            'total_owners' => \App\Models\User::whereHas('roles', function($q) { $q->where('name', 'mitra'); })->count(),
-            'total_admins' => \App\Models\User::whereHas('roles', function($q) { $q->where('name', 'admin'); })->count(),
+            'total_users' => $users->count(),
+            'total_tenants' => $users->filter(function($u) { return $u->primary_role === 'penyewa'; })->count(),
+            'total_owners' => $users->filter(function($u) { return $u->primary_role === 'mitra'; })->count(),
+            'total_admins' => $users->filter(function($u) { return $u->primary_role === 'admin'; })->count(),
             
-            'total_properties' => Property::count(),
+            'total_properties' => Property::where('status_pengajuan', 'approved')->count(),
             'approved_properties' => Property::where('status_pengajuan', 'approved')->count(),
             'pending_properties' => Property::where('status_pengajuan', 'pending')->count(),
             'rejected_properties' => Property::where('status_pengajuan', 'rejected')->count(),
@@ -79,7 +79,7 @@ class AdminController extends Controller
             'pending_bookings' => Booking::where('status_booking', 'pending')->count(),
             'confirmed_bookings' => Booking::where('status_booking', 'confirmed')->count(),
             'completed_bookings' => Booking::where('status_booking', 'completed')->count(),
-            'rejected_bookings' => Booking::where('status_booking', 'rejected')->count(),
+            'rejected_bookings' => Booking::whereIn('status_booking', ['cancelled', 'rejected'])->count(),
         ];
 
         return view('profile-admin', compact('pendingProperties', 'allProperties', 'bookings', 'reviews', 'users', 'stats'));

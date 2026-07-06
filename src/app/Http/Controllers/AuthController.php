@@ -134,7 +134,16 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            return $this->finishLogin(Auth::user(), $request);
+            $user = Auth::user();
+            if ($user->hasRole('admin')) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return back()->withErrors([
+                    'login_id' => 'Email atau nomor HP tidak valid, atau password salah.',
+                ])->onlyInput('login_id');
+            }
+            return $this->finishLogin($user, $request);
         }
 
         return back()->withErrors([
@@ -222,7 +231,7 @@ class AuthController extends Controller
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             return back()->withErrors([
-                'email' => 'Akses ditolak. Rute ini hanya khusus untuk Administrator.',
+                'email' => 'Email atau password salah.',
             ])->onlyInput('email');
         }
 
