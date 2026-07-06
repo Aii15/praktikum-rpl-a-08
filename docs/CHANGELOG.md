@@ -1,6 +1,9 @@
 # Changelog
+
 ## [1.0.0] - 2026-07-06
+
 ### Added
+
 - Fitur registrasi dan login untuk penyewa dan mitra
 - Fitur pencarian lokasi properti dengan filter lokasi, kategori, dan harga
 - Fitur melihat detail informasi lokasi properti secara lengkap
@@ -13,8 +16,9 @@
 - Fitur persetujuan booking dan riwayat penyewaan untuk mitra
 - Fitur dashboard admin (statistik platform, manajemen pengguna, dan penanganan feedback)
 - Fitur notifikasi status pemesanan untuk mitra dan penyewa
-- Fitur pengujian unit (unit testing) untuk validasi sistem
+
 ### Fixed
+
 - Perbaikan bug validasi form pada kolom Kategori Properti
 - Perbaikan bug pop-up konfirmasi review dan pengiriman feedback oleh mitra
 - Perbaikan bug validasi data pendaftaran mitra dan upgrade akun penyewa ke mitra
