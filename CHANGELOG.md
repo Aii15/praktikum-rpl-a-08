@@ -30,3 +30,4 @@
 - Perbaikan bug validasi booking pada tanggal lampau
 - Perbaikan bug validasi upload foto properti
 - Perbaikan bug ketidaksesuaian posisi crop thumbnail gambar
+- Perbaikan bug data di dashboard admin tidak sinkron
