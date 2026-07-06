@@ -72,3 +72,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPath = window.location.pathname;
     navigateTo(currentPath, false);
 });
+
+// Konfirmasi pengajuan properti (terima / tolak)
+function confirmPropertyReview(event, status) {
+    event.preventDefault();
+    const btn = event.currentTarget;
+    const form = btn.closest('form');
+    const actionText = status === 'approved' ? 'menyetujui' : 'menolak';
+    const type = status === 'approved' ? 'confirm' : 'danger';
+    
+    showCustomConfirm(`Apakah Anda yakin ingin ${actionText} pengajuan properti ini?`, type).then(confirmed => {
+        if (confirmed) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'status_pengajuan';
+            input.value = status;
+            form.appendChild(input);
+            form.submit();
+        }
+    });
+}
+window.confirmPropertyReview = confirmPropertyReview;

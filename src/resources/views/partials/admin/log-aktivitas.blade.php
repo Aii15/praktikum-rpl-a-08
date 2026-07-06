@@ -50,11 +50,11 @@
                             <span>Catatan</span>
 
                             <div class="action-buttons">
-                                <button type="submit" name="status_pengajuan" value="approved" class="btn-decision accept">
+                                <button type="submit" name="status_pengajuan" value="approved" class="btn-decision accept" onclick="confirmPropertyReview(event, 'approved')">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     Terima
                                 </button>
-                                <button type="submit" name="status_pengajuan" value="rejected" class="btn-decision reject">
+                                <button type="submit" name="status_pengajuan" value="rejected" class="btn-decision reject" onclick="confirmPropertyReview(event, 'rejected')">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                     Tolak
                                 </button>
