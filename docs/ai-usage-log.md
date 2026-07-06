@@ -1,6 +1,6 @@
 # AI-Usage Log
 
-Dokumen ini mencatat penggunaan alat bantu AI selama pengerjaan proyek. Seluruh output AI harus diverifikasi, disesuaikan dengan konteks proyek, dan tidak boleh memuat credential, API key, password, token, atau data sensitif lain.
+Dokumen ini mencatat penggunaan alat bantu AI selama pengerjaan proyek. Seluruh output AI harus diverifikasi, disesuaikan dengan konteks proyek, dan tidak boleh memuat data sensitif.
 
 | No | Tanggal    | Anggota            | Tool AI             | Ringkasan Prompt                                                                                                                                                       | Ringkasan Output                                                                                                                                                     | Modifikasi/Verifikasi                                                                                                                            |
 | -- | ---------- | ------------------ | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
