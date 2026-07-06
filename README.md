@@ -85,13 +85,8 @@ Lakukan semuanya di terminal IDE anda dan lakukan dengan urut
 Cara Menjalankan
 -
 Cara menjalankan program ini:
-- Opsi 1
-  1. Dari folder src jalankan: composer run dev
+  1. Dari folder src jalankan: php artisan serve
   2. Akses aplikasi di browser: http://127.0.0.1:8000
-- Opsi 2
-  1. Terminal 1: php artisan serve
-  2. erminal 2: npm run dev
-  3. Akses aplikasi: http://127.0.0.1:8000
  
 Struktur Folder Proyek
 -
