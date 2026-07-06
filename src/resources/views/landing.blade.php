@@ -84,7 +84,7 @@
                      data-location="{{ $property->location->kota ?? '' }}" 
                      data-category="{{ $property->category->nama_kategori ?? '' }}" 
                      data-price="{{ $property->harga_per_hari }}">
-                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
+                    <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $property->nama_properti }}" style="object-position: {{ $property->coverPhoto->position_style ?? 'center 50%' }};">
 
                     <div class="card-content">
 

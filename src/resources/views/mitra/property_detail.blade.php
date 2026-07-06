@@ -260,7 +260,7 @@
     <h1>Detail Properti Saya</h1>
 
     <div class="detail-card">
-        <img src="{{ optional($property->coverPhoto)->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $property->nama_properti }}" style="object-position: center {{ optional($property->coverPhoto)->object_position ?? '50' }}%;">
+        <img src="{{ optional($property->coverPhoto)->url_foto ?? '/images/landing/property.png' }}" class="detail-banner" alt="{{ $property->nama_properti }}" style="object-position: {{ optional($property->coverPhoto)->position_style ?? 'center 50%' }};">
 
         <div class="detail-info">
             <h2>{{ $property->nama_properti }}</h2>

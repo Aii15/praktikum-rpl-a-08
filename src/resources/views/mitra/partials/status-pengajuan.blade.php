@@ -5,7 +5,7 @@
     <div class="status-list">
         @forelse($properties as $property)
             <a href="{{ route('mitra.status.detail', $property->id_properti) }}" class="status-card">
-                <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
+                <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: {{ $property->coverPhoto->position_style ?? 'center 50%' }};">
 
                 <div class="status-info">
                     <h3>{{ $property->nama_properti }}</h3>

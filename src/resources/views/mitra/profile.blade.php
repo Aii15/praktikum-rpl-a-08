@@ -82,7 +82,7 @@
     </script>
     <script src="{{ asset('js/mitra/rental.js') }}"></script>
     <script src="{{ asset('js/mitra/property.js') }}"></script>
-    <script src="{{ asset('js/mitra/image-upload.js') }}"></script>
+    <script src="{{ asset('js/mitra/image-upload.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('js/mitra/profile-validation.js') }}"></script>
     <script src="{{ asset('js/profile-mitra.js') }}"></script>
     @if($errors->any())

@@ -78,7 +78,7 @@
                data-tenant-name="{{ strtolower($booking->user->name ?? '') }}"
                data-price="{{ $booking->total_price ?? 0 }}"
                data-timestamp="{{ \Carbon\Carbon::parse($booking->tanggal_mulai)->timestamp }}">
-                <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: center {{ $booking->property->coverPhoto->object_position ?? '50' }}%;">
+                <img src="{{ $booking->property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" alt="{{ $booking->property->nama_properti ?? 'Property' }}" style="object-position: {{ $booking->property->coverPhoto->position_style ?? 'center 50%' }};">
 
                 <div class="booking-info">
                     <h3>{{ $booking->property->nama_properti ?? 'Properti Tidak Diketahui' }}</h3>

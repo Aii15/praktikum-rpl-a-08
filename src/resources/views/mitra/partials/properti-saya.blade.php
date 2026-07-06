@@ -5,7 +5,7 @@
     <div class="property-list">
         @forelse($properties as $property)
             <div class="property-card">
-                <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: center {{ $property->coverPhoto->object_position ?? '50' }}%;">
+                <img src="{{ $property->coverPhoto->url_foto ?? '/images/landing/property.png' }}" class="property-thumb" alt="{{ $property->nama_properti }}" style="object-position: {{ $property->coverPhoto->position_style ?? 'center 50%' }};">
 
                 <div class="property-info">
                     <h3>{{ $property->nama_properti }}</h3>
