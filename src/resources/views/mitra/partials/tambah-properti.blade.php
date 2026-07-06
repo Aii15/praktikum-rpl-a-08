@@ -191,7 +191,7 @@
 
             <!-- SUB-LANGKAH 2B: ATUR POSISI GAMBAR -->
             <div id="sub-step-crop" class="form-list" style="display: none;">
-                <div class="sticky-preview-wrapper" style="position: relative;">
+                <div class="sticky-preview-wrapper" style="position: sticky; top: 15px;">
                     <div class="preview-gallery-container" id="previewGalleryContainer">
                         <h3 style="margin-bottom: 10px;">Live Layout Preview</h3>
                         <div id="liveLayoutGallery"></div>

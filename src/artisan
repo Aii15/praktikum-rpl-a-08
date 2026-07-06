@@ -7,13 +7,13 @@ if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'serve') {
         $val = trim($val);
         if (empty($val)) return 0;
         $last = strtolower($val[strlen($val)-1]);
-        $val = (int)$val;
+        $numericVal = (int)$val;
         switch($last) {
-            case 'g': $val *= 1024;
-            case 'm': $val *= 1024;
-            case 'k': $val *= 1024;
+            case 'g': return $numericVal * 1024 * 1024 * 1024;
+            case 'm': return $numericVal * 1024 * 1024;
+            case 'k': return $numericVal * 1024;
+            default: return $numericVal;
         }
-        return $val * 1024;
     };
     
     $currentLimit = $parseLimit(ini_get('upload_max_filesize'));

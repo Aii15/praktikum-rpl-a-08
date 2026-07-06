@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         SyncRolesCommand::class,
+        \App\Console\Commands\ServeCommand::class,
     ];
 
     protected function schedule(Schedule $schedule): void
