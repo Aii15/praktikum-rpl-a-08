@@ -88,7 +88,7 @@
                 <div class="field-card" onclick="this.querySelector('input').focus();">
                     <div class="field-text">
                         <small>Kode Pos</small>
-                        <input type="text" name="kode_pos" class="profile-input" value="{{ old('kode_pos') }}" placeholder="Contoh: 40135">
+                        <input type="text" name="kode_pos" class="profile-input" value="{{ old('kode_pos') }}" placeholder="Contoh: 40135" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
                 </div>
@@ -191,10 +191,20 @@
 
             <!-- SUB-LANGKAH 2B: ATUR POSISI GAMBAR -->
             <div id="sub-step-crop" class="form-list" style="display: none;">
-                <div class="sticky-preview-wrapper">
+                <div class="sticky-preview-wrapper" style="position: relative;">
                     <div class="preview-gallery-container" id="previewGalleryContainer">
                         <h3 style="margin-bottom: 10px;">Live Layout Preview</h3>
                         <div id="liveLayoutGallery"></div>
+                    </div>
+                    
+                    <!-- Indikator Scroll Panah Ke Bawah -->
+                    <div id="scroll-arrow-indicator" class="scroll-arrow-container" onclick="scrollToCropTable()">
+                        <div class="scroll-arrow-text">Scroll ke bawah untuk atur posisi</div>
+                        <div class="scroll-arrow-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
                     </div>
                 </div>
 

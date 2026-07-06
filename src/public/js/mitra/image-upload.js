@@ -469,3 +469,44 @@ if (propertyForm) {
         }
     });
 }
+
+// Logika Panah Indikator Scroll Ke Bawah (Langkah 2B)
+function showScrollArrow() {
+    const indicator = document.getElementById('scroll-arrow-indicator');
+    if (indicator) {
+        indicator.classList.add('active');
+    }
+}
+window.showScrollArrow = showScrollArrow;
+
+function hideScrollArrow() {
+    const indicator = document.getElementById('scroll-arrow-indicator');
+    if (indicator) {
+        indicator.classList.remove('active');
+    }
+}
+window.hideScrollArrow = hideScrollArrow;
+
+function scrollToCropTable() {
+    const target = document.querySelector('.crop-table-container');
+    if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+window.scrollToCropTable = scrollToCropTable;
+
+// Hilangkan panah saat user melakukan scroll secara manual atau otomatis
+window.addEventListener('scroll', function () {
+    if (window.activeSubStep === 'crop') {
+        const target = document.querySelector('.crop-table-container');
+        if (target) {
+            const rect = target.getBoundingClientRect();
+            // Jika bagian atas tabel sudah mulai terlihat di layar (dengan toleransi 100px)
+            if (rect.top < window.innerHeight - 100) {
+                hideScrollArrow();
+            } else {
+                showScrollArrow();
+            }
+        }
+    }
+});

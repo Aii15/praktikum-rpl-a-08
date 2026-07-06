@@ -1168,3 +1168,77 @@
 #flash-message-container {
     margin-bottom: 20px;
 }
+
+/* --- Scroll Indicator Arrow (Langkah 2B) --- */
+.scroll-arrow-container {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+}
+
+.scroll-arrow-container.active {
+    opacity: 1;
+    pointer-events: auto;
+    bottom: -75px;
+}
+
+.scroll-arrow-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f5b91b;
+    background: #111827;
+    padding: 6px 14px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.scroll-arrow-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f7c948;
+    color: #111111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(247, 201, 72, 0.4);
+    animation: bounceChevron 1.6s infinite ease-in-out;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.scroll-arrow-container:hover .scroll-arrow-icon {
+    background: #f5b91b;
+    transform: scale(1.1);
+}
+
+@keyframes bounceChevron {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.95;
+        box-shadow: 0 4px 12px rgba(247, 201, 72, 0.1);
+    }
+    50% {
+        opacity: 1;
+        box-shadow: 0 4px 20px rgba(247, 201, 72, 0.35);
+    }
+}
