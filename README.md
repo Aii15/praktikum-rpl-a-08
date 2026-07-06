@@ -16,7 +16,7 @@ Daftar Anggota Tim Developer
 | **MUHAMMAD AKBAR KURNIAWAN** | L0124136 | [@Frezga](https://github.com/Frezga)   |
 | **MUHAMMAD AYMAN**           | L0124137 | [@Aii15](https://github.com/Aii15)     |
 
-Fitur Platform SpotRent
+Fitur Utama Platform SpotRent
 -
 Platform kami memiliki beragam macam fitur, di antaranya:
 - Login dan sign up untuk akun yang sudah terdaftar dan belum terdaftar
@@ -24,8 +24,10 @@ Platform kami memiliki beragam macam fitur, di antaranya:
 - Detail informasi properti yang menampilkan seluruh detail informasi suatu properti
 - Booking dan pembayaran
 - Edit profil baik sebagai user ataupun mitra
-- Edit booking
 - Mitra bisa menambahkan properti
+- Admin mengelola pengajuan properti dan aktivitas platform
+
+Itu adalah beberapa fitur utama yang ada di platform kami, fitur lainnya yang tidak ditampilkan di sini adalah fitur non-esensial
 
 Screenshot Fitur atau MVP
 -
