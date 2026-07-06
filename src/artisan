@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+// Jalankan serve dengan batas upload 10MB & post 50MB otomatis jika dijalankan manual
+if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'serve') {
+    $parseLimit = function($val) {
+        $val = trim($val);
+        if (empty($val)) return 0;
+        $last = strtolower($val[strlen($val)-1]);
+        $numericVal = (int)$val;
+        switch($last) {
+            case 'g': return $numericVal * 1024 * 1024 * 1024;
+            case 'm': return $numericVal * 1024 * 1024;
+            case 'k': return $numericVal * 1024;
+            default: return $numericVal;
+        }
+    };
+    
+    $currentLimit = $parseLimit(ini_get('upload_max_filesize'));
+    $targetLimit = 10 * 1024 * 1024; // 10MB
+    if ($currentLimit < $targetLimit) {
+        $escapedArgs = array_map('escapeshellarg', $_SERVER['argv']);
+        $cmd = 'php -d upload_max_filesize=10M -d post_max_size=50M ' . implode(' ', $escapedArgs);
+        passthru($cmd, $status);
+        exit($status);
+    }
+}
+
+use Illuminate\Foundation\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+define('LARAVEL_START', microtime(true));
+
+// Register the Composer autoloader...
+require __DIR__.'/vendor/autoload.php';
+
+// Bootstrap Laravel and handle the command...
+/** @var Application $app */
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$status = $app->handleCommand(new ArgvInput);
+
+exit($status);
