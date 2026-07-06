@@ -14,5 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, $request) {
+            return back()->withErrors(['images' => 'Ukuran total file yang diunggah melebihi batas server. Pastikan masing-masing file maksimal 10MB.'])->withInput();
+        });
     })->create();

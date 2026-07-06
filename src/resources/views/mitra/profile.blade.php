@@ -55,13 +55,43 @@
 @endsection
 
 @section('scripts')
+    @php
+        function parse_ini_bytes_local($val) {
+            $val = trim($val);
+            if (empty($val)) return 0;
+            $last = strtolower($val[strlen($val)-1]);
+            $val = (int)$val;
+            switch($last) {
+                case 'g':
+                    $val *= 1024;
+                case 'm':
+                    $val *= 1024;
+                case 'k':
+                    $val *= 1024;
+            }
+            return $val * 1024; // convert KB to Bytes
+        }
+        $uploadLimit = parse_ini_bytes_local(ini_get('upload_max_filesize'));
+        $postLimit = parse_ini_bytes_local(ini_get('post_max_size'));
+    @endphp
     <script>
         // ID booking global yang diteruskan dari server untuk pemuatan langsung
         window.activeBookingId = @json($activeBookingId ?? null);
+        window.phpUploadLimit = @json($uploadLimit);
+        window.phpPostLimit = @json($postLimit);
     </script>
     <script src="{{ asset('js/mitra/rental.js') }}"></script>
     <script src="{{ asset('js/mitra/property.js') }}"></script>
     <script src="{{ asset('js/mitra/image-upload.js') }}"></script>
     <script src="{{ asset('js/mitra/profile-validation.js') }}"></script>
     <script src="{{ asset('js/profile-mitra.js') }}"></script>
+    @if($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof window.showProfileToast === 'function') {
+                window.showProfileToast(@json($errors->first()));
+            }
+        });
+    </script>
+    @endif
 @endsection

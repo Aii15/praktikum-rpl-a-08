@@ -42,10 +42,28 @@ window.handleFileSelect = handleFileSelect;
 function handleFiles(files) {
     if (!fileInput) return;
     const newFiles = Array.from(files);
+    let hasOversizedFile = false;
+    let oversizedFileNames = [];
     
     for (let file of newFiles) {
         if (window.selectedFiles.length >= 5) break;
         if (!file.type.startsWith('image/')) continue;
+        
+        // Cek ukuran file maksimal 10 MB dan batas server PHP
+        const maxLimit = 10 * 1024 * 1024;
+        const phpLimit = window.phpUploadLimit || maxLimit;
+        
+        if (file.size > maxLimit) {
+            hasOversizedFile = true;
+            oversizedFileNames.push(`${file.name} (> 10MB)`);
+            continue;
+        } else if (file.size > phpLimit) {
+            hasOversizedFile = true;
+            const phpLimitMB = (phpLimit / (1024 * 1024)).toFixed(0);
+            oversizedFileNames.push(`${file.name} (> batas server PHP ${phpLimitMB}MB)`);
+            continue;
+        }
+
         window.selectedFiles.push({
             file: file,
             positionX: 50,
@@ -55,6 +73,15 @@ function handleFiles(files) {
     }
     
     updateFormInputsAndPreviews();
+
+    if (hasOversizedFile) {
+        const namesText = oversizedFileNames.join(', ');
+        if (typeof window.showProfileToast === 'function') {
+            window.showProfileToast(`Ukuran foto terlalu besar. File ditolak: ${namesText}. Silakan naikkan batas 'upload_max_filesize' pada php.ini jika ingin mengunggah hingga 10MB.`);
+        } else {
+            alert(`Ukuran foto terlalu besar. File ditolak: ${namesText}`);
+        }
+    }
 }
 
 function updateFormInputsAndPreviews() {
@@ -131,6 +158,16 @@ function updateFormInputsAndPreviews() {
             filenameSpan.title = item.file.name;
             title.appendChild(filenameSpan);
 
+            // Label ukuran file
+            const sizeSpan = document.createElement('span');
+            sizeSpan.className = 'upload-item-size';
+            const sizeInMB = item.file.size / (1024 * 1024);
+            sizeSpan.textContent = sizeInMB < 0.1 ? (item.file.size / 1024).toFixed(1) + ' KB' : sizeInMB.toFixed(2) + ' MB';
+            sizeSpan.style.fontSize = '11px';
+            sizeSpan.style.color = '#6b7280';
+            sizeSpan.style.fontWeight = '500';
+            title.appendChild(sizeSpan);
+
             const badge = document.createElement('span');
             if (index === 0) {
                 badge.className = 'badge-cover';
@@ -206,6 +243,16 @@ function updateFormInputsAndPreviews() {
             filenameSpan.textContent = item.file.name;
             filenameSpan.title = item.file.name;
             info.appendChild(filenameSpan);
+
+            // Label ukuran file
+            const sizeSpan = document.createElement('span');
+            sizeSpan.className = 'crop-table-size';
+            const sizeInMB = item.file.size / (1024 * 1024);
+            sizeSpan.textContent = sizeInMB < 0.1 ? (item.file.size / 1024).toFixed(1) + ' KB' : sizeInMB.toFixed(2) + ' MB';
+            sizeSpan.style.fontSize = '11px';
+            sizeSpan.style.color = '#6b7280';
+            sizeSpan.style.fontWeight = '500';
+            info.appendChild(sizeSpan);
 
             const badge = document.createElement('span');
             if (index === 0) {
@@ -400,9 +447,25 @@ if (propertyForm) {
         if (window.selectedFiles.length < 2) {
             e.preventDefault();
             showProfileToast('Minimal 2 foto wajib diunggah untuk melanjutkan.');
+            return;
         } else if (window.selectedFiles.length > 5) {
             e.preventDefault();
             showProfileToast('Maksimal 5 foto dapat diunggah.');
+            return;
+        }
+
+        // Cek total ukuran file
+        let totalSize = 0;
+        window.selectedFiles.forEach(item => {
+            totalSize += item.file.size;
+        });
+
+        const phpPostLimit = window.phpPostLimit || (50 * 1024 * 1024);
+        if (totalSize > phpPostLimit) {
+            e.preventDefault();
+            const limitMB = (phpPostLimit / (1024 * 1024)).toFixed(0);
+            showProfileToast(`Total ukuran file (${(totalSize / (1024 * 1024)).toFixed(1)}MB) melebihi batas server PHP (${limitMB}MB). Silakan kurangi jumlah foto atau perkecil resolusi foto.`);
+            return;
         }
     });
 }

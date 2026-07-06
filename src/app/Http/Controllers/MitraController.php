@@ -137,6 +137,34 @@ class MitraController extends Controller
     {
         $user = $this->ensureMitra();
 
+        // Cek apakah ada upload error karena php.ini upload_max_filesize atau post_max_size
+        $hasUploadError = false;
+        if (isset($_FILES['images']) && is_array($_FILES['images']['error'])) {
+            foreach ($_FILES['images']['error'] as $errCode) {
+                if ($errCode === UPLOAD_ERR_INI_SIZE || $errCode === UPLOAD_ERR_PARTIAL) {
+                    $hasUploadError = true;
+                }
+            }
+        }
+        
+        if ($request->has('images') || $request->hasFile('images')) {
+            $files = $request->file('images') ?? [];
+            if (is_array($files)) {
+                foreach ($files as $file) {
+                    if ($file && !$file->isValid()) {
+                        $hasUploadError = true;
+                    }
+                }
+            } else if ($files && !$files->isValid()) {
+                $hasUploadError = true;
+            }
+        }
+
+        if ($hasUploadError) {
+            $phpLimitVal = ini_get('upload_max_filesize');
+            return back()->withErrors(['images' => "Ukuran file foto melebihi batas upload server PHP Anda ($phpLimitVal). Silakan sesuaikan konfigurasi PHP (upload_max_filesize) Anda."])->withInput();
+        }
+
         $request->validate([
             'nama_properti' => 'required|string|max:150',
             'id_kategori' => 'required|exists:property_categories,id_kategori',
@@ -148,7 +176,7 @@ class MitraController extends Controller
             'fasilitas' => 'nullable|string|max:1000',
             'deskripsi' => 'required|string',
             'images' => 'required|array|min:2|max:5',
-            'images.*' => 'file|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'images.*' => 'file|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'positions' => 'nullable|array',
             'positions.*' => 'string|max:20',
         ], [
@@ -164,7 +192,7 @@ class MitraController extends Controller
             'images.max' => 'Maksimal 5 foto dapat diunggah.',
             'images.*.image' => 'File harus berupa gambar.',
             'images.*.mimes' => 'Jenis gambar harus jpeg, png, jpg, gif, atau webp.',
-            'images.*.max' => 'Ukuran setiap foto maksimal 2MB.',
+            'images.*.max' => 'Ukuran setiap foto maksimal 10MB.',
         ]);
 
         $location = Location::firstOrCreate([

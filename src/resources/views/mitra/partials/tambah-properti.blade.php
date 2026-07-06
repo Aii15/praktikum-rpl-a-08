@@ -162,7 +162,7 @@
             <div id="sub-step-upload" class="form-list">
                 <div class="field-card">
                     <div class="field-text">
-                        <small>Unggah File Foto (Minimal 2, Maksimal 5 Foto)</small>
+                        <small>Unggah File Foto (Minimal 2, Maksimal 5 Foto, Maksimal 10MB per foto)</small>
                         <span id="photo-count-label" style="font-size: 15px; font-weight: 500; color: #222; margin-top: 2px;">Belum ada foto terpilih</span>
                     </div>
                     <img src="/images/profile/edit.png" class="edit-icon" alt="Edit Icon">
@@ -171,7 +171,7 @@
                 <div class="dropzone-container" id="dropzone" onclick="document.getElementById('property-images').click();">
                     <img src="/images/profile/tambah-foto.png" class="placeholder-icon" alt="Tambah Foto Icon">
                     <span class="main-text">Taruh Foto Di Sini</span>
-                    <span class="sub-text">atau klik untuk memilih file dari komputer</span>
+                    <span class="sub-text">atau klik untuk memilih file dari komputer (maks. 10MB per foto)</span>
                     <input type="file" id="property-images" name="images[]" accept="image/*" multiple style="display: none;" onchange="handleFileSelect(event)">
                 </div>
 
