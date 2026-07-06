@@ -6,6 +6,16 @@ Project kami memiliki nama SpotRent yaitu platform pemesanan properti untuk kebu
 
 Platform ini secara garis umum memiliki gambaran yang sama seperti platform penyewaan properti seperti perumahan ataupun kost, hanya saja di project ini kita berfokus pada properti di dunia kreatif atau hiburan sehingga memiliki keunikan tersendiri yang membedakannya dengan platform lainnya.
 
+Daftar Anggota Tim Developer
+-
+
+| Nama                         | NIM      |  Akun GitHub                                 |
+| :--------------------------- | :------- | :------------------------------------- |
+| **YUSRAN RIZQI LAKSONO**     | L0124125 | [@YYYusrn](https://github.com/YYYusrn) |
+| **JAUHAR MUFID TAMIR**       | L0124131 | [@jauhar7](https://github.com/jauhar7) |
+| **MUHAMMAD AKBAR KURNIAWAN** | L0124136 | [@Frezga](https://github.com/Frezga)   |
+| **MUHAMMAD AYMAN**           | L0124137 | [@Aii15](https://github.com/Aii15)     |
+
 Fitur Platform SpotRent
 -
 Platform kami memiliki beragam macam fitur, di antaranya:
